@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- TOP BAR -->
+  <!-- TOPBAR -->
   <header class="topbar">
     <div class="topbar-logo">
       <svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -26,39 +26,56 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="navbar-links">
-      <a href="../home.html">Home</a>
-      <a href="../avolta/index.html" class="active">Avolta</a>
-      <a href="../backpacks-and-luggage/index.html">Backpacks &amp; Luggage</a>
-      <a href="../total-sales-bp-latam/index.html">Total Sales BP LATAM</a>
+      <a href="/home.html">Home</a>
+
+      <div class="nav-dropdown" id="nav-projects-dropdown">
+        <div class="nav-dropdown-btn active">
+          Projects
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="nav-dropdown-menu" id="nav-projects-menu"></div>
+      </div>
+
+      <div class="nav-dropdown" id="nav-admin-dropdown" style="display:none;">
+        <div class="nav-dropdown-btn">
+          Admin
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="nav-dropdown-menu">
+          <a href="/admin/index.html?tab=users"><span class="menu-icon">👥</span> User Management</a>
+          <div id="nav-projects-admin-link" style="display:none;">
+            <a href="/admin/index.html?tab=projects"><span class="menu-icon">📁</span> Projects</a>
+          </div>
+        </div>
+      </div>
     </div>
+
     <div class="navbar-user">
       <div class="user-info">
-        <div class="user-name" id="user-name">—</div>
+        <div class="user-name">
+          <span id="user-name">—</span>
+          <span id="role-badge" class="role-badge" style="display:none;"></span>
+        </div>
         <div class="user-email" id="user-email">—</div>
       </div>
       <button class="btn-logout" data-logout>Sign Out</button>
     </div>
   </nav>
 
-  <!-- PAGE BANNER -->
+  <!-- BANNER -->
   <section class="page-banner">
     <div class="banner-accent"></div>
     <h1>Avolta <span>Dashboard</span></h1>
     <p>Travel Retail — Sales Performance &amp; KPIs</p>
   </section>
 
-  <!-- PLACEHOLDER -->
+  <!-- CONTENT -->
   <main class="main-content">
     <div class="placeholder-wrap">
       <div class="placeholder-icon">✈️</div>
       <h2>Dashboard Under Construction</h2>
-      <p>
-        The Avolta dashboard is being set up. Check back soon — data and
-        visualisations will appear here once the project is ready.
-      </p>
-      <a href="../home.html" class="btn-back">
-        ← Back to Hub
-      </a>
+      <p>The Avolta dashboard is being built. Data and visualisations will appear here once the project is ready.</p>
+      <a href="/home.html" class="btn-back">← Back to Hub</a>
     </div>
   </main>
 
@@ -66,10 +83,36 @@
     © 2026 <span>Travel Blue Ltd.</span> — Internal use only.
   </footer>
 
+  <script src="../js/mock-data.js"></script>
   <script src="../js/auth.js"></script>
   <script>
     const user = Auth.requireLogin();
-    if (user) Auth.renderUser('#user-name', '#user-email');
+    if (!user) throw new Error('not logged in');
+
+    // Permission check for this project
+    if (!MockDB.canUserViewProject(user.id, 'avolta')) {
+      window.location.href = '/home.html';
+    }
+
+    Auth.renderUser('#user-name', '#user-email');
+    Auth.renderRoleBadge('#role-badge');
+
+    if (Auth.isAdminOrOwner()) {
+      document.getElementById('nav-admin-dropdown').style.display = 'flex';
+    }
+    if (Auth.isOwner()) {
+      document.getElementById('nav-projects-admin-link').style.display = 'block';
+    }
+
+    // Build projects dropdown
+    const projects = MockDB.getProjects(user.role).filter(p =>
+      user.role === 'owner' || MockDB.canUserViewProject(user.id, p.slug)
+    );
+    const menu = document.getElementById('nav-projects-menu');
+    menu.innerHTML = projects.map(p =>
+      `<a href="/${p.slug}/index.html" class="${p.slug === 'avolta' ? 'active' : ''}">`+
+      `<span class="menu-icon">${p.icon}</span> ${p.name}</a>`
+    ).join('') || '<div class="dropdown-label">No projects available</div>';
   </script>
 </body>
 </html>
