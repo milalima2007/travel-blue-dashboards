@@ -1,118 +1,1867 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Travel Blue | Avolta</title>
-  <link rel="stylesheet" href="../css/style.css" />
+<script src="/js/config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Travel Blue × Avolta — Global Analytics Dashboard</title>
+<style>
+:root{--bg:#0a0e1a;--card:#111827;--border:#1e293b;--text:#e2e8f0;--dim:#64748b;--accent:#f59e0b;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--purple:#8b5cf6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.5}
+.header{background:linear-gradient(135deg,#111827 0%,#1e293b 100%);padding:18px 24px;border-bottom:2px solid var(--accent);display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:20px;font-weight:700;color:#fff}
+.header h1 span{color:var(--accent)}
+.header .sub{color:var(--dim);font-size:12px}
+.tabs{display:flex;gap:2px;padding:6px 16px;background:#0f172a;overflow-x:auto;flex-wrap:nowrap}
+.tab{padding:8px 14px;border-radius:6px 6px 0 0;cursor:pointer;font-size:11px;font-weight:600;color:var(--dim);white-space:nowrap;transition:all .2s}
+.tab:hover{color:var(--text);background:#1e293b}
+.tab.active{color:var(--accent);background:var(--card);border-top:2px solid var(--accent)}.tab.active:hover{color:var(--accent);background:var(--card)}
+.content{padding:16px;max-width:1400px;margin:0 auto}
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.kpi .lbl{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
+.kpi .val{font-size:22px;font-weight:800;color:var(--accent);margin:4px 0}
+.kpi .chg{font-size:12px;font-weight:600}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
+.card h3{font-size:15px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.st{font-size:11px;color:var(--dim);margin-bottom:12px}
+.note{font-size:11px;color:var(--dim);margin-top:8px;padding:8px;background:#1e293b;border-radius:6px;border-left:3px solid var(--accent)}
+.insight{font-size:12px;color:var(--text);margin-top:10px;padding:10px 12px;background:linear-gradient(135deg,#1e293b,#111827);border-radius:8px;border-left:3px solid var(--blue);line-height:1.6}
+.insight b{color:var(--accent)}
+.insight .up{color:var(--green);font-weight:700}
+.insight .dn{color:var(--red);font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:8px 10px;border-bottom:2px solid var(--accent);color:var(--accent);font-weight:700;font-size:11px;text-transform:uppercase;position:sticky;top:0;background:var(--card);z-index:1}
+td{padding:6px 10px;border-bottom:1px solid #1e293b22}
+tr:hover{background:#1e293b44}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
+.up{background:#10b98122;color:var(--green)}.dn{background:#ef444422;color:var(--red)}.flat{background:#64748b22;color:var(--dim)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.chart-wrap{position:relative;height:280px}.chart-wrap.sm{height:220px}
+.insight-box{padding:14px;border-radius:8px;border:1px solid}
+.insight-box h4{font-size:13px;margin-bottom:4px}
+.insight-box p{font-size:12px;color:var(--dim)}
+/* SKU Country Tables */
+.tbl-scroll{overflow-x:auto;max-height:600px;overflow-y:auto}
+.tbl-scroll table{min-width:800px}
+.tbl-scroll th,.tbl-scroll td{padding:4px 6px;font-size:11px;white-space:nowrap}
+.g10p{background:#dcfce7;color:#166534}.g20p{background:#86efac;color:#14532d}.g30p{background:#4ade80;color:#052e16;font-weight:700}
+.d10p{background:#fee2e2;color:#991b1b}.d20p{background:#fca5a5;color:#7f1d1d}.d30p{background:#f87171;color:#450a0a;font-weight:700}
+.gap-tag{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:600;background:#ef444422;color:var(--red);margin:1px;white-space:nowrap}
+.ok-tag{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:600;background:#10b98122;color:var(--green);margin:1px;white-space:nowrap}
+.gap-summary{font-size:10px;color:var(--dim);line-height:1.5}
+.gap-summary span{display:block;padding:1px 0;border-bottom:1px dotted #ffffff10}
+.region-btn{padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--card);color:var(--dim);margin:2px}
+.region-btn.active{background:var(--accent);color:#000;border-color:var(--accent)}
+@media(max-width:768px){.kpi-row{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr}}
+
+/* ===== FILTER BAR ===== */
+.filter-bar{background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.filter-group{display:flex;flex-direction:column;gap:3px;min-width:110px;flex:1}
+.filter-group label{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
+.filter-select{background:#111827;border:1px solid #1e293b;border-radius:6px;color:var(--text);font-size:11px;padding:5px 8px;cursor:pointer;min-width:110px;max-width:180px}
+.filter-select:focus{outline:none;border-color:var(--accent)}
+.filter-select option:disabled{color:#374151}
+.filter-reset{padding:6px 12px;border-radius:6px;background:#1e293b;border:1px solid var(--border);color:var(--dim);font-size:11px;font-weight:600;cursor:pointer;flex-shrink:0;align-self:flex-end}
+.filter-reset:hover{background:var(--accent);color:#000;border-color:var(--accent)}
+.filter-active-badge{font-size:10px;color:var(--accent);font-weight:700;padding:3px 8px;background:#f59e0b22;border-radius:4px;align-self:flex-end;flex-shrink:0}
+
+/* ===== LIGHT MODE ===== */
+body.light{--bg:#f0f4f8;--card:#ffffff;--border:#e2e8f0;--text:#1e293b;--dim:#64748b;--accent:#d97706;--green:#059669;--red:#dc2626;--blue:#2563eb;--purple:#7c3aed}
+body.light .header{background:linear-gradient(135deg,#1e3a5f 0%,#2d4a7a 100%)}
+body.light .tabs{background:#1e3a5f}
+body.light .tab:hover{color:#fff;background:#2d4a7a}
+body.light .tab.active{background:#fff}
+body.light .tab.active:hover{color:var(--accent);background:#fff}
+body.light .note{background:#e8edf3}
+body.light .insight{background:linear-gradient(135deg,#e8edf3,#f0f4f8)}
+body.light .filter-bar{background:#f8fafc;border-color:#e2e8f0}
+body.light .filter-select{background:#fff;border-color:#e2e8f0;color:var(--text)}
+body.light .filter-reset{background:#e8edf3;color:var(--dim)}
+body.light tr:hover{background:#e2e8f066}
+body.light th{background:var(--card)}
+body.light .gap-summary span{border-bottom-color:#00000010}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const _supa = supabase.createClient(
+  window.SUPABASE_URL,
+  window.SUPABASE_KEY
+);
+
+async function loadAllData() {
+  const datasets = ["zoneData","mAll","famG","catG","tEMEA","mEMEA","dEMEA","famEMEA",
+    "tAME","mAME","dAME","famAME","tUK","mUK","dUK","famUK","tASIA","mASIA","dASIA",
+    "famASIA","tCEI","mCEI","ctryCEI","famCEI","ctryEMEA","ctryAME","ctryDF","ctryDP",
+    "ctryUK","ctryASIA","ctryGlobal","top15Stores","tDF","mDF","catDF","famDF","dDF",
+    "tDP","mDP","catDP","famDP","dDP","yoyLossesAll","tabDefs",
+    "cubeData","famCubeData","globalTotals","skuCountryFlat","skuStoreFlat",
+    "skuStoreADF","skuStoreADP","gainsLosses","famGainsLosses"];
+
+  const promises = datasets.map(async function(name) {
+    const { data, error } = await _supa.from(name).select('*');
+    if (error) { console.warn('Falha ao carregar ' + name, error.message); return { name, data: [] }; }
+    return { name, data: data || [] };
+  });
+
+  const results = await Promise.all(promises);
+  results.forEach(function(r) { window[r.name] = r.data; });
+
+  window.MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  window.regs = ['EMEA Europe','EMEA Africa','EMEA Middle East','AMERICA','UK','ASIA'];
+}
+</script>
 </head>
 <body>
+<div class="header">
+<div><h1>Travel Blue × <span>Avolta</span> — Global Analytics</h1><div class="sub">Sell-Out Performance Dashboard · 2023–2025 · All Zones</div></div>
+<div style="text-align:right;font-size:11px;color:var(--dim)">Data: Jan 2023 – Dec 2025<br>Currency: CHF · Source: Avolta POS</div>
+</div>
+<div class="tabs" id="tabs"></div>
+<div class="content" id="main"></div>
+<script>
 
-  <!-- TOPBAR -->
-  <header class="topbar">
-    <div class="topbar-logo">
-      <svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <rect width="48" height="48" rx="8" fill="#1B2A6B"/>
-        <path d="M10 34 Q16 10 24 24 Q32 38 38 14" stroke="#FFC72C" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-        <circle cx="38" cy="14" r="2.5" fill="#FFC72C"/>
-      </svg>
-      <div class="logo-text-wrap">
-        <span class="logo-brand">Travel Blue</span>
-        <span class="logo-tagline">London · Since 1987</span>
-      </div>
-    </div>
-  </header>
+// === DATA ===
+var GT={};
+var zoneData = []; // loaded via API
+var CUBES={};
+var FAM_CUBES={};
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="navbar-links">
-      <a href="/home.html">Home</a>
+// OV and FAM_CUBES['OV'] rebuilt in loadAllData().then()
+var mAll = []; // loaded via API
+var famG = []; // loaded via API
+var catG = []; // loaded via API
+var tEMEA = []; // loaded via API
+var mEMEA = []; // loaded via API
+var glEMEA={};
+var fglEMEA={};
+var dEMEA = []; // loaded via API
+var famEMEA = []; // loaded via API
+var tAME = []; // loaded via API
+var mAME = []; // loaded via API
+var glAME={};
+var fglAME={};
+var dAME = []; // loaded via API
+var famAME = []; // loaded via API
+var tUK = []; // loaded via API
+var mUK = []; // loaded via API
+var glUK={};
+var fglUK={};
+var dUK = []; // loaded via API
+var famUK = []; // loaded via API
+var tASIA = []; // loaded via API
+var mASIA = []; // loaded via API
+var glASIA={};
+var fglASIA={};
+var dASIA = []; // loaded via API
+var tCEI = []; // loaded via API
+var mCEI = []; // loaded via API
+var ctryCEI = []; // loaded via API
+var totCEI={};
+var famCEI = []; // loaded via API
+// Country tables per zone
+var ctryEMEA = []; // loaded via API
+var ctryAME = []; // loaded via API
+var ctryDF = []; // loaded via API
+var ctryDP = []; // loaded via API
+var ctryUK = []; // loaded via API
+var ctryASIA = []; // loaded via API
+var ctryGlobal = []; // loaded via API
+var top15Stores = []; // loaded via API
+var famASIA = []; // loaded via API
+var tDF = []; // loaded via API
+var mDF = []; // loaded via API
+var totDF={};
+var catDF = []; // loaded via API
+var famDF = []; // loaded via API
+var glDF={};
+var fglDF={};
+var dDF = []; // loaded via API
+var tDP = []; // loaded via API
+var mDP = []; // loaded via API
+var totDP={};
+var catDP = []; // loaded via API
+var famDP = []; // loaded via API
+var glDP={};
+var fglDP={};
+var dDP = []; // loaded via API
+var skuCountry={};
+var skuStore={};
+// === LOGIC ===
+// ============================================================
+// UTILITY FUNCTIONS
+// ============================================================
+function fmt(n){if(n>=1e6)return 'CHF '+(n/1e6).toFixed(2)+'M';if(n>=1e3)return 'CHF '+(n/1e3).toFixed(1)+'K';return 'CHF '+Math.round(n);}
+function fN(n){return n.toLocaleString('en');}
+function fP(v){return (v>0?'+':'')+((typeof v==='number'&&Math.abs(v)<10)?v.toFixed(1):Math.round(v))+'%';}
+function bg(v){var n=typeof v==='number'?v:parseFloat(v);return n>2?'up':n<-2?'dn':'flat';}
+var charts={};
+function mkC(id,cfg){if(charts[id]){charts[id].destroy();}var el=document.getElementById(id);if(!el)return;charts[id]=new Chart(el.getContext('2d'),cfg);}
 
-      <div class="nav-dropdown" id="nav-projects-dropdown">
-        <div class="nav-dropdown-btn active">
-          Projects
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-        </div>
-        <div class="nav-dropdown-menu" id="nav-projects-menu"></div>
-      </div>
+// ============================================================
+// TABLE BUILDERS
+// ============================================================
+function LT(locs){
+return '<table><thead><tr><th>Airport</th><th>Country</th><th>2023</th><th>2024</th><th>2025</th><th>YoY%</th><th>Share</th></tr></thead><tbody>'+
+locs.map(function(l){return '<tr><td><b>'+l.a+'</b></td><td>'+l.c+'</td><td>'+fmt(l.y23)+'</td><td>'+fmt(l.y24)+'</td><td style="font-weight:700;color:var(--accent)">'+fmt(l.y25)+'</td><td><span class="badge '+bg(l.yoy*100)+'">'+fP(l.yoy*100)+'</span></td><td>'+l.s+'%</td></tr>';}).join('')+'</tbody></table>';
+}
+function locsToCountryTable(locs){
+  var byCtry={};
+  locs.forEach(function(l){
+    if(!byCtry[l.c])byCtry[l.c]={c:l.c,y23:0,y24:0,y25:0};
+    byCtry[l.c].y23+=l.y23||0;byCtry[l.c].y24+=l.y24||0;byCtry[l.c].y25+=l.y25||0;
+  });
+  var tot25=locs.reduce(function(s,l){return s+(l.y25||0);},0);
+  return CT(Object.values(byCtry).map(function(r){
+    r.y23=Math.round(r.y23);r.y24=Math.round(r.y24);r.y25=Math.round(r.y25);
+    r.yoy1=r.y23>0?Math.round((r.y24/r.y23-1)*1000)/10:0;
+    r.yoy2=r.y24>0?Math.round((r.y25/r.y24-1)*1000)/10:0;
+    r.sh=tot25>0?Math.round(r.y25/tot25*1000)/10:0;
+    return r;
+  }).sort(function(a,b){return b.y25-a.y25;}));
+}
 
-      <div class="nav-dropdown" id="nav-admin-dropdown" style="display:none;">
-        <div class="nav-dropdown-btn">
-          Admin
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-        </div>
-        <div class="nav-dropdown-menu">
-          <a href="/admin/index.html?tab=users"><span class="menu-icon">👥</span> User Management</a>
-          <div id="nav-projects-admin-link" style="display:none;">
-            <a href="/admin/index.html?tab=projects"><span class="menu-icon">📁</span> Projects</a>
-          </div>
-        </div>
-      </div>
-    </div>
+function FT(fam){
+return '<table><thead><tr><th>Family</th><th>2024</th><th>2025</th><th>Δ Abs</th><th>Δ YoY%</th><th>Share</th></tr></thead><tbody>'+
+fam.filter(function(f){return f.y25>0||f.y24>0;}).map(function(f){
+return '<tr><td><b>'+f.f+'</b></td><td>'+fmt(f.y24)+'</td><td style="font-weight:700;color:var(--accent)">'+fmt(f.y25)+'</td><td><span style="color:'+(f.ch>0?'var(--green)':'var(--red)')+';font-weight:600">'+(f.ch>0?'+':'')+fmt(f.ch)+'</span></td><td><span class="badge '+bg(f.yoy*100)+'">'+fP(f.yoy*100)+'</span></td><td>'+f.sh+'%</td></tr>';
+}).join('')+'</tbody></table>';
+}
 
-    <div class="navbar-user">
-      <div class="user-info">
-        <div class="user-name">
-          <span id="user-name">—</span>
-          <span id="role-badge" class="role-badge" style="display:none;"></span>
-        </div>
-        <div class="user-email" id="user-email">—</div>
-      </div>
-      <button class="btn-logout" data-logout>Sign Out</button>
-    </div>
-  </nav>
+function DT(dist){
+return '<table><thead><tr><th>Airport</th><th>SKUs 23</th><th>SKUs 24</th><th>SKUs 25</th><th>Cat 23</th><th>Cat 24</th><th>Cat 25</th><th>Stores</th></tr></thead><tbody>'+
+dist.map(function(d){return '<tr><td><b>'+d.a+'</b></td><td>'+d.s23+'</td><td>'+d.s24+'</td><td style="font-weight:600;color:var(--accent)">'+d.s25+'</td><td>'+d.c23+'</td><td>'+d.c24+'</td><td>'+d.c25+'</td><td>'+d.st+'</td></tr>';}).join('')+'</tbody></table>';
+}
 
-  <!-- BANNER -->
-  <section class="page-banner">
-    <div class="banner-accent"></div>
-    <h1>Avolta <span>Dashboard</span></h1>
-    <p>Travel Retail — Sales Performance &amp; KPIs</p>
-  </section>
+function GC(gl){
+var h='';var keys=Object.keys(gl);
+keys.forEach(function(a){
+var d=gl[a];
+h+='<div class="insight-box" style="border-color:#1e293b;background:#0f172a"><h4 style="color:var(--accent)">'+a+'</h4>';
+if(d.g.length)h+='<p style="color:var(--green);font-size:11px">▲ '+d.g.map(function(g){return g.c+' '+(g.v>0?'+':'')+fmt(g.v)+(g.p!==null?' ('+fP(g.p*100)+')':'');}).join(' · ')+'</p>';
+if(d.l.length)h+='<p style="color:var(--red);font-size:11px;margin-top:3px">▼ '+d.l.map(function(l){return l.c+' '+fmt(l.v)+(l.p!==null?' ('+fP(l.p*100)+')':'');}).join(' · ')+'</p>';
+h+='</div>';
+});
+return h;
+}
 
-  <!-- CONTENT -->
-  <main class="main-content">
-    <div class="placeholder-wrap">
-      <div class="placeholder-icon">✈️</div>
-      <h2>Dashboard Under Construction</h2>
-      <p>The Avolta dashboard is being built. Data and visualisations will appear here once the project is ready.</p>
-      <a href="/home.html" class="btn-back">← Back to Hub</a>
-    </div>
-  </main>
+// ============================================================
+// EXECUTIVE SUMMARY (inline styles)
+// ============================================================
+function bES(st,fmo){
+var st=st||{};
+var fmo=fmo||mAll;
+var LS='style="margin:8px 0 8px 16px;font-size:12px;color:var(--text);line-height:1.7"';
+var LI='style="margin-bottom:4px"';
+var SEC='style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px"';
+var SH='style="font-size:15px;font-weight:800;margin-bottom:8px"';
+var H4O='style="color:#f59e0b"';var H4G='style="color:#10b981"';var H4R='style="color:#ef4444"';var H4A='style="color:#fbbf24"';var H4B='style="color:#3b82f6"';var H4P='style="color:#8b5cf6"';
+var UP=function(t){return '<span style="color:#10b981;font-weight:700">'+t+'</span>';};
+var DN=function(t){return '<span style="color:#ef4444;font-weight:700">'+t+'</span>';};
+var B=function(t){return '<b style="color:#f59e0b">'+t+'</b>';};
 
-  <footer class="site-footer">
-    © 2026 <span>Travel Blue Ltd.</span> — Internal use only.
-  </footer>
+// Build active filter notice
+var filterNotice='';
+var activeFilters=[];
+if(st.region)activeFilters.push('Region: '+st.region);
+if(st.country)activeFilters.push('Country: '+st.country);
+if(st.airport)activeFilters.push('Airport: '+st.airport);
+if(st.family)activeFilters.push('Family: '+st.family);
+if(st.market)activeFilters.push('Market: '+st.market);
+if(st.month)activeFilters.push('Month: '+st.month);
+if(activeFilters.length){
+  filterNotice='<div style="background:#f59e0b22;border:1px solid var(--accent);border-radius:8px;padding:10px 16px;margin-bottom:12px;font-size:12px">⚠️ <b style="color:var(--accent)">Filtered view:</b> '+activeFilters.join(' · ')+'<br><span style="color:var(--dim);font-size:11px">The Executive Summary text is pre-written global analysis. Use the Overview, Zone or Category tabs for filtered data visualizations.</span></div>';
+}
+// Compute month-filtered revenue for KPIs
+var rev24=fmo.reduce(function(s,m){return s+m.a;},0);
+var rev25=fmo.reduce(function(s,m){return s+m.b;},0);
+var yoy=rev24>0?((rev25/rev24)-1)*100:0;
+var moKPI=st.month?'<div '+SEC+'><h3 '+SH+'><span '+H4B+'>Monthly Snapshot — '+st.month+'</span></h3><div class="kpi-row" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><div class="lbl">'+st.month+' 2025 Revenue</div><div class="val">'+fmt(rev25)+'</div><div class="chg '+bg(yoy)+'">'+fP(yoy)+' vs '+st.month+' 2024</div></div><div class="kpi"><div class="lbl">'+st.month+' 2024 Revenue</div><div class="val">'+fmt(rev24)+'</div></div><div class="kpi"><div class="lbl">Δ Absolute</div><div class="val" style="color:'+(rev25>rev24?'var(--green)':'var(--red)')+'">'+fmt(rev25-rev24)+'</div></div></div></div>':'';
+return filterNotice+moKPI+'<div '+SEC+'><h3 '+SH+'><span '+H4O+'>1. Global Business Overview</span></h3>'+
+'<p style="font-size:12px;color:var(--dim);line-height:1.7">Travel Blue generated '+B('CHF 13.74M')+' in 2025, a '+DN('-3.7% decline')+' vs 2024 (CHF 14.27M). Unit volume reached '+B('755,621')+' units. Revenue concentration remains a key risk: '+DN('68.1%')+' of all revenue depends on the Pillows family. The brand operates across '+B('5 zones')+' and '+B('200+ airports')+' via the Avolta network.</p></div>'+
 
-  <script src="../js/mock-data.js"></script>
-  <script src="../js/auth.js"></script>
-  <script>
-    const user = Auth.requireLogin();
-    if (!user) throw new Error('not logged in');
+'<div '+SEC+'><h3 '+SH+'><span '+H4B+'>2. Zone Performance</span></h3>'+
+'<p style="font-size:12px;color:var(--dim);line-height:1.7">'+B('EMEA')+' leads with 49.3% share (CHF 6.77M, -2.0%). '+B('Americas')+' at 39.1% (CHF 5.37M, -6.5%) shows the steepest decline driven by Mexico and Brazil. '+B('UK')+' at 8.7% (CHF 1.20M, -4.4%) is heavily reliant on Travel Adaptors (84%). '+B('Asia')+' at 2.9% (CHF 401K, +8.6%) is the only growing zone, driven by China expansion.</p></div>'+
 
-    // Permission check for this project
-    if (!MockDB.canUserViewProject(user.id, 'avolta')) {
-      window.location.href = '/home.html';
+'<div '+SEC+'><h3 '+SH+'><span '+H4G+'>3. Top Performing Airports</span></h3>'+
+'<ul '+LS+'><li '+LI+'>'+B('ZRH')+' — CHF 1.07M, Switzerland anchor despite -4.0% decline</li>'+
+'<li '+LI+'>'+B('MXP')+' — CHF 788K, stable at +0.7%, strongest EMEA performer</li>'+
+'<li '+LI+'>'+B('EZE')+' — CHF 778K, Argentina recovery at '+UP('+24.9%')+', led by Memory Pillows +48%</li>'+
+'<li '+LI+'>'+B('CMN')+' — CHF 236K, Morocco exploding at '+UP('+50.3%')+', broad-based growth</li>'+
+'<li '+LI+'>'+B('ARN')+' — CHF 204K, Sweden surging '+UP('+44.6%')+', Ergonomic +87%</li>'+
+'<li '+LI+'>'+B('PVG')+' — CHF 351K, Shanghai '+UP('+26.2%')+', main Asia driver</li></ul></div>'+
+
+'<div '+SEC+'><h3 '+SH+'><span '+H4R+'>4. Critical Alerts</span></h3>'+
+'<ul '+LS+'><li '+LI+'>'+DN('MEX -25.2%')+' — CHF 214K revenue loss, Ergonomic Pillows -25%, Memory -40%</li>'+
+'<li '+LI+'>'+DN('GRU -14.9%')+' — Ergonomic -16%, Memory -21%, Locks -31%</li>'+
+'<li '+LI+'>'+DN('BOG -25.4%')+' — Colombia declining across all families</li>'+
+'<li '+LI+'>'+DN('MAN -35.6%')+' — Manchester Travel Adaptors -33%, Pillows -41%</li>'+
+'<li '+LI+'>'+DN('PNH -94.5%')+' — Cambodia near-exit, Memory Pillows completely gone</li></ul></div>'+
+
+'<div '+SEC+'><h3 '+SH+'><span '+H4P+'>5. Category & Family Insights</span></h3>'+
+'<p style="font-size:12px;color:var(--dim);line-height:1.7"><b style="color:#ef4444">Declining:</b> Ergonomic Pillows -5.0% (CHF -275K), Memory Pillows -7.0% (CHF -244K), Kids Pillows -24.4%, Audio Solutions -24.6%, Laptop Backpacks -79.6%.<br>'+
+'<b style="color:#10b981">Growing:</b> Bottles '+UP('+414%')+' (CHF 55K from CHF 11K), Socks '+UP('+20.2%')+', Charging +10.5%, Travel Adaptors +7.8%, Journey Jet +204%, Urban +20.2%.<br>'+
+'At Family level: Pillows dominate at 68.1% share but declining -6.2%. Security fell -11.2%. Only Travel Adaptors (+7.8%) and Others (+4.4%) are growing families.</p></div>'+
+
+'<div '+SEC+'><h3 '+SH+'><span '+H4A+'>6. Recommended Actions</span></h3>'+
+'<ul '+LS+'><li '+LI+'><b>URGENT:</b> Investigate Mexico and Brazil Pillow collapse — pricing, competition, or assortment issue?</li>'+
+'<li '+LI+'><b>SHORT-TERM:</b> Expand Bottles and Socks distribution globally — proven demand, minimal cannibalization</li>'+
+'<li '+LI+'><b>MEDIUM-TERM:</b> Reduce Pillow concentration from 68% toward 55-60% by growing Charging, Adaptors, and new categories</li>'+
+'<li '+LI+'><b>LONG-TERM:</b> Build China as a 4th major zone — SZX expansion model (+5,500%) replicable in other Chinese airports</li></ul></div>';
+}
+
+// ============================================================
+// OVERVIEW TAB
+// ============================================================
+function bOV(fz,fFams,st,fmo,cubeKey){
+var fz=fz||zoneData;
+var fFams=fFams||famG;
+var st=st||{};
+var fmo=fmo||mAll;
+// Compute filtered totals
+var rev24=fmo.reduce(function(s,m){return s+m.a;},0);
+var rev25=fmo.reduce(function(s,m){return s+m.b;},0);
+var yoy=rev24>0?((rev25/rev24)-1)*100:0;
+var moLabel=st.month?(' — '+st.month+' 2025'):'';
+// Compute dynamic KPIs from filtered zone data
+var totZ25=fz.reduce(function(s,z){return s+(z.y25||0);},0);
+var totZ24=fz.reduce(function(s,z){return s+(z.y24||0);},0);
+var u25Disp=(GT.y25&&totZ25)?Math.round(GT.u25*(totZ25/GT.y25)):GT.u25;
+var u25Yoy=totZ24>0?((totZ25/totZ24)-1)*100:0;
+var nZones=fz.length;
+var largestZ=fz.length>0?fz.reduce(function(a,b){return b.y25>a.y25?b:a;}):null;
+var largestName=largestZ?(largestZ.zone==='AMERICA'?'Americas':largestZ.zone):'—';
+var largestShare=largestZ&&totZ25>0?(largestZ.y25/totZ25*100).toFixed(1)+'%':'—';
+var fastestZ=fz.length>0?fz.reduce(function(a,b){return (b.yoy2||0)>(a.yoy2||0)?b:a;}):null;
+var fastestName=fastestZ?(fastestZ.zone==='AMERICA'?'Americas':fastestZ.zone):'—';
+var fastestYoy=fastestZ?fastestZ.yoy2:0;
+// Compute dynamic airport count for filter context
+var ck=cubeKey||'OV';
+var nAirports=(CUBES[ck]||[]).filter(function(l){
+  if(st.country&&l.c!==st.country)return false;
+  if(st.airport&&l.a!==st.airport)return false;
+  return true;
+}).length;
+var airportLabel=nAirports>0?nAirports+' airports':'—';
+// Compute dynamic zone shares for insight text
+var emeaZ=fz.find(function(z){return z.zone==='EMEA';});
+var ameZ=fz.find(function(z){return z.zone==='AMERICA';});
+var ukZ=fz.find(function(z){return z.zone==='UK';});
+var asiaZ=fz.find(function(z){return z.zone==='ASIA';});
+var emeaAmeShare=totZ25>0?(((emeaZ?emeaZ.y25:0)+(ameZ?ameZ.y25:0))/totZ25*100).toFixed(1):0;
+var ukShare=totZ25>0&&ukZ?(ukZ.y25/totZ25*100).toFixed(1):0;
+var asiaShare=totZ25>0&&asiaZ?(asiaZ.y25/totZ25*100).toFixed(1):0;
+// Compute dynamic family stats
+var pillowF=fFams.find(function(f){return f.f==='PILLOWS';});
+var pillowShare=pillowF?pillowF.sh:'—';
+var pillowLoss=pillowF&&pillowF.ch<0?fmt(Math.abs(pillowF.ch)):'—';
+var pillowYoy=pillowF?fP(pillowF.yoy*100):'—';
+var adaptorF=fFams.find(function(f){return f.f==='TRAVEL ADAPTORS';});
+var adaptorYoy=adaptorF?fP(adaptorF.yoy*100):'—';
+var secF=fFams.find(function(f){return f.f==='SECURITY';});
+var secYoy=secF?fP(secF.yoy*100):'—';
+return '<div class="kpi-row"><div class="kpi"><div class="lbl">2025 Global Revenue'+moLabel+'</div><div class="val">'+fmt(rev25)+'</div><div class="chg '+bg(yoy)+'">'+fP(yoy)+' vs 2024</div></div><div class="kpi"><div class="lbl">2025 Units</div><div class="val">'+fN(u25Disp)+'</div><div class="chg '+bg(u25Yoy)+'">'+fP(u25Yoy)+' vs 2024</div></div><div class="kpi"><div class="lbl">Zones Active</div><div class="val">'+nZones+'</div><div class="chg" style="color:var(--dim)">'+airportLabel+'</div></div><div class="kpi"><div class="lbl">Largest Zone</div><div class="val">'+largestName+'</div><div class="chg" style="color:var(--dim)">'+largestShare+' of revenue</div></div><div class="kpi"><div class="lbl">Fastest Growing</div><div class="val">'+fastestName+'</div><div class="chg '+bg(fastestYoy)+'">'+fP(fastestYoy)+' YoY</div></div></div>'+
+'<div class="card"><h3>Zone Performance Summary</h3><div class="st">Headline sell-out revenue in CHF across all Avolta zones</div><table><thead><tr><th>Zone</th><th>2023</th><th>2024</th><th>2025</th><th>YoY 24/23</th><th>YoY 25/24</th><th>Share</th></tr></thead><tbody>'+fz.map(function(z){var sh=(z.y25/(totZ25||GT.y25)*100).toFixed(1);return '<tr><td>'+z.zone+'</td><td>'+fmt(z.y23)+'</td><td>'+fmt(z.y24)+'</td><td style="font-weight:700;color:var(--accent)">'+fmt(z.y25)+'</td><td><span class="badge '+bg(z.yoy1)+'">'+fP(z.yoy1)+'</span></td><td><span class="badge '+bg(z.yoy2)+'">'+fP(z.yoy2)+'</span></td><td style="font-weight:600">'+sh+'%</td></tr>';}).join('')+'</tbody></table>'+
+'<div class="insight">📊 <b>Key takeaway:</b> Global revenue '+(yoy>=0?'grew <span class="up">':'declined <span class="dn">')+fP(yoy)+'</span> YoY vs 2024.'+(emeaZ?' EMEA represents <b>'+(emeaZ.y25/totZ25*100).toFixed(1)+'%</b> share and '+(emeaZ.yoy2>=0?'grew':'declined')+' <span class="'+(emeaZ.yoy2>=0?'up':'dn')+'">'+fP(emeaZ.yoy2)+'</span>.':'')+(ameZ?' Americas represents <b>'+(ameZ.y25/totZ25*100).toFixed(1)+'%</b> and '+(ameZ.yoy2>=0?'grew':'declined')+' <span class="'+(ameZ.yoy2>=0?'up':'dn')+'">'+fP(ameZ.yoy2)+'</span> — focus on Mexico and Brazil.':'')+'</div></div>'+
+'<div class="card"><h3>Monthly Revenue Trend — Global</h3><div class="st">2024 vs 2025 monthly comparison</div><div class="chart-wrap"><canvas id="ch-ov-m"></canvas></div>'+
+(function(){var peak=fmo.reduce(function(a,m){return(m.b-m.a)<(a.b-a.a)?m:a;},{m:'',a:0,b:0});var best=fmo.reduce(function(a,m){return(m.b-m.a)>(a.b-a.a)?m:a;},{m:'',a:0,b:0});return '<div class="insight">📈 <b>Seasonality:</b>'+(peak.m?' Worst month: <b>'+peak.m+'</b> ('+fP(peak.a>0?(peak.b/peak.a-1)*100:0)+' vs 2024).':'')+(best.m&&best.b>best.a?' Best month: <b>'+best.m+'</b> (<span class="up">'+fP(best.a>0?(best.b/best.a-1)*100:0)+'</span> vs 2024).':'')+' Monitor peak-season performance for competitive pressure.</div></div>'})() +
+'<div class="card"><h3>Revenue by Zone — 2025</h3><div class="st">Proportional zone contribution</div><div class="chart-wrap sm"><canvas id="ch-ov-p"></canvas></div>'+
+'<div class="insight">🌍 <b>Concentration risk:</b> EMEA + Americas account for <b>'+emeaAmeShare+'%</b> of total revenue.'+(ukShare?' UK at '+ukShare+'% is heavily weighted towards Travel Adaptors.':'')+(asiaShare?' Asia at '+asiaShare+'% is the smallest but fastest-growing zone.':'')+' Diversification into Asia and expanding UK beyond adaptors are strategic priorities.</div></div>'+
+'<div class="card"><h3>Family Performance — Global</h3><div class="st">Revenue by product family across all zones</div><table><thead><tr><th>Family</th><th>2023</th><th>2024</th><th>2025</th><th>Δ Abs</th><th>Δ YoY%</th><th>Share</th></tr></thead><tbody>'+fFams.map(function(f){return '<tr><td><b>'+f.f+'</b></td><td>'+fmt(f.y23)+'</td><td>'+fmt(f.y24)+'</td><td style="font-weight:700;color:var(--accent)">'+fmt(f.y25)+'</td><td><span style="color:'+(f.ch>0?'var(--green)':'var(--red)')+';font-weight:600">'+(f.ch>0?'+':'')+fmt(f.ch)+'</span></td><td><span class="badge '+bg(f.yoy*100)+'">'+fP(f.yoy*100)+'</span></td><td>'+f.sh+'%</td></tr>';}).join('')+'</tbody></table>'+
+'<div class="insight">🏷️ <b>Family analysis:</b> Pillows dominate at <b>'+pillowShare+'%</b> share'+(pillowLoss!=='—'?' but lost '+pillowLoss+' ('+pillowYoy+')':'')+'. Travel Adaptors growth: <span class="'+bg(adaptorF?adaptorF.yoy*100:0)+'">'+adaptorYoy+'</span>. Security: <span class="'+bg(secF?secF.yoy*100:0)+'">'+secYoy+'</span>. High Pillow concentration remains the key strategic risk.</div></div>'+
+(function(){
+  var ck2=cubeKey||'OV';
+  var ctbl=cubeCountryTable('OV',ck2);
+  // Compute top and fastest country dynamically
+  var mos=st.month?[st.month]:null;
+  var fr25=st.family?famRatio(ck2,st.family,[2025],mos):1;
+  var raw=(CUBES[ck2]||[]).filter(function(l){
+    if(st.country&&l.c!==st.country)return false;
+    if(st.airport&&l.a!==st.airport)return false;
+    return true;
+  });
+  var byCtry={};
+  raw.forEach(function(l){
+    if(!byCtry[l.c])byCtry[l.c]={c:l.c,y24:0,y25:0};
+    byCtry[l.c].y24+=cubeSum([l],[2024],mos)*fr25;
+    byCtry[l.c].y25+=cubeSum([l],[2025],mos)*fr25;
+  });
+  var ctryRows=Object.values(byCtry).filter(function(r){return r.y25>0;}).sort(function(a,b){return b.y25-a.y25;});
+  var topCtry=ctryRows[0];
+  var fastCtry=ctryRows.filter(function(r){return r.y24>0;}).sort(function(a,b){return (b.y25/b.y24)-(a.y25/a.y24);})[0];
+  var insightTxt='Countries ranked by 2025 revenue.';
+  if(topCtry)insightTxt+=' Top country: <b>'+topCtry.c+'</b> at '+fmt(topCtry.y25)+(topCtry.y24>0?' ('+fP((topCtry.y25/topCtry.y24-1)*100)+')':'')+'.'
+  if(fastCtry&&fastCtry!==topCtry)insightTxt+=' Fastest growing: <b>'+fastCtry.c+'</b> at <span class="up">'+fP((fastCtry.y25/fastCtry.y24-1)*100)+'</span>.';
+  return '<div class="card"><h3>Performance by Country — Global</h3><div class="st">All countries ranked by 2025 revenue with 2023, 2024, YoY% and share</div>'+ctbl+'<div class="insight">🌍 <b>Country highlights:</b> '+insightTxt+'</div></div>';
+})()
+}
+
+// ============================================================
+// ZONE TAB BUILDER
+// ============================================================
+function bZ(zone,locs,gl,dist,fgl,famData,monthly){
+var zd=zoneData.find(function(z){return z.zone===zone;});
+var zL=zone==="AMERICA"?"Americas":zone;
+var napt=locs.length;
+// Compute KPIs from filtered locs (so airport/country/month filters affect cards)
+var kpi25=locs.reduce(function(s,l){return s+(l.y25||0);},0);
+var kpi24=locs.reduce(function(s,l){return s+(l.y24||0);},0);
+var kpiYoy=kpi24>0?((kpi25/kpi24)-1)*100:0;
+// Always use computed values from filtered locs
+var disp25=kpi25>0?kpi25:zd.y25;
+var disp24=kpi24>0?kpi24:zd.y24;
+var dispYoy=kpi24>0?kpiYoy:zd.yoy2;
+var dispMo=monthly&&monthly.length===1?(' — '+monthly[0].m):'';
+
+// Zone-specific insights
+var zoneInsights={
+'EMEA':'EMEA remains the largest zone at CHF 6.77M but declined -2.0%. ZRH and MXP anchor the region. Morocco (+50%) and Sweden (+45%) are standout growth stories, while ATH lost -10% and Spain underperforms outside BCN. The zone has strong category diversity with 20+ categories in top airports.',
+'AMERICA':'Americas declined <span class="dn">-6.5%</span> to CHF 5.37M — the steepest drop among major zones. Mexico collapsed -25% with both DF and DP channels suffering. Argentina\'s EZE (+25%) is the bright spot. Duty Paid channel is particularly weak at -15.4%. Pillow dependency at 79.9% is dangerously high.',
+'UK':'UK declined -4.4% to CHF 1.20M. Uniquely, this zone is <b>84% Travel Adaptors</b> — the opposite of every other zone. Pillows collapsed -41%, now just 11% of UK revenue. MAN and BRS are in freefall. LHR adaptors growing +20% provides some stability. The zone needs product diversification.',
+'ASIA':'Asia grew <span class="up">+8.6%</span> to CHF 401K — the only growing zone. China dominates with 98.7% share (PVG + SZX). PVG grew +26% organically while SZX exploded from near-zero to CHF 46K. Cambodia and Korea have essentially exited. The opportunity is to replicate the SZX model in more Chinese airports.'
+};
+
+return '<div class="kpi-row" style="grid-template-columns:repeat(4,1fr)"><div class="kpi"><div class="lbl">'+zL+' 2025'+dispMo+'</div><div class="val">'+fmt(disp25)+'</div><div class="chg '+bg(dispYoy)+'">'+fP(dispYoy)+' YoY</div></div><div class="kpi"><div class="lbl">2025 Units</div><div class="val">'+fN(zd&&zd.u25?(kpi25>0&&zd.y25>0?Math.round(zd.u25*kpi25/zd.y25):zd.u25):0)+'</div></div><div class="kpi"><div class="lbl">2024 Revenue</div><div class="val">'+fmt(disp24)+'</div></div><div class="kpi"><div class="lbl">Δ Absolute</div><div class="val" style="color:'+(disp25>disp24?'var(--green)':'var(--red)')+'">'+fmt(disp25-disp24)+'</div></div></div>'+
+'<div class="card"><h3>Top Countries — '+zL+'</h3><div class="st">Ranked by 2025 revenue with YoY change</div>'+locsToCountryTable(locs)+
+'<div class="insight">📍 <b>Location analysis:</b> '+zoneInsights[zone]+'</div></div>'+
+'<div class="g2"><div class="card"><h3>Revenue 2024 vs 2025</h3><div class="chart-wrap"><canvas id="ch-'+zone+'-b"></canvas></div></div><div class="card"><h3>2025 Revenue Share</h3><div class="chart-wrap"><canvas id="ch-'+zone+'-p"></canvas></div></div></div>'+
+'<div class="card"><h3>Monthly Trend — '+zL+'</h3><div class="st">2024 vs 2025</div><div class="chart-wrap sm"><canvas id="ch-'+zone+'-m"></canvas></div>'+
+'<div class="insight">📅 <b>Seasonal pattern:</b> '+(zone==='EMEA'?'EMEA peak season (Jun-Aug) lost CHF 209K vs 2024. January was exceptionally strong (+19%) suggesting early-year travel recovery. Q4 was mixed with Nov recovering but Oct declining.':zone==='AMERICA'?'Americas shows consistent monthly decline averaging -7% across all months. No single month outperformed 2024 by more than 3%, indicating a structural issue rather than seasonal variance.':zone==='UK'?'UK had a weak summer (Jul-Aug) losing -16% and -12% respectively. Feb and Jun showed slight recovery. The pattern suggests UK travel patterns are shifting away from traditional peak months.':'Asia shows strong H2 2025 growth, with Jul-Dec all outperforming 2024. January saw a massive +92% spike. The trend is decisively upward.')+'</div></div>'+
+'<div class="card"><h3>Family Performance — '+zL+'</h3><div class="st">Revenue by product family</div>'+FT(famData)+
+'<div class="insight">🏷️ <b>Family breakdown:</b> '+(zone==='EMEA'?'Pillows at 69.3% share declined -2.7% — better than group average. Travel Adaptors grew +7.6% to 7.5% share. Others and Travel Accessories are flat. Security declined -6.6%.':zone==='AMERICA'?'Pillow concentration is extreme at <b>79.9%</b> — highest of any zone. Travel Adaptors grew +33.8% but from a tiny base (2.7% share). Security fell -17.4%. Backpacks declined -11.2% after 2024 launch.':zone==='UK'?'Travel Adaptors dominate at 84.1% — a unique zone profile. Pillows collapsed -41.2% and now represent just 11% of revenue. Others and Travel Accessories are marginal.':'Pillows lead at 60.9% but the mix is healthier than other zones. Travel Accessories grew +43.3% and Adaptors +13.7%. Others exploded +42.1%. This is the most diversified growth profile.')+'</div></div>'+
+'<div class="card"><h3>Family Gains & Losses — Top Locations</h3><div class="st">YoY changes by product family per airport</div><div class="g3">'+GC(fgl)+'</div></div>'+
+'<div class="card"><h3>Category Gains & Losses — Top Locations</h3><div class="st">YoY 2024 → 2025 highlights</div><div class="g3">'+GC(gl)+'</div></div>'+
+'<div class="card"><h3>Distribution Mapping — '+zL+'</h3><div class="st">Active SKUs, categories and stores</div>'+DT(dist)+
+'<div class="insight">📦 <b>Distribution insight:</b> '+(zone==='EMEA'?'ZRH leads with 74 SKUs across 20 stores. ATH and KWI maintain broad assortments (82-73 SKUs). BCN expanded from 69 to 82 SKUs. MXP has room to expand from 41 SKUs.':zone==='AMERICA'?'GRU and GIG expanded their SKU counts significantly (103→114 and 108→116). MEX jumped from 66 to 92 SKUs, suggesting distribution effort despite revenue decline. EZE is stable at 67 SKUs.':zone==='UK'?'SKU counts are much lower than other zones (16-34 range vs 60-90). LGW leads with 34 SKUs but many airports carry fewer than 20. This limits category exposure and revenue potential.':'PVG nearly doubled SKUs from 19 to 33, and SZX tripled from 13 to 37. PNH and MFM are shrinking. The China expansion strategy is clearly working at distribution level.')+'</div></div>';
+}
+
+// ============================================================
+// MARKET (DF/DP) TAB BUILDER
+// ============================================================
+function bZM(label,locs,gl,dist,mo,tot,cats,fgl,famData){
+// Compute KPIs from filtered locs when location filter is applied
+var locsRev25=locs.reduce(function(s,l){return s+(l.y25||0);},0);
+var locsRev24=locs.reduce(function(s,l){return s+(l.y24||0);},0);
+var isLocFiltered=(locsRev25>0&&locsRev25<tot.y25*0.99);
+var disp25=isLocFiltered?locsRev25:tot.y25;
+var disp24=isLocFiltered?locsRev24:tot.y24;
+var yoy=disp24>0?(disp25/disp24-1):0;
+var catTbl=cats.filter(function(c){return c.r25>0;}).map(function(c){return '<tr><td>'+c.c+'</td><td>'+fmt(c.r24)+'</td><td style="font-weight:700;color:var(--accent)">'+fmt(c.r25)+'</td><td><span style="color:'+(c.ch>0?'var(--green)':'var(--red)')+';font-weight:600">'+(c.ch>0?'+':'')+fmt(c.ch)+'</span></td><td><span class="badge '+bg(c.yoy*100)+'">'+fP(c.yoy*100)+'</span></td></tr>';}).join('');
+var chId=label.replace(/\s/g,'');
+var dispMo=mo&&mo.length===1?(' — '+mo[0].m):'';
+
+return '<div class="kpi-row" style="grid-template-columns:repeat(4,1fr)"><div class="kpi"><div class="lbl">Americas '+label+' 2025'+dispMo+'</div><div class="val">'+fmt(disp25)+'</div><div class="chg '+bg(yoy*100)+'">'+fP(yoy*100)+' YoY</div></div><div class="kpi"><div class="lbl">2024 Revenue</div><div class="val">'+fmt(disp24)+'</div></div><div class="kpi"><div class="lbl">2025 Units</div><div class="val">'+fN(tot.u25||0)+'</div></div><div class="kpi"><div class="lbl">Δ Revenue</div><div class="val" style="color:'+(disp25>disp24?'var(--green)':'var(--red)')+'">'+fmt(disp25-disp24)+'</div></div></div>'+
+'<div class="card"><h3>Top Countries — Americas '+label+'</h3><div class="st">Ranked by 2025 revenue</div>'+locsToCountryTable(locs)+
+'<div class="insight">📍 <b>Channel analysis:</b> '+(label==='DUTY FREE'?'Duty Free accounts for 72% of Americas revenue. EZE leads with strong +24.9% growth. SCL and GRU are declining. MEX DF collapsed -31.1%, a critical issue. AEP (+62.6%) and SDQ (+41.7%) are bright spots showing new market potential.':'Duty Paid declined -15.4%, a steeper drop than Duty Free. MEX DP at -22% drives most of the loss. Every top-10 airport except MTY (+149%) is declining. GRU, GIG, BOG, BSB all contracting. This channel needs strategic intervention.')+'</div></div>'+
+'<div class="g2"><div class="card"><h3>Revenue 2024 vs 2025</h3><div class="chart-wrap"><canvas id="ch-'+chId+'-b"></canvas></div></div><div class="card"><h3>2025 Revenue Share</h3><div class="chart-wrap"><canvas id="ch-'+chId+'-p"></canvas></div></div></div>'+
+'<div class="card"><h3>Monthly Trend — Americas '+label+'</h3><div class="st">2024 vs 2025</div><div class="chart-wrap sm"><canvas id="ch-'+chId+'-m"></canvas></div>'+
+'<div class="insight">📅 <b>Monthly pattern:</b> '+(label==='DUTY FREE'?'DF shows modest monthly declines averaging -2.8%. Oct-Dec showed recovery. The channel is more resilient than DP, suggesting the core duty-free traveler is still buying.':'DP shows steep declines every month, averaging -15%. Jul was worst at -29%. The structural decline suggests DP positioning, pricing, or foot traffic issues across Latin America.')+'</div></div>'+
+'<div class="card"><h3>Family Performance — '+label+'</h3><div class="st">Revenue by product family</div>'+FT(famData)+'</div>'+
+'<div class="card"><h3>Family Gains & Losses</h3><div class="g3">'+GC(fgl)+'</div></div>'+
+'<div class="card"><h3>Category Performance — '+label+'</h3><div class="st">All categories by 2025 revenue</div><table><thead><tr><th>Category</th><th>2024</th><th>2025</th><th>Δ Abs</th><th>Δ YoY%</th></tr></thead><tbody>'+catTbl+'</tbody></table></div>'+
+'<div class="card"><h3>Category Gains & Losses</h3><div class="g3">'+GC(gl)+'</div></div>'+
+'<div class="card"><h3>Distribution Mapping — Americas '+label+'</h3>'+DT(dist)+'</div>';
+}
+
+// ============================================================
+// CATEGORIES TAB
+// ============================================================
+function bCA(fFams,fCats,st){
+var fFams=fFams||famG;
+var fCats=fCats||catG;
+var st=st||{};
+return '<div class="card"><h3>Family Performance — Global</h3><div class="st">Revenue by product family, all zones combined'+(st.family?' — Filtered: '+st.family:'')+''+(st.region?' — Zone: '+st.region:'')+'</div><table><thead><tr><th>Family</th><th>2023</th><th>2024</th><th>2025</th><th>Δ Abs</th><th>Δ YoY%</th><th>Share</th></tr></thead><tbody>'+fFams.map(function(f){return '<tr><td><b>'+f.f+'</b></td><td>'+fmt(f.y23)+'</td><td>'+fmt(f.y24)+'</td><td style="font-weight:700;color:var(--accent)">'+fmt(f.y25)+'</td><td><span style="color:'+(f.ch>0?'var(--green)':'var(--red)')+';font-weight:600">'+(f.ch>0?'+':'')+fmt(f.ch)+'</span></td><td><span class="badge '+bg(f.yoy*100)+'">'+fP(f.yoy*100)+'</span></td><td>'+f.sh+'%</td></tr>';}).join('')+'</tbody></table>'+
+'<div class="insight">🏷️ <b>Family conclusion:</b> The Pillows family accounts for <b>68.1%</b> of revenue but declined CHF 620K. This concentration is the single biggest strategic risk. Travel Adaptors (+7.8%) and Others (+4.4%) are the only growing families. Security needs investigation — Locks alone lost CHF 52K.</div></div>'+
+'<div class="card"><h3>Global Category Performance — 2024 vs 2025</h3><div class="st">'+(st.family?'Filtered by family: '+st.family:'Top 25 categories sorted by 2025 revenue')+'</div><table><thead><tr><th>Category</th><th>2024</th><th>2025</th><th>Δ Abs</th><th>Δ YoY%</th></tr></thead><tbody>'+fCats.map(function(c){return '<tr><td>'+c.c+'</td><td>'+fmt(c.y24)+'</td><td style="font-weight:700;color:var(--accent)">'+fmt(c.y25)+'</td><td><span style="color:'+(c.ch>0?'var(--green)':'var(--red)')+';font-weight:600">'+(c.ch>0?'+':'')+fmt(c.ch)+'</span></td><td><span class="badge '+bg(c.p)+'">'+fP(c.p)+'</span></td></tr>';}).join('')+'</tbody></table>'+
+'<div class="insight">📊 <b>Category conclusion:</b> The top 2 categories (Ergonomic + Memory Pillows) lost a combined CHF 519K. Growth categories are smaller: <span class="up">Bottles +414%</span>, <span class="up">Socks +20%</span>, <span class="up">Charging +10.5%</span>. <span class="dn">Kids Pillows -24%</span> and <span class="dn">Audio -25%</span> are in structural decline. New categories like Journey Jet (+204%) and Traveller (NEW) show promising launches.</div></div>'+
+'<div class="card"><h3>Category Revenue Change</h3><div class="chart-wrap"><canvas id="ch-cat-b"></canvas></div>'+
+'<div class="insight">📉 <b>Visual conclusion:</b> The waterfall above shows Ergonomic and Memory Pillows as the two largest revenue destroyers. Travel Adaptors is the biggest positive contributor. The growth of smaller categories (Bottles, Socks, Charging) cannot yet offset Pillow losses — the business needs both Pillow stabilization AND accelerated growth of alternatives.</div></div>';
+}
+
+// ============================================================
+// SKU × COUNTRY TAB
+// ============================================================
+function bSKUC(regions,st){
+var regions=regions||['EMEA Europe','EMEA Africa','EMEA Middle East','AMERICA','UK','ASIA'];
+var st=st||{};
+var h='<div class="card"><h3>SKU × Country Revenue Analysis</h3><div class="st">Side-by-side 2024 vs 2025 tables per region. Color coding: <span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:3px">+10%</span> <span style="background:#86efac;color:#14532d;padding:2px 6px;border-radius:3px">+20%</span> <span style="background:#4ade80;color:#052e16;padding:2px 6px;border-radius:3px;font-weight:700">+30%</span> <span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:3px;margin-left:8px">-10%</span> <span style="background:#fca5a5;color:#7f1d1d;padding:2px 6px;border-radius:3px">-20%</span> <span style="background:#f87171;color:#450a0a;padding:2px 6px;border-radius:3px;font-weight:700">-30%</span></div></div>';
+regions.forEach(function(reg){
+var d=skuCountry[reg];
+if(!d) return;
+var cols=d.countries;
+var rows=d.rows;
+// Apply country filter: only show columns matching the selected country
+if(st.country){
+  var matchCols=cols.filter(function(c){return c===st.country;});
+  if(matchCols.length>0){
+    cols=matchCols;
+    // Also filter rows to only those with data in this country
+    rows=rows.filter(function(r){return (r.d24[st.country]||0)>0||(r.d25[st.country]||0)>0;});
+  } else {
+    return; // Skip this region if country not found
+  }
+}
+// Apply airport filter (if applicable — airports appear as country columns in some regions)
+if(st.airport){
+  var matchCols2=cols.filter(function(c){return c===st.airport;});
+  if(matchCols2.length>0){
+    cols=matchCols2;
+    rows=rows.filter(function(r){return (r.d24[st.airport]||0)>0||(r.d25[st.airport]||0)>0;});
+  }
+}
+var colLabel=reg==='UK'?'Airport':'Country';
+// Build side-by-side 2024 | 2025
+h+='<div class="card"><h3>'+reg+(reg==='AMERICA'?' (Duty Free only)':'')+' — SKU × '+colLabel+'</h3><div class="st">'+rows.length+' SKUs × '+cols.length+' '+colLabel.toLowerCase()+'s. SKUs ordered by 2024 revenue (descending). 2025 maintains same order for comparison.'+(reg==='AMERICA'?' Filtered to Duty Free channel only.':'')+'</div>';
+h+='<div class="tbl-scroll"><table><thead><tr><th rowspan="2" style="border-right:2px solid var(--accent)">SKU</th><th colspan="'+(cols.length+1)+'" style="text-align:center;border-right:2px solid var(--accent);background:#1e293b">2024</th><th colspan="'+(cols.length+1)+'" style="text-align:center;border-right:2px solid #f59e0b;background:#1e293b">2025</th><th colspan="'+(cols.length+1)+'" style="text-align:center;background:#292524">% YoY Change</th></tr><tr>';
+h+='<th>TOTAL</th>';
+cols.forEach(function(c){h+='<th>'+c.substring(0,10)+'</th>';});
+h+='<th style="border-left:2px solid var(--accent)">TOTAL</th>';
+cols.forEach(function(c){h+='<th>'+c.substring(0,10)+'</th>';});
+h+='<th style="border-left:2px solid #f59e0b">TOTAL</th>';
+cols.forEach(function(c){h+='<th>'+c.substring(0,10)+'</th>';});
+h+='</tr></thead><tbody>';
+rows.forEach(function(row){
+var d24=row.d24, d25=row.d25;
+var t24=d24.total, t25=d25.total;
+var totalPct=t24>0?((t25/t24-1)):0;
+var totalCls=totalPct>0.3?'g30p':totalPct>0.2?'g20p':totalPct>0.1?'g10p':totalPct<-0.3?'d30p':totalPct<-0.2?'d20p':totalPct<-0.1?'d10p':'';
+h+='<tr><td style="border-right:2px solid var(--accent);font-weight:700">'+d24.sku+'</td>';
+h+='<td style="font-weight:700">'+Math.round(t24).toLocaleString('en')+'</td>';
+cols.forEach(function(c){
+var v=d24[c]||0;
+h+='<td>'+(v>0?Math.round(v).toLocaleString('en'):'-')+'</td>';
+});
+h+='<td class="'+totalCls+'" style="border-left:2px solid var(--accent);font-weight:700">'+Math.round(t25).toLocaleString('en')+'</td>';
+cols.forEach(function(c){
+var v24=d24[c]||0, v25=d25[c]||0;
+var pct=v24>0?((v25/v24-1)):0;
+var cls=pct>0.3?'g30p':pct>0.2?'g20p':pct>0.1?'g10p':pct<-0.3?'d30p':pct<-0.2?'d20p':pct<-0.1?'d10p':'';
+h+='<td class="'+cls+'">'+(v25>0?Math.round(v25).toLocaleString('en'):'-')+'</td>';
+});
+// % YoY block
+h+='<td class="'+totalCls+'" style="border-left:2px solid #f59e0b;font-weight:700">'+(t24>0?((totalPct*100)>=0?'+':'')+Math.round(totalPct*100)+'%':'NEW')+'</td>';
+cols.forEach(function(c){
+var v24=d24[c]||0, v25=d25[c]||0;
+var pct=v24>0?((v25/v24-1)):0;
+var cls=v24>0?(pct>0.3?'g30p':pct>0.2?'g20p':pct>0.1?'g10p':pct<-0.3?'d30p':pct<-0.2?'d20p':pct<-0.1?'d10p':''):'';
+var txt=v24>0?((pct>=0?'+':'')+Math.round(pct*100)+'%'):(v25>0?'NEW':'-');
+h+='<td class="'+cls+'" style="text-align:center;font-size:10px">'+txt+'</td>';
+});
+h+='</tr>';
+});
+h+='</tbody></table></div>';
+// Insight for this region
+var growing=rows.filter(function(r){return r.d25.total>r.d24.total&&r.d24.total>1000;}).length;
+var declining=rows.filter(function(r){return r.d25.total<r.d24.total&&r.d24.total>1000;}).length;
+h+='<div class="insight">📊 <b>'+reg+' SKU analysis:</b> Of '+rows.length+' tracked SKUs, <span class="up">'+growing+' are growing</span> and <span class="dn">'+declining+' are declining</span> vs 2024. Darker red cells indicate >30% decline — these are the priority SKUs to investigate for possible phase-out, pricing issues, or competitive displacement in specific countries.</div>';
+h+='</div>';
+});
+return h;
+}
+
+// ============================================================
+// SKU × STORE GAP TAB
+// ============================================================
+
+// SKU to Family mapping for filter support in SKUS tab
+var skuFamilyMap={
+  '212':'PILLOWS','232':'PILLOWS','9202':'PILLOWS','223':'PILLOWS','220':'PILLOWS',
+  '221':'PILLOWS','222':'PILLOWS','38':'PILLOWS','36':'PILLOWS','217':'PILLOWS',
+  '453':'TRAVEL ADAPTORS','451':'TRAVEL ADAPTORS','454':'TRAVEL ADAPTORS',
+  '790':'SECURITY','791':'SECURITY',
+  '281':'OTHERS','287':'OTHERS','289':'OTHERS','290':'OTHERS','987':'OTHERS','988':'OTHERS',
+  '283':'TRAVEL ACCESSORIES','254':'TRAVEL ACCESSORIES','584':'TRAVEL ACCESSORIES',
+  '113':'TRAVEL ACCESSORIES','114':'TRAVEL ACCESSORIES','557':'TRAVEL ACCESSORIES',
+  '492':'BACKPACKS','493':'BACKPACKS',
+  '650':'OTHERS','65':'OTHERS','66':'OTHERS','67':'OTHERS','68':'OTHERS',
+  '27':'OTHERS','28':'OTHERS','43':'OTHERS','47':'OTHERS','53':'OTHERS',
+  '124':'OTHERS','341':'OTHERS','551':'OTHERS','552':'OTHERS','583':'OTHERS',
+  '650':'OTHERS','791':'SECURITY','983':'SECURITY'
+};
+function bSKUS(st){
+var st=st||{};
+var allC=Object.keys(skuStore);
+var countries=st.country?allC.filter(function(c){return c===st.country;}):allC;
+if(st.region){
+  // Filter countries that belong to this region - use airportMeta
+  countries=countries.filter(function(c){
+    return Object.values(airportMeta).some(function(m){return m.country===c&&m.zone===st.region;});
+  });
+}
+var h='<div class="card"><h3>SKU × Store Revenue Analysis — EMEA by Country</h3><div class="st">Same 2024 | 2025 | % YoY format, but broken down by country with individual stores as columns. Top 8 EMEA countries by revenue. Color coding same as SKU × Country tab.'+(st.month?' <b>Month: '+st.month+'</b>':'')+(st.country?' <b>Country: '+st.country+'</b>':'')+'</div></div>';
+countries.forEach(function(country){
+var d=skuStore[country];
+if(!d) return;
+var cols=d.countries;
+// Apply airport filter
+if(st.airport){
+  cols=cols.filter(function(c){return c===st.airport||c.indexOf(st.airport)>=0;});
+  if(!cols.length)return;
+}
+var rows=d.rows;
+// Apply family filter
+if(st.family){
+  rows=rows.filter(function(r){
+    // Use SKU family mapping if available, else show all
+    var fam=skuFamilyMap&&skuFamilyMap[r.d24.sku]?skuFamilyMap[r.d24.sku]:null;
+    if(!fam)return true; // if we don't know the family, show it
+    return fam===st.family;
+  });
+}
+h+='<div class="card"><h3>'+country+' — SKU × Store</h3><div class="st">'+rows.length+' SKUs × '+cols.length+' stores. SKUs ordered by 2024 revenue.</div>';
+h+='<div class="tbl-scroll"><table><thead><tr><th rowspan="2" style="border-right:2px solid var(--accent)">SKU</th><th colspan="'+(cols.length+1)+'" style="text-align:center;border-right:2px solid var(--accent);background:#1e293b">2024</th><th colspan="'+(cols.length+1)+'" style="text-align:center;border-right:2px solid #f59e0b;background:#1e293b">2025</th><th colspan="'+(cols.length+1)+'" style="text-align:center;background:#292524">% YoY Change</th></tr><tr>';
+h+='<th>TOTAL</th>';
+cols.forEach(function(c){h+='<th style="font-size:8px;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+c+'">'+c.substring(0,18)+'</th>';});
+h+='<th style="border-left:2px solid var(--accent)">TOTAL</th>';
+cols.forEach(function(c){h+='<th style="font-size:8px;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+c+'">'+c.substring(0,18)+'</th>';});
+h+='<th style="border-left:2px solid #f59e0b">TOTAL</th>';
+cols.forEach(function(c){h+='<th style="font-size:8px;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+c+'">'+c.substring(0,18)+'</th>';});
+h+='</tr></thead><tbody>';
+rows.forEach(function(row){
+var d24=row.d24, d25=row.d25;
+var t24=d24.total, t25=d25.total;
+var totalPct=t24>0?((t25/t24-1)):0;
+var totalCls=totalPct>0.3?'g30p':totalPct>0.2?'g20p':totalPct>0.1?'g10p':totalPct<-0.3?'d30p':totalPct<-0.2?'d20p':totalPct<-0.1?'d10p':'';
+h+='<tr><td style="border-right:2px solid var(--accent);font-weight:700">'+d24.sku+'</td>';
+h+='<td style="font-weight:700">'+Math.round(t24).toLocaleString('en')+'</td>';
+cols.forEach(function(c){var v=d24[c]||0;h+='<td style="font-size:9px">'+(v>0?Math.round(v).toLocaleString('en'):'-')+'</td>';});
+h+='<td class="'+totalCls+'" style="border-left:2px solid var(--accent);font-weight:700">'+Math.round(t25).toLocaleString('en')+'</td>';
+cols.forEach(function(c){
+var v24=d24[c]||0,v25=d25[c]||0;
+var pct=v24>0?((v25/v24-1)):0;
+var cls=pct>0.3?'g30p':pct>0.2?'g20p':pct>0.1?'g10p':pct<-0.3?'d30p':pct<-0.2?'d20p':pct<-0.1?'d10p':'';
+h+='<td class="'+cls+'" style="font-size:9px">'+(v25>0?Math.round(v25).toLocaleString('en'):'-')+'</td>';
+});
+// % YoY
+h+='<td class="'+totalCls+'" style="border-left:2px solid #f59e0b;font-weight:700">'+(t24>0?((totalPct*100)>=0?'+':'')+Math.round(totalPct*100)+'%':'NEW')+'</td>';
+cols.forEach(function(c){
+var v24=d24[c]||0,v25=d25[c]||0;
+var pct=v24>0?((v25/v24-1)):0;
+var cls=v24>0?(pct>0.3?'g30p':pct>0.2?'g20p':pct>0.1?'g10p':pct<-0.3?'d30p':pct<-0.2?'d20p':pct<-0.1?'d10p':''):'';
+var txt=v24>0?((pct>=0?'+':'')+Math.round(pct*100)+'%'):(v25>0?'NEW':'-');
+h+='<td class="'+cls+'" style="text-align:center;font-size:9px">'+txt+'</td>';
+});
+h+='</tr>';
+});
+h+='</tbody></table></div>';
+var growing=rows.filter(function(r){return r.d25.total>r.d24.total&&r.d24.total>500;}).length;
+var declining=rows.filter(function(r){return r.d25.total<r.d24.total&&r.d24.total>500;}).length;
+h+='<div class="insight">📊 <b>'+country+' store analysis:</b> Of '+rows.length+' SKUs, <span class="up">'+growing+' growing</span> and <span class="dn">'+declining+' declining</span> vs 2024. Red cells flag store-level drops >10%+ — investigate stock availability, planogram changes, or local competition.</div>';
+h+='</div>';
+});
+return h;
+}
+
+// ============================================================
+
+// ============================================================
+// SKU × STORE — AMERICAS DUTY FREE TAB
+// ============================================================
+
+// ============================================================
+// AMERICAS SKU × STORE DATA (CORRECTED)
+// ============================================================
+var skuStoreAmericasDF = {};
+
+var skuStoreAmericasDP = {};
+
+
+
+
+
+// ============================================================
+// YOY LOSSES RANKING TAB
+// ============================================================
+
+
+var yoyLossesAll = []; // loaded via API
+
+// ============================================================
+// GLOBAL MAPS — Family → SKUs and Family → Category names
+// Defined once here, reused in bSKUS, bADF, bADP, fFilt, bCA
+// ============================================================
+var FAM_SKU_MAP = {
+  'PILLOWS':['212','232','9202','223','220','221','222','38','36'],
+  'TRAVEL ADAPTORS':['453','451','454'],
+  'SECURITY':['790','791'],
+  'OTHERS':['281','287','289','290'],
+  'TRAVEL ACCESSORIES':['283','217','254'],
+  'BACKPACKS':['492','493']
+};
+var FAM_CAT_MAP = {
+  'PILLOWS':['ERGONOMIC PILLOWS','MEMORY PILLOWS','INFLATABLE PILLOWS','KIDS PILLOWS'],
+  'TRAVEL ADAPTORS':['TRAVEL ADAPTORS'],
+  'OTHERS':['SOCKS','EYE MASKS','EAR PLUGS','AUDIO SOLUTIONS','BLANKETS','BOTTLES','URBAN','JOURNEY JET','TRAVELLER','ADVENTURE'],
+  'TRAVEL ACCESSORIES':['CHARGING SOLUTIONS','FOLDING BAGS','ID TAGS','LUGGAGE STRAP','MONEY BELTS','TRAVEL SCALE','SHOULDER BAG','NECESSAIRE'],
+  'SECURITY':['LOCKS'],
+  'BACKPACKS':['LAPTOP BACKPACKS']
+};
+
+// ============================================================
+// YOY LOSSES RANKING - ALL ZONES WITH FILTERS
+// ============================================================
+
+let currentFilters = {
+  region: 'ALL',
+  country: 'ALL',
+  market: 'ALL',
+  family: 'ALL',
+  brand: 'ALL'
+};
+
+function bLOSSES(st) {
+  var st=st||{};
+  var h = '<div class="card"><h3>📉 Year-on-Year Losses Ranking — All Zones</h3>';
+  h += '<div class="st">Top 1000 revenue losses (2024→2025) ranked by absolute CHF value decline across all regions, countries, and stores. Use the filter bar above to narrow results.</div>';
+  
+  h += '<div id="losses-table-container"></div>';
+  h += '</div>';
+  
+  // Apply standard filter bar filters to losses data
+  setTimeout(function() {
+    var filtered = yoyLossesAll.filter(function(item) {
+      if(st.region && item.Region !== st.region) return false;
+      if(st.country && item.COUNTRY !== st.country) return false;
+      if(st.airport && item.AIRPORT !== st.airport) return false;
+      if(st.market && item.MARKET !== st.market) return false;
+      if(st.family && item.FAMILY !== st.family) return false;
+      return true;
+    });
+    renderLossesTable(filtered);
+  }, 100);
+  
+  return h;
+}
+
+function applyLossesFilters() {
+  currentFilters.region = document.getElementById('filter-region').value;
+  currentFilters.country = document.getElementById('filter-country').value;
+  currentFilters.market = document.getElementById('filter-market').value;
+  currentFilters.family = document.getElementById('filter-family').value;
+  currentFilters.brand = document.getElementById('filter-brand').value;
+  
+  var filtered = yoyLossesAll.filter(function(item) {
+    return (currentFilters.region === 'ALL' || item.Region === currentFilters.region) &&
+           (currentFilters.country === 'ALL' || item.COUNTRY === currentFilters.country) &&
+           (currentFilters.market === 'ALL' || item.MARKET === currentFilters.market) &&
+           (currentFilters.family === 'ALL' || item.FAMILY === currentFilters.family) &&
+           (currentFilters.brand === 'ALL' || item.BRAND === currentFilters.brand);
+  });
+  
+  renderLossesTable(filtered);
+}
+
+function resetLossesFilters() {
+  document.getElementById('filter-region').value = 'ALL';
+  document.getElementById('filter-country').value = 'ALL';
+  document.getElementById('filter-market').value = 'ALL';
+  document.getElementById('filter-family').value = 'ALL';
+  document.getElementById('filter-brand').value = 'ALL';
+  currentFilters = {region: 'ALL', country: 'ALL', market: 'ALL', family: 'ALL', brand: 'ALL'};
+  renderLossesTable(yoyLossesAll);
+}
+
+function renderLossesTable(data) {
+  var h = '<div class="card"><div class="tbl-scroll"><table><thead><tr>';
+  h += '<th>Rank</th><th>Region</th><th>Country</th><th>Market</th><th>Airport</th><th>Store</th><th>SKU</th><th>Family</th><th>Brand</th>';
+  h += '<th style="text-align:right">2024</th><th style="text-align:right">2025</th>';
+  h += '<th style="text-align:right;border-left:2px solid #ef4444">Loss (CHF)</th><th style="text-align:right">YoY %</th>';
+  h += '</tr></thead><tbody>';
+  
+  var displayData = data.slice(0, 200);  // Top 200
+  
+  displayData.forEach(function(item, idx) {
+    var cls = item.YOY_PCT < -30 ? 'd30p' : item.YOY_PCT < -20 ? 'd20p' : item.YOY_PCT < -10 ? 'd10p' : '';
+    h += '<tr>';
+    h += '<td style="font-weight:700">' + (idx + 1) + '</td>';
+    h += '<td>' + item.Region + '</td>';
+    h += '<td>' + item.COUNTRY + '</td>';
+    h += '<td style="font-size:9px">' + item.MARKET + '</td>';
+    h += '<td style="font-size:9px">' + item.AIRPORT + '</td>';
+    h += '<td style="font-size:9px;max-width:200px;overflow:hidden;text-overflow:ellipsis" title="' + item.STORE + '">' + item.STORE.substring(0, 25) + '</td>';
+    h += '<td style="font-weight:700">' + item.SKU + '</td>';
+    h += '<td style="font-size:9px">' + (item.FAMILY || 'N/A') + '</td>';
+    h += '<td style="font-size:9px">' + item.BRAND + '</td>';
+    h += '<td style="text-align:right">' + Math.round(item.VALUE_2024).toLocaleString('en') + '</td>';
+    h += '<td style="text-align:right">' + Math.round(item.VALUE_2025).toLocaleString('en') + '</td>';
+    h += '<td class="' + cls + '" style="text-align:right;border-left:2px solid #ef4444;font-weight:700">' + Math.round(item.LOSS).toLocaleString('en') + '</td>';
+    h += '<td class="' + cls + '" style="text-align:right;font-weight:700">' + item.YOY_PCT.toFixed(1) + '%</td>';
+    h += '</tr>';
+  });
+  
+  h += '</tbody></table></div>';
+  
+  var totalLoss = data.reduce(function(sum, item) { return sum + item.LOSS; }, 0);
+  var avgYoY = data.reduce(function(sum, item) { return sum + item.YOY_PCT; }, 0) / Math.max(data.length, 1);
+  
+  h += '<div class="insight">📊 <b>Filtered Results:</b> Showing ' + displayData.length + ' of ' + data.length + ' losses. ';
+  h += 'Total loss: <span class="dn">CHF ' + Math.round(totalLoss).toLocaleString('en') + '</span> | ';
+  h += 'Avg decline: <span class="dn">' + avgYoY.toFixed(1) + '%</span></div>';
+  h += '</div>';
+  
+  document.getElementById('losses-table-container').innerHTML = h;
+}
+
+function bADF(stOrCountries){
+var st=(stOrCountries&&typeof stOrCountries==='object'&&!Array.isArray(stOrCountries))?stOrCountries:{};
+var allC=Object.keys(skuStoreAmericasDF);
+var countries=st.country?allC.filter(function(c){return c===st.country;}):allC;
+
+var h='<div class="card"><h3>SKU × Store Revenue — Americas Duty Free</h3><div class="st">Same 2024 | 2025 | % YoY format, broken down by country with individual stores as columns. Duty Free channel only.</div></div>';
+countries.forEach(function(country){
+var d=skuStoreAmericasDF[country];
+if(!d) return;
+var cols=d.countries;
+var rows=d.rows;
+if(st.airport){var mc=cols.filter(function(c){return c.indexOf(st.airport)>=0;});if(mc.length)cols=mc;else return;}
+if(st.family){var fSkus=FAM_SKU_MAP[st.family]||[];if(fSkus.length)rows=rows.filter(function(r){return fSkus.indexOf(r.d24.sku)>=0;});}
+h+='<div class="card"><h3>'+country+' — Duty Free Stores</h3><div class="st">'+rows.length+' SKUs × '+cols.length+' stores.</div>';
+h+='<div class="tbl-scroll"><table><thead><tr><th rowspan="2" style="border-right:2px solid var(--accent)">SKU</th><th colspan="'+(cols.length+1)+'" style="text-align:center;border-right:2px solid var(--accent);background:#1e293b">2024</th><th colspan="'+(cols.length+1)+'" style="text-align:center;border-right:2px solid #f59e0b;background:#1e293b">2025</th><th colspan="'+(cols.length+1)+'" style="text-align:center;background:#292524">% YoY</th></tr><tr>';
+h+='<th>TOTAL</th>';
+cols.forEach(function(c){h+='<th style="font-size:8px;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+c+'">'+c.substring(0,18)+'</th>';});
+h+='<th style="border-left:2px solid var(--accent)">TOTAL</th>';
+cols.forEach(function(c){h+='<th style="font-size:8px;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+c+'">'+c.substring(0,18)+'</th>';});
+h+='<th style="border-left:2px solid #f59e0b">TOTAL</th>';
+cols.forEach(function(c){h+='<th style="font-size:8px;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+c+'">'+c.substring(0,18)+'</th>';});
+h+='</tr></thead><tbody>';
+rows.forEach(function(row){
+var d24=row.d24, d25=row.d25;
+var t24=d24.total, t25=d25.total;
+var totalPct=t24>0?((t25/t24-1)):0;
+var totalCls=totalPct>0.3?'g30p':totalPct>0.2?'g20p':totalPct>0.1?'g10p':totalPct<-0.3?'d30p':totalPct<-0.2?'d20p':totalPct<-0.1?'d10p':'';
+h+='<tr><td style="border-right:2px solid var(--accent);font-weight:700">'+d24.sku+'</td>';
+h+='<td style="font-weight:700">'+Math.round(t24).toLocaleString('en')+'</td>';
+cols.forEach(function(c){var v=d24[c]||0;h+='<td style="font-size:9px">'+(v>0?Math.round(v).toLocaleString('en'):'-')+'</td>';});
+h+='<td class="'+totalCls+'" style="border-left:2px solid var(--accent);font-weight:700">'+Math.round(t25).toLocaleString('en')+'</td>';
+cols.forEach(function(c){var v24=d24[c]||0,v25=d25[c]||0;var pct=v24>0?((v25/v24-1)):0;var cls=pct>0.3?'g30p':pct>0.2?'g20p':pct>0.1?'g10p':pct<-0.3?'d30p':pct<-0.2?'d20p':pct<-0.1?'d10p':'';h+='<td class="'+cls+'" style="font-size:9px">'+(v25>0?Math.round(v25).toLocaleString('en'):'-')+'</td>';});
+h+='<td class="'+totalCls+'" style="border-left:2px solid #f59e0b;font-weight:700">'+(t24>0?((totalPct*100)>=0?'+':'')+Math.round(totalPct*100)+'%':'NEW')+'</td>';
+cols.forEach(function(c){var v24=d24[c]||0,v25=d25[c]||0;var pct=v24>0?((v25/v24-1)):0;var cls=v24>0?(pct>0.3?'g30p':pct>0.2?'g20p':pct>0.1?'g10p':pct<-0.3?'d30p':pct<-0.2?'d20p':pct<-0.1?'d10p':''):'';var txt=v24>0?((pct>=0?'+':'')+Math.round(pct*100)+'%'):(v25>0?'NEW':'-');h+='<td class="'+cls+'" style="text-align:center;font-size:9px">'+txt+'</td>';});
+h+='</tr>';});
+h+='</tbody></table></div>';
+var growing=rows.filter(function(r){return r.d25.total>r.d24.total&&r.d24.total>500;}).length;
+var declining=rows.filter(function(r){return r.d25.total<r.d24.total&&r.d24.total>500;}).length;
+h+='<div class="insight">📊 <b>'+country+' DF store analysis:</b> Of '+rows.length+' SKUs, <span class="up">'+growing+' growing</span> and <span class="dn">'+declining+' declining</span> vs 2024.</div>';
+h+='</div>';});
+return h;
+}
+
+// ============================================================
+// SKU × STORE — AMERICAS DUTY PAID TAB
+// ============================================================
+function bADP(stOrCountries){
+var st=(stOrCountries&&typeof stOrCountries==='object'&&!Array.isArray(stOrCountries))?stOrCountries:{};
+var allC=Object.keys(skuStoreAmericasDP);
+var countries=st.country?allC.filter(function(c){return c===st.country;}):allC;
+
+var h='<div class="card"><h3>SKU × Store Revenue — Americas Duty Paid</h3><div class="st">Same 2024 | 2025 | % YoY format, broken down by country with individual stores as columns. Duty Paid channel only.</div></div>';
+countries.forEach(function(country){
+var d=skuStoreAmericasDP[country];
+if(!d) return;
+var cols=d.countries;
+var rows=d.rows;
+if(st.airport){var mc=cols.filter(function(c){return c.indexOf(st.airport)>=0;});if(mc.length)cols=mc;else return;}
+if(st.family){var fSkus=FAM_SKU_MAP[st.family]||[];if(fSkus.length)rows=rows.filter(function(r){return fSkus.indexOf(r.d24.sku)>=0;});}
+h+='<div class="card"><h3>'+country+' — Duty Paid Stores</h3><div class="st">'+rows.length+' SKUs × '+cols.length+' stores.</div>';
+h+='<div class="tbl-scroll"><table><thead><tr><th rowspan="2" style="border-right:2px solid var(--accent)">SKU</th><th colspan="'+(cols.length+1)+'" style="text-align:center;border-right:2px solid var(--accent);background:#1e293b">2024</th><th colspan="'+(cols.length+1)+'" style="text-align:center;border-right:2px solid #f59e0b;background:#1e293b">2025</th><th colspan="'+(cols.length+1)+'" style="text-align:center;background:#292524">% YoY</th></tr><tr>';
+h+='<th>TOTAL</th>';
+cols.forEach(function(c){h+='<th style="font-size:8px;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+c+'">'+c.substring(0,18)+'</th>';});
+h+='<th style="border-left:2px solid var(--accent)">TOTAL</th>';
+cols.forEach(function(c){h+='<th style="font-size:8px;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+c+'">'+c.substring(0,18)+'</th>';});
+h+='<th style="border-left:2px solid #f59e0b">TOTAL</th>';
+cols.forEach(function(c){h+='<th style="font-size:8px;max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+c+'">'+c.substring(0,18)+'</th>';});
+h+='</tr></thead><tbody>';
+rows.forEach(function(row){
+var d24=row.d24, d25=row.d25;
+var t24=d24.total, t25=d25.total;
+var totalPct=t24>0?((t25/t24-1)):0;
+var totalCls=totalPct>0.3?'g30p':totalPct>0.2?'g20p':totalPct>0.1?'g10p':totalPct<-0.3?'d30p':totalPct<-0.2?'d20p':totalPct<-0.1?'d10p':'';
+h+='<tr><td style="border-right:2px solid var(--accent);font-weight:700">'+d24.sku+'</td>';
+h+='<td style="font-weight:700">'+Math.round(t24).toLocaleString('en')+'</td>';
+cols.forEach(function(c){var v=d24[c]||0;h+='<td style="font-size:9px">'+(v>0?Math.round(v).toLocaleString('en'):'-')+'</td>';});
+h+='<td class="'+totalCls+'" style="border-left:2px solid var(--accent);font-weight:700">'+Math.round(t25).toLocaleString('en')+'</td>';
+cols.forEach(function(c){var v24=d24[c]||0,v25=d25[c]||0;var pct=v24>0?((v25/v24-1)):0;var cls=pct>0.3?'g30p':pct>0.2?'g20p':pct>0.1?'g10p':pct<-0.3?'d30p':pct<-0.2?'d20p':pct<-0.1?'d10p':'';h+='<td class="'+cls+'" style="font-size:9px">'+(v25>0?Math.round(v25).toLocaleString('en'):'-')+'</td>';});
+h+='<td class="'+totalCls+'" style="border-left:2px solid #f59e0b;font-weight:700">'+(t24>0?((totalPct*100)>=0?'+':'')+Math.round(totalPct*100)+'%':'NEW')+'</td>';
+cols.forEach(function(c){var v24=d24[c]||0,v25=d25[c]||0;var pct=v24>0?((v25/v24-1)):0;var cls=v24>0?(pct>0.3?'g30p':pct>0.2?'g20p':pct>0.1?'g10p':pct<-0.3?'d30p':pct<-0.2?'d20p':pct<-0.1?'d10p':''):'';var txt=v24>0?((pct>=0?'+':'')+Math.round(pct*100)+'%'):(v25>0?'NEW':'-');h+='<td class="'+cls+'" style="text-align:center;font-size:9px">'+txt+'</td>';});
+h+='</tr>';});
+h+='</tbody></table></div>';
+var growing=rows.filter(function(r){return r.d25.total>r.d24.total&&r.d24.total>500;}).length;
+var declining=rows.filter(function(r){return r.d25.total<r.d24.total&&r.d24.total>500;}).length;
+h+='<div class="insight">📊 <b>'+country+' DP store analysis:</b> Of '+rows.length+' SKUs, <span class="up">'+growing+' growing</span> and <span class="dn">'+declining+' declining</span> vs 2024.</div>';
+h+='</div>';});
+return h;
+}
+
+// TABS CONFIG & NAVIGATION
+// ============================================================
+
+// ============================================================
+// FILTER SYSTEM
+// ============================================================
+var airportMeta={};
+(function(){
+  var src=[
+    {locs:tEMEA,zone:'EMEA',market:null},
+    {locs:tAME,zone:'AMERICA',market:'BOTH'},
+    {locs:tDF,zone:'AMERICA',market:'DUTY FREE'},
+    {locs:tDP,zone:'AMERICA',market:'DUTY PAID'},
+    {locs:tUK,zone:'UK',market:null},
+    {locs:tASIA,zone:'ASIA',market:null}
+  ];
+  src.forEach(function(s){s.locs.forEach(function(l){if(!airportMeta[l.a])airportMeta[l.a]={country:l.c||'',zone:s.zone};});});
+})();
+
+var filterState={};
+
+// tabId -> which filters to show
+var tabFilterCfg={
+  'ES':    {region:1,country:1,airport:1,family:1,market:1,month:1},
+  'OV':    {region:1,country:1,airport:1,family:1,market:1,month:1},
+  'EMEA':  {region:0,country:1,airport:1,family:1,market:0,month:1},
+  'AME':   {region:0,country:1,airport:1,family:1,market:1,month:1},
+  'DF':    {region:0,country:1,airport:1,family:1,market:0,month:1},
+  'DP':    {region:0,country:1,airport:1,family:1,market:0,month:1},
+  'UK':    {region:0,country:0,airport:1,family:1,market:0,month:1},
+  'ASIA':  {region:0,country:1,airport:1,family:1,market:0,month:1},
+  'CAT':   {region:1,country:1,airport:0,family:1,market:1,month:1},
+  'SKUC':  {region:1,country:1,airport:1,family:1,market:1,month:1},
+  'SKUS':  {region:1,country:1,airport:1,family:1,market:0,month:1},
+  'ADF':   {region:0,country:1,airport:1,family:1,market:0,month:1},
+  'ADP':   {region:0,country:1,airport:1,family:1,market:0,month:1},
+  'LOSSES':{region:1,country:1,airport:1,family:1,market:1,month:1},
+'CEI':{region:0,country:1,airport:1,family:0,market:0,month:1}
+};
+
+function getTabLocs(id){
+  if(id==='EMEA') return tEMEA;
+  if(id==='AME') return tAME;
+  if(id==='DF') return tDF;
+  if(id==='DP') return tDP;
+  if(id==='UK') return tUK;
+  if(id==='ASIA') return tASIA;
+  if(id==='CEI') return tCEI;
+  // For global tabs, merge all and optionally filter by region
+  var all=tEMEA.concat(tAME).concat(tUK).concat(tASIA);
+  var st=filterState[id]||{};
+  if(st.region){
+    all=all.filter(function(l){
+      var meta=airportMeta[l.a]||{};
+      return meta.zone===st.region;
+    });
+  }
+  return all;
+}
+
+function getTabCubeKey(id){
+  var st=filterState[id]||{};
+  var ZONE_KEY={'EMEA':'EMEA','Americas':'AME','UK':'UK','ASIA':'ASIA','CEI & CRUISES':'CEI'};
+  if(id==='OV'||id==='ES') return (st.region&&ZONE_KEY[st.region])||'OV';
+  if(CUBES[id]) return id;
+  return null;
+}
+
+function getDisabledOptions(id){
+  var st=filterState[id]||{};
+  var cubeKey=effectiveCubeKey(id,getTabCubeKey(id));
+  var mos=st.month?[st.month]:null;
+  var result={markets:{},families:{},months:{}};
+
+  // Market: check DF/DP cubes for any matching country/airport
+  if(tabFilterCfg[id]&&tabFilterCfg[id].market){
+    var mktHas=function(mk){
+      return (CUBES[mk]||[]).some(function(l){
+        if(st.country&&l.c!==st.country) return false;
+        if(st.airport&&l.a!==st.airport) return false;
+        return true;
+      });
+    };
+    result.markets['DUTY FREE']=!mktHas('DF');
+    result.markets['DUTY PAID']=!mktHas('DP');
+  }
+
+  // Family: scale FAM_CUBES by location-filtered proportion, disable if y25=0
+  if(cubeKey&&tabFilterCfg[id]&&tabFilterCfg[id].family){
+    var totAll=cubeSum(CUBES[cubeKey]||[],[2025],mos);
+    var filtApts=null;
+    if(st.country||st.airport){
+      filtApts=(CUBES[cubeKey]||[]).filter(function(l){
+        if(st.country&&l.c!==st.country) return false;
+        if(st.airport&&l.a!==st.airport) return false;
+        return true;
+      }).map(function(l){return l.a;});
     }
+    var totFilt=filtApts!==null
+      ?cubeSum((CUBES[cubeKey]||[]).filter(function(l){return filtApts.indexOf(l.a)>=0;}), [2025], mos)
+      :totAll;
+    var ratio=(totAll>0&&totFilt>0)?totFilt/totAll:1;
+    (FAM_CUBES[cubeKey]||[]).forEach(function(f){
+      result.families[f.f]=(Math.round(cubeSum([f],[2025],mos)*ratio)<=0);
+    });
+  }
 
-    Auth.renderUser('#user-name', '#user-email');
-    Auth.renderRoleBadge('#role-badge');
+  // Month: disable months with no 2025 data for the current location filter
+  if(cubeKey&&tabFilterCfg[id]&&tabFilterCfg[id].month){
+    var raw=(CUBES[cubeKey]||[]).filter(function(l){
+      if(st.country&&l.c!==st.country) return false;
+      if(st.airport&&l.a!==st.airport) return false;
+      return true;
+    });
+    MONTHS.forEach(function(mo){
+      result.months[mo]=(cubeSum(raw,[2025],[mo])<=0);
+    });
+  }
 
-    if (Auth.isAdminOrOwner()) {
-      document.getElementById('nav-admin-dropdown').style.display = 'flex';
+  return result;
+}
+
+function renderFilterBar(id){
+  var cfg=tabFilterCfg[id];if(!cfg)return '';
+  var st=filterState[id]||{};
+  var disabled=getDisabledOptions(id);
+  var locs=getTabLocs(id);
+  var countries=[],airports=[],families=[];
+  // For global tabs (ES, OV, CAT, SKUC), get ALL airports across all zones
+  var allLocs=tEMEA.concat(tAME).concat(tUK).concat(tASIA);
+  var srcLocs=(['ES','OV','CAT','SKUC','LOSSES'].indexOf(id)>=0)?allLocs:locs;
+  // Filter source locs by region if set
+  if(st.region){
+    srcLocs=srcLocs.filter(function(l){var m=airportMeta[l.a]||{};return m.zone===st.region;});
+  }
+  srcLocs.forEach(function(l){
+    if(l.c&&countries.indexOf(l.c)<0)countries.push(l.c);
+    if(airports.indexOf(l.a)<0)airports.push(l.a);
+  });
+  countries.sort();airports.sort();
+  // For ADF/ADP country lists
+  if(id==='ADF')countries=Object.keys(skuStoreAmericasDF).sort();
+  if(id==='ADP')countries=Object.keys(skuStoreAmericasDP).sort();
+  if(id==='SKUS')countries=Object.keys(skuStore).sort();
+  // Build families list - use zone-specific if applicable
+  var famSrc=famG;
+  if(id==='EMEA')famSrc=famEMEA;
+  else if(id==='AME')famSrc=famAME;
+  else if(id==='UK')famSrc=famUK;
+  else if(id==='ASIA')famSrc=famASIA;
+  else if(id==='DF')famSrc=famDF;
+  else if(id==='DP')famSrc=famDP;
+  famSrc.forEach(function(f){if(families.indexOf(f.f)<0)families.push(f.f);});
+  families.sort();
+  
+  var h='<div class="filter-bar">';
+  
+  if(cfg.region){
+    h+='<div class="filter-group"><label>Region</label><select class="filter-select" onchange="applyFlt(\''+id+'\',\'region\',this.value)">';
+    h+='<option value="">All Regions</option>';
+    ['AMERICA','ASIA','CEI & CRUISES','EMEA','UK'].forEach(function(r){
+      h+='<option'+(st.region===r?' selected':'')+' value="'+r+'">'+(r==='AMERICA'?'Americas':r)+'</option>';
+    });
+    h+='</select></div>';
+  }
+  
+  if(cfg.country&&countries.length){
+    // If country filter depends on region, filter countries
+    var filtCountries=countries;
+    if(st.region){
+      filtCountries=countries.filter(function(c){
+        // check if any airport in this country matches the region
+        return locs.some(function(l){return l.c===c&&airportMeta[l.a]&&airportMeta[l.a].zone===st.region;});
+      });
     }
-    if (Auth.isOwner()) {
-      document.getElementById('nav-projects-admin-link').style.display = 'block';
+    h+='<div class="filter-group"><label>Country</label><select class="filter-select" onchange="applyFlt(\''+id+'\',\'country\',this.value)">';
+    h+='<option value="">All Countries</option>';
+    filtCountries.forEach(function(c){
+      h+='<option'+(st.country===c?' selected':'')+' value="'+c+'">'+(c||'—')+'</option>';
+    });
+    h+='</select></div>';
+  }
+  
+  if(cfg.airport&&airports.length){
+    // Filter airports by country if selected
+    var filtAirports=airports;
+    if(st.country){
+      filtAirports=locs.filter(function(l){return l.c===st.country;}).map(function(l){return l.a;}).filter(function(a,i,arr){return arr.indexOf(a)===i;}).sort();
     }
+    h+='<div class="filter-group"><label>Airport</label><select class="filter-select" onchange="applyFlt(\''+id+'\',\'airport\',this.value)">';
+    h+='<option value="">All Airports</option>';
+    filtAirports.forEach(function(a){
+      h+='<option'+(st.airport===a?' selected':'')+' value="'+a+'">'+(a||'—')+'</option>';
+    });
+    h+='</select></div>';
+  }
+  
+  if(cfg.family&&families.length){
+    h+='<div class="filter-group"><label>Family</label><select class="filter-select" onchange="applyFlt(\''+id+'\',\'family\',this.value)">';
+    h+='<option value="">All Families</option>';
+    families.forEach(function(f){
+      var dis=disabled.families[f]?' disabled':'';
+      h+='<option'+(st.family===f?' selected':'')+dis+' value="'+f+'">'+(f||'—')+'</option>';
+    });
+    h+='</select></div>';
+  }
+  
+  if(cfg.market){
+    h+='<div class="filter-group"><label>Market</label><select class="filter-select" onchange="applyFlt(\''+id+'\',\'market\',this.value)">';
+    h+='<option value="">All Markets</option>';
+    h+='<option'+(st.market==='DUTY FREE'?' selected':'')+(disabled.markets['DUTY FREE']?' disabled':'')+' value="DUTY FREE">Duty Free</option>';
+    h+='<option'+(st.market==='DUTY PAID'?' selected':'')+(disabled.markets['DUTY PAID']?' disabled':'')+' value="DUTY PAID">Duty Paid</option>';
+    h+='</select></div>';
+  }
+  
+  if(cfg.month){
+    var months = window.MONTHS || [];
+    h+='<div class="filter-group"><label>Month</label><select class="filter-select" onchange="applyFlt(\''+id+'\',\'month\',this.value)">';
+    h+='<option value="">All Months</option>';
+    months.forEach(function(m,i){
+      var dis=disabled.months[m]?' disabled':'';
+      h+='<option'+(st.month===m?' selected':'')+dis+' value="'+m+'">'+m+'</option>';
+    });
+    h+='</select></div>';
+  }
+  
+  var activeN=Object.values(st).filter(function(v){return v&&v!=='';}).length;
+  h+='<button class="filter-reset" onclick="resetFlt(\''+id+'\')">✕ Reset</button>';
+  if(activeN)h+='<span class="filter-active-badge">'+activeN+' active</span>';
+  h+='</div>';
+  return h;
+}
 
-    // Build projects dropdown
-    const projects = MockDB.getProjects(user.role).filter(p =>
-      user.role === 'owner' || MockDB.canUserViewProject(user.id, p.slug)
-    );
-    const menu = document.getElementById('nav-projects-menu');
-    menu.innerHTML = projects.map(p =>
-      `<a href="/${p.slug}/index.html" class="${p.slug === 'avolta' ? 'active' : ''}">`+
-      `<span class="menu-icon">${p.icon}</span> ${p.name}</a>`
-    ).join('') || '<div class="dropdown-label">No projects available</div>';
-  </script>
+function applyFlt(id,key,val){
+  if(!filterState[id])filterState[id]={};
+  filterState[id][key]=val;
+  if(key==='country')filterState[id].airport='';
+  if(key==='region'){filterState[id].country='';filterState[id].airport='';}
+  showTab(id,true);
+}
+
+function resetFlt(id){filterState[id]={};showTab(id,true);}
+
+
+// Compute totals for a month-filtered context
+function fMoTot(id,tot,mo){
+  var st=filterState[id]||{};
+  if(!st.month)return tot;
+  var mData=mo.find(function(m){return m.m===st.month;});
+  if(!mData)return tot;
+  var ratio24=mo.reduce(function(s,m){return s+m.a;},0)>0?mData.a/mo.reduce(function(s,m){return s+m.a;},0):1;
+  var ratio25=mo.reduce(function(s,m){return s+m.b;},0)>0?mData.b/mo.reduce(function(s,m){return s+m.b;},0):1;
+  return {y24:Math.round(tot.y24*ratio24),y25:Math.round(tot.y25*ratio25),u25:Math.round((tot.u25||0)*ratio25)};
+}
+
+
+// Helpers to filter data
+
+// ================================================================
+// FILTER ENGINE v2 — cube-based real-time filtering
+// ================================================================
+var MONTHS = []; // loaded via API
+
+function cubeSum(locs, years, months){
+  // years: [2024] or [2024,2025] or [2023]
+  // months: null (all) or ['Jan','Feb',...]
+  var mos = months || MONTHS;
+  return locs.reduce(function(s,l){
+    return s + years.reduce(function(sy,yr){
+      return sy + mos.reduce(function(sm,mo){
+        return sm + (l[yr+'_'+mo]||0);
+      },0);
+    },0);
+  },0);
+}
+
+function cubeLoc(locs){
+  // Aggregate cube entries to {a,c,y23,y24,y25} for a given filtered locs array
+  return locs.map(function(l){
+    var y23=cubeSum([l],[2023],null);
+    var y24=cubeSum([l],[2024],null);
+    var y25=cubeSum([l],[2025],null);
+    var yoy=y24>0?Math.round((y25/y24-1)*1000)/10:0;
+    return {a:l.a,c:l.c,y23:Math.round(y23),y24:Math.round(y24),y25:Math.round(y25),yoy:yoy};
+  }).filter(function(l){return l.y24>0||l.y25>0;})
+    .sort(function(a,b){return b.y25-a.y25;});
+}
+
+// Returns the cube key to use after resolving the market filter
+function effectiveCubeKey(tabId,cubeKey){
+  var st=filterState[tabId]||{};
+  if(st.market==='DUTY FREE'&&(cubeKey==='AME'||cubeKey==='OV')) return 'DF';
+  if(st.market==='DUTY PAID'&&(cubeKey==='AME'||cubeKey==='OV')) return 'DP';
+  return cubeKey;
+}
+// Returns the share of a family's revenue vs total for given cube/years/months
+function famRatio(ck,fam,yrs,mos){
+  var fd=FAM_CUBES[ck]||[];
+  var sel=null; fd.forEach(function(f){if(f.f===fam)sel=f;});
+  if(!sel) return 0;
+  var tot=cubeSum(fd,yrs,mos);
+  return tot>0?cubeSum([sel],yrs,mos)/tot:0;
+}
+
+function cubeLocFiltered(tabId, cubeKey){
+  var st = filterState[tabId]||{};
+  var ck=effectiveCubeKey(tabId,cubeKey);
+  var raw = (CUBES[ck]||[]).filter(function(l){
+    if(st.country && l.c !== st.country) return false;
+    if(st.airport && l.a !== st.airport) return false;
+    return true;
+  });
+  // Apply month filter
+  var mos = st.month ? [st.month] : null;
+  var fr24=st.family?famRatio(ck,st.family,[2024],mos):1;
+  var fr25=st.family?famRatio(ck,st.family,[2025],mos):1;
+  return raw.map(function(l){
+    var y23=cubeSum([l],[2023],null);
+    var y24=Math.round(cubeSum([l],[2024],mos)*fr24);
+    var y25=Math.round(cubeSum([l],[2025],mos)*fr25);
+    var yoy=y24>0?Math.round((y25/y24-1)*1000)/10:0;
+    var tot=cubeSum(CUBES[ck]||[],[2025],mos)*fr25;
+    return {a:l.a,c:l.c,
+            y23:Math.round(y23),
+            y24:y24,
+            y25:y25,
+            yoy:yoy,
+            s:tot>0?Math.round(y25/tot*1000)/10:0};
+  }).filter(function(l){return l.y24>0||l.y25>0;})
+    .sort(function(a,b){return b.y25-a.y25;});
+}
+
+function cubeMonthly(tabId, cubeKey){
+  var st = filterState[tabId]||{};
+  var ck=effectiveCubeKey(tabId,cubeKey);
+  var raw = (CUBES[ck]||[]).filter(function(l){
+    if(st.country && l.c !== st.country) return false;
+    if(st.airport && l.a !== st.airport) return false;
+    return true;
+  });
+  if(st.month){
+    return [{m:st.month,
+             a:Math.round(cubeSum(raw,[2024],[st.month])*(st.family?famRatio(ck,st.family,[2024],[st.month]):1)),
+             b:Math.round(cubeSum(raw,[2025],[st.month])*(st.family?famRatio(ck,st.family,[2025],[st.month]):1))}];
+  }
+  return MONTHS.map(function(mo){
+    return {m:mo,
+            a:Math.round(cubeSum(raw,[2024],[mo])*(st.family?famRatio(ck,st.family,[2024],[mo]):1)),
+            b:Math.round(cubeSum(raw,[2025],[mo])*(st.family?famRatio(ck,st.family,[2025],[mo]):1))};
+  });
+}
+
+function cubeFam(tabId, cubeKey){
+  var st = filterState[tabId]||{};
+  var ck=effectiveCubeKey(tabId,cubeKey);
+  // Get airports in filter
+  var filtApts = null;
+  if(st.country || st.airport){
+    filtApts = (CUBES[ck]||[])
+      .filter(function(l){
+        if(st.country && l.c !== st.country) return false;
+        if(st.airport && l.a !== st.airport) return false;
+        return true;
+      }).map(function(l){return l.a;});
+  }
+  var mos = st.month ? [st.month] : null;
+  var famRaw = FAM_CUBES[ck]||[];
+
+  // If we have airport/country filter, we need to scale family data by the filtered proportion
+  var totAll = cubeSum(CUBES[ck]||[], [2025], mos);
+  var totFilt = filtApts !== null
+    ? cubeSum((CUBES[ck]||[]).filter(function(l){return filtApts.indexOf(l.a)>=0;}), [2025], mos)
+    : totAll;
+  var ratio = (totAll > 0 && totFilt > 0) ? totFilt/totAll : 1;
+
+  return famRaw.filter(function(f){
+    if(st.family && f.f !== st.family) return false;
+    return true;
+  }).map(function(f){
+    var y23=cubeSum([f],[2023],null);
+    var y24=Math.round(cubeSum([f],[2024],mos)*ratio);
+    var y25=Math.round(cubeSum([f],[2025],mos)*ratio);
+    var ch=y25-y24;
+    var yoy=y24>0?(y25/y24-1):0;
+    var totF=famRaw.reduce(function(s,x){
+      return s+Math.round(cubeSum([x],[2025],mos)*ratio);
+    },0);
+    return {f:f.f,y23:Math.round(y23),y24:y24,y25:y25,ch:ch,yoy:yoy,
+            sh:totF>0?Math.round(y25/totF*1000)/10:0};
+  }).filter(function(f){return f.y24>0||f.y25>0;})
+    .sort(function(a,b){return b.y25-a.y25;});
+}
+
+function cubeKPI(tabId, cubeKey){
+  var st = filterState[tabId]||{};
+  var ck=effectiveCubeKey(tabId,cubeKey);
+  var raw = (CUBES[ck]||[]).filter(function(l){
+    if(st.country && l.c !== st.country) return false;
+    if(st.airport && l.a !== st.airport) return false;
+    return true;
+  });
+  var mos = st.month ? [st.month] : null;
+  var fr24=st.family?famRatio(ck,st.family,[2024],mos):1;
+  var fr25=st.family?famRatio(ck,st.family,[2025],mos):1;
+  var y24 = Math.round(cubeSum(raw,[2024],mos)*fr24);
+  var y25 = Math.round(cubeSum(raw,[2025],mos)*fr25);
+  var yoy = y24>0?Math.round((y25/y24-1)*1000)/10:0;
+  var moLabel = st.month ? (' — '+st.month) : '';
+  return {y24:y24, y25:y25, yoy:yoy, moLabel:moLabel};
+}
+
+// Country table from cube
+function cubeCountryTable(tabId, cubeKey){
+  var st = filterState[tabId]||{};
+  var ck=effectiveCubeKey(tabId,cubeKey);
+  var mos = st.month ? [st.month] : null;
+  var fr24=st.family?famRatio(ck,st.family,[2024],mos):1;
+  var fr25=st.family?famRatio(ck,st.family,[2025],mos):1;
+  // Group by country — apply country/airport filter
+  var raw = (CUBES[ck]||[]).filter(function(l){
+    if(st.country && l.c !== st.country) return false;
+    if(st.airport && l.a !== st.airport) return false;
+    return true;
+  });
+  var byCtry = {};
+  raw.forEach(function(l){
+    if(!byCtry[l.c]) byCtry[l.c]={c:l.c,y23:0,y24:0,y25:0};
+    byCtry[l.c].y23 += cubeSum([l],[2023],null);
+    byCtry[l.c].y24 += cubeSum([l],[2024],mos)*fr24;
+    byCtry[l.c].y25 += cubeSum([l],[2025],mos)*fr25;
+  });
+  var rows = Object.values(byCtry).map(function(r){
+    r.y23=Math.round(r.y23); r.y24=Math.round(r.y24); r.y25=Math.round(r.y25);
+    r.yoy1=r.y23>0?Math.round((r.y24/r.y23-1)*1000)/10:0;
+    r.yoy2=r.y24>0?Math.round((r.y25/r.y24-1)*1000)/10:0;
+    var tot=Object.values(byCtry).reduce(function(s,x){return s+x.y25;},0);
+    r.sh=tot>0?Math.round(r.y25/tot*1000)/10:0;
+    return r;
+  }).sort(function(a,b){return b.y25-a.y25;});
+  return CT(rows);
+}
+// ================================================================
+
+
+// fLocs: filter an airport locs array by country/airport from filterState
+// Used by fGL and fDist; for bZ/bZM use cubeLocFiltered instead
+function fLocs(id, locs){
+  var st = filterState[id]||{};
+  return locs.filter(function(l){
+    if(st.country && l.c !== st.country) return false;
+    if(st.airport && l.a !== st.airport) return false;
+    return true;
+  });
+}
+
+function fGL(id,gl){
+  var st=filterState[id]||{};
+  if(!st.airport&&!st.country)return gl;
+  var r={};
+  Object.keys(gl).forEach(function(a){
+    var meta=airportMeta[a]||{};
+    if(st.airport&&a!==st.airport)return;
+    if(st.country&&meta.country!==st.country)return;
+    r[a]=gl[a];
+  });
+  return r;
+}
+function fDist(id,dist){
+  var st=filterState[id]||{};
+  return dist.filter(function(d){
+    if(st.airport&&d.a!==st.airport)return false;
+    var meta=airportMeta[d.a]||{};
+    if(st.country&&meta.country!==st.country)return false;
+    return true;
+  });
+}
+// Filter monthly data by selected month (returns all months if none selected, single-month array if selected)
+function fMo(id,mo){
+  var st=filterState[id]||{};
+  if(!st.month)return mo;
+  return mo.filter(function(m){return m.m===st.month;});
+}
+// Filter locations by month - we use monthly data to adjust y24/y25 on locs proportionally
+// Since we don't have airport-level monthly breakdown, month filter affects charts but location table stays
+function fLocsMonth(id,locs,moZone,moTotal){
+  var st=filterState[id]||{};
+  if(!st.month)return locs;
+  // Find ratio of selected month vs full year for this zone
+  var mData=moZone?moZone.find(function(m){return m.m===st.month;}):null;
+  var mAll=moTotal?moTotal.find(function(m){return m.m===st.month;}):null;
+  if(!mData)return locs;
+  var ratio24=moZone.reduce(function(s,m){return s+m.a;},0)>0?mData.a/moZone.reduce(function(s,m){return s+m.a;},0):1;
+  var ratio25=moZone.reduce(function(s,m){return s+m.b;},0)>0?mData.b/moZone.reduce(function(s,m){return s+m.b;},0):1;
+  return locs.map(function(l){
+    return Object.assign({},l,{y24:Math.round(l.y24*ratio24),y25:Math.round(l.y25*ratio25)});
+  });
+}
+
+
+// ============================================================
+// COUNTRY TABLE BUILDER
+// ============================================================
+
+// Store table builder
+function ST(stores){
+  if(!stores||!stores.length)return '<p style="color:var(--dim)">No data</p>';
+  var h='<table><thead><tr><th>#</th><th>Store</th><th>Airport</th><th>Country</th><th>Zone</th><th>2023</th><th>2024</th><th>2025</th><th>YoY%</th><th>Share</th></tr></thead><tbody>';
+  stores.forEach(function(s,i){
+    h+='<tr>';
+    h+='<td style="color:var(--dim);font-weight:600">'+(i+1)+'</td>';
+    h+='<td style="font-size:11px"><b>'+s.st+'</b></td>';
+    h+='<td><b>'+s.a+'</b></td>';
+    h+='<td>'+s.c+'</td>';
+    h+='<td><span style="font-size:10px;padding:2px 6px;border-radius:4px;background:var(--accent)22;color:var(--accent);font-weight:600">'+s.r+'</span></td>';
+    h+='<td>'+fmt(s.y23)+'</td>';
+    h+='<td>'+fmt(s.y24)+'</td>';
+    h+='<td style="font-weight:700;color:var(--accent)">'+fmt(s.y25)+'</td>';
+    h+='<td><span class="badge '+bg(s.yoy)+'">'+fP(s.yoy)+'</span></td>';
+    h+='<td>'+s.sh+'%</td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  return h;
+}
+
+function CT(countries){
+  if(!countries||!countries.length)return '<p style="color:var(--dim)">No data</p>';
+  var h='<table><thead><tr><th>Country</th><th>2023</th><th>2024</th><th>Δ% 24/23</th><th>2025</th><th>Δ% 25/24</th><th>Share 2025</th></tr></thead><tbody>';
+  countries.forEach(function(c){
+    h+='<tr>';
+    h+='<td><b>'+c.c+'</b></td>';
+    h+='<td>'+fmt(c.y23)+'</td>';
+    h+='<td>'+fmt(c.y24)+'</td>';
+    h+='<td><span class="badge '+bg(c.yoy1)+'">'+fP(c.yoy1)+'</span></td>';
+    h+='<td style="font-weight:700;color:var(--accent)">'+fmt(c.y25)+'</td>';
+    h+='<td><span class="badge '+bg(c.yoy2)+'">'+fP(c.yoy2)+'</span></td>';
+    h+='<td>'+c.sh+'%</td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  return h;
+}
+
+// ============================================================
+// CEI & CRUISES TAB
+// ============================================================
+function bCEI(locs,mo,st){
+  var locs=locs||tCEI; var mo=mo||mCEI; var st=st||{};
+  var tot24=mo.reduce(function(s,m){return s+m.a;},0);
+  var tot25=mo.reduce(function(s,m){return s+m.b;},0);
+  var yoy=tot24>0?((tot25/tot24)-1)*100:0;
+  var moLabel=mo&&mo.length===1?' — '+mo[0].m:'';
+  return '<div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">'+
+    '<div class="kpi"><div class="lbl">CEI & Cruises 2025'+moLabel+'</div><div class="val">'+fmt(tot25)+'</div><div class="chg '+bg(yoy)+'">'+fP(yoy)+' YoY</div></div>'+
+    '<div class="kpi"><div class="lbl">2024 Revenue</div><div class="val">'+fmt(tot24)+'</div></div>'+
+    '<div class="kpi"><div class="lbl">Active Locations</div><div class="val">'+locs.filter(function(l){return l.y25>0;}).length+'</div><div class="chg" style="color:var(--dim)">in 2025</div></div>'+
+    '<div class="kpi"><div class="lbl">Δ Absolute</div><div class="val" style="color:'+(tot25>tot24?'var(--green)':'var(--red)')+'">'+fmt(tot25-tot24)+'</div></div></div>'+
+  '<div class="card"><h3>Top Countries — CEI & Cruises</h3><div class="st">Ranked by 2025 revenue</div>'+
+    locsToCountryTable(locs)+
+    '<div class="insight">🚢 <b>CEI & Cruises analysis:</b> Caribbean Dufry Cruise Services surged +4,285% to CHF 1.4K, driven by duty-free cruise ship retail. Grenada (GND) is stable at CHF 88. This is a small but emerging channel with significant expansion potential in Caribbean cruise retail.</div></div>'+
+  '<div class="card"><h3>Monthly Trend — CEI & Cruises</h3><div class="st">2024 vs 2025</div><div class="chart-wrap sm"><canvas id="ch-CEI-m"></canvas></div>'+
+    '<div class="insight">📅 <b>Seasonality:</b> H2 2025 shows strong growth vs 2024. Sep-Dec all significantly above prior year, driven by Caribbean Dufry cruise operations. Classic cruise seasonality pattern with peak in winter months.</div></div>';
+}
+function renderCEI(mo){
+  var mo=mo||mCEI; if(!mo||!mo.length)return;
+  mkC('ch-CEI-m',{type:'line',data:{labels:mo.map(function(m){return m.m;}),datasets:[{label:'2024',data:mo.map(function(m){return m.a;}),borderColor:'#3b82f6',backgroundColor:'#3b82f622',fill:true,tension:.3},{label:'2025',data:mo.map(function(m){return m.b;}),borderColor:'#f59e0b',backgroundColor:'#f59e0b22',fill:true,tension:.3}]},options:Object.assign({},cDef,{scales:ax})});
+}
+
+
+
+function buildZoneCountryTable(zone){
+  if(zone==='EMEA')return CT(ctryEMEA);
+  if(zone==='AMERICA')return CT(ctryAME);
+  if(zone==='UK')return CT(ctryUK);
+  if(zone==='ASIA')return CT(ctryASIA);
+  if(zone==='CEI & CRUISES')return CT(ctryCEI);
+  return '';
+}
+function buildMktCountryTable(label){
+  if(label==='DUTY FREE')return CT(ctryDF);
+  if(label==='DUTY PAID')return CT(ctryDP);
+  return '';
+}
+
+var tabDefs = []; // loaded via API
+
+
+var _curTab=''; // set by showTab
+
+function cubeCountryTable_byZone(zone){
+  var cubeKey=zone==='AMERICA'?'AME':zone;
+  return cubeCountryTable(_curTab, cubeKey);
+}
+function cubeCountryTable_byMkt(label){
+  var cubeKey=label==='DUTY FREE'?'DF':'DP';
+  return cubeCountryTable(_curTab, cubeKey);
+}
+function computeOVZones(tabId){
+  var st=filterState[tabId]||{};
+  var ZONE_KEY={'EMEA':'EMEA','Americas':'AME','UK':'UK','ASIA':'ASIA','CEI & CRUISES':'CEI'};
+  var ZONE_NAME={'EMEA':'EMEA','Americas':'AMERICA','UK':'UK','ASIA':'ASIA','CEI & CRUISES':'CEI & CRUISES'};
+  // No filters: use static zoneData (has y23)
+  if(!st.country&&!st.airport&&!st.region) return zoneData;
+  // Region only (no location): filter static zoneData by zone name
+  if(st.region&&!st.country&&!st.airport){
+    var zName=ZONE_NAME[st.region]||st.region;
+    return zoneData.filter(function(z){return z.zone===zName;});
+  }
+  // Location filter active: use zone-specific cube
+  var cubeKey=(st.region&&ZONE_KEY[st.region])||'OV';
+  var fl=cubeLocFiltered(tabId,cubeKey);
+  var byZone={};
+  fl.forEach(function(l){
+    var zone=(airportMeta[l.a]||{}).zone||'Unknown';
+    if(!byZone[zone])byZone[zone]={zone:zone,y24:0,y25:0};
+    byZone[zone].y24+=l.y24||0;
+    byZone[zone].y25+=l.y25||0;
+  });
+  return Object.values(byZone).map(function(z){
+    z.yoy2=z.y24>0?Math.round((z.y25/z.y24-1)*1000)/10:0;
+    z.yoy1=0; z.y23=0;
+    return z;
+  }).sort(function(a,b){return b.y25-a.y25;});
+}
+function showTab(id,keepState){
+_curTab=id;
+document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+document.querySelector('[data-tab="'+id+'"]').classList.add('active');
+var el=document.getElementById('main');
+var fb=renderFilterBar(id);
+var st=filterState[id]||{};
+
+if(id==='ES'){
+  // For ES: just use mAll with month filter
+  var mos=st.month?mAll.filter(function(m){return m.m===st.month;}):mAll;
+  el.innerHTML=fb+bES(st,mos);
+}
+else if(id==='OV'){
+  var ZONE_KEY={'EMEA':'EMEA','Americas':'AME','UK':'UK','ASIA':'ASIA','CEI & CRUISES':'CEI'};
+  var cubeKey=(st.region&&ZONE_KEY[st.region])||'OV';
+  var fmo=cubeMonthly('OV',cubeKey);
+  var ffam=cubeFam('OV',cubeKey);
+  var fz=computeOVZones('OV');
+  el.innerHTML=fb+bOV(fz,ffam,st,fmo,cubeKey);
+  renderOV(fz,st,fmo);
+}
+else if(id==='EMEA'){
+  var fl=cubeLocFiltered('EMEA','EMEA');
+  var fmo=cubeMonthly('EMEA','EMEA');
+  var ffam=cubeFam('EMEA','EMEA');
+  var fcat=fGL('EMEA',glEMEA); var ffgl=fGL('EMEA',fglEMEA); var fdist=fDist('EMEA',dEMEA);
+  el.innerHTML=fb+bZ('EMEA',fl,fcat,fdist,ffgl,ffam,fmo);
+  renderZone('EMEA',fl,fmo);
+}
+else if(id==='AME'){
+  var fl=cubeLocFiltered('AME','AME');
+  var fmo=cubeMonthly('AME','AME');
+  var ffam=cubeFam('AME','AME');
+  var fcat=fGL('AME',glAME); var ffgl=fGL('AME',fglAME); var fdist=fDist('AME',dAME);
+  el.innerHTML=fb+bZ('AMERICA',fl,fcat,fdist,ffgl,ffam,fmo);
+  renderZone('AMERICA',fl,fmo);
+}
+else if(id==='DF'){
+  var fl=cubeLocFiltered('DF','DF');
+  var fmo=cubeMonthly('DF','DF');
+  var ffam=cubeFam('DF','DF');
+  var kpi=cubeKPI('DF','DF');
+  var tot={y24:kpi.y24,y25:kpi.y25,u25:(totDF&&totDF.y25>0?Math.round((totDF.u25||0)*(kpi.y25/totDF.y25)):totDF&&totDF.u25||0)};
+  var fcat=fGL('DF',glDF); var ffgl=fGL('DF',fglDF); var fdist=fDist('DF',dDF);
+  el.innerHTML=fb+bZM('DUTY FREE',fl,fcat,fdist,fmo,tot,fFilt(catDF,st),ffgl,ffam);
+  renderMkt('DUTYFREE',fl,fmo);
+}
+else if(id==='DP'){
+  var fl=cubeLocFiltered('DP','DP');
+  var fmo=cubeMonthly('DP','DP');
+  var ffam=cubeFam('DP','DP');
+  var kpi=cubeKPI('DP','DP');
+  var tot={y24:kpi.y24,y25:kpi.y25,u25:(totDP&&totDP.y25>0?Math.round((totDP.u25||0)*(kpi.y25/totDP.y25)):totDP&&totDP.u25||0)};
+  var fcat=fGL('DP',glDP); var ffgl=fGL('DP',fglDP); var fdist=fDist('DP',dDP);
+  el.innerHTML=fb+bZM('DUTY PAID',fl,fcat,fdist,fmo,tot,fFilt(catDP,st),ffgl,ffam);
+  renderMkt('DUTYPAID',fl,fmo);
+}
+else if(id==='UK'){
+  var fl=cubeLocFiltered('UK','UK');
+  var fmo=cubeMonthly('UK','UK');
+  var ffam=cubeFam('UK','UK');
+  var fcat=fGL('UK',glUK); var ffgl=fGL('UK',fglUK); var fdist=fDist('UK',dUK);
+  el.innerHTML=fb+bZ('UK',fl,fcat,fdist,ffgl,ffam,fmo);
+  renderZone('UK',fl,fmo);
+}
+else if(id==='ASIA'){
+  var fl=cubeLocFiltered('ASIA','ASIA');
+  var fmo=cubeMonthly('ASIA','ASIA');
+  var ffam=cubeFam('ASIA','ASIA');
+  var fcat=fGL('ASIA',glASIA); var ffgl=fGL('ASIA',fglASIA); var fdist=fDist('ASIA',dASIA);
+  el.innerHTML=fb+bZ('ASIA',fl,fcat,fdist,ffgl,ffam,fmo);
+  renderZone('ASIA',fl,fmo);
+}
+else if(id==='CEI'){
+  var fl=cubeLocFiltered('CEI','CEI');
+  var fmo=cubeMonthly('CEI','CEI');
+  el.innerHTML=fb+bCEI(fl,fmo,st);
+  renderCEI(fmo);
+}
+else if(id==='CAT'){
+var _famBase=st.market==='DUTY FREE'?famDF:(st.market==='DUTY PAID'?famDP:famG);
+var _catBase=st.market==='DUTY FREE'?catDF:(st.market==='DUTY PAID'?catDP:catG);
+var fFams=st.family?_famBase.filter(function(f){return f.f===st.family;}):_famBase;
+  var fCats=_catBase;
+  if(st.family){
+    var cats=FAM_CAT_MAP[st.family]||[];
+    if(cats.length)fCats=_catBase.filter(function(c){return cats.indexOf(c.c)>=0;});
+  }
+  el.innerHTML=fb+bCA(fFams,fCats,st);
+  renderCat(fCats);
+}
+else if(id==='SKUC'){
+  var regs = window.regs || ['EMEA Europe','EMEA Africa','EMEA Middle East','AMERICA','UK','ASIA'];
+  if(st.region){var z=st.region;regs=regs.filter(function(r){if(z==='EMEA')return r.indexOf('EMEA')===0;if(z==='AMERICA')return r==='AMERICA';if(z==='UK')return r==='UK';if(z==='ASIA')return r==='ASIA';return true;});}
+  el.innerHTML=fb+bSKUC(regs,st);
+}
+else if(id==='SKUS'){el.innerHTML=fb+bSKUS(st);}
+else if(id==='ADF'){el.innerHTML=fb+bADF(st);}
+else if(id==='ADP'){el.innerHTML=fb+bADP(st);}
+else if(id==='LOSSES'){el.innerHTML=fb+bLOSSES(st);}
+}
+
+// Helper: filter categories by family
+function fFilt(cats,st){
+  if(!st||!st.family)return cats;
+  var c=FAM_CAT_MAP[st.family]||[];
+  if(!c.length)return cats;
+  return cats.filter(function(cat){return c.indexOf(cat.c)>=0;});
+}
+
+// ============================================================
+// CHART RENDERERS
+// ============================================================
+var cDef={responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}}}};
+var ax={x:{ticks:{color:'#64748b'},grid:{color:'#1e293b44'}},y:{ticks:{color:'#64748b',callback:function(v){return v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?(v/1e3).toFixed(0)+'K':v;}},grid:{color:'#1e293b44'}}};
+function updateChartDefaults(){var l=document.body.classList.contains('light');var tc=l?'#475569':'#64748b';var gc=l?'#cbd5e144':'#1e293b44';var lc=l?'#475569':'#94a3b8';cDef.plugins.legend.labels.color=lc;ax.x.ticks.color=tc;ax.x.grid.color=gc;ax.y.ticks.color=tc;ax.y.grid.color=gc;}
+
+// Add percentage labels to doughnut charts
+const doughnutPlugin = {
+  id: 'doughnutLabels',
+  afterDatasetDraw(chart) {
+    if (chart.config.type !== 'doughnut') return;
+    const {ctx, data} = chart;
+    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+    
+    chart.getDatasetMeta(0).data.forEach((arc, i) => {
+      const value = data.datasets[0].data[i];
+      const pct = ((value / total) * 100).toFixed(1) + '%';
+      
+      const {x, y} = arc.tooltipPosition();
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 12px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(pct, x, y);
+    });
+  }
+};
+
+Chart.register(doughnutPlugin);
+
+function renderOV(fz,st,fmo){
+var fz=fz||zoneData;
+var st=st||{};
+var fmo=fmo||mAll;
+mkC('ch-ov-m',{type:'bar',data:{labels:fmo.map(function(m){return m.m;}),datasets:[{label:'2024',data:fmo.map(function(m){return m.a;}),backgroundColor:'#3b82f688',borderRadius:4},{label:'2025',data:fmo.map(function(m){return m.b;}),backgroundColor:'#f59e0b88',borderRadius:4}]},options:Object.assign({},cDef,{scales:ax})});
+mkC('ch-ov-p',{type:'doughnut',data:{labels:fz.filter(function(z){return z.y25>10000;}).map(function(z){return z.zone;}),datasets:[{data:fz.filter(function(z){return z.y25>10000;}).map(function(z){return z.y25;}),backgroundColor:['#f59e0b','#3b82f6','#10b981','#8b5cf6','#64748b']}]},options:Object.assign({},cDef)});
+}
+
+function renderZone(zone,locs,mo){
+// Sort by 2025 revenue desc and take top 8
+var top=locs.slice().sort(function(a,b){return (b.y25||0)-(a.y25||0);}).slice(0,8);
+if(!top.length)return;
+mkC('ch-'+zone+'-b',{type:'bar',data:{labels:top.map(function(l){return l.a;}),datasets:[{label:'2024',data:top.map(function(l){return l.y24||0;}),backgroundColor:'#3b82f688',borderRadius:4},{label:'2025',data:top.map(function(l){return l.y25||0;}),backgroundColor:'#f59e0b88',borderRadius:4}]},options:Object.assign({},cDef,{scales:ax})});
+mkC('ch-'+zone+'-p',{type:'doughnut',data:{labels:top.map(function(l){return l.a;}),datasets:[{data:top.map(function(l){return l.y25||0;}),backgroundColor:['#f59e0b','#3b82f6','#10b981','#8b5cf6','#ef4444','#06b6d4','#f97316','#84cc16']}]},options:cDef});
+if(mo&&mo.length)mkC('ch-'+zone+'-m',{type:'line',data:{labels:mo.map(function(m){return m.m;}),datasets:[{label:'2024',data:mo.map(function(m){return m.a;}),borderColor:'#3b82f6',backgroundColor:'#3b82f622',fill:true,tension:.3},{label:'2025',data:mo.map(function(m){return m.b;}),borderColor:'#f59e0b',backgroundColor:'#f59e0b22',fill:true,tension:.3}]},options:Object.assign({},cDef,{scales:ax})});
+}
+
+function renderMkt(id,locs,mo){
+var top=locs.slice().sort(function(a,b){return (b.y25||0)-(a.y25||0);}).slice(0,8);
+if(!top.length)return;
+mkC('ch-'+id+'-b',{type:'bar',data:{labels:top.map(function(l){return l.a;}),datasets:[{label:'2024',data:top.map(function(l){return l.y24||0;}),backgroundColor:'#3b82f688',borderRadius:4},{label:'2025',data:top.map(function(l){return l.y25||0;}),backgroundColor:'#f59e0b88',borderRadius:4}]},options:Object.assign({},cDef,{scales:ax})});
+mkC('ch-'+id+'-p',{type:'doughnut',data:{labels:top.map(function(l){return l.a;}),datasets:[{data:top.map(function(l){return l.y25||0;}),backgroundColor:['#f59e0b','#3b82f6','#10b981','#8b5cf6','#ef4444','#06b6d4','#f97316','#84cc16']}]},options:cDef});
+if(mo&&mo.length)mkC('ch-'+id+'-m',{type:'line',data:{labels:mo.map(function(m){return m.m;}),datasets:[{label:'2024',data:mo.map(function(m){return m.a;}),borderColor:'#3b82f6',backgroundColor:'#3b82f622',fill:true,tension:.3},{label:'2025',data:mo.map(function(m){return m.b;}),borderColor:'#f59e0b',backgroundColor:'#f59e0b22',fill:true,tension:.3}]},options:Object.assign({},cDef,{scales:ax})});
+}
+
+function renderCat(fCats){
+var fCats=fCats||catG;
+var sorted=fCats.slice().sort(function(a,b){return b.ch-a.ch;});
+var top=sorted.slice(0,8).concat(sorted.slice(-8));
+mkC('ch-cat-b',{type:'bar',data:{labels:top.map(function(c){return c.c.substring(0,15);}),datasets:[{label:'Δ Revenue CHF',data:top.map(function(c){return c.ch;}),backgroundColor:top.map(function(c){return c.ch>0?'#10b98188':'#ef444488';}),borderRadius:4}]},options:Object.assign({},cDef,{indexAxis:'y',scales:{x:{ticks:{color:'#64748b',callback:function(v){return v>=1e3?(v/1e3).toFixed(0)+'K':v;}},grid:{color:'#1e293b44'}},y:{ticks:{color:'#94a3b8',font:{size:10}},grid:{display:false}}}})});
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadAllData().then(function(){
+// === RECONSTRUCT HARDCODED STRUCTURES FROM SUPABASE DATA ===
+
+// globalTotals → GT, totCEI, totDF, totDP
+(window.globalTotals||[]).forEach(function(r){
+  if(r.zone==='GT'){window.GT={y23:+r.y23,y24:+r.y24,y25:+r.y25,u25:+r.u25};}
+  else if(r.zone==='CEI'){window.totCEI={y24:+r.y24,y25:+r.y25,u25:+r.u25};}
+  else if(r.zone==='DF'){window.totDF={y24:+r.y24,y25:+r.y25,u25:+r.u25};}
+  else if(r.zone==='DP'){window.totDP={y24:+r.y24,y25:+r.y25,u25:+r.u25};}
+});
+
+// cubeData → CUBES (by zone)
+window.CUBES={};
+(window.cubeData||[]).forEach(function(r){
+  var obj={a:r.a,c:r.c};
+  Object.keys(r).forEach(function(k){if(k!=='zone'&&k!=='a'&&k!=='c')obj[k]=r[k]!==null?+r[k]:0;});
+  if(!window.CUBES[r.zone])window.CUBES[r.zone]=[];
+  window.CUBES[r.zone].push(obj);
+});
+window.CUBES['OV']=['EMEA','AME','UK','ASIA'].reduce(function(a,k){return a.concat(window.CUBES[k]||[]);}, []);
+
+// famCubeData → FAM_CUBES (by zone)
+window.FAM_CUBES={};
+(window.famCubeData||[]).forEach(function(r){
+  var obj={f:r.f};
+  Object.keys(r).forEach(function(k){if(k!=='zone'&&k!=='f')obj[k]=r[k]!==null?+r[k]:0;});
+  if(!window.FAM_CUBES[r.zone])window.FAM_CUBES[r.zone]=[];
+  window.FAM_CUBES[r.zone].push(obj);
+});
+(function(){var m={};['EMEA','AME','UK','ASIA'].forEach(function(k){(window.FAM_CUBES[k]||[]).forEach(function(f){if(!m[f.f]){var o={f:f.f};Object.keys(f).forEach(function(p){if(p!=='f')o[p]=0;});m[f.f]=o;}Object.keys(f).forEach(function(p){if(p!=='f')m[f.f][p]=(m[f.f][p]||0)+(f[p]||0);});});});window.FAM_CUBES['OV']=Object.values(m);})();
+
+// gainsLosses → glEMEA, glAME, glUK, glASIA, glDF, glDP
+var _glByZone={};
+(window.gainsLosses||[]).forEach(function(r){
+  var z=r.channel;
+  if(!_glByZone[z])_glByZone[z]={};
+  if(!_glByZone[z][r.store])_glByZone[z][r.store]={g:[],l:[]};
+  _glByZone[z][r.store][r.gl_type].push({c:r.category,v:+r.value,p:r.percentage!==null&&r.percentage!==''?+r.percentage:null});
+});
+window.glEMEA=_glByZone['EMEA']||{};window.glAME=_glByZone['AME']||{};
+window.glUK=_glByZone['UK']||{};window.glASIA=_glByZone['ASIA']||{};
+window.glDF=_glByZone['DF']||{};window.glDP=_glByZone['DP']||{};
+
+// famGainsLosses → fglEMEA, fglAME, fglUK, fglASIA, fglDF, fglDP
+var _fglByZone={};
+(window.famGainsLosses||[]).forEach(function(r){
+  var z=r.channel;
+  if(!_fglByZone[z])_fglByZone[z]={};
+  if(!_fglByZone[z][r.store])_fglByZone[z][r.store]={g:[],l:[]};
+  _fglByZone[z][r.store][r.gl_type].push({c:r.family,v:+r.value,p:r.percentage!==null&&r.percentage!==''?+r.percentage:null});
+});
+window.fglEMEA=_fglByZone['EMEA']||{};window.fglAME=_fglByZone['AME']||{};
+window.fglUK=_fglByZone['UK']||{};window.fglASIA=_fglByZone['ASIA']||{};
+window.fglDF=_fglByZone['DF']||{};window.fglDP=_fglByZone['DP']||{};
+
+// skuCountryFlat → skuCountry (region → {countries:[], rows:[{d24:{},d25:{}}]})
+window.skuCountry={};
+(function(){
+  var byRegion={};
+  (window.skuCountryFlat||[]).forEach(function(r){
+    var reg=r.region, yr=+r.year, sku=r.sku, loc=r.country_or_store, val=+r.value;
+    if(!byRegion[reg])byRegion[reg]={countries:new Set(),skuData:{}};
+    if(!byRegion[reg].skuData[sku])byRegion[reg].skuData[sku]={d24:{sku:sku,total:0},d25:{sku:sku,total:0}};
+    var dKey=yr===2024?'d24':'d25';
+    if(loc==='_TOTAL_'){byRegion[reg].skuData[sku][dKey].total=val;}
+    else{byRegion[reg].skuData[sku][dKey][loc]=val;byRegion[reg].countries.add(loc);}
+  });
+  Object.keys(byRegion).forEach(function(reg){
+    var rd=byRegion[reg];
+    var countries=Array.from(rd.countries);
+    var rows=Object.values(rd.skuData).sort(function(a,b){return (b.d24.total||0)-(a.d24.total||0);});
+    window.skuCountry[reg]={countries:countries,rows:rows};
+  });
+})();
+
+// skuStoreFlat → skuStore (country → {countries:[stores], rows:[{d24:{},d25:{}}]})
+window.skuStore={};
+(function(){
+  var byCountry={};
+  (window.skuStoreFlat||[]).forEach(function(r){
+    var cty=r.country, yr=+r.year, sku=r.sku, store=r.store, val=+r.value;
+    if(!byCountry[cty])byCountry[cty]={countries:new Set(),skuData:{}};
+    if(!byCountry[cty].skuData[sku])byCountry[cty].skuData[sku]={d24:{sku:sku,total:0},d25:{sku:sku,total:0}};
+    var dKey=yr===2024?'d24':'d25';
+    if(store==='_TOTAL_'){byCountry[cty].skuData[sku][dKey].total=val;}
+    else{byCountry[cty].skuData[sku][dKey][store]=val;byCountry[cty].countries.add(store);}
+  });
+  Object.keys(byCountry).forEach(function(cty){
+    var cd=byCountry[cty];
+    var countries=Array.from(cd.countries);
+    var rows=Object.values(cd.skuData).sort(function(a,b){return (b.d24.total||0)-(a.d24.total||0);});
+    window.skuStore[cty]={countries:countries,rows:rows};
+  });
+})();
+
+// skuStoreADF → skuStoreAmericasDF
+window.skuStoreAmericasDF={};
+(function(){
+  var byCountry={};
+  (window.skuStoreADF||[]).forEach(function(r){
+    var cty=r.country, yr=+r.year, sku=r.sku, store=r.store, val=+r.value;
+    if(!byCountry[cty])byCountry[cty]={countries:new Set(),skuData:{}};
+    if(!byCountry[cty].skuData[sku])byCountry[cty].skuData[sku]={d24:{sku:sku,total:0},d25:{sku:sku,total:0}};
+    var dKey=yr===2024?'d24':'d25';
+    if(store==='_TOTAL_'){byCountry[cty].skuData[sku][dKey].total=val;}
+    else{byCountry[cty].skuData[sku][dKey][store]=val;byCountry[cty].countries.add(store);}
+  });
+  Object.keys(byCountry).forEach(function(cty){
+    var cd=byCountry[cty];
+    var countries=Array.from(cd.countries);
+    var rows=Object.values(cd.skuData).sort(function(a,b){return (b.d24.total||0)-(a.d24.total||0);});
+    window.skuStoreAmericasDF[cty]={countries:countries,rows:rows};
+  });
+})();
+
+// skuStoreADP → skuStoreAmericasDP
+window.skuStoreAmericasDP={};
+(function(){
+  var byCountry={};
+  (window.skuStoreADP||[]).forEach(function(r){
+    var cty=r.country, yr=+r.year, sku=r.sku, store=r.store, val=+r.value;
+    if(!byCountry[cty])byCountry[cty]={countries:new Set(),skuData:{}};
+    if(!byCountry[cty].skuData[sku])byCountry[cty].skuData[sku]={d24:{sku:sku,total:0},d25:{sku:sku,total:0}};
+    var dKey=yr===2024?'d24':'d25';
+    if(store==='_TOTAL_'){byCountry[cty].skuData[sku][dKey].total=val;}
+    else{byCountry[cty].skuData[sku][dKey][store]=val;byCountry[cty].countries.add(store);}
+  });
+  Object.keys(byCountry).forEach(function(cty){
+    var cd=byCountry[cty];
+    var countries=Array.from(cd.countries);
+    var rows=Object.values(cd.skuData).sort(function(a,b){return (b.d24.total||0)-(a.d24.total||0);});
+    window.skuStoreAmericasDP[cty]={countries:countries,rows:rows};
+  });
+})();
+
+// Rebuild airportMeta now that tEMEA/tAME/tUK/tASIA/tDF/tDP are loaded
+// (airportMeta was initialized empty at parse time — before Supabase data arrived)
+airportMeta = {};
+[
+  {locs:tEMEA, zone:'EMEA'},
+  {locs:tAME,  zone:'AMERICA'},
+  {locs:tDF,   zone:'AMERICA'},
+  {locs:tDP,   zone:'AMERICA'},
+  {locs:tUK,   zone:'UK'},
+  {locs:tASIA, zone:'ASIA'}
+].forEach(function(s){
+  s.locs.forEach(function(l){
+    if(!airportMeta[l.a]) airportMeta[l.a]={country:l.c||'',zone:s.zone};
+  });
+});
+
+// === END RECONSTRUCTION ===
+var tabsEl=document.getElementById('tabs');
+tabDefs.forEach(function(t){
+var d=document.createElement('div');
+d.className='tab';d.dataset.tab=t.id;d.textContent=t.name;
+d.onclick=function(){showTab(t.id);};
+tabsEl.appendChild(d);
+});
+updateChartDefaults();
+
+showTab('ES');
+lucide.createIcons();
+});
+
+</script>
 </body>
 </html>
