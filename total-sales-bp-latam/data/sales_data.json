@@ -1,0 +1,2070 @@
+{
+  "latam_yearly": {
+    "2018": 1369.5,
+    "2019": 2383.5,
+    "2020": 847.7,
+    "2021": 1556.1,
+    "2022": 4460.0,
+    "2023": 7146.2,
+    "2024": 7078.8,
+    "2025": 7853.6,
+    "2026": 766.7,
+    "2026_bp": 9363.6
+  },
+  "tb_yearly": {
+    "2022": 2432.9,
+    "2023": 3093.7,
+    "2024": 2963.0,
+    "2025": 3901.0,
+    "2026": 393.3,
+    "2026_bp": 4857.5
+  },
+  "country_yearly": {
+    "MEXICO": {
+      "2018": 759.9,
+      "2019": 1224.1,
+      "2020": 450.7,
+      "2021": 855.9,
+      "2022": 2449.8,
+      "2023": 3812.3,
+      "2024": 3930.8,
+      "2025": 4322.0,
+      "2026": 425.4,
+      "2026_bp": 5298.0
+    },
+    "BRAZIL": {
+      "2018": 548.6,
+      "2019": 982.2,
+      "2020": 271.8,
+      "2021": 344.7,
+      "2022": 848.4,
+      "2023": 1380.0,
+      "2024": 1722.5,
+      "2025": 1733.8,
+      "2026": 154.7,
+      "2026_bp": 1521.1
+    },
+    "ARGENTINA": {
+      "2018": 61.0,
+      "2019": 115.3,
+      "2020": 85.3,
+      "2021": 172.8,
+      "2022": 549.4,
+      "2023": 1049.1,
+      "2024": 726.1,
+      "2025": 892.7,
+      "2026": 94.1,
+      "2026_bp": 1143.6
+    },
+    "COLOMBIA": {
+      "2019": 61.8,
+      "2020": 26.3,
+      "2021": 48.3,
+      "2022": 203.9,
+      "2023": 299.2,
+      "2024": 286.9,
+      "2025": 327.5,
+      "2026": 23.3,
+      "2026_bp": 361.8
+    },
+    "CHILE": {
+      "2020": 13.7,
+      "2021": 74.1,
+      "2022": 139.2,
+      "2023": 154.8,
+      "2024": 135.9,
+      "2025": 100.4,
+      "2026": 5.3,
+      "2026_bp": 118.1
+    },
+    "PANAMA": {
+      "2021": 60.3,
+      "2022": 269.4,
+      "2023": 450.6,
+      "2024": 274.9,
+      "2025": 445.5,
+      "2026": 59.6,
+      "2026_bp": 870.0
+    },
+    "PERU": {
+      "2024": 1.6,
+      "2025": 31.7,
+      "2026": 4.3,
+      "2026_bp": 51.0
+    }
+  },
+  "stacked_country": {
+    "2018": {
+      "MEXICO": 759.9,
+      "BRAZIL": 548.6,
+      "ARGENTINA": 61.0,
+      "COLOMBIA": 0.0,
+      "CHILE": 0.0,
+      "PANAMA": 0.0,
+      "PERU": 0.0
+    },
+    "2019": {
+      "MEXICO": 1224.1,
+      "BRAZIL": 982.2,
+      "ARGENTINA": 115.3,
+      "COLOMBIA": 61.8,
+      "CHILE": 0.0,
+      "PANAMA": 0.0,
+      "PERU": 0.0
+    },
+    "2020": {
+      "MEXICO": 450.7,
+      "BRAZIL": 271.8,
+      "ARGENTINA": 85.3,
+      "COLOMBIA": 26.3,
+      "CHILE": 13.7,
+      "PANAMA": 0.0,
+      "PERU": 0.0
+    },
+    "2021": {
+      "MEXICO": 855.9,
+      "BRAZIL": 344.7,
+      "ARGENTINA": 172.8,
+      "COLOMBIA": 48.3,
+      "CHILE": 74.1,
+      "PANAMA": 60.3,
+      "PERU": 0.0
+    },
+    "2022": {
+      "MEXICO": 2449.8,
+      "BRAZIL": 848.4,
+      "ARGENTINA": 549.4,
+      "COLOMBIA": 203.9,
+      "CHILE": 139.2,
+      "PANAMA": 269.4,
+      "PERU": 0.0
+    },
+    "2023": {
+      "MEXICO": 3812.3,
+      "BRAZIL": 1380.0,
+      "ARGENTINA": 1049.1,
+      "COLOMBIA": 299.2,
+      "CHILE": 154.8,
+      "PANAMA": 450.6,
+      "PERU": 0.0
+    },
+    "2024": {
+      "MEXICO": 3930.8,
+      "BRAZIL": 1722.5,
+      "ARGENTINA": 726.1,
+      "COLOMBIA": 286.9,
+      "CHILE": 135.9,
+      "PANAMA": 274.9,
+      "PERU": 1.6
+    },
+    "2025": {
+      "MEXICO": 4322.0,
+      "BRAZIL": 1733.8,
+      "ARGENTINA": 892.7,
+      "COLOMBIA": 327.5,
+      "CHILE": 100.4,
+      "PANAMA": 445.5,
+      "PERU": 31.7
+    },
+    "2026": {
+      "MEXICO": 5298.0,
+      "BRAZIL": 1521.1,
+      "ARGENTINA": 1143.6,
+      "COLOMBIA": 361.8,
+      "CHILE": 118.1,
+      "PANAMA": 870.0,
+      "PERU": 51.0
+    }
+  },
+  "pct_country": {
+    "2018": {
+      "MEXICO": 55.5,
+      "BRAZIL": 40.1,
+      "ARGENTINA": 4.5,
+      "COLOMBIA": 0.0,
+      "CHILE": 0.0,
+      "PANAMA": 0.0,
+      "PERU": 0.0
+    },
+    "2019": {
+      "MEXICO": 51.4,
+      "BRAZIL": 41.2,
+      "ARGENTINA": 4.8,
+      "COLOMBIA": 2.6,
+      "CHILE": 0.0,
+      "PANAMA": 0.0,
+      "PERU": 0.0
+    },
+    "2020": {
+      "MEXICO": 53.2,
+      "BRAZIL": 32.1,
+      "ARGENTINA": 10.1,
+      "COLOMBIA": 3.1,
+      "CHILE": 1.6,
+      "PANAMA": 0.0,
+      "PERU": 0.0
+    },
+    "2021": {
+      "MEXICO": 55.0,
+      "BRAZIL": 22.2,
+      "ARGENTINA": 11.1,
+      "COLOMBIA": 3.1,
+      "CHILE": 4.8,
+      "PANAMA": 3.9,
+      "PERU": 0.0
+    },
+    "2022": {
+      "MEXICO": 54.9,
+      "BRAZIL": 19.0,
+      "ARGENTINA": 12.3,
+      "COLOMBIA": 4.6,
+      "CHILE": 3.1,
+      "PANAMA": 6.0,
+      "PERU": 0.0
+    },
+    "2023": {
+      "MEXICO": 53.3,
+      "BRAZIL": 19.3,
+      "ARGENTINA": 14.7,
+      "COLOMBIA": 4.2,
+      "CHILE": 2.2,
+      "PANAMA": 6.3,
+      "PERU": 0.0
+    },
+    "2024": {
+      "MEXICO": 55.5,
+      "BRAZIL": 24.3,
+      "ARGENTINA": 10.3,
+      "COLOMBIA": 4.1,
+      "CHILE": 1.9,
+      "PANAMA": 3.9,
+      "PERU": 0.0
+    },
+    "2025": {
+      "MEXICO": 55.0,
+      "BRAZIL": 22.1,
+      "ARGENTINA": 11.4,
+      "COLOMBIA": 4.2,
+      "CHILE": 1.3,
+      "PANAMA": 5.7,
+      "PERU": 0.4
+    },
+    "2026": {
+      "MEXICO": 56.6,
+      "BRAZIL": 16.2,
+      "ARGENTINA": 12.2,
+      "COLOMBIA": 3.9,
+      "CHILE": 1.3,
+      "PANAMA": 9.3,
+      "PERU": 0.5
+    }
+  },
+  "channel": {
+    "DOMESTIC": {
+      "2025": 3986.5,
+      "bp26": 4259.9
+    },
+    "RETAIL": {
+      "2025": 3489.3,
+      "bp26": 4474.1
+    },
+    "ONLINE": {
+      "2025": 231.6,
+      "bp26": 271.6
+    },
+    "OTHER": {
+      "2025": 146.3,
+      "bp26": 358.0
+    }
+  },
+  "brand_latam": {
+    "TRAVEL BLUE": {
+      "2024": 2963,
+      "2025": 3901,
+      "bp26": 4857
+    },
+    "CLOE": {
+      "2024": 1621,
+      "2025": 1394,
+      "bp26": 1854
+    },
+    "SLOOTH": {
+      "2024": 939,
+      "2025": 1154,
+      "bp26": 1306
+    },
+    "OEM": {
+      "2024": 318,
+      "2025": 432,
+      "bp26": 631
+    },
+    "OTHERS": {
+      "2024": 938,
+      "2025": 696,
+      "bp26": 379
+    },
+    "LEXINGHAM": {
+      "2024": 221,
+      "2025": 211,
+      "bp26": 257
+    },
+    "ANÓMEO": {
+      "2024": 78,
+      "2025": 65,
+      "bp26": 78
+    }
+  },
+  "brand_by_country": {
+    "MEXICO": {
+      "rows": [
+        {
+          "brand": "TRAVEL BLUE",
+          "2025": 2167205,
+          "bp26": 2623643
+        },
+        {
+          "brand": "CLOE",
+          "2025": 1393884,
+          "bp26": 1853951
+        },
+        {
+          "brand": "SLOOTH",
+          "2025": 424557,
+          "bp26": 556373
+        },
+        {
+          "brand": "LEXINGHAM",
+          "2025": 185034,
+          "bp26": 194139
+        },
+        {
+          "brand": "ANÓMEO",
+          "2025": 58146,
+          "bp26": 69903
+        },
+        {
+          "brand": "OTHERS",
+          "2025": 93221,
+          "bp26": 0
+        }
+      ],
+      "total25": 4322048,
+      "totalBP": 5298009
+    },
+    "BRAZIL": {
+      "rows": [
+        {
+          "brand": "TRAVEL BLUE",
+          "2025": 1138026,
+          "bp26": 1043355
+        },
+        {
+          "brand": "OTHERS *Unicross",
+          "2025": 364468,
+          "bp26": 87626
+        },
+        {
+          "brand": "SLOOTH",
+          "2025": 158153,
+          "bp26": 174746
+        },
+        {
+          "brand": "OEM *Stradda",
+          "2025": 66102,
+          "bp26": 215327
+        },
+        {
+          "brand": "LEXINGHAM",
+          "2025": 6927,
+          "bp26": 34
+        }
+      ],
+      "total25": 1733676,
+      "totalBP": 1521087
+    },
+    "ARGENTINA": {
+      "rows": [
+        {
+          "brand": "TRAVEL BLUE",
+          "2025": 372087,
+          "bp26": 534502
+        },
+        {
+          "brand": "OTHERS (Soul/Lesedife)",
+          "2025": 233874,
+          "bp26": 288061
+        },
+        {
+          "brand": "SLOOTH",
+          "2025": 285410,
+          "bp26": 319112
+        },
+        {
+          "brand": "ANÓMEO",
+          "2025": 1515,
+          "bp26": 1879
+        }
+      ],
+      "total25": 892885,
+      "totalBP": 1143555
+    },
+    "COLOMBIA": {
+      "rows": [
+        {
+          "brand": "SLOOTH",
+          "2025": 233243,
+          "bp26": 247480
+        },
+        {
+          "brand": "TRAVEL BLUE",
+          "2025": 74422,
+          "bp26": 93701
+        },
+        {
+          "brand": "OEM *Britt",
+          "2025": 14082,
+          "bp26": 15840
+        },
+        {
+          "brand": "ANÓMEO",
+          "2025": 3513,
+          "bp26": 4752
+        },
+        {
+          "brand": "OTHERS",
+          "2025": 1394,
+          "bp26": 0
+        }
+      ],
+      "total25": 326653,
+      "totalBP": 361773
+    }
+  },
+  "family_latam": [
+    {
+      "family": "PILLOWS",
+      "2025": 1154412,
+      "bp26": 1305710,
+      "pct": 13,
+      "sh25": 15,
+      "sh26": 14
+    },
+    {
+      "family": "BACKPACKS",
+      "2025": 1145725,
+      "bp26": 1463261,
+      "pct": 28,
+      "sh25": 15,
+      "sh26": 16
+    },
+    {
+      "family": "TRAVEL ACCESSORIES",
+      "2025": 697064,
+      "bp26": 564085,
+      "pct": -19,
+      "sh25": 9,
+      "sh26": 6
+    },
+    {
+      "family": "SECURITY",
+      "2025": 646823,
+      "bp26": 752325,
+      "pct": 16,
+      "sh25": 8,
+      "sh26": 8
+    },
+    {
+      "family": "LUGGAGE",
+      "2025": 264390,
+      "bp26": 519380,
+      "pct": 96,
+      "sh25": 3,
+      "sh26": 6
+    },
+    {
+      "family": "CLOE",
+      "2025": 1393884,
+      "bp26": 1853951,
+      "pct": 33,
+      "sh25": 18,
+      "sh26": 20
+    },
+    {
+      "family": "SLOOTH",
+      "2025": 1186399,
+      "bp26": 1164210,
+      "pct": -2,
+      "sh25": 15,
+      "sh26": 12
+    },
+    {
+      "family": "OTHERS",
+      "2025": 656705,
+      "bp26": 767013,
+      "pct": 17,
+      "sh25": 8,
+      "sh26": 8
+    },
+    {
+      "family": "OEM",
+      "2025": 431906,
+      "bp26": 631167,
+      "pct": 46,
+      "sh25": 5,
+      "sh26": 7
+    },
+    {
+      "family": "LEXINGHAM",
+      "2025": 210820,
+      "bp26": 257395,
+      "pct": 22,
+      "sh25": 3,
+      "sh26": 3
+    },
+    {
+      "family": "ANÓMEO",
+      "2025": 64948,
+      "bp26": 78317,
+      "pct": 21,
+      "sh25": 1,
+      "sh26": 1
+    },
+    {
+      "family": "BOTTLES",
+      "2025": 0,
+      "bp26": 6786,
+      "pct": 100,
+      "sh25": 0,
+      "sh26": 0
+    }
+  ],
+  "customers_latam": [
+    {
+      "customer": "LIVERPOOL",
+      "2025": 1653883,
+      "bp26": 1920869,
+      "pct": 16,
+      "sh25": 21,
+      "sh26": 21
+    },
+    {
+      "customer": "AVOLTA",
+      "2025": 771083,
+      "bp26": 956604,
+      "pct": 24,
+      "sh25": 10,
+      "sh26": 10
+    },
+    {
+      "customer": "AREAS",
+      "2025": 622361,
+      "bp26": 717955,
+      "pct": 15,
+      "sh25": 8,
+      "sh26": 8
+    },
+    {
+      "customer": "LE POSTICHE",
+      "2025": 550196,
+      "bp26": 477488,
+      "pct": -13,
+      "sh25": 7,
+      "sh26": 5
+    },
+    {
+      "customer": "SHOP GALLERY",
+      "2025": 334701,
+      "bp26": 400540,
+      "pct": 20,
+      "sh25": 4,
+      "sh26": 4
+    },
+    {
+      "customer": "DEL PACIFICO",
+      "2025": 254199,
+      "bp26": 320072,
+      "pct": 26,
+      "sh25": 3,
+      "sh26": 3
+    },
+    {
+      "customer": "SHOP IN CHINA",
+      "2025": 249920,
+      "bp26": 150000,
+      "pct": -40,
+      "sh25": 3,
+      "sh26": 2
+    },
+    {
+      "customer": "SANBORNS",
+      "2025": 175917,
+      "bp26": 194554,
+      "pct": 11,
+      "sh25": 2,
+      "sh26": 2
+    },
+    {
+      "customer": "KDEPOR",
+      "2025": 167235,
+      "bp26": 193237,
+      "pct": 16,
+      "sh25": 2,
+      "sh26": 2
+    },
+    {
+      "customer": "OPEN 25",
+      "2025": 161227,
+      "bp26": 226136,
+      "pct": 40,
+      "sh25": 2,
+      "sh26": 2
+    },
+    {
+      "customer": "OTHERS",
+      "2025": 2912353,
+      "bp26": 3806145,
+      "pct": 30,
+      "sh25": 37,
+      "sh26": 41
+    }
+  ],
+  "customers_by_country": {
+    "MEXICO": [
+      {
+        "customer": "LIVERPOOL",
+        "2025": 1653883,
+        "bp26": 1920869,
+        "sh25": 38,
+        "sh26": 36
+      },
+      {
+        "customer": "AREAS",
+        "2025": 622361,
+        "bp26": 717955,
+        "sh25": 14,
+        "sh26": 14
+      },
+      {
+        "customer": "DUFRY",
+        "2025": 280827,
+        "bp26": 362731,
+        "sh25": 6,
+        "sh26": 7
+      },
+      {
+        "customer": "DEL PACIFICO",
+        "2025": 254199,
+        "bp26": 320072,
+        "sh25": 6,
+        "sh26": 6
+      },
+      {
+        "customer": "EL PALACIO DE HIERRO",
+        "2025": 157105,
+        "bp26": 270595,
+        "sh25": 4,
+        "sh26": 5
+      },
+      {
+        "customer": "SANBORN",
+        "2025": 161227,
+        "bp26": 226136,
+        "sh25": 4,
+        "sh26": 4
+      },
+      {
+        "customer": "CLOE MODA",
+        "2025": 189016,
+        "bp26": 195146,
+        "sh25": 4,
+        "sh26": 4
+      },
+      {
+        "customer": "KDEPOR",
+        "2025": 175917,
+        "bp26": 194554,
+        "sh25": 4,
+        "sh26": 4
+      },
+      {
+        "customer": "WAL-MART",
+        "2025": 116924,
+        "bp26": 165247,
+        "sh25": 3,
+        "sh26": 3
+      },
+      {
+        "customer": "OFFICE DEPOT",
+        "2025": 98618,
+        "bp26": 153144,
+        "sh25": 2,
+        "sh26": 3
+      },
+      {
+        "customer": "SEARS",
+        "2025": 90768,
+        "bp26": 118721,
+        "sh25": 2,
+        "sh26": 2
+      },
+      {
+        "customer": "MERCADO LIBRE",
+        "2025": 63150,
+        "bp26": 104259,
+        "sh25": 1,
+        "sh26": 2
+      },
+      {
+        "customer": "OTHERS",
+        "2025": 458053,
+        "bp26": 469926,
+        "sh25": 11,
+        "sh26": 9
+      },
+      {
+        "customer": "TOTAL",
+        "2025": 4322048,
+        "bp26": 5298009,
+        "sh25": 100,
+        "sh26": 100
+      }
+    ],
+    "BRAZIL": [
+      {
+        "customer": "LE POSTICHE",
+        "2025": 550074,
+        "bp26": 477488,
+        "sh25": 32,
+        "sh26": 31
+      },
+      {
+        "customer": "DUFRY",
+        "2025": 371568,
+        "bp26": 443776,
+        "sh25": 21,
+        "sh26": 29
+      },
+      {
+        "customer": "PROTEC BAG",
+        "2025": 145642,
+        "bp26": 144251,
+        "sh25": 8,
+        "sh26": 9
+      },
+      {
+        "customer": "INOVATHI",
+        "2025": 143036,
+        "bp26": 100262,
+        "sh25": 8,
+        "sh26": 7
+      },
+      {
+        "customer": "NEW CUSTOMER 02",
+        "2025": 0,
+        "bp26": 96192,
+        "sh25": 0,
+        "sh26": 6
+      },
+      {
+        "customer": "NEW CUSTOMER 01",
+        "2025": 0,
+        "bp26": 87626,
+        "sh25": 0,
+        "sh26": 6
+      },
+      {
+        "customer": "FLEX FARMA",
+        "2025": 28164,
+        "bp26": 32748,
+        "sh25": 2,
+        "sh26": 2
+      },
+      {
+        "customer": "AEROBAGS",
+        "2025": 23406,
+        "bp26": 22922,
+        "sh25": 1,
+        "sh26": 2
+      },
+      {
+        "customer": "OTHERS",
+        "2025": 471786,
+        "bp26": 115820,
+        "sh25": 27,
+        "sh26": 8
+      },
+      {
+        "customer": "TOTAL",
+        "2025": 1733676,
+        "bp26": 1521087,
+        "sh25": 100,
+        "sh26": 100
+      }
+    ],
+    "ARGENTINA": [
+      {
+        "customer": "DUTY PAID S.A.",
+        "2025": 334701,
+        "bp26": 400540,
+        "sh25": 37,
+        "sh26": 35
+      },
+      {
+        "customer": "OPEN 25",
+        "2025": 167235,
+        "bp26": 193237,
+        "sh25": 19,
+        "sh26": 17
+      },
+      {
+        "customer": "GIANLUCA DE CICCO",
+        "2025": 163555,
+        "bp26": 187934,
+        "sh25": 18,
+        "sh26": 16
+      },
+      {
+        "customer": "MERCADO LIBRE",
+        "2025": 112853,
+        "bp26": 97866,
+        "sh25": 13,
+        "sh26": 9
+      },
+      {
+        "customer": "AGENTE 13",
+        "2025": 21333,
+        "bp26": 26585,
+        "sh25": 2,
+        "sh26": 2
+      },
+      {
+        "customer": "OTHERS",
+        "2025": 93209,
+        "bp26": 237393,
+        "sh25": 10,
+        "sh26": 21
+      },
+      {
+        "customer": "TOTAL",
+        "2025": 892885,
+        "bp26": 1143555,
+        "sh25": 100,
+        "sh26": 100
+      }
+    ],
+    "COLOMBIA": [
+      {
+        "customer": "SAPIA",
+        "2025": 139539,
+        "bp26": 160000,
+        "sh25": 43,
+        "sh26": 44
+      },
+      {
+        "customer": "GLOBOSHOPS",
+        "2025": 77889,
+        "bp26": 79152,
+        "sh25": 24,
+        "sh26": 22
+      },
+      {
+        "customer": "DUFRY",
+        "2025": 45588,
+        "bp26": 57312,
+        "sh25": 14,
+        "sh26": 16
+      },
+      {
+        "customer": "STARWEAR INTL",
+        "2025": 26556,
+        "bp26": 22680,
+        "sh25": 8,
+        "sh26": 6
+      },
+      {
+        "customer": "BRITT COLOMBIA",
+        "2025": 14082,
+        "bp26": 15840,
+        "sh25": 4,
+        "sh26": 4
+      },
+      {
+        "customer": "MERCADO LIBRE",
+        "2025": 9663,
+        "bp26": 12000,
+        "sh25": 3,
+        "sh26": 3
+      },
+      {
+        "customer": "PANAMERICANA",
+        "2025": 8636,
+        "bp26": 9475,
+        "sh25": 3,
+        "sh26": 3
+      },
+      {
+        "customer": "TOTAL",
+        "2025": 326653,
+        "bp26": 361773,
+        "sh25": 100,
+        "sh26": 100
+      }
+    ],
+    "CHILE": [
+      {
+        "customer": "DUFRY",
+        "2025": 73061,
+        "bp26": 92785,
+        "sh25": 73,
+        "sh26": 79
+      },
+      {
+        "customer": "MERCADO LIBRE",
+        "2025": 15446,
+        "bp26": 17353,
+        "sh25": 15,
+        "sh26": 15
+      },
+      {
+        "customer": "BRITT",
+        "2025": 11434,
+        "bp26": 8000,
+        "sh25": 11,
+        "sh26": 7
+      },
+      {
+        "customer": "OTHERS",
+        "2025": 485,
+        "bp26": 0,
+        "sh25": 0,
+        "sh26": 0
+      },
+      {
+        "customer": "TOTAL",
+        "2025": 100426,
+        "bp26": 118138,
+        "sh25": 100,
+        "sh26": 100
+      }
+    ],
+    "PANAMA": [
+      {
+        "customer": "BORGARO",
+        "2025": 249920,
+        "bp26": 150000,
+        "sh25": 56,
+        "sh26": 17
+      },
+      {
+        "customer": "LONDON SUPPLY",
+        "2025": 70272,
+        "bp26": 140000,
+        "sh25": 16,
+        "sh26": 16
+      },
+      {
+        "customer": "MOLETTE INTL",
+        "2025": 72703,
+        "bp26": 120000,
+        "sh25": 16,
+        "sh26": 14
+      },
+      {
+        "customer": "BRITT",
+        "2025": 28703,
+        "bp26": 80000,
+        "sh25": 6,
+        "sh26": 9
+      },
+      {
+        "customer": "Grupo Siman",
+        "2025": 0,
+        "bp26": 80000,
+        "sh25": 0,
+        "sh26": 9
+      },
+      {
+        "customer": "DFA",
+        "2025": 0,
+        "bp26": 50000,
+        "sh25": 0,
+        "sh26": 6
+      },
+      {
+        "customer": "DUTY FREE BOLIVIA",
+        "2025": 15836,
+        "bp26": 34000,
+        "sh25": 4,
+        "sh26": 4
+      },
+      {
+        "customer": "OTHERS",
+        "2025": 8069,
+        "bp26": 216000,
+        "sh25": 2,
+        "sh26": 25
+      },
+      {
+        "customer": "TOTAL",
+        "2025": 445503,
+        "bp26": 870000,
+        "sh25": 100,
+        "sh26": 100
+      }
+    ],
+    "PERU": [
+      {
+        "customer": "LIVINGSTONE",
+        "2025": 17064,
+        "bp26": 15049,
+        "sh25": 54,
+        "sh26": 29
+      },
+      {
+        "customer": "LAGARDERE",
+        "2025": 9732,
+        "bp26": 26811,
+        "sh25": 31,
+        "sh26": 53
+      },
+      {
+        "customer": "COOLBOX",
+        "2025": 2767,
+        "bp26": 7395,
+        "sh25": 9,
+        "sh26": 14
+      },
+      {
+        "customer": "BRITT",
+        "2025": 2078,
+        "bp26": 1783,
+        "sh25": 7,
+        "sh26": 3
+      },
+      {
+        "customer": "TOTAL",
+        "2025": 31670,
+        "bp26": 51039,
+        "sh25": 100,
+        "sh26": 100
+      }
+    ]
+  },
+  "top_products": {
+    "MEXICO": [
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TRAV002",
+        "val": 322785,
+        "sh": 7
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB212",
+        "val": 207584,
+        "sh": 5
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "6TRAO22048",
+        "val": 186499,
+        "sh": 4
+      },
+      {
+        "cat": "BACKPACK",
+        "sku": "3090",
+        "val": 176507,
+        "sh": 4
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "TRAV001",
+        "val": 122483,
+        "sh": 3
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB219",
+        "val": 89640,
+        "sh": 2
+      },
+      {
+        "cat": "TSA COMBI LOCK",
+        "sku": "TB038",
+        "val": 77146,
+        "sh": 2
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "6TRAO24341",
+        "val": 68702,
+        "sh": 2
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB217",
+        "val": 68576,
+        "sh": 2
+      },
+      {
+        "cat": "TRAVEL ADAPTOR",
+        "sku": "TB254",
+        "val": 68170,
+        "sh": 2
+      },
+      {
+        "cat": "TOTAL",
+        "sku": "",
+        "val": 1388092,
+        "sh": 32
+      }
+    ],
+    "BRAZIL": [
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB219",
+        "val": 98944,
+        "sh": 6
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB212",
+        "val": 86560,
+        "sh": 5
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB209",
+        "val": 85553,
+        "sh": 5
+      },
+      {
+        "cat": "BACKPACK",
+        "sku": "3090",
+        "val": 47102,
+        "sh": 3
+      },
+      {
+        "cat": "BACKPACK",
+        "sku": "TBP-5711",
+        "val": 34279,
+        "sh": 2
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB217",
+        "val": 30400,
+        "sh": 2
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "TB232",
+        "val": 30237,
+        "sh": 2
+      },
+      {
+        "cat": "TSA COMBI LOCK",
+        "sku": "TB029",
+        "val": 29543,
+        "sh": 2
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB208",
+        "val": 26803,
+        "sh": 2
+      },
+      {
+        "cat": "BACKPACK",
+        "sku": "TBP-5761",
+        "val": 25006,
+        "sh": 1
+      },
+      {
+        "cat": "TOTAL",
+        "sku": "",
+        "val": 494405,
+        "sh": 29
+      }
+    ],
+    "ARGENTINA": [
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB219",
+        "val": 65557,
+        "sh": 7
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB212",
+        "val": 47562,
+        "sh": 5
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "SL1.50/2.1",
+        "val": 37714,
+        "sh": 4
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "SL1.44/0.1",
+        "val": 37675,
+        "sh": 4
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "SL1.49/0.1",
+        "val": 31824,
+        "sh": 4
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "SL1.96/0.1",
+        "val": 29668,
+        "sh": 3
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "SL1.45/1.1",
+        "val": 25482,
+        "sh": 3
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "SL1.48/1.1",
+        "val": 24590,
+        "sh": 3
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "SL1.46/2.1",
+        "val": 21880,
+        "sh": 2
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "TB232",
+        "val": 20082,
+        "sh": 2
+      },
+      {
+        "cat": "TOTAL",
+        "sku": "",
+        "val": 342034,
+        "sh": 38
+      }
+    ],
+    "COLOMBIA": [
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "SL1.49/0.1",
+        "val": 58705,
+        "sh": 18
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "SL1.48/1.1",
+        "val": 46322,
+        "sh": 14
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "SL1.50/2.1",
+        "val": 27947,
+        "sh": 9
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB212",
+        "val": 20276,
+        "sh": 6
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "SL1.44/0.1",
+        "val": 18633,
+        "sh": 6
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "SL1.45/1.1",
+        "val": 14719,
+        "sh": 5
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "SL1.46/2.1",
+        "val": 14452,
+        "sh": 4
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB219",
+        "val": 11278,
+        "sh": 3
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "SL1.52/0.4",
+        "val": 8936,
+        "sh": 3
+      },
+      {
+        "cat": "BLANKET",
+        "sku": "SL6.37/2.1",
+        "val": 8542,
+        "sh": 3
+      },
+      {
+        "cat": "TOTAL",
+        "sku": "",
+        "val": 229810,
+        "sh": 71
+      }
+    ],
+    "CHILE_PER": [
+      {
+        "cat": "LUGGAGE",
+        "sku": "TB1001",
+        "val": 17000,
+        "sh": 13
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB219",
+        "val": 15000,
+        "sh": 12
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "TB232",
+        "val": 8000,
+        "sh": 6
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB212",
+        "val": 7000,
+        "sh": 5
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "SL1.46/2.1",
+        "val": 6000,
+        "sh": 5
+      },
+      {
+        "cat": "MEMORY PILLOW",
+        "sku": "SL1.45/1.1",
+        "val": 5000,
+        "sh": 3
+      },
+      {
+        "cat": "BACKPACK",
+        "sku": "3311",
+        "val": 4000,
+        "sh": 3
+      },
+      {
+        "cat": "ERGONOMIC PILLOW",
+        "sku": "TB209",
+        "val": 4000,
+        "sh": 3
+      },
+      {
+        "cat": "TRAVEL ADAPTOR",
+        "sku": "TB254",
+        "val": 3000,
+        "sh": 2
+      },
+      {
+        "cat": "LUGGAGE",
+        "sku": "L5240",
+        "val": 3000,
+        "sh": 2
+      },
+      {
+        "cat": "TOTAL",
+        "sku": "",
+        "val": 0,
+        "sh": 59
+      }
+    ]
+  },
+  "monthly_latam": {
+    "2025": {
+      "jan": 643.0,
+      "fev": 596.0,
+      "mar": 586.9,
+      "abr": 575.1,
+      "mai": 596.4,
+      "jun": 697.2,
+      "jul": 718.4,
+      "ago": 698.1,
+      "set": 676.1,
+      "out": 532.3,
+      "nov": 666.0,
+      "dez": 868.2
+    },
+    "bp26": {
+      "jan": 677.0,
+      "fev": 648.9,
+      "mar": 768.8,
+      "abr": 763.6,
+      "mai": 712.9,
+      "jun": 706.2,
+      "jul": 895.2,
+      "ago": 804.6,
+      "set": 785.2,
+      "out": 768.7,
+      "nov": 916.9,
+      "dez": 915.7
+    },
+    "real26": {
+      "jan": 766.7,
+      "fev": 0,
+      "mar": 0,
+      "abr": 0,
+      "mai": 0,
+      "jun": 0,
+      "jul": 0,
+      "ago": 0,
+      "set": 0,
+      "out": 0,
+      "nov": 0,
+      "dez": 0
+    }
+  },
+  "monthly_country": {
+    "MEXICO": {
+      "2025": {
+        "jan": 329.1,
+        "fev": 318.8,
+        "mar": 240.9,
+        "abr": 334.8,
+        "mai": 284.7,
+        "jun": 418.9,
+        "jul": 405.2,
+        "ago": 514.3,
+        "set": 316.0,
+        "out": 284.8,
+        "nov": 392.1,
+        "dez": 482.5
+      },
+      "bp26": {
+        "jan": 343.7,
+        "fev": 386.3,
+        "mar": 449.4,
+        "abr": 403.5,
+        "mai": 373.1,
+        "jun": 430.6,
+        "jul": 595.1,
+        "ago": 436.9,
+        "set": 426.8,
+        "out": 436.7,
+        "nov": 555.4,
+        "dez": 460.6
+      },
+      "real26": {
+        "jan": 425.4,
+        "fev": 0,
+        "mar": 0,
+        "abr": 0,
+        "mai": 0,
+        "jun": 0,
+        "jul": 0,
+        "ago": 0,
+        "set": 0,
+        "out": 0,
+        "nov": 0,
+        "dez": 0
+      }
+    },
+    "BRAZIL": {
+      "2025": {
+        "jan": 112.1,
+        "fev": 150.8,
+        "mar": 91.9,
+        "abr": 106.7,
+        "mai": 176.9,
+        "jun": 146.2,
+        "jul": 206.7,
+        "ago": 92.3,
+        "set": 201.5,
+        "out": 137.0,
+        "nov": 167.0,
+        "dez": 144.6
+      },
+      "bp26": {
+        "jan": 120.9,
+        "fev": 115.0,
+        "mar": 116.5,
+        "abr": 125.1,
+        "mai": 121.9,
+        "jun": 125.6,
+        "jul": 127.7,
+        "ago": 135.3,
+        "set": 132.4,
+        "out": 130.0,
+        "nov": 136.7,
+        "dez": 133.9
+      },
+      "real26": {
+        "jan": 154.7,
+        "fev": 0,
+        "mar": 0,
+        "abr": 0,
+        "mai": 0,
+        "jun": 0,
+        "jul": 0,
+        "ago": 0,
+        "set": 0,
+        "out": 0,
+        "nov": 0,
+        "dez": 0
+      }
+    },
+    "ARGENTINA": {
+      "2025": {
+        "jan": 75.6,
+        "fev": 89.3,
+        "mar": 81.8,
+        "abr": 93.3,
+        "mai": 85.7,
+        "jun": 58.8,
+        "jul": 62.1,
+        "ago": 58.2,
+        "set": 61.5,
+        "out": 76.4,
+        "nov": 75.5,
+        "dez": 74.5
+      },
+      "bp26": {
+        "jan": 71.4,
+        "fev": 97.9,
+        "mar": 100.9,
+        "abr": 81.2,
+        "mai": 88.4,
+        "jun": 94.2,
+        "jul": 95.9,
+        "ago": 101.7,
+        "set": 95.1,
+        "out": 102.2,
+        "nov": 109.4,
+        "dez": 105.2
+      },
+      "real26": {
+        "jan": 94.1,
+        "fev": 0,
+        "mar": 0,
+        "abr": 0,
+        "mai": 0,
+        "jun": 0,
+        "jul": 0,
+        "ago": 0,
+        "set": 0,
+        "out": 0,
+        "nov": 0,
+        "dez": 0
+      }
+    },
+    "COLOMBIA": {
+      "2025": {
+        "jan": 40.4,
+        "fev": 26.3,
+        "mar": 20.9,
+        "abr": 27.1,
+        "mai": 28.2,
+        "jun": 23.3,
+        "jul": 25.2,
+        "ago": 28.9,
+        "set": 31.1,
+        "out": 25.0,
+        "nov": 25.6,
+        "dez": 25.6
+      },
+      "bp26": {
+        "jan": 37.5,
+        "fev": 27.1,
+        "mar": 27.1,
+        "abr": 29.2,
+        "mai": 29.2,
+        "jun": 31.3,
+        "jul": 29.2,
+        "ago": 29.2,
+        "set": 31.3,
+        "out": 29.2,
+        "nov": 31.3,
+        "dez": 30.2
+      },
+      "real26": {
+        "jan": 23.3,
+        "fev": 0,
+        "mar": 0,
+        "abr": 0,
+        "mai": 0,
+        "jun": 0,
+        "jul": 0,
+        "ago": 0,
+        "set": 0,
+        "out": 0,
+        "nov": 0,
+        "dez": 0
+      }
+    },
+    "CHILE": {
+      "2025": {
+        "jan": 8.8,
+        "fev": 9.2,
+        "mar": 5.5,
+        "abr": 9.5,
+        "mai": 13.2,
+        "jun": 19.0,
+        "jul": 11.2,
+        "ago": 2.4,
+        "set": 4.1,
+        "out": 6.7,
+        "nov": 0.9,
+        "dez": 10.0
+      },
+      "bp26": {
+        "jan": 9.6,
+        "fev": 10.0,
+        "mar": 5.8,
+        "abr": 14.4,
+        "mai": 13.2,
+        "jun": 7.9,
+        "jul": 12.1,
+        "ago": 7.0,
+        "set": 8.0,
+        "out": 13.1,
+        "nov": 8.0,
+        "dez": 9.2
+      },
+      "real26": {
+        "jan": 5.3,
+        "fev": 0,
+        "mar": 0,
+        "abr": 0,
+        "mai": 0,
+        "jun": 0,
+        "jul": 0,
+        "ago": 0,
+        "set": 0,
+        "out": 0,
+        "nov": 0,
+        "dez": 0
+      }
+    },
+    "PANAMA": {
+      "2025": {
+        "jan": 74.9,
+        "fev": 0,
+        "mar": 143.1,
+        "abr": 1.5,
+        "mai": 4.0,
+        "jun": 29.7,
+        "jul": 0,
+        "ago": 0,
+        "set": 59.4,
+        "out": 0,
+        "nov": 2.8,
+        "dez": 129.9
+      },
+      "bp26": {
+        "jan": 90.0,
+        "fev": 8.0,
+        "mar": 65.0,
+        "abr": 106.0,
+        "mai": 82.5,
+        "jun": 12.5,
+        "jul": 31.0,
+        "ago": 90.0,
+        "set": 87.5,
+        "out": 53.5,
+        "nov": 71.5,
+        "dez": 172.5
+      },
+      "real26": {
+        "jan": 59.6,
+        "fev": 0,
+        "mar": 0,
+        "abr": 0,
+        "mai": 0,
+        "jun": 0,
+        "jul": 0,
+        "ago": 0,
+        "set": 0,
+        "out": 0,
+        "nov": 0,
+        "dez": 0
+      }
+    },
+    "PERU": {
+      "2025": {
+        "jan": 2.1,
+        "fev": 1.6,
+        "mar": 2.8,
+        "abr": 2.1,
+        "mai": 3.7,
+        "jun": 1.2,
+        "jul": 8.1,
+        "ago": 2.0,
+        "set": 2.5,
+        "out": 2.4,
+        "nov": 2.1,
+        "dez": 1.2
+      },
+      "bp26": {
+        "jan": 4.1,
+        "fev": 4.5,
+        "mar": 4.1,
+        "abr": 4.1,
+        "mai": 4.6,
+        "jun": 4.1,
+        "jul": 4.1,
+        "ago": 4.6,
+        "set": 4.1,
+        "out": 4.1,
+        "nov": 4.6,
+        "dez": 4.1
+      },
+      "real26": {
+        "jan": 4.3,
+        "fev": 0,
+        "mar": 0,
+        "abr": 0,
+        "mai": 0,
+        "jun": 0,
+        "jul": 0,
+        "ago": 0,
+        "set": 0,
+        "out": 0,
+        "nov": 0,
+        "dez": 0
+      }
+    }
+  },
+  "family_by_country": {
+    "MEXICO": [
+      {
+        "family": "CLOE",
+        "v25": 1393.9,
+        "v26": 1854.0
+      },
+      {
+        "family": "BACKPACKS",
+        "v25": 607.7,
+        "v26": 663.9
+      },
+      {
+        "family": "PILLOWS",
+        "v25": 489.8,
+        "v26": 568.8
+      },
+      {
+        "family": "TRAVEL ACCESSORIES",
+        "v25": 474.9,
+        "v26": 494.7
+      },
+      {
+        "family": "SLOOTH",
+        "v25": 424.6,
+        "v26": 556.4
+      },
+      {
+        "family": "SECURITY",
+        "v25": 411.5,
+        "v26": 496.1
+      },
+      {
+        "family": "LEXINGHAM",
+        "v25": 185.0,
+        "v26": 194.1
+      },
+      {
+        "family": "LUGGAGE",
+        "v25": 183.3,
+        "v26": 212.6
+      },
+      {
+        "family": "OTHERS",
+        "v25": 93.2,
+        "v26": 184.6
+      },
+      {
+        "family": "ANÓMEO",
+        "v25": 58.1,
+        "v26": 69.9
+      },
+      {
+        "family": "BOTTLES",
+        "v25": 0,
+        "v26": 3.1
+      }
+    ],
+    "BRAZIL": [
+      {
+        "family": "BACKPACKS",
+        "v25": 486.4,
+        "v26": 293.9
+      },
+      {
+        "family": "PILLOWS",
+        "v25": 369.3,
+        "v26": 399.2
+      },
+      {
+        "family": "OTHERS",
+        "v25": 366.1,
+        "v26": 87.6
+      },
+      {
+        "family": "SECURITY",
+        "v25": 159.3,
+        "v26": 161.6
+      },
+      {
+        "family": "SLOOTH",
+        "v25": 158.2,
+        "v26": 174.7
+      },
+      {
+        "family": "TRAVEL ACCESSORIES",
+        "v25": 76.4,
+        "v26": 84.3
+      },
+      {
+        "family": "OEM",
+        "v25": 66.1,
+        "v26": 215.3
+      },
+      {
+        "family": "LUGGAGE",
+        "v25": 46.7,
+        "v26": 100.6
+      },
+      {
+        "family": "LEXINGHAM",
+        "v25": 6.9,
+        "v26": 0.0
+      },
+      {
+        "family": "BOTTLES",
+        "v25": 0,
+        "v26": 3.7
+      }
+    ],
+    "ARGENTINA": [
+      {
+        "family": "SLOOTH",
+        "v25": 285.2,
+        "v26": 319.1
+      },
+      {
+        "family": "OTHERS",
+        "v25": 233.9,
+        "v26": 288.1
+      },
+      {
+        "family": "PILLOWS",
+        "v25": 172.6,
+        "v26": 218.0
+      },
+      {
+        "family": "BACKPACKS",
+        "v25": 76.1,
+        "v26": 120.2
+      },
+      {
+        "family": "SECURITY",
+        "v25": 49.5,
+        "v26": 57.6
+      },
+      {
+        "family": "TRAVEL ACCESSORIES",
+        "v25": 45.8,
+        "v26": 91.0
+      },
+      {
+        "family": "LUGGAGE",
+        "v25": 28.1,
+        "v26": 47.7
+      },
+      {
+        "family": "ANÓMEO",
+        "v25": 1.5,
+        "v26": 1.9
+      }
+    ],
+    "COLOMBIA": [
+      {
+        "family": "SLOOTH",
+        "v25": 233.2,
+        "v26": 247.5
+      },
+      {
+        "family": "PILLOWS",
+        "v25": 49.8,
+        "v26": 59.5
+      },
+      {
+        "family": "OEM",
+        "v25": 14.1,
+        "v26": 15.8
+      },
+      {
+        "family": "TRAVEL ACCESSORIES",
+        "v25": 12.7,
+        "v26": 13.7
+      },
+      {
+        "family": "SECURITY",
+        "v25": 10.8,
+        "v26": 13.6
+      },
+      {
+        "family": "ANÓMEO",
+        "v25": 3.5,
+        "v26": 4.8
+      },
+      {
+        "family": "OTHERS",
+        "v25": 1.9,
+        "v26": 0
+      },
+      {
+        "family": "BACKPACKS",
+        "v25": 1.4,
+        "v26": 6.9
+      }
+    ],
+    "CHILE": [
+      {
+        "family": "TRAVEL ACCESSORIES",
+        "v25": 26.4,
+        "v26": 28.4
+      },
+      {
+        "family": "PILLOWS",
+        "v25": 26.1,
+        "v26": 35.4
+      },
+      {
+        "family": "LEXINGHAM",
+        "v25": 18.9,
+        "v26": 23.2
+      },
+      {
+        "family": "SLOOTH",
+        "v25": 11.4,
+        "v26": 8.0
+      },
+      {
+        "family": "LUGGAGE",
+        "v25": 6.3,
+        "v26": 10.0
+      },
+      {
+        "family": "SECURITY",
+        "v25": 5.6,
+        "v26": 5.9
+      },
+      {
+        "family": "OTHERS",
+        "v25": 3.4,
+        "v26": 3.8
+      },
+      {
+        "family": "BACKPACKS",
+        "v25": 2.3,
+        "v26": 3.4
+      }
+    ],
+    "PANAMA": [
+      {
+        "family": "OEM",
+        "v25": 351.3,
+        "v26": 400.0
+      },
+      {
+        "family": "SLOOTH",
+        "v25": 41.4,
+        "v26": 0
+      },
+      {
+        "family": "PILLOWS",
+        "v25": 23.4,
+        "v26": 150.6
+      },
+      {
+        "family": "BACKPACKS",
+        "v25": 12.4,
+        "v26": 75.4
+      },
+      {
+        "family": "TRAVEL ACCESSORIES",
+        "v25": 11.8,
+        "v26": 43.8
+      },
+      {
+        "family": "SECURITY",
+        "v25": 4.5,
+        "v26": 11.7
+      },
+      {
+        "family": "OTHERS",
+        "v25": 0.6,
+        "v26": 0
+      },
+      {
+        "family": "LUGGAGE",
+        "v25": 0,
+        "v26": 148.4
+      },
+      {
+        "family": "LEXINGHAM",
+        "v25": 0,
+        "v26": 40.0
+      }
+    ],
+    "PERU": [
+      {
+        "family": "PILLOWS",
+        "v25": 15.1,
+        "v26": 31.7
+      },
+      {
+        "family": "TRAVEL ACCESSORIES",
+        "v25": 8.7,
+        "v26": 11.1
+      },
+      {
+        "family": "SECURITY",
+        "v25": 5.6,
+        "v26": 5.9
+      },
+      {
+        "family": "ANÓMEO",
+        "v25": 1.8,
+        "v26": 1.8
+      },
+      {
+        "family": "OEM",
+        "v25": 0.4,
+        "v26": 0
+      },
+      {
+        "family": "SLOOTH",
+        "v25": 0.2,
+        "v26": 0
+      },
+      {
+        "family": "BACKPACKS",
+        "v25": 0,
+        "v26": 0.6
+      }
+    ]
+  }
+}

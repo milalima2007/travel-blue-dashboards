@@ -1,0 +1,89 @@
+{
+  "months_abbr": [
+    "jan",
+    "fev",
+    "mar",
+    "abr",
+    "mai",
+    "jun",
+    "jul",
+    "ago",
+    "set",
+    "out",
+    "nov",
+    "dez"
+  ],
+  "months_labels": [
+    "Jan",
+    "Fev",
+    "Mar",
+    "Abr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Set",
+    "Out",
+    "Nov",
+    "Dez"
+  ],
+  "countries": [
+    "MEXICO",
+    "BRAZIL",
+    "ARGENTINA",
+    "COLOMBIA",
+    "CHILE",
+    "PANAMA",
+    "PERU"
+  ],
+  "country_names": {
+    "MEXICO": "México",
+    "BRAZIL": "Brazil",
+    "ARGENTINA": "Argentina",
+    "COLOMBIA": "Colombia",
+    "CHILE": "Chile",
+    "PANAMA": "Panama",
+    "PERU": "Peru"
+  },
+  "country_colors": {
+    "MEXICO": "#e74c3c",
+    "BRAZIL": "#27ae60",
+    "ARGENTINA": "#4a9fd4",
+    "COLOMBIA": "#e67e22",
+    "CHILE": "#a855f7",
+    "PANAMA": "#14b8a6",
+    "PERU": "#f59e0b"
+  },
+  "brand_order": [
+    "TRAVEL BLUE",
+    "CLOE",
+    "SLOOTH",
+    "OEM",
+    "OTHERS",
+    "LEXINGHAM",
+    "ANÓMEO"
+  ],
+  "brand_colors": [
+    "#1a56db",
+    "#f5c518",
+    "#64748b",
+    "#3b82f6",
+    "#94a3b8",
+    "#22c55e",
+    "#ef4444"
+  ],
+  "month_names": {
+    "jan": "Janeiro",
+    "fev": "Fevereiro",
+    "mar": "Março",
+    "abr": "Abril",
+    "mai": "Maio",
+    "jun": "Junho",
+    "jul": "Julho",
+    "ago": "Agosto",
+    "set": "Setembro",
+    "out": "Outubro",
+    "nov": "Novembro",
+    "dez": "Dezembro"
+  }
+}

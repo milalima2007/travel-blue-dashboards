@@ -5,6 +5,117 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Travel Blue | Total Sales BP LATAM</title>
   <link rel="stylesheet" href="../css/style.css" />
+  <!-- Dashboard CSS (Total Sales BP LATAM) -->
+  <style>
+
+:root{
+  --bg:#f0f3f8;--card:#fff;--cb:#dde6f2;
+  --tabbg:#fff;--taba:#f0f5ff;--tbt:#7a8a9a;--tat:#003087;
+  --hbg:#002060;--hlo:#f5c518;
+  --txt:#18273a;--dim:#8898aa;
+  --kb-bg:#002570;--kb-fg:#7ecbff;--kb-d:#2a5080;
+  --ky-bg:#362500;--ky-fg:#f5c518;--ky-d:#7a5500;
+  --kr-bg:#320808;--kr-fg:#ff8080;--kr-d:#6a2020;
+  --kn-bg:#0a1630;--kn-fg:#50a0c0;--kn-d:#1a3a5a;
+  --th:#002060;--thf:#5ab0e0;--tra:#f5f8ff;--trtot:#e0e8f8;--trtotb:#003087;
+  --pos:#2e7d32;--neg:#c62828;--na:#8898aa;
+  --bbg:#f5c518;--bfg:#003087;
+  --bnbg:#fffbe6;--bnbrd:#f5c518;--bntxt:#7a5500;
+  --ring:#f5c518;--stxt:#003087;
+  --note:#9aabb8;--stb-bg:#dbeafe;--stb-fg:#1e40af;
+  --ssl-bg:#e5e7eb;--ssl-fg:#374151;
+  --phbg:#002060;--phfg:#f5c518;--psbg:#001040;--psfg:#5a7a98;
+  --ptbg:#002060;--ptfg:#f5c518;--pibrd:#e4ecf8;
+  --r26c:#1a56db;
+}
+body.dark{
+  --bg:#06111e;--card:#0d1e2f;--cb:#1a3050;
+  --tabbg:#0a1828;--taba:#102030;--tbt:#3a5a78;--tat:#4a9fd4;
+  --hbg:#040c18;--hlo:#f5c518;
+  --txt:#b0cce0;--dim:#3a5a78;
+  --kb-bg:#081a38;--kb-fg:#4a9fd4;--kb-d:#1a3a60;
+  --ky-bg:#201600;--ky-fg:#f5c518;--ky-d:#604800;
+  --kr-bg:#220808;--kr-fg:#f07070;--kr-d:#501818;
+  --kn-bg:#080f1a;--kn-fg:#3a7090;--kn-d:#101c2a;
+  --th:#081020;--thf:#2a6a90;--tra:#0d1a28;--trtot:#0a1520;--trtotb:#2a6a90;
+  --pos:#4caf50;--neg:#ef5350;--na:#3a5a78;
+  --bnbg:#141000;--bnbrd:#f5c518;--bntxt:#f5c518;
+  --ring:#f5c518;--stxt:#4a9fd4;
+  --note:#3a5a78;--stb-bg:#081838;--stb-fg:#4a9fd4;
+  --ssl-bg:#141e28;--ssl-fg:#5a7888;
+  --phbg:#081020;--phfg:#f5c518;--psbg:#040c18;--psfg:#3a5a78;
+  --ptbg:#081020;--ptfg:#f5c518;--pibrd:#141e2c;
+  --r26c:#4a9fd4;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--txt);transition:background .2s,color .2s;}
+.hdr{background:var(--hbg);display:flex;align-items:stretch;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.5);}
+.hdr-logo{background:var(--hlo);padding:12px 16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.hdr-ring{width:44px;height:44px;border:3px solid #002060;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#002060;}
+.hdr-main{flex:1;padding:7px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.hdr-title{color:#fff;font-size:16px;font-weight:800;letter-spacing:1px;}
+.hdr-sub{color:#6090b0;font-size:10px;margin-top:2px;}
+.hdr-ctrl{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.flt{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);padding:6px 12px;border-radius:7px;border:1px solid rgba(255,255,255,.15);}
+.flt label{color:#f5c518;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;}
+.flt select{background:#001030;color:#c0daf0;border:1.5px solid #2a4878;padding:5px 9px;border-radius:5px;font-size:13px;cursor:pointer;outline:none;}
+.flt select:focus{border-color:#f5c518;}
+.dbtn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#c0daf0;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;transition:background .15s;}
+.dbtn:hover{background:rgba(255,255,255,.2);}
+.hdr-badge{display:inline-block;background:var(--bbg);color:var(--bfg);font-size:10px;font-weight:800;padding:2px 9px;border-radius:9px;margin-left:8px;}
+.mbadge{display:inline-block;background:var(--bbg);color:var(--bfg);font-size:9px;font-weight:800;padding:1px 7px;border-radius:9px;margin-left:5px;text-transform:uppercase;}
+.tabs{background:var(--tabbg);display:flex;border-bottom:2px solid #1a3050;overflow-x:auto;position:sticky;top:66px;z-index:99;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.tab{padding:10px 14px;cursor:pointer;font-size:10px;font-weight:700;color:var(--tbt);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;text-transform:uppercase;letter-spacing:.6px;transition:all .15s;}
+.tab:hover{color:var(--tat);background:var(--taba);}
+.tab.active{color:var(--tat);border-bottom-color:#f5c518;background:var(--taba);}
+.panel{display:none;padding:14px;}
+.panel.active{display:block;}
+.sec-hdr{display:flex;align-items:center;gap:12px;margin:4px 0 12px;}
+.sec-ring{width:34px;height:34px;border:3px solid var(--ring);border-radius:50%;flex-shrink:0;}
+.sec-hdr h2{font-size:15px;font-weight:900;color:var(--stxt);text-transform:uppercase;letter-spacing:.8px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.mb{margin-bottom:12px;}
+.card{background:var(--card);border-radius:10px;padding:14px;box-shadow:0 2px 10px rgba(0,0,0,.1);border:1px solid var(--cb);}
+.ppt-card{border-left:4px solid #f5c518;}
+.card-title{font-size:9px;font-weight:800;color:var(--tat);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;padding-bottom:5px;border-bottom:2px solid #f5c518;display:flex;align-items:center;flex-wrap:wrap;gap:4px;}
+.kpi{border-radius:9px;padding:12px 13px;text-align:center;}
+.kpi-lbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;margin-bottom:3px;}
+.kpi-val{font-size:22px;font-weight:900;line-height:1.1;}
+.kpi-pct{font-size:10.5px;font-weight:700;margin-top:4px;}
+.kpi-blue{background:var(--kb-bg);color:var(--kb-fg);} .kpi-blue .kpi-lbl{color:var(--kb-d);}
+.kpi-yellow{background:var(--ky-bg);color:var(--ky-fg);} .kpi-yellow .kpi-lbl{color:var(--ky-d);}
+.kpi-red{background:var(--kr-bg);color:var(--kr-fg);} .kpi-red .kpi-lbl{color:var(--kr-d);}
+.kpi-navy{background:var(--kn-bg);color:var(--kn-fg);} .kpi-navy .kpi-lbl{color:var(--kn-d);}
+.ch-wrap{width:100%;} .ch-wrap canvas{display:block;width:100% !important;}
+.tbl{width:100%;border-collapse:collapse;font-size:11px;}
+.tbl thead th{background:var(--th);color:var(--thf);padding:6px 7px;text-align:left;font-size:8.5px;text-transform:uppercase;font-weight:700;letter-spacing:.5px;white-space:nowrap;}
+.tbl thead th.r{text-align:right;}
+.tbl tbody tr:nth-child(even){background:var(--tra);}
+.tbl tbody tr:hover:not(.tot){opacity:.82;}
+.tbl tr.tot{background:var(--trtot);font-weight:800;border-top:2px solid var(--trtotb);}
+.tbl td{padding:5px 7px;border-bottom:1px solid var(--cb);}
+.tbl td.r{text-align:right;white-space:nowrap;}
+.tbl td.r26{color:var(--r26c);text-align:right;white-space:nowrap;}
+.tbl td.dim{color:var(--dim);text-align:right;font-size:10px;}
+.note{font-size:8.5px;color:var(--note);margin-top:3px;font-style:italic;}
+.pos{color:var(--pos);font-weight:700;} .neg{color:var(--neg);font-weight:700;} .na{color:var(--na);}
+.filter-banner{background:var(--bnbg);border:1px solid var(--bnbrd);border-radius:7px;padding:7px 14px;margin-bottom:12px;font-size:11px;color:var(--bntxt);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.fn-sub{font-size:9.5px;opacity:.75;}
+.na-msg{color:var(--na);padding:8px;font-style:italic;font-size:11px;}
+.prod-grid{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--cb);border-radius:8px;overflow:hidden;}
+.prod-col{border-right:1px solid var(--cb);} .prod-col:last-child{border-right:none;}
+.prod-hdr{background:var(--phbg);color:var(--phfg);font-size:10px;font-weight:800;padding:6px 8px;text-align:center;text-transform:uppercase;}
+.prod-sub{background:var(--psbg);color:var(--psfg);font-size:9px;font-weight:600;padding:2px 8px;text-align:center;}
+.prod-item{padding:5px 8px;font-size:9.5px;border-bottom:1px solid var(--pibrd);line-height:1.5;color:var(--txt);}
+.prod-total{background:var(--ptbg);color:var(--ptfg);font-size:10px;font-weight:800;padding:6px 8px;text-align:center;}
+.sku-tb{background:var(--stb-bg);color:var(--stb-fg);border-radius:3px;padding:0 4px;font-weight:700;font-size:9px;}
+.sku-sl{background:var(--ssl-bg);color:var(--ssl-fg);border-radius:3px;padding:0 4px;font-weight:700;font-size:9px;}
+.dim-txt{color:var(--dim);}
+@media(max-width:960px){.g2,.g4{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.g2,.g4{grid-template-columns:1fr;}.prod-grid{grid-template-columns:1fr 1fr;}}
+
+  </style>
 </head>
 <body>
 
@@ -69,19 +180,1036 @@
     <p>Latin America Region — Business Partner Performance</p>
   </section>
 
-  <!-- CONTENT -->
-  <main class="main-content">
-    <div class="placeholder-wrap">
-      <div class="placeholder-icon">🌎</div>
-      <h2>Dashboard Under Construction</h2>
-      <p>The Total Sales BP LATAM dashboard is currently being developed. Regional data will appear here once ready.</p>
-      <a href="/home.html" class="btn-back">← Back to Hub</a>
+  <!-- CONTENT — Total Sales BP LATAM Dashboard -->
+  <main class="main-content dashboard-embed">
+<div class="hdr">
+  <div class="hdr-logo"><div class="hdr-ring">TB</div></div>
+  <div class="hdr-main">
+    <div><div class="hdr-title">LATAM BP 2026 — TOTAL SALES DASHBOARD</div>
+    <div class="hdr-sub">KUSD = Milhares USD &nbsp;|&nbsp; REAL = Vendas Reais &nbsp;|&nbsp; BP 26 = Business Plan &nbsp;|&nbsp; 2026 Real = Jan/26</div></div>
+    <div class="hdr-ctrl">
+      <div class="flt">
+        <label>📅 MÊS</label>
+        <select id="month-select" onchange="setMonth(this.value)"></select>
+        <span id="month-badge-hdr" class="hdr-badge">Todos os meses</span>
+      </div>
+      <button class="dbtn" id="dark-btn" onclick="toggleDark()">☀️ Claro</button>
     </div>
+  </div>
+</div>
+<div class="tabs"><div class="tab  active" onclick="switchTab('latam')">🌎 LATAM</div><div class="tab" onclick="switchTab('mexico')">🇲🇽 México</div><div class="tab" onclick="switchTab('brazil')">🇧🇷 Brazil</div><div class="tab" onclick="switchTab('argentina')">🇦🇷 Argentina</div><div class="tab" onclick="switchTab('colombia')">🇨🇴 Colombia</div><div class="tab" onclick="switchTab('chile')">🇨🇱 Chile</div><div class="tab" onclick="switchTab('panama')">🇵🇦 Panama</div><div class="tab" onclick="switchTab('peru')">🇵🇪 Peru</div></div>
+<div id="p-latam" class="panel active">
+<div class="sec-hdr"><div class="sec-ring"></div><h2>🌎 LATAM — TOTAL SALES</h2></div>
+<div id="kpi-lat" class="g4 mb"><div class="kpi kpi-blue"><div class="kpi-lbl">2025 REAL (KUSD)</div><div class="kpi-val">7854K</div><div class="kpi-pct">+11% vs 2024</div></div><div class="kpi kpi-yellow"><div class="kpi-lbl">BP 2026 (KUSD)</div><div class="kpi-val">9364K</div><div class="kpi-pct">+19% vs 2025</div></div><div class="kpi kpi-red"><div class="kpi-lbl">2026 REAL — JAN</div><div class="kpi-val">767K</div><div class="kpi-pct">+19% vs Jan25</div></div><div class="kpi kpi-navy"><div class="kpi-lbl">PAÍSES ATIVOS</div><div class="kpi-val">7</div><div class="kpi-pct">MEX·BRA·ARG·COL·CHI·PAN·PER</div></div></div>
+<div id="filter-note" class="filter-banner" style="display:none">
+  📅 <b id="filter-note-lbl"></b>
+  <span class="fn-sub">— KPIs, gráficos e tabelas filtrados para este mês &nbsp;|&nbsp; Gráficos históricos anuais não mudam</span>
+</div>
+<div class="card mb ppt-card"><div class="card-title">📊 PPT SLIDE 2 — NET SALES LATAM HISTÓRICO (LINHA)</div><div class="ch-wrap" style="height:290px"><canvas id="c_lat_line"></canvas></div></div>
+<div class="g2 mb">
+  <div class="card "><div class="card-title">NET SALES LATAM — BARRAS HISTÓRICAS</div><div class="ch-wrap" style="height:260px"><canvas id="c_lat_hist"></canvas></div></div>
+  <div class="card "><div class="card-title">📊 PPT SLIDE 3 — TRAVEL BLUE BRAND</div><div class="ch-wrap" style="height:245px"><canvas id="c_lat_tb"></canvas></div></div>
+</div>
+<div class="g2 mb">
+  <div class="card "><div class="card-title">STACKED BY COUNTRY</div><div class="ch-wrap" style="height:250px"><canvas id="c_lat_stacked"></canvas></div></div>
+  <div class="card "><div class="card-title">% SHARE BY COUNTRY</div><div class="ch-wrap" style="height:250px"><canvas id="c_lat_donut"></canvas></div></div>
+</div>
+<div class="g2 mb">
+  <div class="card "><div class="card-title">MONTHLY — 2025 REAL vs BP 2026 vs 2026 REAL</div><div class="ch-wrap" style="height:250px"><canvas id="c_lat_monthly"></canvas></div></div>
+  <div class="card "><div class="card-title">COUNTRY COMPARISON</div><div class="ch-wrap" style="height:250px"><canvas id="c_lat_cmp"></canvas></div></div>
+</div>
+<div class="g2 mb">
+  <div class="card"><div class="card-title">📊 CHANNEL</div><div id="tbl-channel-lat"></div><div class="ch-wrap" style="height:180px"><canvas id="c_lat_ch"></canvas></div></div>
+  <div class="card"><div class="card-title">📊 BRAND LATAM</div><div id="tbl-brand-lat"></div></div>
+</div>
+<div class="g2 mb">
+  <div class="card "><div class="card-title">BRAND STACKED</div><div class="ch-wrap" style="height:250px"><canvas id="c_lat_bstk"></canvas></div></div>
+  <div class="card "><div class="card-title">BRAND BRIDGE</div><div class="ch-wrap" style="height:260px"><canvas id="c_lat_wf"></canvas></div></div>
+</div>
+<div class="g2 mb">
+  <div class="card "><div class="card-title">% BRAND</div><div class="ch-wrap" style="height:250px"><canvas id="c_lat_bpct"></canvas></div></div>
+  <div class="card"><div class="card-title">FAMILY</div><div id="tbl-family-lat"></div></div>
+</div>
+<div class="card mb"><div class="card-title">📊 CUSTOMERS TOP LATAM</div><div id="tbl-cust-lat"></div></div>
+<div class="card mb"><div class="card-title">📊 TOP 10 SKUs POR PAÍS</div><div class="prod-grid"><div class="prod-col"><div class="prod-hdr">MEXICO</div><div class="prod-sub">TOP10=33%</div><div class="prod-item"><span class="sku-tb">TRAV002</span> — 322,785 (7%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB212</span> — 207,584 (5%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">6TRAO22048</span> — 186,499 (4%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">3090</span> — 176,507 (4%)<br><small class="dim-txt">BACKPACK</small></div><div class="prod-item"><span class="sku-tb">TRAV001</span> — 122,483 (3%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB219</span> — 89,640 (2%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB038</span> — 77,146 (2%)<br><small class="dim-txt">TSA COMBI LOCK</small></div><div class="prod-item"><span class="sku-tb">6TRAO24341</span> — 68,702 (2%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB217</span> — 68,576 (2%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB254</span> — 68,170 (2%)<br><small class="dim-txt">TRAVEL ADAPTOR</small></div><div class="prod-total">32% = 1,388,092 USD</div></div><div class="prod-col"><div class="prod-hdr">BRAZIL</div><div class="prod-sub">TOP10=30%</div><div class="prod-item"><span class="sku-tb">TB219</span> — 98,944 (6%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB212</span> — 86,560 (5%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB209</span> — 85,553 (5%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">3090</span> — 47,102 (3%)<br><small class="dim-txt">BACKPACK</small></div><div class="prod-item"><span class="sku-tb">TBP-5711</span> — 34,279 (2%)<br><small class="dim-txt">BACKPACK</small></div><div class="prod-item"><span class="sku-tb">TB217</span> — 30,400 (2%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB232</span> — 30,237 (2%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB029</span> — 29,543 (2%)<br><small class="dim-txt">TSA COMBI LOCK</small></div><div class="prod-item"><span class="sku-tb">TB208</span> — 26,803 (2%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">TBP-5761</span> — 25,006 (1%)<br><small class="dim-txt">BACKPACK</small></div><div class="prod-total">29% = 494,405 USD</div></div><div class="prod-col"><div class="prod-hdr">ARGENTINA</div><div class="prod-sub">TOP10=36%</div><div class="prod-item"><span class="sku-tb">TB219</span> — 65,557 (7%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB212</span> — 47,562 (5%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.50/2.1</span> — 37,714 (4%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.44/0.1</span> — 37,675 (4%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.49/0.1</span> — 31,824 (4%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.96/0.1</span> — 29,668 (3%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.45/1.1</span> — 25,482 (3%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.48/1.1</span> — 24,590 (3%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.46/2.1</span> — 21,880 (2%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB232</span> — 20,082 (2%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-total">38% = 342,034 USD</div></div><div class="prod-col"><div class="prod-hdr">COLOMBIA</div><div class="prod-sub">TOP10=53%</div><div class="prod-item"><span class="sku-sl">SL1.49/0.1</span> — 58,705 (18%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.48/1.1</span> — 46,322 (14%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.50/2.1</span> — 27,947 (9%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB212</span> — 20,276 (6%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.44/0.1</span> — 18,633 (6%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.45/1.1</span> — 14,719 (5%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.46/2.1</span> — 14,452 (4%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB219</span> — 11,278 (3%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.52/0.4</span> — 8,936 (3%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL6.37/2.1</span> — 8,542 (3%)<br><small class="dim-txt">BLANKET</small></div><div class="prod-total">71% = 229,810 USD</div></div><div class="prod-col"><div class="prod-hdr">CHI-PER</div><div class="prod-sub">TOP10=59%</div><div class="prod-item"><span class="sku-tb">TB1001</span> — 17,000 (13%)<br><small class="dim-txt">LUGGAGE</small></div><div class="prod-item"><span class="sku-tb">TB219</span> — 15,000 (12%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB232</span> — 8,000 (6%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB212</span> — 7,000 (5%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.46/2.1</span> — 6,000 (5%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-sl">SL1.45/1.1</span> — 5,000 (3%)<br><small class="dim-txt">MEMORY PILLOW</small></div><div class="prod-item"><span class="sku-tb">3311</span> — 4,000 (3%)<br><small class="dim-txt">BACKPACK</small></div><div class="prod-item"><span class="sku-tb">TB209</span> — 4,000 (3%)<br><small class="dim-txt">ERGONOMIC PILLOW</small></div><div class="prod-item"><span class="sku-tb">TB254</span> — 3,000 (2%)<br><small class="dim-txt">TRAVEL ADAPTOR</small></div><div class="prod-item"><span class="sku-tb">L5240</span> — 3,000 (2%)<br><small class="dim-txt">LUGGAGE</small></div><div class="prod-total">59% = 0 USD</div></div></div></div>
+</div>
+<div id="p-mexico" class="panel">
+<div class="sec-hdr"><div class="sec-ring"></div><h2>🇲🇽 MÉXICO</h2></div>
+<div id="kpi-mexico" class="g4 mb"><div class="kpi kpi-blue"><div class="kpi-lbl">2025 REAL</div><div class="kpi-val">4322K</div><div class="kpi-pct">+10% vs 2024</div></div><div class="kpi kpi-yellow"><div class="kpi-lbl">BP 2026</div><div class="kpi-val">5298K</div><div class="kpi-pct">+23% vs 2025</div></div><div class="kpi kpi-red"><div class="kpi-lbl">2026 REAL — JAN</div><div class="kpi-val">425K</div><div class="kpi-pct">+29% vs Jan25</div></div><div class="kpi kpi-navy"><div class="kpi-lbl">SHARE LATAM</div><div class="kpi-val">55%</div><div class="kpi-pct">of LATAM total</div></div></div>
+<div class="g2 mb">
+  <div class="card "><div class="card-title">NET SALES MÉXICO — LINHA</div><div class="ch-wrap" style="height:260px"><canvas id="c_mexico_line"></canvas></div></div>
+  <div class="card "><div class="card-title">NET SALES MÉXICO — BARRAS</div><div class="ch-wrap" style="height:245px"><canvas id="c_mexico_hist"></canvas></div></div>
+</div>
+<div class="card mb"><div class="card-title">MONTHLY — 2025 REAL vs BP 2026 vs 2026 REAL</div><div class="ch-wrap" style="height:240px"><canvas id="c_mexico_monthly"></canvas></div></div>
+<div class="g2 mb">
+  <div class="card"><div class="card-title">BRAND</div><div id="tbl-brand-mexico"></div></div>
+  <div class="card"><div class="card-title">FAMILY</div><div id="tbl-family-mexico"></div></div>
+</div>
+<div class="card mb"><div class="card-title">CUSTOMERS</div><div id="tbl-cust-mexico"></div></div>
+<div class="card mb"><div class="card-title">TOP 10 SKUs — 2025 REAL</div><table class="tbl"><thead><tr><th>CATEGORY</th><th>SKU</th><th class="r">2025 USD</th><th class="r">SH</th></tr></thead><tbody><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TRAV002</span></td><td class="r">322785</td><td class="r">7%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TB212</span></td><td class="r">207584</td><td class="r">5%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">6TRAO22048</span></td><td class="r">186499</td><td class="r">4%</td></tr><tr><td>BACKPACK</td><td><span class="sku-tb">3090</span></td><td class="r">176507</td><td class="r">4%</td></tr><tr><td>MEMORY PILLOW</td><td><span class="sku-tb">TRAV001</span></td><td class="r">122483</td><td class="r">3%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TB219</span></td><td class="r">89640</td><td class="r">2%</td></tr><tr><td>TSA COMBI LOCK</td><td><span class="sku-tb">TB038</span></td><td class="r">77146</td><td class="r">2%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">6TRAO24341</span></td><td class="r">68702</td><td class="r">2%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TB217</span></td><td class="r">68576</td><td class="r">2%</td></tr><tr><td>TRAVEL ADAPTOR</td><td><span class="sku-tb">TB254</span></td><td class="r">68170</td><td class="r">2%</td></tr><tr  class="tot"><td>TOTAL</td><td></td><td class="r">1388092</td><td class="r">32%</td></tr></tbody></table></div>
+</div><div id="p-brazil" class="panel">
+<div class="sec-hdr"><div class="sec-ring"></div><h2>🇧🇷 BRAZIL</h2></div>
+<div id="kpi-brazil" class="g4 mb"><div class="kpi kpi-blue"><div class="kpi-lbl">2025 REAL</div><div class="kpi-val">1734K</div><div class="kpi-pct">+1% vs 2024</div></div><div class="kpi kpi-yellow"><div class="kpi-lbl">BP 2026</div><div class="kpi-val">1521K</div><div class="kpi-pct">-12% vs 2025</div></div><div class="kpi kpi-red"><div class="kpi-lbl">2026 REAL — JAN</div><div class="kpi-val">155K</div><div class="kpi-pct">+38% vs Jan25</div></div><div class="kpi kpi-navy"><div class="kpi-lbl">SHARE LATAM</div><div class="kpi-val">22%</div><div class="kpi-pct">of LATAM total</div></div></div>
+<div class="g2 mb">
+  <div class="card "><div class="card-title">NET SALES BRAZIL — LINHA</div><div class="ch-wrap" style="height:260px"><canvas id="c_brazil_line"></canvas></div></div>
+  <div class="card "><div class="card-title">NET SALES BRAZIL — BARRAS</div><div class="ch-wrap" style="height:245px"><canvas id="c_brazil_hist"></canvas></div></div>
+</div>
+<div class="card mb"><div class="card-title">MONTHLY — 2025 REAL vs BP 2026 vs 2026 REAL</div><div class="ch-wrap" style="height:240px"><canvas id="c_brazil_monthly"></canvas></div></div>
+<div class="g2 mb">
+  <div class="card"><div class="card-title">BRAND</div><div id="tbl-brand-brazil"></div></div>
+  <div class="card"><div class="card-title">FAMILY</div><div id="tbl-family-brazil"></div></div>
+</div>
+<div class="card mb"><div class="card-title">CUSTOMERS</div><div id="tbl-cust-brazil"></div></div>
+<div class="card mb"><div class="card-title">TOP 10 SKUs — 2025 REAL</div><table class="tbl"><thead><tr><th>CATEGORY</th><th>SKU</th><th class="r">2025 USD</th><th class="r">SH</th></tr></thead><tbody><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TB219</span></td><td class="r">98944</td><td class="r">6%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TB212</span></td><td class="r">86560</td><td class="r">5%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TB209</span></td><td class="r">85553</td><td class="r">5%</td></tr><tr><td>BACKPACK</td><td><span class="sku-tb">3090</span></td><td class="r">47102</td><td class="r">3%</td></tr><tr><td>BACKPACK</td><td><span class="sku-tb">TBP-5711</span></td><td class="r">34279</td><td class="r">2%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TB217</span></td><td class="r">30400</td><td class="r">2%</td></tr><tr><td>MEMORY PILLOW</td><td><span class="sku-tb">TB232</span></td><td class="r">30237</td><td class="r">2%</td></tr><tr><td>TSA COMBI LOCK</td><td><span class="sku-tb">TB029</span></td><td class="r">29543</td><td class="r">2%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TB208</span></td><td class="r">26803</td><td class="r">2%</td></tr><tr><td>BACKPACK</td><td><span class="sku-tb">TBP-5761</span></td><td class="r">25006</td><td class="r">1%</td></tr><tr  class="tot"><td>TOTAL</td><td></td><td class="r">494405</td><td class="r">29%</td></tr></tbody></table></div>
+</div><div id="p-argentina" class="panel">
+<div class="sec-hdr"><div class="sec-ring"></div><h2>🇦🇷 ARGENTINA</h2></div>
+<div id="kpi-argentina" class="g4 mb"><div class="kpi kpi-blue"><div class="kpi-lbl">2025 REAL</div><div class="kpi-val">893K</div><div class="kpi-pct">+23% vs 2024</div></div><div class="kpi kpi-yellow"><div class="kpi-lbl">BP 2026</div><div class="kpi-val">1144K</div><div class="kpi-pct">+28% vs 2025</div></div><div class="kpi kpi-red"><div class="kpi-lbl">2026 REAL — JAN</div><div class="kpi-val">94K</div><div class="kpi-pct">+24% vs Jan25</div></div><div class="kpi kpi-navy"><div class="kpi-lbl">SHARE LATAM</div><div class="kpi-val">11%</div><div class="kpi-pct">of LATAM total</div></div></div>
+<div class="g2 mb">
+  <div class="card "><div class="card-title">NET SALES ARGENTINA — LINHA</div><div class="ch-wrap" style="height:260px"><canvas id="c_argentina_line"></canvas></div></div>
+  <div class="card "><div class="card-title">NET SALES ARGENTINA — BARRAS</div><div class="ch-wrap" style="height:245px"><canvas id="c_argentina_hist"></canvas></div></div>
+</div>
+<div class="card mb"><div class="card-title">MONTHLY — 2025 REAL vs BP 2026 vs 2026 REAL</div><div class="ch-wrap" style="height:240px"><canvas id="c_argentina_monthly"></canvas></div></div>
+<div class="g2 mb">
+  <div class="card"><div class="card-title">BRAND</div><div id="tbl-brand-argentina"></div></div>
+  <div class="card"><div class="card-title">FAMILY</div><div id="tbl-family-argentina"></div></div>
+</div>
+<div class="card mb"><div class="card-title">CUSTOMERS</div><div id="tbl-cust-argentina"></div></div>
+<div class="card mb"><div class="card-title">TOP 10 SKUs — 2025 REAL</div><table class="tbl"><thead><tr><th>CATEGORY</th><th>SKU</th><th class="r">2025 USD</th><th class="r">SH</th></tr></thead><tbody><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TB219</span></td><td class="r">65557</td><td class="r">7%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TB212</span></td><td class="r">47562</td><td class="r">5%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-sl">SL1.50/2.1</span></td><td class="r">37714</td><td class="r">4%</td></tr><tr><td>MEMORY PILLOW</td><td><span class="sku-sl">SL1.44/0.1</span></td><td class="r">37675</td><td class="r">4%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-sl">SL1.49/0.1</span></td><td class="r">31824</td><td class="r">4%</td></tr><tr><td>MEMORY PILLOW</td><td><span class="sku-sl">SL1.96/0.1</span></td><td class="r">29668</td><td class="r">3%</td></tr><tr><td>MEMORY PILLOW</td><td><span class="sku-sl">SL1.45/1.1</span></td><td class="r">25482</td><td class="r">3%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-sl">SL1.48/1.1</span></td><td class="r">24590</td><td class="r">3%</td></tr><tr><td>MEMORY PILLOW</td><td><span class="sku-sl">SL1.46/2.1</span></td><td class="r">21880</td><td class="r">2%</td></tr><tr><td>MEMORY PILLOW</td><td><span class="sku-tb">TB232</span></td><td class="r">20082</td><td class="r">2%</td></tr><tr  class="tot"><td>TOTAL</td><td></td><td class="r">342034</td><td class="r">38%</td></tr></tbody></table></div>
+</div><div id="p-colombia" class="panel">
+<div class="sec-hdr"><div class="sec-ring"></div><h2>🇨🇴 COLOMBIA</h2></div>
+<div id="kpi-colombia" class="g4 mb"><div class="kpi kpi-blue"><div class="kpi-lbl">2025 REAL</div><div class="kpi-val">328K</div><div class="kpi-pct">+14% vs 2024</div></div><div class="kpi kpi-yellow"><div class="kpi-lbl">BP 2026</div><div class="kpi-val">362K</div><div class="kpi-pct">+10% vs 2025</div></div><div class="kpi kpi-red"><div class="kpi-lbl">2026 REAL — JAN</div><div class="kpi-val">23K</div><div class="kpi-pct">-42% vs Jan25</div></div><div class="kpi kpi-navy"><div class="kpi-lbl">SHARE LATAM</div><div class="kpi-val">4%</div><div class="kpi-pct">of LATAM total</div></div></div>
+<div class="g2 mb">
+  <div class="card "><div class="card-title">NET SALES COLOMBIA — LINHA</div><div class="ch-wrap" style="height:260px"><canvas id="c_colombia_line"></canvas></div></div>
+  <div class="card "><div class="card-title">NET SALES COLOMBIA — BARRAS</div><div class="ch-wrap" style="height:245px"><canvas id="c_colombia_hist"></canvas></div></div>
+</div>
+<div class="card mb"><div class="card-title">MONTHLY — 2025 REAL vs BP 2026 vs 2026 REAL</div><div class="ch-wrap" style="height:240px"><canvas id="c_colombia_monthly"></canvas></div></div>
+<div class="g2 mb">
+  <div class="card"><div class="card-title">BRAND</div><div id="tbl-brand-colombia"></div></div>
+  <div class="card"><div class="card-title">FAMILY</div><div id="tbl-family-colombia"></div></div>
+</div>
+<div class="card mb"><div class="card-title">CUSTOMERS</div><div id="tbl-cust-colombia"></div></div>
+<div class="card mb"><div class="card-title">TOP 10 SKUs — 2025 REAL</div><table class="tbl"><thead><tr><th>CATEGORY</th><th>SKU</th><th class="r">2025 USD</th><th class="r">SH</th></tr></thead><tbody><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-sl">SL1.49/0.1</span></td><td class="r">58705</td><td class="r">18%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-sl">SL1.48/1.1</span></td><td class="r">46322</td><td class="r">14%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-sl">SL1.50/2.1</span></td><td class="r">27947</td><td class="r">9%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TB212</span></td><td class="r">20276</td><td class="r">6%</td></tr><tr><td>MEMORY PILLOW</td><td><span class="sku-sl">SL1.44/0.1</span></td><td class="r">18633</td><td class="r">6%</td></tr><tr><td>MEMORY PILLOW</td><td><span class="sku-sl">SL1.45/1.1</span></td><td class="r">14719</td><td class="r">5%</td></tr><tr><td>MEMORY PILLOW</td><td><span class="sku-sl">SL1.46/2.1</span></td><td class="r">14452</td><td class="r">4%</td></tr><tr><td>ERGONOMIC PILLOW</td><td><span class="sku-tb">TB219</span></td><td class="r">11278</td><td class="r">3%</td></tr><tr><td>MEMORY PILLOW</td><td><span class="sku-sl">SL1.52/0.4</span></td><td class="r">8936</td><td class="r">3%</td></tr><tr><td>BLANKET</td><td><span class="sku-sl">SL6.37/2.1</span></td><td class="r">8542</td><td class="r">3%</td></tr><tr  class="tot"><td>TOTAL</td><td></td><td class="r">229810</td><td class="r">71%</td></tr></tbody></table></div>
+</div><div id="p-chile" class="panel">
+<div class="sec-hdr"><div class="sec-ring"></div><h2>🇨🇱 CHILE</h2></div>
+<div id="kpi-chile" class="g4 mb"><div class="kpi kpi-blue"><div class="kpi-lbl">2025 REAL</div><div class="kpi-val">100K</div><div class="kpi-pct">-26% vs 2024</div></div><div class="kpi kpi-yellow"><div class="kpi-lbl">BP 2026</div><div class="kpi-val">118K</div><div class="kpi-pct">+18% vs 2025</div></div><div class="kpi kpi-red"><div class="kpi-lbl">2026 REAL — JAN</div><div class="kpi-val">5K</div><div class="kpi-pct">-40% vs Jan25</div></div><div class="kpi kpi-navy"><div class="kpi-lbl">SHARE LATAM</div><div class="kpi-val">1%</div><div class="kpi-pct">of LATAM total</div></div></div>
+<div class="g2 mb">
+  <div class="card "><div class="card-title">NET SALES CHILE — LINHA</div><div class="ch-wrap" style="height:260px"><canvas id="c_chile_line"></canvas></div></div>
+  <div class="card "><div class="card-title">NET SALES CHILE — BARRAS</div><div class="ch-wrap" style="height:245px"><canvas id="c_chile_hist"></canvas></div></div>
+</div>
+<div class="card mb"><div class="card-title">MONTHLY — 2025 REAL vs BP 2026 vs 2026 REAL</div><div class="ch-wrap" style="height:240px"><canvas id="c_chile_monthly"></canvas></div></div>
+<div class="g2 mb">
+  <div class="card"><div class="card-title">BRAND</div><div id="tbl-brand-chile"></div></div>
+  <div class="card"><div class="card-title">FAMILY</div><div id="tbl-family-chile"></div></div>
+</div>
+<div class="card mb"><div class="card-title">CUSTOMERS</div><div id="tbl-cust-chile"></div></div>
+<div class="card mb"><div class="card-title">TOP 10 SKUs — 2025 REAL</div><p class="na-msg">—</p></div>
+</div><div id="p-panama" class="panel">
+<div class="sec-hdr"><div class="sec-ring"></div><h2>🇵🇦 PANAMA</h2></div>
+<div id="kpi-panama" class="g4 mb"><div class="kpi kpi-blue"><div class="kpi-lbl">2025 REAL</div><div class="kpi-val">446K</div><div class="kpi-pct">+62% vs 2024</div></div><div class="kpi kpi-yellow"><div class="kpi-lbl">BP 2026</div><div class="kpi-val">870K</div><div class="kpi-pct">+95% vs 2025</div></div><div class="kpi kpi-red"><div class="kpi-lbl">2026 REAL — JAN</div><div class="kpi-val">60K</div><div class="kpi-pct">-20% vs Jan25</div></div><div class="kpi kpi-navy"><div class="kpi-lbl">SHARE LATAM</div><div class="kpi-val">6%</div><div class="kpi-pct">of LATAM total</div></div></div>
+<div class="g2 mb">
+  <div class="card "><div class="card-title">NET SALES PANAMA — LINHA</div><div class="ch-wrap" style="height:260px"><canvas id="c_panama_line"></canvas></div></div>
+  <div class="card "><div class="card-title">NET SALES PANAMA — BARRAS</div><div class="ch-wrap" style="height:245px"><canvas id="c_panama_hist"></canvas></div></div>
+</div>
+<div class="card mb"><div class="card-title">MONTHLY — 2025 REAL vs BP 2026 vs 2026 REAL</div><div class="ch-wrap" style="height:240px"><canvas id="c_panama_monthly"></canvas></div></div>
+<div class="g2 mb">
+  <div class="card"><div class="card-title">BRAND</div><div id="tbl-brand-panama"></div></div>
+  <div class="card"><div class="card-title">FAMILY</div><div id="tbl-family-panama"></div></div>
+</div>
+<div class="card mb"><div class="card-title">CUSTOMERS</div><div id="tbl-cust-panama"></div></div>
+<div class="card mb"><div class="card-title">TOP 10 SKUs — 2025 REAL</div><p class="na-msg">—</p></div>
+</div><div id="p-peru" class="panel">
+<div class="sec-hdr"><div class="sec-ring"></div><h2>🇵🇪 PERU</h2></div>
+<div id="kpi-peru" class="g4 mb"><div class="kpi kpi-blue"><div class="kpi-lbl">2025 REAL</div><div class="kpi-val">32K</div><div class="kpi-pct">+1881% vs 2024</div></div><div class="kpi kpi-yellow"><div class="kpi-lbl">BP 2026</div><div class="kpi-val">51K</div><div class="kpi-pct">+61% vs 2025</div></div><div class="kpi kpi-red"><div class="kpi-lbl">2026 REAL — JAN</div><div class="kpi-val">4K</div><div class="kpi-pct">+105% vs Jan25</div></div><div class="kpi kpi-navy"><div class="kpi-lbl">SHARE LATAM</div><div class="kpi-val">0%</div><div class="kpi-pct">of LATAM total</div></div></div>
+<div class="g2 mb">
+  <div class="card "><div class="card-title">NET SALES PERU — LINHA</div><div class="ch-wrap" style="height:260px"><canvas id="c_peru_line"></canvas></div></div>
+  <div class="card "><div class="card-title">NET SALES PERU — BARRAS</div><div class="ch-wrap" style="height:245px"><canvas id="c_peru_hist"></canvas></div></div>
+</div>
+<div class="card mb"><div class="card-title">MONTHLY — 2025 REAL vs BP 2026 vs 2026 REAL</div><div class="ch-wrap" style="height:240px"><canvas id="c_peru_monthly"></canvas></div></div>
+<div class="g2 mb">
+  <div class="card"><div class="card-title">BRAND</div><div id="tbl-brand-peru"></div></div>
+  <div class="card"><div class="card-title">FAMILY</div><div id="tbl-family-peru"></div></div>
+</div>
+<div class="card mb"><div class="card-title">CUSTOMERS</div><div id="tbl-cust-peru"></div></div>
+<div class="card mb"><div class="card-title">TOP 10 SKUs — 2025 REAL</div><p class="na-msg">—</p></div>
+</div>
   </main>
 
   <footer class="site-footer">
     © 2026 <span>Travel Blue Ltd.</span> — Internal use only.
   </footer>
+
+
+  <!-- Dashboard JS (Total Sales BP LATAM) -->
+  <script>
+let D = {}; // loaded from data/sales_data.json
+// MiniChart v4 - Smart bar width per position
+const MC = (() => {
+  const TIP_ID = '__mc_tip__';
+  function ensureTip() {
+    if (!document.getElementById(TIP_ID)) {
+      const t = document.createElement('div');
+      t.id = TIP_ID;
+      t.style.cssText = 'position:fixed;background:rgba(5,12,35,.97);color:#c8ddf0;padding:9px 14px;border-radius:8px;font-size:12px;pointer-events:none;display:none;z-index:9999;box-shadow:0 6px 28px rgba(0,0,0,.7);border:1px solid rgba(74,159,212,.25);line-height:1.9;max-width:280px;';
+      document.body.appendChild(t);
+    }
+    return document.getElementById(TIP_ID);
+  }
+  function showTip(e, html) { const t=ensureTip(); t.innerHTML=html; t.style.display='block'; moveTip(e); }
+  function moveTip(e) {
+    const t=ensureTip(); let x=e.clientX+14, y=e.clientY-10;
+    if(x+290>window.innerWidth) x=e.clientX-285;
+    if(y+110>window.innerHeight) y=e.clientY-105;
+    t.style.left=x+'px'; t.style.top=y+'px';
+  }
+  function hideTip() { const t=document.getElementById(TIP_ID); if(t) t.style.display='none'; }
+
+  function niceTicks(max, count) {
+    count = count||5; if(max<=0) return [0,1,2];
+    const raw=max/count, mag=Math.pow(10,Math.floor(Math.log10(raw))), norm=raw/mag;
+    const nice=norm<=1?1:norm<=2?2:norm<=2.5?2.5:norm<=5?5:10;
+    const step=nice*mag, ticks=[];
+    for(let v=0; v<=max*1.1+step; v+=step) ticks.push(Math.round(v*1e5)/1e5);
+    return ticks;
+  }
+  function fmtT(v, pct) {
+    if(pct) return v.toFixed(0)+'%';
+    if(v>=1000000) return (v/1000000).toFixed(1)+'M';
+    if(v>=1000) return (v/1000).toFixed(0)+'K';
+    return v.toFixed(1);
+  }
+  function fmtTip(v, pct) { return pct ? v.toFixed(1)+'%' : v.toFixed(0)+'K'; }
+
+  function isDark() { return document.body.classList.contains('dark'); }
+  function T() {
+    return isDark()
+      ? {panelBg:'#0d1825',gridBg:'#0f1e2e',grid:'#1a3050',axis:'#253f60',txt:'#3a5a78',lbl:'#7aaccc',tot:'#c0d8f0'}
+      : {panelBg:'#fff',gridBg:'#f4f7fc',grid:'#dde6f2',axis:'#b5c5d8',txt:'#8899aa',lbl:'#334455',tot:'#111827'};
+  }
+
+  function setupCanvas(canvas, h) {
+    const dpr = window.devicePixelRatio||1;
+    // Get width from parent container, not the canvas itself
+    let W = 600;
+    if(canvas.parentElement) W = canvas.parentElement.getBoundingClientRect().width || canvas.parentElement.clientWidth || 600;
+    if(W < 100) W = 600;
+    canvas.width  = Math.round(W * dpr);
+    canvas.height = Math.round(h * dpr);
+    canvas.style.width  = W + 'px';
+    canvas.style.height = h + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    return {ctx, W, h};
+  }
+
+  function drawGrid(ctx, PL, PR, PT, PB, W, h, ticks, pctMode, axMax) {
+    const cw=W-PL-PR, ch=h-PT-PB, Th=T();
+    function vy(v) { return PT + ch - (v / (axMax||1)) * ch; }
+    ctx.fillStyle = Th.panelBg; ctx.fillRect(0, 0, W, h);
+    ctx.fillStyle = Th.gridBg;
+    ctx.beginPath();
+    if(ctx.roundRect) ctx.roundRect(PL,PT,cw,ch,4); else ctx.rect(PL,PT,cw,ch);
+    ctx.fill();
+    ticks.forEach(tv => {
+      const yp = vy(tv); if(yp<PT-2||yp>PT+ch+2) return;
+      ctx.strokeStyle=Th.grid; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(PL,yp); ctx.lineTo(PL+cw,yp); ctx.stroke();
+      ctx.fillStyle=Th.txt; ctx.font='10px Segoe UI,Arial,sans-serif'; ctx.textAlign='right';
+      ctx.fillText(fmtT(tv,pctMode), PL-4, yp+4);
+    });
+    ctx.strokeStyle=Th.axis; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(PL,PT); ctx.lineTo(PL,PT+ch); ctx.lineTo(PL+cw,PT+ch); ctx.stroke();
+    return {cw, ch, vy};
+  }
+
+  // ══ BAR CHART - smart per-position width ══
+  function drawBars(canvas, cfg) {
+    const {labels, datasets, stacked=false, pctMode=false, showValLabels=true, height:h=280} = cfg;
+    const {ctx, W} = setupCanvas(canvas, h);
+    const PL=58, PR=20, PT=18, PB=52, n=labels.length, Th=T();
+    const hasLegend = datasets.length > 1;
+
+    let maxV = 0;
+    if(stacked) {
+      for(let i=0;i<n;i++){let s=0; datasets.forEach(d=>s+=(d.data[i]||0)); if(s>maxV)maxV=s;}
+    } else {
+      datasets.forEach(d => d.data.forEach(v => { if((v||0)>maxV) maxV=v; }));
+    }
+    if(pctMode) maxV = 100;
+    const ticks = niceTicks(maxV * 1.1);
+    const axMax = ticks[ticks.length-1];
+    const {cw, ch, vy} = drawGrid(ctx, PL, PR, PT, PB, W, h, ticks, pctMode, axMax);
+    const gw = cw / n;
+
+    // X labels
+    ctx.fillStyle=Th.lbl; ctx.font='bold 10px Segoe UI,Arial,sans-serif'; ctx.textAlign='center';
+    labels.forEach((lbl,i) => ctx.fillText(lbl, PL+(i+0.5)*gw, PT+ch+16));
+
+    // Legend
+    if(hasLegend) {
+      const activeSets = datasets.filter(d => d.data.some(v => (v||0) > 0));
+      let lx = PL, ly = h - 10;
+      activeSets.forEach(ds => {
+        ctx.fillStyle=ds.color||'#888'; ctx.fillRect(lx, ly-9, 11, 9);
+        ctx.fillStyle=Th.lbl; ctx.font='10px Segoe UI,Arial,sans-serif'; ctx.textAlign='left';
+        ctx.fillText(ds.label||'', lx+14, ly);
+        lx += Math.max((ds.label||'').length * 6 + 22, 85);
+      });
+    }
+
+    const hitAreas = [];
+
+    if(stacked) {
+      const bw = Math.max(gw * 0.75, 12);
+      for(let i=0;i<n;i++) {
+        let bot = 0;
+        datasets.forEach(ds => {
+          const v = ds.data[i]||0; if(v<=0) return;
+          const bx=PL+(i+0.5)*gw-bw/2, by=vy(bot+v), bh=Math.max(1, vy(bot)-vy(bot+v));
+          ctx.fillStyle=ds.color||'#aaa';
+          ctx.beginPath();
+          if(ctx.roundRect) ctx.roundRect(bx,by,bw,bh, bh>4?[0,0,2,2]:2);
+          else ctx.rect(bx,by,bw,bh);
+          ctx.fill();
+          if(bh>14) {
+            ctx.fillStyle='rgba(255,255,255,.88)'; ctx.font='bold 9px Segoe UI,Arial,sans-serif'; ctx.textAlign='center';
+            ctx.fillText(fmtT(v,pctMode), bx+bw/2, by+bh/2+4);
+          }
+          hitAreas.push({x:bx,y:by,w:bw,h:bh, tip:`<b>${labels[i]}</b><br>${ds.label||''}: <b>${fmtTip(v,pctMode)}</b>`});
+          bot += v;
+        });
+        if(showValLabels && bot>0) {
+          ctx.fillStyle=Th.tot; ctx.font='bold 10px Segoe UI,Arial,sans-serif'; ctx.textAlign='center';
+          ctx.fillText(fmtT(bot,pctMode), PL+(i+0.5)*gw, vy(bot)-5);
+        }
+      }
+    } else {
+      // SMART GROUPED: per-position, count non-zero series → calculate width
+      for(let i=0; i<n; i++) {
+        // Which series have non-zero value at this position?
+        const activeAtPos = datasets.filter(d => (d.data[i]||0) > 0);
+        const nAtPos = activeAtPos.length || 1;
+        // Width per bar: take 72% of slot divided by count at this position
+        const totalBW = gw * 0.78;
+        const bw = totalBW / nAtPos;
+        let j = 0;
+        activeAtPos.forEach(ds => {
+          const v = ds.data[i]||0;
+          const bx = PL+(i+0.5)*gw - totalBW/2 + j*bw;
+          const by = vy(v), bh = Math.max(1, PT+ch-by);
+          ctx.fillStyle = ds.color||'#888';
+          ctx.beginPath();
+          if(ctx.roundRect) ctx.roundRect(bx, by, bw*0.94, bh, [3,3,0,0]);
+          else ctx.rect(bx, by, bw*0.94, bh);
+          ctx.fill();
+          if(showValLabels && bh > 3) {
+            ctx.fillStyle=Th.tot; ctx.font=`bold ${bw>30?10:9}px Segoe UI,Arial,sans-serif`; ctx.textAlign='center';
+            ctx.fillText(fmtT(v,pctMode), bx+bw*0.47, by-4);
+          }
+          hitAreas.push({x:bx,y:by,w:bw*0.94,h:bh, tip:`<b>${labels[i]}</b><br>${ds.label||''}: <b>${fmtTip(v,pctMode)}</b>`});
+          j++;
+        });
+      }
+    }
+    return hitAreas;
+  }
+
+  // ══ LINE CHART ══
+  function drawLine(canvas, cfg) {
+    const {labels, datasets, height:h=300} = cfg;
+    const {ctx, W} = setupCanvas(canvas, h);
+    const PL=68, PR=72, PT=20, PB=50, n=labels.length, Th=T();
+    ctx.fillStyle=Th.panelBg; ctx.fillRect(0,0,W,h);
+    let maxV=0;
+    datasets.forEach(d => d.data.forEach(v => { if(v!=null && v>maxV) maxV=v; }));
+    const ticks=niceTicks(maxV*1.12); const axMax=ticks[ticks.length-1];
+    const {cw,ch,vy}=drawGrid(ctx,PL,PR,PT,PB,W,h,ticks,false,axMax);
+    function vx(i){return PL+(i/(n-1))*cw;}
+    ctx.fillStyle=Th.lbl; ctx.font='bold 11px Segoe UI,Arial,sans-serif'; ctx.textAlign='center';
+    labels.forEach((lbl,i)=>ctx.fillText(lbl,vx(i),PT+ch+18));
+    const hitAreas=[];
+    datasets.forEach((ds,di)=>{
+      const pts=ds.data.map((v,i)=>v!=null?{x:vx(i),y:vy(v),v,i}:null).filter(Boolean);
+      if(!pts.length) return;
+      const color=ds.color||'#003087';
+      // Area fill
+      ctx.save(); ctx.globalAlpha=0.07; ctx.fillStyle=color;
+      ctx.beginPath(); ctx.moveTo(pts[0].x,PT+ch);
+      pts.forEach(p=>ctx.lineTo(p.x,p.y));
+      ctx.lineTo(pts[pts.length-1].x,PT+ch); ctx.closePath(); ctx.fill(); ctx.restore();
+      // Line
+      ctx.strokeStyle=color; ctx.lineWidth=2.5; ctx.lineJoin='round'; ctx.lineCap='round';
+      if(ds.dashed) ctx.setLineDash([8,5]);
+      ctx.beginPath(); pts.forEach((p,pi)=>pi===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+      ctx.stroke(); ctx.setLineDash([]);
+      // Dots + labels
+      pts.forEach((p,pi)=>{
+        const isLast=pi===pts.length-1, prev=pi>0?pts[pi-1]:null;
+        const r=isLast?7:5;
+        ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill();
+        ctx.strokeStyle=color; ctx.lineWidth=2.5; ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.stroke();
+        const goingDown=prev&&prev.v>p.v;
+        let lbY=goingDown?p.y+18:p.y-13; if(lbY<PT+6)lbY=p.y+17; if(lbY>PT+ch-4)lbY=p.y-13;
+        const valStr=Math.round(p.v).toLocaleString('de-DE');
+        ctx.fillStyle=isLast?color:Th.lbl;
+        ctx.font=`${isLast?'900':'700'} ${isLast?13:11}px Segoe UI,Arial,sans-serif`;
+        ctx.textAlign=isLast?'left':'center';
+        ctx.fillText(valStr, isLast?p.x+10:p.x, lbY);
+        hitAreas.push({x:p.x-10,y:p.y-10,w:20,h:20, tip:`<b>${labels[p.i]}</b><br>${ds.label||''}: <b>${valStr}K</b>`});
+      });
+    });
+    if(datasets.length>1){
+      let lx=PL;
+      datasets.forEach(ds=>{
+        const c=ds.color||'#003087';
+        ctx.strokeStyle=c; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(lx,h-14); ctx.lineTo(lx+18,h-14); ctx.stroke();
+        ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(lx+9,h-14,4,0,Math.PI*2); ctx.fill();
+        ctx.strokeStyle=c; ctx.beginPath(); ctx.arc(lx+9,h-14,4,0,Math.PI*2); ctx.stroke();
+        ctx.fillStyle=Th.lbl; ctx.font='10px Segoe UI,Arial,sans-serif'; ctx.textAlign='left';
+        ctx.fillText(ds.label||'', lx+22, h-10);
+        lx += Math.max((ds.label||'').length*6+34, 115);
+      });
+    }
+    return hitAreas;
+  }
+
+  // ══ DONUT ══
+  function drawDonut(canvas, cfg) {
+    const {labels, data, colors, height:h=280} = cfg;
+    const {ctx, W} = setupCanvas(canvas, h);
+    const Th=T();
+    ctx.fillStyle=Th.panelBg; ctx.fillRect(0,0,W,h);
+    const legendW = 140;
+    const cx = (W-legendW)*0.52, cy = h/2;
+    const r = Math.min(cx, h/2) * 0.82, ri = r * 0.52;
+    const total = data.reduce((s,v)=>s+v, 0);
+    let angle = -Math.PI/2;
+    const slices = [];
+    data.forEach((v,i) => {
+      if(!v) return;
+      const sweep = v/total * Math.PI*2;
+      ctx.fillStyle = colors[i]||'#888';
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,angle,angle+sweep); ctx.closePath(); ctx.fill();
+      const mid = angle + sweep/2;
+      if(v/total > 0.04) {
+        const lx2 = cx+Math.cos(mid)*(r+ri)/2, ly2 = cy+Math.sin(mid)*(r+ri)/2;
+        ctx.fillStyle='rgba(255,255,255,.92)'; ctx.font='bold 10px Segoe UI,Arial,sans-serif'; ctx.textAlign='center';
+        ctx.fillText(Math.round(v/total*100)+'%', lx2, ly2+4);
+      }
+      slices.push({a0:angle, a1:angle+sweep, tip:`<b>${labels[i]}</b>: <b>${fmtT(v)}K</b> (${Math.round(v/total*100)}%)`});
+      angle += sweep;
+    });
+    // Hole
+    ctx.fillStyle=Th.panelBg; ctx.beginPath(); ctx.arc(cx,cy,ri,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=Th.lbl; ctx.font='bold 13px Segoe UI,Arial,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(fmtT(total)+'K', cx, cy+5);
+    // Legend
+    const lx0 = W - legendW + 8;
+    let ly = h/2 - (data.filter(v=>v>0).length * 19)/2;
+    data.forEach((v,i) => {
+      if(!v) return;
+      ctx.fillStyle=colors[i]; ctx.beginPath(); ctx.arc(lx0+5,ly+6,5,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=Th.lbl; ctx.font='11px Segoe UI,Arial,sans-serif'; ctx.textAlign='left';
+      ctx.fillText(labels[i], lx0+14, ly+10);
+      ly += 19;
+    });
+    // Mouse
+    canvas.onmousemove = function(e) {
+      const rect=canvas.getBoundingClientRect(), mx=e.clientX-rect.left, my=e.clientY-rect.top;
+      const dx=mx-cx, dy=my-cy, dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist>ri&&dist<r) {
+        let a=Math.atan2(dy,dx)+Math.PI/2; if(a<0) a+=Math.PI*2;
+        for(const s of slices){
+          let a0=s.a0+Math.PI/2; if(a0<0)a0+=Math.PI*2;
+          let a1=s.a1+Math.PI/2; if(a1<a0)a1+=Math.PI*2;
+          let ta=a; if(ta<a0)ta+=Math.PI*2;
+          if(ta>=a0&&ta<=a1){showTip(e,s.tip);return;}
+        }
+      }
+      hideTip();
+    };
+    canvas.onmouseleave=hideTip;
+    return [];
+  }
+
+  // ══ WATERFALL ══
+  function drawWaterfall(canvas, cfg) {
+    const {labels, values, colors, height:h=290} = cfg;
+    const {ctx, W} = setupCanvas(canvas, h);
+    const PL=58, PR=18, PT=16, PB=64, n=labels.length, Th=T();
+    ctx.fillStyle=Th.panelBg; ctx.fillRect(0,0,W,h);
+    // baseBars passed from caller — no hardcode in chart engine
+    const BASE = cfg.baseBars || [];
+    const bottoms=[], tops=[]; let running=0;
+    values.forEach((v,i) => {
+      if(BASE.includes(labels[i])){bottoms.push(0);tops.push(v);running=v;}
+      else if(v>=0){bottoms.push(running);tops.push(running+v);running+=v;}
+      else{bottoms.push(running+v);tops.push(running);running+=v;}
+    });
+    const maxV=Math.max(...tops)*1.15; const ticks=niceTicks(maxV); const axMax=ticks[ticks.length-1];
+    const {cw,ch,vy}=drawGrid(ctx,PL,PR,PT,PB,W,h,ticks,false,axMax);
+    const bw=cw/n*0.7; const hitAreas=[];
+    values.forEach((v,i) => {
+      const xc=PL+(i+0.5)*cw/n, bx=xc-bw/2, by=vy(tops[i]);
+      const bh=Math.max(2, (tops[i]-bottoms[i])/axMax*ch);
+      ctx.fillStyle=colors[i];
+      ctx.beginPath(); if(ctx.roundRect)ctx.roundRect(bx,by,bw,bh,2); else ctx.rect(bx,by,bw,bh); ctx.fill();
+      const isBase=BASE.includes(labels[i]);
+      ctx.fillStyle=(!isBase&&v>=0)?'#4caf50':v<0?'#ef5350':Th.lbl;
+      ctx.font='bold 8px Segoe UI,Arial,sans-serif'; ctx.textAlign='center';
+      ctx.fillText(isBase?Math.round(v/1000)+'K':(v>=0?'+':'')+Math.round(v/1000)+'K', xc, by-3);
+      ctx.save(); ctx.translate(xc,PT+ch+10); ctx.rotate(-0.42);
+      ctx.fillStyle=Th.txt; ctx.font='bold 8px Segoe UI,Arial,sans-serif'; ctx.textAlign='right';
+      ctx.fillText(labels[i],0,0); ctx.restore();
+      hitAreas.push({x:bx,y:by,w:bw,h:bh, tip:`<b>${labels[i]}</b>: <b>${isBase?Math.round(v/1000):'('+Math.round(v/1000)+')'}K</b>`});
+    });
+    return hitAreas;
+  }
+
+  function attach(canvas, hitAreas) {
+    if(!hitAreas||!hitAreas.length) return;
+    canvas.onmousemove=function(e){
+      const r=canvas.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
+      let found=null;
+      for(const h of hitAreas){if(mx>=h.x&&mx<=h.x+h.w&&my>=h.y&&my<=h.y+h.h){found=h;break;}}
+      if(found){canvas.style.cursor='crosshair';showTip(e,found.tip);}
+      else{canvas.style.cursor='default';hideTip();}
+    };
+    canvas.onmouseleave=hideTip;
+  }
+
+  function render(id, cfg) {
+    const canvas=typeof id==='string'?document.getElementById(id):id;
+    if(!canvas) return;
+    let hits;
+    if(cfg.type==='waterfall') hits=drawWaterfall(canvas,cfg);
+    else if(cfg.type==='line') hits=drawLine(canvas,cfg);
+    else if(cfg.type==='donut') { drawDonut(canvas,cfg); return; }
+    else hits=drawBars(canvas,cfg);
+    attach(canvas, hits);
+  }
+
+  return {render};
+})();
+
+
+var curMonth = 'ALL';
+let MO, ML, CA, CN, CC, BORD, BCOL, MN; // loaded from data/config.json
+let HIST_YEARS, TB_YEARS;                  // computed from D after load
+
+/* ── helpers ── */
+function mGet(series, m) {
+  if (!series) return 0;
+  if (m === 'ALL') return MO.reduce(function(s,k){return s+(series[k]||0);}, 0);
+  return series[m] || 0;
+}
+function fmt(v) {
+  if (v === null || v === undefined) return '—';
+  return Math.round(v).toLocaleString('de-DE');
+}
+function pTag(a, b) {
+  if (!a || !b) return '<span class="na">—</span>';
+  var p = Math.round((b - a) / a * 100);
+  return '<b class="' + (p >= 0 ? 'pos' : 'neg') + '">' + (p >= 0 ? '+' : '') + p + '%</b>';
+}
+function mkKpi(lbl, val, sub, cls) {
+  return '<div class="kpi kpi-'+(cls||'blue')+'"><div class="kpi-lbl">'+lbl+'</div><div class="kpi-val">'+val+'</div><div class="kpi-pct">'+sub+'</div></div>';
+}
+function pStr(a, b, sfx) {
+  if (!a) return '—';
+  var p = Math.round((b - a) / a * 100);
+  return (p >= 0 ? '+' : '') + p + '% ' + (sfx || '');
+}
+function mLbl(m) { return m === 'ALL' ? '' : (ML[MO.indexOf(m)] || m); }
+function setEl(id, html) { var e=document.getElementById(id); if(e) e.innerHTML=html; }
+
+/* ── TABLE BUILDERS ─────────────────────────────────────────────────────────── */
+/* ALL tables are built here in JS, so they update when month changes           */
+
+function tblBrand(scope, m) {
+  // scope = 'latam' | country code e.g. 'MEXICO'
+  var isLat = (scope === 'latam');
+  var ml_src = isLat ? D.monthly_latam : D.monthly_country[scope];
+  
+  // Monthly totals for this scope
+  var v25 = mGet(ml_src['2025'], m) * 1000;   // convert K→ actual
+  var vbp = mGet(ml_src['bp26'], m) * 1000;
+  var vr26 = isLat
+    ? (m==='ALL' ? D.latam_yearly['2026']*1000 : mGet(ml_src['real26'],m)*1000)
+    : (m==='ALL' ? D.country_yearly[scope]['2026']*1000 : mGet(ml_src['real26'],m)*1000);
+  
+  // Annual brand rows for proportional share
+  var rows;
+  if (isLat) {
+    rows = BORD.map(function(b){ return {brand:b, a25:D.brand_latam[b]['2025']*1000, abp:D.brand_latam[b]['bp26']*1000}; });
+  } else {
+    var bc = D.brand_by_country[scope];
+    if (!bc) return '<p class="na-msg">—</p>';
+    rows = bc.rows.map(function(r){ return {brand:r.brand, a25:r['2025'], abp:r.bp26}; });
+  }
+  
+  var ann25 = rows.reduce(function(s,r){return s+r.a25;}, 0);
+  var annbp = rows.reduce(function(s,r){return s+r.abp;}, 0);
+  
+  var hdr25 = m==='ALL' ? '2025 REAL' : mLbl(m)+' 25';
+  var hdrbp = m==='ALL' ? 'BP 2026' : mLbl(m)+' BP';
+  var isEst = (m !== 'ALL');
+  
+  var h = '<table class="tbl"><thead><tr><th>BRAND</th><th class="r">'+hdr25+'</th>'+
+    '<th class="r">2026 Real</th><th class="r">'+hdrbp+'</th>'+
+    '<th class="r">R26/R25</th><th class="r">R26/BP</th><th class="r">SH25</th></tr></thead><tbody>';
+  
+  rows.forEach(function(r) {
+    var sh = ann25 ? r.a25 / ann25 : 0;
+    var rv25 = isEst ? v25 * sh : r.a25;
+    var rvbp = isEst ? vbp * sh : r.abp;
+    var rvr26 = vr26 * sh;
+    h += '<tr><td>' + r.brand + '</td>';
+    h += '<td class="r">' + (isEst?'~':'') + fmt(rv25) + '</td>';
+    h += '<td class="r r26">~' + fmt(rvr26) + '</td>';
+    h += '<td class="r">' + (isEst?'~':'') + fmt(rvbp) + '</td>';
+    h += '<td class="r">' + pTag(rv25, rvr26) + '</td>';
+    h += '<td class="r">' + pTag(rvbp, rvr26) + '</td>';
+    h += '<td class="r dim">' + Math.round(sh * 100) + '%</td></tr>';
+  });
+  
+  h += '<tr class="tot"><td>TOTAL</td>';
+  h += '<td class="r">' + (isEst?'~':'') + fmt(v25) + '</td>';
+  h += '<td class="r r26">' + (m!=='jan'?'~':'') + fmt(vr26) + '</td>';
+  h += '<td class="r">' + (isEst?'~':'') + fmt(vbp) + '</td>';
+  h += '<td class="r">' + pTag(v25, vr26) + '</td>';
+  h += '<td class="r">' + pTag(vbp, vr26) + '</td>';
+  h += '<td class="r dim">100%</td></tr></tbody></table>';
+  h += '<p class="note">' + (isEst ? '~Proporcional ao mês (detalhe mensal por marca indisponível)' : '*2026 Real = Jan/26') + '</p>';
+  return h;
+}
+
+function tblFamily(scope, m) {
+  var isLat = (scope === 'latam');
+  var ml_src = isLat ? D.monthly_latam : D.monthly_country[scope];
+  var v25 = mGet(ml_src['2025'], m) * 1000;
+  var vbp = mGet(ml_src['bp26'], m) * 1000;
+  var vr26 = isLat
+    ? (m==='ALL' ? D.latam_yearly['2026']*1000 : mGet(ml_src['real26'],m)*1000)
+    : (m==='ALL' ? D.country_yearly[scope]['2026']*1000 : mGet(ml_src['real26'],m)*1000);
+  
+  var rows;
+  if (isLat) {
+    rows = D.family_latam.map(function(r){ return {fam:r.family, a25:r['2025'], abp:r.bp26}; });
+  } else {
+    var fr = D.family_by_country[scope];
+    if (!fr || !fr.length) return '<p class="na-msg">—</p>';
+    rows = fr.map(function(r){ return {fam:r.family, a25:r.v25*1000, abp:r.v26*1000}; });
+  }
+  
+  var ann25 = rows.reduce(function(s,r){return s+r.a25;}, 0);
+  var isEst = (m !== 'ALL');
+  var hdr25 = m==='ALL' ? '2025 REAL' : mLbl(m)+' 25';
+  var hdrbp = m==='ALL' ? 'BP 2026' : mLbl(m)+' BP';
+  
+  var h = '<table class="tbl"><thead><tr><th>FAMILY</th><th class="r">'+hdr25+'</th>'+
+    '<th class="r">2026 Real</th><th class="r">'+hdrbp+'</th>'+
+    '<th class="r">R26/R25</th><th class="r">R26/BP</th><th class="r">SH25</th></tr></thead><tbody>';
+  
+  rows.forEach(function(r) {
+    var sh = ann25 ? r.a25 / ann25 : 0;
+    var rv25 = isEst ? v25 * sh : r.a25;
+    var rvbp = isEst ? vbp * sh : r.abp;
+    var rvr26 = vr26 * sh;
+    h += '<tr><td>' + r.fam + '</td>';
+    h += '<td class="r">' + (isEst?'~':'') + fmt(rv25) + '</td>';
+    h += '<td class="r r26">~' + fmt(rvr26) + '</td>';
+    h += '<td class="r">' + (isEst?'~':'') + fmt(rvbp) + '</td>';
+    h += '<td class="r">' + pTag(rv25, rvr26) + '</td>';
+    h += '<td class="r">' + pTag(rvbp, rvr26) + '</td>';
+    h += '<td class="r dim">' + Math.round(sh * 100) + '%</td></tr>';
+  });
+  
+  h += '<tr class="tot"><td>TOTAL</td><td class="r">'+(isEst?'~':'')+fmt(v25)+'</td>'+
+    '<td class="r r26">~'+fmt(vr26)+'</td><td class="r">'+(isEst?'~':'')+fmt(vbp)+'</td>'+
+    '<td class="r">'+pTag(v25,vr26)+'</td><td class="r">'+pTag(vbp,vr26)+'</td>'+
+    '<td class="r dim">100%</td></tr></tbody></table>';
+  h += '<p class="note">'+(isEst?'~Proporcional ao mês':'*2026 Real = Jan/26')+'</p>';
+  return h;
+}
+
+function tblCust(scope, m) {
+  var isLat = (scope === 'latam');
+  var ml_src = isLat ? D.monthly_latam : D.monthly_country[scope];
+  var v25 = mGet(ml_src['2025'], m) * 1000;
+  var vbp = mGet(ml_src['bp26'], m) * 1000;
+  var vr26 = isLat
+    ? (m==='ALL' ? D.latam_yearly['2026']*1000 : mGet(ml_src['real26'],m)*1000)
+    : (m==='ALL' ? D.country_yearly[scope]['2026']*1000 : mGet(ml_src['real26'],m)*1000);
+  
+  var rows = isLat ? D.customers_latam : (D.customers_by_country[scope]||[]);
+  if (!rows || !rows.length) return '';
+  
+  var ann25 = rows.reduce(function(s,r){return s+(r.customer!=='TOTAL'?r['2025']:0);}, 0);
+  var isEst = (m !== 'ALL');
+  var hdr25 = m==='ALL' ? '2025 REAL' : mLbl(m)+' 25';
+  var hdrbp = m==='ALL' ? 'BP 2026' : mLbl(m)+' BP';
+  
+  var h = '<table class="tbl"><thead><tr><th>CUSTOMER</th><th class="r">'+hdr25+'</th>'+
+    '<th class="r">2026 Real</th><th class="r">'+hdrbp+'</th>'+
+    '<th class="r">R26/R25</th><th class="r">R26/BP</th><th class="r">SH</th></tr></thead><tbody>';
+  
+  rows.forEach(function(r) {
+    var isTot = r.customer === 'TOTAL';
+    var sh = (!isTot && ann25) ? r['2025'] / ann25 : 1;
+    var rv25 = isTot ? v25 : (isEst ? v25 * sh : r['2025']);
+    var rvbp = isTot ? vbp : (isEst ? vbp * sh : r.bp26);
+    var rvr26 = isTot ? vr26 : vr26 * sh;
+    h += '<tr' + (isTot?' class="tot"':'') + '><td>' + r.customer + '</td>';
+    h += '<td class="r">' + (isEst&&!isTot?'~':'') + fmt(rv25) + '</td>';
+    h += '<td class="r r26">' + (m!=='jan'?'~':'') + fmt(rvr26) + '</td>';
+    h += '<td class="r">' + (isEst&&!isTot?'~':'') + fmt(rvbp) + '</td>';
+    h += '<td class="r">' + pTag(rv25, rvr26) + '</td>';
+    h += '<td class="r">' + pTag(rvbp, rvr26) + '</td>';
+    h += '<td class="r dim">' + (isTot?'100':Math.round(sh*100)) + '%</td></tr>';
+  });
+  h += '</tbody></table>';
+  h += '<p class="note">'+(isEst?'~Proporcional ao mês':'*2026 Real = Jan/26')+'</p>';
+  return h;
+}
+
+function tblChannel(m) {
+  var ml_src = D.monthly_latam;
+  var v25 = mGet(ml_src['2025'], m);   // KUSD
+  var vbp = mGet(ml_src['bp26'], m);
+  var vr26 = m==='ALL' ? D.latam_yearly['2026'] : mGet(ml_src['real26'], m);
+  var chKeys = Object.keys(D.channel);
+  var ann25 = chKeys.reduce(function(s,k){return s+D.channel[k]['2025'];}, 0);
+  var isEst = (m !== 'ALL');
+  var hdr25 = m==='ALL' ? '2025 REAL' : mLbl(m)+' 25';
+  var hdrbp = m==='ALL' ? 'BP 2026' : mLbl(m)+' BP';
+  
+  var h = '<table class="tbl"><thead><tr><th>CHANNEL</th><th class="r">'+hdr25+'</th>'+
+    '<th class="r">2026 Real</th><th class="r">'+hdrbp+'</th>'+
+    '<th class="r">R26/R25</th><th class="r">R26/BP</th><th class="r">SH25</th></tr></thead><tbody>';
+  
+  chKeys.forEach(function(k) {
+    var sh = ann25 ? D.channel[k]['2025'] / ann25 : 0;
+    var rv25 = isEst ? v25 * sh * 1000 : D.channel[k]['2025'] * 1000;
+    var rvbp = isEst ? vbp * sh * 1000 : D.channel[k]['bp26'] * 1000;
+    var rvr26 = vr26 * sh * 1000;
+    h += '<tr><td>'+k+'</td>';
+    h += '<td class="r">'+(isEst?'~':'')+fmt(rv25)+'</td>';
+    h += '<td class="r r26">~'+fmt(rvr26)+'</td>';
+    h += '<td class="r">'+(isEst?'~':'')+fmt(rvbp)+'</td>';
+    h += '<td class="r">'+pTag(rv25, rvr26)+'</td>';
+    h += '<td class="r">'+pTag(rvbp, rvr26)+'</td>';
+    h += '<td class="r dim">'+Math.round(sh*100)+'%</td></tr>';
+  });
+  
+  h += '<tr class="tot"><td>TOTAL</td>'+
+    '<td class="r">'+(isEst?'~':'')+fmt(v25*1000)+'</td>'+
+    '<td class="r r26">'+(m!=='jan'?'~':'')+fmt(vr26*1000)+'</td>'+
+    '<td class="r">'+(isEst?'~':'')+fmt(vbp*1000)+'</td>'+
+    '<td class="r">'+pTag(v25*1000, vr26*1000)+'</td>'+
+    '<td class="r">'+pTag(vbp*1000, vr26*1000)+'</td>'+
+    '<td class="r dim">100%</td></tr></tbody></table>';
+  h += '<p class="note">'+(isEst?'~Proporcional ao mês':'*2026 Real = Jan/26')+'</p>';
+  return h;
+}
+
+/* ── KPI BUILDERS ───────────────────────────────────────────────────────────── */
+
+function updateKpisLat(m) {
+  var ml = D.monthly_latam;
+  var r25a=D.latam_yearly['2025'], bp26a=D.latam_yearly['2026_bp'], r24a=D.latam_yearly['2024'], r26a=D.latam_yearly['2026'];
+  var r25j=ml['2025']['jan']||0, r26j=ml['real26']['jan']||0;
+  
+  if (m === 'ALL') {
+    setEl('kpi-lat',
+      mkKpi('2025 REAL (KUSD)', r25a.toFixed(0)+'K', pStr(r24a,r25a,'vs 2024')) +
+      mkKpi('BP 2026 (KUSD)', bp26a.toFixed(0)+'K', pStr(r25a,bp26a,'vs 2025'), 'yellow') +
+      mkKpi('2026 REAL — JAN', r26a.toFixed(0)+'K', pStr(r25j,r26a,'vs Jan25'), 'red') +
+      mkKpi('PAÍSES ATIVOS', CA.length.toString(), CA.map(function(c){return c.substring(0,3);}).join('·'), 'navy'));
+  } else {
+    var vm=mGet(ml['2025'],m), vmbp=mGet(ml['bp26'],m), vmr26=mGet(ml['real26'],m);
+    var lbl=MN[m]||m;
+    setEl('kpi-lat',
+      mkKpi(lbl+' 2025 REAL', vm.toFixed(0)+'K', pStr(r25j,vm,'vs Jan25')) +
+      mkKpi(lbl+' BP 2026', vmbp.toFixed(0)+'K', pStr(vm,vmbp,'vs R25'), 'yellow') +
+      mkKpi('2026 REAL — JAN', r26j.toFixed(0)+'K', pStr(r25j,r26j,'vs Jan25'), 'red') +
+      mkKpi('PAÍSES ATIVOS', CA.length.toString(), CA.map(function(c){return c.substring(0,3);}).join('·'), 'navy'));
+  }
+}
+
+function updateKpisC(c, m) {
+  var cid = c.toLowerCase();
+  var cy = D.country_yearly[c];
+  var mc = D.monthly_country[c] || {};
+  var r25=cy['2025']||0, bp26=cy['2026_bp']||0, r24=cy['2024']||0, r26j=cy['2026']||0;
+  var r25j=(mc['2025']||{}).jan||0, r26jv=(mc['real26']||{}).jan||0;
+  var lat25=D.latam_yearly['2025'];
+  
+  if (m === 'ALL') {
+    var sh = lat25 ? Math.round(r25/lat25*100) : 0;
+    setEl('kpi-'+cid,
+      mkKpi('2025 REAL', r25.toFixed(0)+'K', pStr(r24,r25,'vs 2024')) +
+      mkKpi('BP 2026', bp26.toFixed(0)+'K', pStr(r25,bp26,'vs 2025'), 'yellow') +
+      mkKpi('2026 REAL — JAN', r26j.toFixed(0)+'K', pStr(r25j,r26j,'vs Jan25'), 'red') +
+      mkKpi('SHARE LATAM', sh+'%', 'of LATAM total', 'navy'));
+  } else {
+    var vm=mGet(mc['2025'],m), vmbp=mGet(mc['bp26'],m);
+    var lat25m=mGet(D.monthly_latam['2025'],m);
+    var sh2 = lat25m ? Math.round(vm/lat25m*100) : 0;
+    var lbl=MN[m]||m;
+    setEl('kpi-'+cid,
+      mkKpi(lbl+' 2025', vm.toFixed(0)+'K', pStr(r25j,vm,'vs Jan25')) +
+      mkKpi(lbl+' BP 2026', vmbp.toFixed(0)+'K', pStr(vm,vmbp,'vs R25'), 'yellow') +
+      mkKpi('2026 REAL — JAN', r26jv.toFixed(0)+'K', pStr(r25j,r26jv,'vs Jan25'), 'red') +
+      mkKpi('SHARE LATAM', sh2+'%', 'of '+lbl, 'navy'));
+  }
+}
+
+/* ── CHART RENDER FUNCTIONS ─────────────────────────────────────────────────── */
+
+function renderLatam(m) {
+  var ml = D.monthly_latam;
+  var mi = m==='ALL' ? -1 : MO.indexOf(m);
+
+  /* Historical - always show annual data */
+  var _ly_vals = HIST_YEARS.map(function(y){return D.latam_yearly[y]||0;});
+  MC.render('c_lat_line', {type:'line', labels:HIST_YEARS.concat(['BP26']),
+    datasets:[
+      {label:'Net Sales + BP', data:_ly_vals.concat([D.latam_yearly['2026_bp']||0]), color:'#1a56db'},
+      {label:'2026 Real (Jan)', data:HIST_YEARS.map(function(){return null;}).concat([D.latam_yearly['2026']||0]), color:'#e74c3c'}
+    ], height:290});
+
+  MC.render('c_lat_hist', {labels:HIST_YEARS.concat(['2026R','BP26']),
+    datasets:[
+      {label:'Actual', data:_ly_vals.concat([0,0]), color:'#1a56db'},
+      {label:'2026 Real', data:HIST_YEARS.map(function(){return 0;}).concat([D.latam_yearly['2026']||0,0]), color:'#e74c3c'},
+      {label:'BP 2026', data:HIST_YEARS.map(function(){return 0;}).concat([0,D.latam_yearly['2026_bp']||0]), color:'#f5c518'}
+    ], height:260});
+
+  var _tb_vals = TB_YEARS.map(function(y){return D.tb_yearly[y]||0;});
+  MC.render('c_lat_tb', {labels:TB_YEARS.concat(['2026R','BP26']),
+    datasets:[
+      {label:'Actual', data:_tb_vals.concat([0,0]), color:'#1a56db'},
+      {label:'2026 Real', data:TB_YEARS.map(function(){return 0;}).concat([D.tb_yearly['2026']||0,0]), color:'#e74c3c'},
+      {label:'BP 2026', data:TB_YEARS.map(function(){return 0;}).concat([0,D.tb_yearly['2026_bp']||0]), color:'#f5c518'}
+    ], height:245});
+
+  /* Monthly - highlight selected */
+  var m25a=MO.map(function(mm){return ml['2025'][mm]||0;});
+  var mbpa=MO.map(function(mm){return ml['bp26'][mm]||0;});
+  var mr26a=MO.map(function(mm){return ml['real26'][mm]||0;});
+  if (mi >= 0) {
+    m25a=m25a.map(function(v,i){return i===mi?v:v*0.12;});
+    mbpa=mbpa.map(function(v,i){return i===mi?v:v*0.12;});
+    mr26a=mr26a.map(function(v,i){return i===mi?v:v*0.12;});
+  }
+  MC.render('c_lat_monthly', {labels:ML, datasets:[
+    {label:'2025 REAL',data:m25a,color:'#1a56db'},
+    {label:'BP 2026',data:mbpa,color:'#f5c518'},
+    {label:'2026 REAL',data:mr26a,color:'#e74c3c'}
+  ], height:250});
+
+  /* Country comparison - filter by month */
+  var c25=CA.map(function(c){return mGet(D.monthly_country[c]['2025'],m);});
+  var cbp=CA.map(function(c){return mGet(D.monthly_country[c]['bp26'],m);});
+  var cr26=CA.map(function(c){return m==='ALL'?(D.country_yearly[c]['2026']||0):mGet(D.monthly_country[c]['real26'],m);});
+  MC.render('c_lat_cmp', {labels:CA.map(function(c){return CN[c];}), datasets:[
+    {label:'2025 REAL',data:c25,color:'#1a56db'},
+    {label:'2026 Real',data:cr26,color:'#e74c3c'},
+    {label:'BP 2026',data:cbp,color:'#f5c518'}
+  ], height:250});
+
+  /* Stacked - filter by month */
+  var stackY, stackDS;
+  if (m === 'ALL') {
+    stackY = HIST_YEARS.concat(["BP26"]);
+    stackDS = CA.map(function(c,i) {
+      var base=HIST_YEARS.map(function(y){return D.stacked_country[y]?D.stacked_country[y][c]||0:0;});
+      return {label:CN[c],data:base.concat([D.country_yearly[c]['2026_bp']||0]),color:CC[c]};
+    });
+  } else {
+    stackY = [MN[m]+' 2025', MN[m]+' BP26'];
+    stackDS = CA.map(function(c,i) {
+      return {label:CN[c],data:[mGet(D.monthly_country[c]['2025'],m),mGet(D.monthly_country[c]['bp26'],m)],color:CC[c]};
+    });
+  }
+  MC.render('c_lat_stacked', {labels:stackY,datasets:stackDS,stacked:true,showValLabels:false,height:250});
+
+  /* Donut - filter by month */
+  var ddata = m==='ALL' ? CA.map(function(c){return D.country_yearly[c]['2025']||0;}) : CA.map(function(c){return mGet(D.monthly_country[c]['2025'],m);});
+  MC.render('c_lat_donut', {type:'donut',labels:CA.map(function(c){return CN[c];}),data:ddata,colors:CA.map(function(c){return CC[c];}),height:250});
+
+  /* Channel chart - filter proportionally */
+  var chKeys=Object.keys(D.channel);
+  var ann25ch=chKeys.reduce(function(s,k){return s+D.channel[k]['2025'];},0);
+  var vtot25=mGet(ml['2025'],m), vtotbp=mGet(ml['bp26'],m);
+  var ch25=chKeys.map(function(k){return m==='ALL'?D.channel[k]['2025']:vtot25*(D.channel[k]['2025']/ann25ch);});
+  var chbp=chKeys.map(function(k){return m==='ALL'?D.channel[k]['bp26']:vtotbp*(D.channel[k]['bp26']/ann25ch);});
+  MC.render('c_lat_ch', {labels:chKeys,datasets:[{label:'2025 REAL',data:ch25,color:'#1a56db'},{label:'BP 2026',data:chbp,color:'#f5c518'}],height:180});
+
+  /* Brand stacked (annual only - no monthly brand data) */
+  // Last two completed years from HIST_YEARS — no hardcode
+  var _yr_prev = HIST_YEARS[HIST_YEARS.length-2]; // e.g. '2024'
+  var _yr_curr = HIST_YEARS[HIST_YEARS.length-1]; // e.g. '2025'
+  var _brd_lbl = [_yr_prev, _yr_curr, 'BP 2026'];
+  MC.render('c_lat_bstk', {labels:_brd_lbl,datasets:BORD.map(function(b,i){
+    return {label:b,data:[D.brand_latam[b][_yr_prev]||0,D.brand_latam[b][_yr_curr]||0,D.brand_latam[b]['bp26']||0],color:BCOL[i]};
+  }),stacked:true,height:250});
+  // Totals from D.brand_latam
+  var t24=BORD.reduce(function(s,b){return s+(D.brand_latam[b]?D.brand_latam[b][_yr_prev]||0:0);},0);
+  var t25=BORD.reduce(function(s,b){return s+(D.brand_latam[b]?D.brand_latam[b][_yr_curr]||0:0);},0);
+  var t26=BORD.reduce(function(s,b){return s+(D.brand_latam[b]?D.brand_latam[b]['bp26']||0:0);},0);
+  MC.render('c_lat_bpct', {labels:_brd_lbl,datasets:BORD.map(function(b,i){
+    return {label:b,data:[(D.brand_latam[b][_yr_prev]||0)/t24*100,(D.brand_latam[b][_yr_curr]||0)/t25*100,(D.brand_latam[b]['bp26']||0)/t26*100],color:BCOL[i]};
+  }),stacked:true,pctMode:true,height:250});
+  // Waterfall: prev→curr→BP26 deltas per brand (all years from HIST_YEARS)
+  var _bshort = {"TRAVEL BLUE":"TB","CLOE":"CLOE","SLOOTH":"SL","OEM":"OEM","OTHERS":"OTH","LEXINGHAM":"LX","ANÓMEO":"AN"};
+  var _bsl = BORD.map(function(b){return _bshort[b]||b.substring(0,2);});
+  var _wf_lbl = [_yr_prev].concat(_bsl).concat([_yr_curr]).concat(_bsl).concat(['BP 2026']);
+  var _wf_val = [t24];
+  BORD.forEach(function(b){_wf_val.push(D.brand_latam[b]?(D.brand_latam[b][_yr_curr]-D.brand_latam[b][_yr_prev]):0);});
+  _wf_val.push(t25);
+  BORD.forEach(function(b){_wf_val.push(D.brand_latam[b]?(D.brand_latam[b]['bp26']-D.brand_latam[b][_yr_curr]):0);});
+  _wf_val.push(t26);
+  var _wf_col = ['#1a56db']
+    .concat(BORD.map(function(b){return (D.brand_latam[b]&&(D.brand_latam[b][_yr_curr]-D.brand_latam[b][_yr_prev])>=0)?'#22c55e':'#c62828';}))
+    .concat(['#1a56db'])
+    .concat(BORD.map(function(b){return (D.brand_latam[b]&&(D.brand_latam[b]['bp26']-D.brand_latam[b][_yr_curr])>=0)?'#22c55e':'#c62828';}))
+    .concat(['#f5c518']);
+  MC.render('c_lat_wf', {type:'waterfall',labels:_wf_lbl,values:_wf_val,colors:_wf_col,baseBars:_brd_lbl,height:260});
+
+  /* Tables */
+  setEl('tbl-channel-lat', tblChannel(m));
+  setEl('tbl-brand-lat',   tblBrand('latam', m));
+  setEl('tbl-family-lat',  tblFamily('latam', m));
+  setEl('tbl-cust-lat',    tblCust('latam', m));
+}
+
+function renderCountry(c, m) {
+  var cid = c.toLowerCase();
+  var mc = D.monthly_country[c] || {};
+  var mi = m==='ALL' ? -1 : MO.indexOf(m);
+  var cy = D.country_yearly[c] || {};
+  var cyArr = HIST_YEARS.map(function(y){return cy[y]||0;});
+  var ccol = CC[c];
+
+  /* Historical */
+  MC.render('c_'+cid+'_line', {type:'line',
+    labels:HIST_YEARS.concat(['BP26']),
+    datasets:[
+      {label:'Net Sales',data:cyArr.concat([cy['2026_bp']||0]),color:ccol},
+      {label:'2026 Real',data:HIST_YEARS.map(function(){return null;}).concat([cy['2026']||0]),color:'#e74c3c'}
+    ], height:260});
+
+  MC.render('c_'+cid+'_hist', {
+    labels:HIST_YEARS.concat(['2026R','BP26']),
+    datasets:[
+      {label:'Actual',data:cyArr.concat([0,0]),color:ccol},
+      {label:'2026 Real',data:HIST_YEARS.map(function(){return 0;}).concat([cy['2026']||0,0]),color:'#e74c3c'},
+      {label:'BP 2026',data:HIST_YEARS.map(function(){return 0;}).concat([0,cy['2026_bp']||0]),color:'#f5c518'}
+    ], height:245});
+
+  /* Monthly - highlight */
+  var m25a=MO.map(function(mm){return (mc['2025']||{})[mm]||0;});
+  var mbpa=MO.map(function(mm){return (mc['bp26']||{})[mm]||0;});
+  var mr26a=MO.map(function(mm){return (mc['real26']||{})[mm]||0;});
+  if (mi >= 0) {
+    m25a=m25a.map(function(v,i){return i===mi?v:v*0.12;});
+    mbpa=mbpa.map(function(v,i){return i===mi?v:v*0.12;});
+    mr26a=mr26a.map(function(v,i){return i===mi?v:v*0.12;});
+  }
+  MC.render('c_'+cid+'_monthly', {labels:ML, datasets:[
+    {label:'2025 REAL',data:m25a,color:ccol},
+    {label:'BP 2026',data:mbpa,color:'#f5c518'},
+    {label:'2026 REAL',data:mr26a,color:'#e74c3c'}
+  ], height:240});
+
+  /* Tables */
+  setEl('tbl-brand-'+cid,  tblBrand(c, m));
+  setEl('tbl-family-'+cid, tblFamily(c, m));
+  setEl('tbl-cust-'+cid,   tblCust(c, m));
+}
+
+/* ── CONTROLS ───────────────────────────────────────────────────────────────── */
+
+function setMonth(val) {
+  curMonth = val;
+  var b = document.getElementById('month-badge-hdr');
+  if (b) b.textContent = val==='ALL' ? 'Todos os meses' : (MN[val]||val.toUpperCase());
+  var fn = document.getElementById('filter-note');
+  var fl = document.getElementById('filter-note-lbl');
+  if (fn) fn.style.display = val==='ALL' ? 'none' : 'flex';
+  if (fl) fl.textContent = val==='ALL' ? '' : (MN[val]||'').toUpperCase()+' 2025 / BP';
+  
+  var at = document.querySelector('.tab.active');
+  if (!at) return;
+  var ns = ['latam','mexico','brazil','argentina','colombia','chile','panama','peru'];
+  var idx = Array.from(document.querySelectorAll('.tab')).indexOf(at);
+  if (idx === 0) { updateKpisLat(val); renderLatam(val); }
+  else if (idx > 0) { var C=CA[idx-1]; updateKpisC(C,val); renderCountry(C,val); }
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(function(t,i){
+    var ns=['latam','mexico','brazil','argentina','colombia','chile','panama','peru'];
+    t.classList.toggle('active', ns[i]===name);
+  });
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  var panel=document.getElementById('p-'+name);
+  if (panel) panel.classList.add('active');
+  var m = curMonth;
+  if (name==='latam') { setTimeout(function(){updateKpisLat(m);renderLatam(m);},20); }
+  else { var C=name.toUpperCase(); setTimeout(function(){updateKpisC(C,m);renderCountry(C,m);},20); }
+}
+
+function toggleDark() {
+  document.body.classList.toggle('dark');
+  var btn=document.getElementById('dark-btn');
+  if (btn) btn.textContent=document.body.classList.contains('dark')?'☀️ Claro':'🌙 Escuro';
+  setMonth(curMonth); // re-render everything
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  // ── Load external data files ──────────────────────────────────────────
+  Promise.all([
+    fetch('data/sales_data.json').then(function(r){ if(!r.ok) throw new Error('sales_data.json not found'); return r.json(); }),
+    fetch('data/config.json').then(function(r){ if(!r.ok) throw new Error('config.json not found'); return r.json(); })
+  ]).then(function(results) {
+    // Assign sales data
+    D = results[0];
+    // Computed year arrays — derived from D keys, no hardcode
+    HIST_YEARS = Object.keys(D.latam_yearly).filter(function(y){return /^\d{4}$/.test(y) && y!=='2026';}).sort();
+    TB_YEARS   = Object.keys(D.tb_yearly).filter(function(y){return /^\d{4}$/.test(y) && y!=='2026';}).sort();
+    // Assign config
+    var cfg = results[1];
+    MO   = cfg.months_abbr;
+    ML   = cfg.months_labels;
+    CA   = cfg.countries;
+    CN   = cfg.country_names;
+    CC   = cfg.country_colors;
+    BORD = cfg.brand_order;
+    BCOL = cfg.brand_colors;
+    MN   = cfg.month_names;
+    // Populate month filter from config (no hardcode in HTML)
+    var selEl = document.getElementById('month-select');
+    if (selEl) {
+      selEl.innerHTML = '<option value="ALL">Todos os meses</option>'
+        + MO.map(function(mo){ return '<option value="'+mo+'">'+MN[mo]+'</option>'; }).join('');
+    }
+    // Init dashboard
+    updateKpisLat('ALL');
+    renderLatam('ALL');
+  }).catch(function(err) {
+    document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#c00;">'
+      + '<h2>⚠️ Erro ao carregar dados</h2>'
+      + '<p>' + err.message + '</p>'
+      + '<p style="color:#666;">Certifique-se de que os arquivos <code>data/sales_data.json</code> e '
+      + '<code>data/config.json</code> estão na mesma pasta que este HTML.</p>'
+      + '<p style="color:#666;">Para abrir localmente: use um servidor HTTP (ex: <code>python -m http.server</code>) '
+      + 'ou abra via servidor.</p>'
+      + '</div>';
+  });
+});
+  </script>
 
   <script src="../js/mock-data.js"></script>
   <script src="../js/auth.js"></script>
