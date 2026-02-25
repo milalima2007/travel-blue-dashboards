@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Blue | Sign In</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="login-page">
+
+  <div class="login-wrapper">
+
+    <!-- Logo -->
+    <div class="login-logo-wrap">
+      <div class="login-logo-box">
+        <!-- Travel Blue Logo (SVG) -->
+        <svg class="login-logo-icon" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+          <rect width="56" height="56" rx="10" fill="#1B2A6B"/>
+          <path d="M12 40 Q18 12 28 28 Q38 44 44 16"
+                stroke="#FFC72C" stroke-width="4"
+                fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="44" cy="16" r="3" fill="#FFC72C"/>
+        </svg>
+
+        <div class="login-brand">
+          <span class="brand-name">Travel Blue</span>
+          <span class="brand-tag">London · Since 1987</span>
+        </div>
+      </div>
+      <p class="login-subtitle-label">Internal Dashboard Portal</p>
+    </div>
+
+    <!-- Login Card -->
+    <div class="login-card">
+      <h2>Welcome back</h2>
+      <p class="login-desc">Sign in with your Travel Blue account to continue.</p>
+
+      <div id="login-error" class="error-msg" style="display:none;"></div>
+
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" placeholder="your@travelblue.com" autocomplete="email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="btn-primary" id="submit-btn">Sign In</button>
+      </form>
+    </div>
+
+    <p class="login-footer-text">© 2026 Travel Blue Ltd. Internal use only.</p>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    // Redirect if already logged in
+    if (Auth.isLoggedIn()) {
+      window.location.href = 'home.html';
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const errorEl  = document.getElementById('login-error');
+      const btn      = document.getElementById('submit-btn');
+
+      btn.textContent = 'Signing in…';
+      btn.disabled = true;
+      errorEl.style.display = 'none';
+
+      const result = await Auth.login(email, password);
+
+      if (result.success) {
+        window.location.href = 'home.html';
+      } else {
+        errorEl.textContent = result.error;
+        errorEl.style.display = 'block';
+        btn.textContent = 'Sign In';
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,620 @@
+/* ============================================
+   TRAVEL BLUE DASHBOARDS — Global Stylesheet
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ---- Variables ---- */
+:root {
+  --navy:        #1B2A6B;
+  --navy-dark:   #14205A;
+  --navy-light:  #253580;
+  --yellow:      #FFC72C;
+  --yellow-dark: #E6B000;
+  --white:       #FFFFFF;
+  --bg:          #F4F6FB;
+  --gray-light:  #ECECEC;
+  --gray:        #888888;
+  --gray-dark:   #444444;
+  --text:        #1A1A2E;
+  --shadow:      0 2px 12px rgba(27, 42, 107, 0.10);
+  --shadow-lg:   0 6px 28px rgba(27, 42, 107, 0.16);
+  --radius:      10px;
+  --transition:  0.22s ease;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+/* ================================================
+   LOGO SVG (inline, used in HTML)
+   ================================================ */
+
+/* ================================================
+   TOPBAR — Yellow strip (brand identity)
+   ================================================ */
+.topbar {
+  background: var(--yellow);
+  padding: 10px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.logo-text-wrap {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.logo-brand {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.logo-tagline {
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--navy);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+/* ================================================
+   NAVBAR — Navy blue bar
+   ================================================ */
+.navbar {
+  background: var(--navy);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.navbar-links a {
+  color: var(--yellow);
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 14px 14px;
+  transition: var(--transition);
+  position: relative;
+}
+
+.navbar-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 14px;
+  right: 14px;
+  height: 3px;
+  background: var(--yellow);
+  transform: scaleX(0);
+  transition: var(--transition);
+}
+
+.navbar-links a:hover::after,
+.navbar-links a.active::after {
+  transform: scaleX(1);
+}
+
+.navbar-links a:hover {
+  color: #fff;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navbar-user .user-info {
+  text-align: right;
+}
+
+.navbar-user .user-name {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.navbar-user .user-email {
+  color: rgba(255,255,255,0.6);
+  font-size: 11px;
+}
+
+.navbar-user .btn-logout {
+  background: transparent;
+  border: 1.5px solid var(--yellow);
+  color: var(--yellow);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.5px;
+}
+
+.navbar-user .btn-logout:hover {
+  background: var(--yellow);
+  color: var(--navy);
+}
+
+/* ================================================
+   PAGE HEADER BANNER
+   ================================================ */
+.page-banner {
+  background: var(--navy);
+  padding: 48px 40px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-banner::before {
+  content: '';
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 300px;
+  height: 300px;
+  background: rgba(255,199,44,0.07);
+  border-radius: 50%;
+}
+
+.page-banner::after {
+  content: '';
+  position: absolute;
+  right: 80px;
+  bottom: -80px;
+  width: 200px;
+  height: 200px;
+  background: rgba(255,199,44,0.05);
+  border-radius: 50%;
+}
+
+.page-banner h1 {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  position: relative;
+  z-index: 1;
+}
+
+.page-banner h1 span {
+  color: var(--yellow);
+}
+
+.page-banner p {
+  color: rgba(255,255,255,0.70);
+  margin-top: 6px;
+  font-size: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.banner-accent {
+  width: 48px;
+  height: 4px;
+  background: var(--yellow);
+  margin-bottom: 14px;
+  border-radius: 2px;
+}
+
+/* ================================================
+   MAIN CONTENT AREA
+   ================================================ */
+.main-content {
+  padding: 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* ================================================
+   DASHBOARD CARDS (Hub)
+   ================================================ */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 10px;
+}
+
+.dash-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(27,42,107,0.07);
+}
+
+.dash-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.card-accent {
+  height: 5px;
+  background: var(--yellow);
+}
+
+.card-body {
+  padding: 28px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(27,42,107,0.07);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  font-size: 22px;
+}
+
+.card-title {
+  color: var(--navy);
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.card-description {
+  color: var(--gray);
+  font-size: 13.5px;
+  line-height: 1.65;
+  flex: 1;
+}
+
+.card-footer {
+  padding: 18px 28px;
+  border-top: 1px solid var(--gray-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-access {
+  background: var(--navy);
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-access:hover {
+  background: var(--yellow);
+  color: var(--navy);
+}
+
+.btn-access svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ================================================
+   SECTION TITLE
+   ================================================ */
+.section-header {
+  margin-bottom: 28px;
+}
+
+.section-title {
+  color: var(--navy);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.section-subtitle {
+  color: var(--gray);
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+
+/* ================================================
+   LOGIN PAGE
+   ================================================ */
+body.login-page {
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.login-logo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 10px;
+}
+
+.login-logo-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.login-logo-icon {
+  width: 56px;
+  height: 56px;
+}
+
+.login-brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.login-brand .brand-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--yellow);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.login-brand .brand-tag {
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.login-subtitle-label {
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.login-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  padding: 40px 36px;
+  width: 100%;
+}
+
+.login-card h2 {
+  color: var(--navy);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.login-card .login-desc {
+  color: var(--gray);
+  font-size: 13.5px;
+  margin-bottom: 28px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 7px;
+  letter-spacing: 0.3px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--gray-light);
+  border-radius: 7px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: var(--transition);
+  background: #FAFAFA;
+}
+
+.form-group input:focus {
+  border-color: var(--navy);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(27,42,107,0.08);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 13px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 6px;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary:hover {
+  background: var(--yellow);
+  color: var(--navy);
+}
+
+.error-msg {
+  background: #FFF0F0;
+  border: 1px solid #FFCCCC;
+  color: #C0392B;
+  padding: 10px 14px;
+  border-radius: 7px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.login-footer-text {
+  color: rgba(255,255,255,0.35);
+  font-size: 12px;
+  margin-top: 24px;
+  text-align: center;
+}
+
+/* ================================================
+   PLACEHOLDER PAGES (Coming Soon)
+   ================================================ */
+.placeholder-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.placeholder-icon {
+  font-size: 56px;
+  margin-bottom: 24px;
+  opacity: 0.6;
+}
+
+.placeholder-wrap h2 {
+  color: var(--navy);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.placeholder-wrap p {
+  color: var(--gray);
+  font-size: 15px;
+  max-width: 420px;
+  margin-bottom: 28px;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--navy);
+  color: #fff;
+  padding: 11px 24px;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.btn-back:hover {
+  background: var(--yellow);
+  color: var(--navy);
+}
+
+/* ================================================
+   FOOTER
+   ================================================ */
+.site-footer {
+  background: var(--navy);
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+  padding: 20px;
+  font-size: 12px;
+  margin-top: auto;
+}
+
+.site-footer span {
+  color: var(--yellow);
+}
+
+/* ================================================
+   UTILITIES
+   ================================================ */
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mb-20 { margin-bottom: 20px; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.gap-10 { gap: 10px; }
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+@media (max-width: 768px) {
+  .topbar, .navbar { padding: 10px 20px; }
+  .main-content { padding: 24px 20px; }
+  .page-banner { padding: 32px 20px; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .navbar-links { display: none; }
+}
