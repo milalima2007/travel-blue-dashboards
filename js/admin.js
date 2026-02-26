@@ -8,6 +8,12 @@ let editingUserId = null;
 let editingProjId = null;
 let confirmAction = null;
 
+/* ---- CSV upload state ---- */
+let csvFile          = null;
+let csvAnalysisState = null;
+let csvProjectSlug   = null;
+let csvProjectName   = null;
+
 /* ---- Init ---- */
 function initAdmin() {
   const user = Auth.requireAdminOrOwner();
@@ -271,7 +277,8 @@ function renderProjectsTable() {
 
     const actions = `
       <div class="actions-cell">
-        <button class="btn-sm btn-sm-edit" onclick="openEditProject('${p.id}')">Edit</button>
+        <button class="btn-sm btn-sm-edit"   onclick="openEditProject('${p.id}')">Edit</button>
+        <button class="btn-sm btn-sm-upload" onclick="openUploadCSV('${p.id}')">⬆ Data</button>
         ${p.status === 'draft'    ? `<button class="btn-sm btn-sm-success" onclick="publishProject('${p.id}')">Publish</button>` : ''}
         ${p.status === 'active'   ? `<button class="btn-sm btn-sm-warn"    onclick="archiveProject('${p.id}')">Archive</button>` : ''}
         ${p.status === 'archived' ? `<button class="btn-sm btn-sm-warn"    onclick="draftProject('${p.id}')">Restore</button>` : ''}
@@ -377,6 +384,200 @@ function confirmDeleteProject(id) {
 }
 
 /* ============================================================
+   CSV UPLOAD HANDLERS
+   ============================================================ */
+
+function openUploadCSV(projId) {
+  const p = MockDB.getProject(projId);
+  if (!p) return;
+
+  csvFile          = null;
+  csvAnalysisState = null;
+  csvProjectSlug   = p.slug;
+  csvProjectName   = p.name;
+
+  document.getElementById('csv-proj-name').textContent = p.name;
+  _csvShowStep('drop');
+
+  // Reset dropzone
+  const input = document.getElementById('csv-file-input');
+  const dropzone = document.getElementById('csv-dropzone');
+  if (input) input.value = '';
+  if (dropzone) dropzone.classList.remove('has-file');
+  document.getElementById('csv-file-name').style.display = 'none';
+  document.getElementById('csv-analyse-btn').style.display = 'none';
+
+  openModal('modal-csv-upload');
+}
+
+function _csvShowStep(step) {
+  ['drop', 'analysing', 'preview', 'progress', 'result'].forEach(s => {
+    const el = document.getElementById(`csv-step-${s}`);
+    if (el) el.style.display = (s === step) ? 'block' : 'none';
+  });
+  const confirmBtn = document.getElementById('csv-confirm-btn');
+  if (confirmBtn) confirmBtn.style.display = (step === 'preview') ? '' : 'none';
+}
+
+function closeCsvModal() {
+  closeModal('modal-csv-upload');
+  csvFile = null;
+  csvAnalysisState = null;
+}
+
+/* Called when user selects a file via input or drop */
+function _onCsvFileChosen(file) {
+  if (!file) return;
+  if (!file.name.match(/\.csv$/i)) {
+    showToast('Please select a valid .csv file.'); return;
+  }
+  csvFile = file;
+  const nameEl = document.getElementById('csv-file-name');
+  nameEl.textContent = `📄 ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+  nameEl.style.display = 'block';
+  document.getElementById('csv-dropzone').classList.add('has-file');
+  document.getElementById('csv-analyse-btn').style.display = '';
+}
+
+async function runAnalyse() {
+  if (!csvFile) { showToast('Please select a CSV file first.'); return; }
+  _csvShowStep('analysing');
+
+  try {
+    csvAnalysisState = await CSVUpload.analyse(csvFile, csvProjectSlug);
+    _renderCsvPreview(csvAnalysisState);
+    _csvShowStep('preview');
+  } catch (err) {
+    showToast('Error: ' + err.message);
+    _csvShowStep('drop');
+  }
+}
+
+function _renderCsvPreview(state) {
+  const typeLabels = { date: '📅 date', numeric: '🔢 numeric', categorical: '🏷 category' };
+  const keySet     = new Set(state.keys);
+
+  // Column type chips
+  const chips = Object.entries(state.types).map(([col, type]) => {
+    const isKey = keySet.has(col);
+    return `<span class="col-chip col-chip-${type}${isKey ? ' col-chip-key' : ''}">
+      ${isKey ? '🔑 ' : ''}${col} <em style="font-style:normal;opacity:0.7;">${typeLabels[type] || type}</em>
+    </span>`;
+  }).join('');
+
+  document.getElementById('csv-col-types').innerHTML = `
+    <div class="upload-section-label">Detected Columns (${Object.keys(state.types).length})</div>
+    <div class="col-types-wrap">${chips}</div>
+    <p style="font-size:12px;color:var(--gray);margin-top:8px;">
+      🔑 Duplicate-detection key: <strong>${state.keys.join(' + ')}</strong>
+    </p>`;
+
+  // Diff cards
+  const { newRows, updateRows, unchangedRows } = state.diff;
+  const noChanges = newRows.length + updateRows.length === 0;
+  document.getElementById('csv-diff').innerHTML = `
+    <div class="upload-section-label" style="margin-top:18px;">Data Preview (${state.records.length} rows in file)</div>
+    <div class="diff-summary">
+      <div class="diff-card new-rows">
+        <div class="diff-count">${newRows.length}</div>
+        <div class="diff-label">New rows</div>
+      </div>
+      <div class="diff-card update-rows">
+        <div class="diff-count">${updateRows.length}</div>
+        <div class="diff-label">Updated</div>
+      </div>
+      <div class="diff-card same-rows">
+        <div class="diff-count">${unchangedRows.length}</div>
+        <div class="diff-label">Unchanged</div>
+      </div>
+    </div>
+    ${noChanges ? `<p style="font-size:13px;color:var(--gray);margin-top:10px;text-align:center;">
+      ⚠️ No new or changed rows detected — nothing will be written.
+    </p>` : ''}`;
+}
+
+async function runConfirmUpload() {
+  if (!csvAnalysisState) return;
+  _csvShowStep('progress');
+
+  try {
+    const result = await CSVUpload.confirm(csvAnalysisState, (msg, pct) => {
+      const lbl = document.getElementById('csv-progress-label');
+      const bar = document.getElementById('csv-progress-bar');
+      if (lbl) lbl.textContent = msg;
+      if (bar) { bar.style.width = pct + '%'; if (pct === 100) bar.classList.add('done'); }
+    });
+    _showUploadResult(result);
+  } catch (err) {
+    showToast('Upload failed: ' + err.message);
+    _csvShowStep('preview');
+  }
+}
+
+function _showUploadResult(result) {
+  const prompt = _buildCoworkPrompt(csvProjectName, csvProjectSlug, csvAnalysisState);
+
+  document.getElementById('csv-result-content').innerHTML = `
+    <div class="upload-result success" style="text-align:center;padding:20px 18px;">
+      <div class="upload-result-icon">✅</div>
+      <div class="upload-result-title">Upload complete!</div>
+      <div class="upload-result-stats">
+        <span>${result.inserted}</span> new &nbsp;·&nbsp;
+        <span>${result.updated}</span> updated &nbsp;·&nbsp;
+        <span>${result.unchanged}</span> unchanged
+      </div>
+    </div>
+    <div style="margin-top:16px;">
+      <div class="cowork-prompt-header">
+        <span>🤖 Claude Cowork Prompt</span>
+        <span class="prompt-tip">Paste this into Claude Cowork to build the dashboard for this project.</span>
+      </div>
+      <textarea class="cowork-prompt-text" id="csv-cowork-prompt" readonly>${prompt}</textarea>
+      <button class="btn-copy-prompt" id="csv-copy-btn" onclick="copyCsvPrompt()">📋 Copy Prompt</button>
+    </div>`;
+
+  _csvShowStep('result');
+  renderProjectsTable();
+  showToast(`✅ Data uploaded for ${csvProjectName}!`);
+}
+
+function _buildCoworkPrompt(name, slug, state) {
+  const colDescriptions = Object.entries(state.types)
+    .map(([col, type]) => `${col} (${type})`).join(', ');
+  const metrics = Object.entries(state.types)
+    .filter(([, t]) => t === 'numeric').map(([col]) => col).join(', ') || 'main metrics';
+  const dims    = state.keys.join(', ');
+  const total   = state.records.length;
+
+  return `I have a dataset for the "${name}" dashboard (project slug: ${slug}).
+
+The CSV has ${total} rows with these columns:
+${colDescriptions}
+
+The unique composite key is based on: ${dims}
+The main numeric metrics are: ${metrics}
+
+Please build an interactive HTML dashboard for this data. Requirements:
+- Match Travel Blue branding (navy #1B2A6B, yellow #FFC72C)
+- Show KPI cards at the top for each main metric
+- Include charts for trends over time (if date column exists) and breakdowns by category
+- Add a filterable/sortable data table
+- Read data from Supabase: URL = window.SUPABASE_URL, anon key = window.SUPABASE_KEY
+  - Table: "project_data", filter: project_slug = "${slug}", column: row_data (jsonb)
+- Save the output as /${slug}/index.html in the project folder`;
+}
+
+function copyCsvPrompt() {
+  const el = document.getElementById('csv-cowork-prompt');
+  if (!el) return;
+  el.select();
+  try { document.execCommand('copy'); } catch (_) {}
+  const btn = document.getElementById('csv-copy-btn');
+  if (btn) { btn.textContent = '✓ Copied!'; btn.classList.add('copied'); }
+  showToast('Prompt copied to clipboard!');
+}
+
+/* ============================================================
    MODAL HELPERS
    ============================================================ */
 function openModal(id) {
@@ -442,6 +643,24 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.method-btn').forEach(btn => {
     btn.addEventListener('click', () => setMethod(btn.dataset.method));
   });
+
+  // CSV dropzone: file input change
+  const csvInput = document.getElementById('csv-file-input');
+  if (csvInput) {
+    csvInput.addEventListener('change', e => _onCsvFileChosen(e.target.files[0]));
+  }
+
+  // CSV dropzone: drag-and-drop
+  const dropzone = document.getElementById('csv-dropzone');
+  if (dropzone) {
+    dropzone.addEventListener('dragover',  e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+    dropzone.addEventListener('dragleave', ()  => dropzone.classList.remove('drag-over'));
+    dropzone.addEventListener('drop',      e  => {
+      e.preventDefault();
+      dropzone.classList.remove('drag-over');
+      _onCsvFileChosen(e.dataTransfer.files[0]);
+    });
+  }
 
   initAdmin();
 });
