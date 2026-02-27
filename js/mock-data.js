@@ -22,7 +22,7 @@ const MockDB = (() => {
   /* ── PROJECTS ─────────────────────────────────────────────────────── */
 
   async function getProjects(role = 'user') {
-    let query = _anon().from('projects').select('*').order('created_at', { ascending: true });
+    let query = _svc().from('projects').select('*').order('created_at', { ascending: true });
     if (role === 'user')  query = query.eq('status', 'active');
     if (role === 'admin') query = query.in('status', ['active', 'draft']);
     // role === 'owner' → no filter, returns all statuses
@@ -32,12 +32,12 @@ const MockDB = (() => {
   }
 
   async function getProject(id) {
-    const { data } = await _anon().from('projects').select('*').eq('id', id).maybeSingle();
+    const { data } = await _svc().from('projects').select('*').eq('id', id).maybeSingle();
     return data || null;
   }
 
   async function getProjectBySlug(slug) {
-    const { data } = await _anon().from('projects').select('*').eq('slug', slug).maybeSingle();
+    const { data } = await _svc().from('projects').select('*').eq('slug', slug).maybeSingle();
     return data || null;
   }
 
