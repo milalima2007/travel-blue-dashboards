@@ -193,14 +193,25 @@ async function loadAllData() {
     Auth.renderRoleBadge(user, '#role-badge');
     if (Auth.isAdminOrOwner(user)) document.getElementById('nav-admin-dropdown').style.display = 'flex';
     if (Auth.isOwner(user)) document.getElementById('nav-projects-admin-link').style.display = 'block';
-    var _vis = MockDB.getProjects(role).filter(function(p) {
+    var _allProjects = await MockDB.getProjects(role);
+    var _vis = _allProjects.filter(function(p) {
       return Auth.canViewProject(user, p.slug);
     });
     document.getElementById('nav-projects-menu').innerHTML = _vis.map(function(p) {
-      return '<a href="/' + p.slug + '/index.html" class="' + (p.slug === 'avolta' ? 'active' : '') + '">' +
+      var href = p.custom_url || ('/project/index.html?slug=' + p.slug);
+      return '<a href="' + href + '" class="' + (p.slug === 'avolta' ? 'active' : '') + '">' +
              '<span class="menu-icon">' + p.icon + '</span> ' + p.name + '</a>';
     }).join('') || '<div class="dropdown-label">No projects available</div>';
     document.getElementById('btn-theme').addEventListener('click', function() { ThemeToggle.toggle(); });
+
+    // Update Data button (owner/admin only)
+    if (Auth.isAdminOrOwner(user)) {
+      var updateBtn = document.createElement('button');
+      updateBtn.textContent = '⬆ Update Data';
+      updateBtn.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999;padding:10px 18px;background:#1B2A6B;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.2);';
+      updateBtn.onclick = function() { window.location.href = '/admin/index.html?upload=avolta'; };
+      document.body.appendChild(updateBtn);
+    }
   })();
 </script>
 

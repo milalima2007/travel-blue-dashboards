@@ -1,222 +1,162 @@
 /* ============================================================
-   TRAVEL BLUE DASHBOARDS — Mock Database (Phase 1)
-   Simulates Supabase tables: projects, users, permissions
-   All data persists in localStorage until Supabase is connected.
+   TRAVEL BLUE DASHBOARDS — Data Layer (Supabase)
+   All methods are async. Replaces localStorage MockDB.
    ============================================================ */
 
-const OWNER_EMAIL  = 'soporte.latam@travel-blue.com';
-const MOCK_DB_KEY  = 'tb_mockdb_v2';
+const MockDB = (() => {
 
-const MockDB = {
+  let _anonClient = null, _svcClient = null;
 
-  /* ---- Seed data (loaded on first run) ---- */
-  _seed() {
+  function _anon() {
+    if (!_anonClient)
+      _anonClient = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+    return _anonClient;
+  }
+
+  function _svc() {
+    if (!_svcClient)
+      _svcClient = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_SERVICE_KEY);
+    return _svcClient;
+  }
+
+  /* ── PROJECTS ─────────────────────────────────────────────────────── */
+
+  async function getProjects(role = 'user') {
+    let query = _anon().from('projects').select('*').order('created_at', { ascending: true });
+    if (role === 'user')  query = query.eq('status', 'active');
+    if (role === 'admin') query = query.in('status', ['active', 'draft']);
+    // role === 'owner' → no filter, returns all statuses
+    const { data, error } = await query;
+    if (error) { console.error('getProjects:', error.message); return []; }
+    return data || [];
+  }
+
+  async function getProject(id) {
+    const { data } = await _anon().from('projects').select('*').eq('id', id).maybeSingle();
+    return data || null;
+  }
+
+  async function getProjectBySlug(slug) {
+    const { data } = await _anon().from('projects').select('*').eq('slug', slug).maybeSingle();
+    return data || null;
+  }
+
+  async function createProject(data) {
+    const { data: proj, error } = await _svc()
+      .from('projects')
+      .insert({ slug: data.slug, name: data.name, description: data.description || '',
+                icon: data.icon || '📊', status: 'draft' })
+      .select().single();
+    if (error)
+      return { error: error.code === '23505' ? 'A project with this slug already exists.' : error.message };
+    return proj;
+  }
+
+  async function updateProject(id, data) {
+    const { data: proj, error } = await _svc()
+      .from('projects').update(data).eq('id', id).select().single();
+    if (error) return { error: error.message };
+    return proj;
+  }
+
+  async function publishProject(id) {
+    return updateProject(id, { status: 'active', published_at: new Date().toISOString() });
+  }
+
+  async function archiveProject(id) { return updateProject(id, { status: 'archived' }); }
+
+  async function draftProject(id) {
+    return updateProject(id, { status: 'draft', published_at: null });
+  }
+
+  async function deleteProject(id) {
+    const proj = await getProject(id);
+    if (!proj) return { error: 'Project not found.' };
+    // Clean up related tables
+    await _svc().from('project_data').delete().eq('project_slug', proj.slug);
+    await _svc().from('project_meta').delete().eq('project_slug', proj.slug);
+    const { error } = await _svc().from('projects').delete().eq('id', id);
+    if (error) return { error: error.message };
+    return { success: true };
+  }
+
+  /* ── USERS (Supabase Auth Admin API) ─────────────────────────────── */
+
+  async function getUsers(includeOwner = true) {
+    const { data: { users }, error } = await _svc().auth.admin.listUsers({ perPage: 1000 });
+    if (error) { console.error('getUsers:', error.message); return []; }
+    return (users || [])
+      .filter(u => includeOwner || (u.user_metadata?.role !== 'owner'))
+      .map(u => ({
+        id:         u.id,
+        email:      u.email,
+        name:       u.user_metadata?.name || u.email,
+        role:       u.user_metadata?.role || 'user',
+        projects:   u.user_metadata?.projects || [],
+        created_at: u.created_at ? u.created_at.split('T')[0] : '—',
+      }));
+  }
+
+  async function getUserById(id) {
+    const { data: { user }, error } = await _svc().auth.admin.getUserById(id);
+    if (error || !user) return null;
     return {
-      projects: [
-        {
-          id: 'p1', slug: 'avolta', name: 'Avolta',
-          description: 'Sales performance and KPI tracking for the Avolta partnership across global travel retail channels. Includes sell-through rates and revenue insights.',
-          icon: '✈️', status: 'active',
-          created_at: '2026-01-15', published_at: '2026-01-20'
-        },
-        {
-          id: 'p2', slug: 'backpacks-and-luggage', name: 'Backpacks & Luggage',
-          description: 'Category-level analysis and sales tracking for Travel Blue\'s backpacks and luggage product lines. Monitors volume, revenue and distribution.',
-          icon: '🧳', status: 'active',
-          created_at: '2026-01-15', published_at: '2026-01-20'
-        },
-        {
-          id: 'p3', slug: 'total-sales-bp-latam', name: 'Total Sales BP LATAM',
-          description: 'Comprehensive sales dashboard for Business Partners across Latin America. Tracks regional revenue, growth trends and partner performance.',
-          icon: '🌎', status: 'active',
-          created_at: '2026-01-15', published_at: '2026-01-20'
-        }
-      ],
-      users: [
-        {
-          id: 'u1', email: OWNER_EMAIL, name: 'LATAM Support',
-          role: 'owner', password: 'owner123',
-          created_at: '2026-01-01', mustChangePassword: false
-        },
-        {
-          id: 'u2', email: 'admin@travel-blue.com', name: 'Admin User',
-          role: 'admin', password: 'admin123',
-          created_at: '2026-01-10', mustChangePassword: false
-        },
-        {
-          id: 'u3', email: 'user@travel-blue.com', name: 'Regular User',
-          role: 'user', password: 'user123',
-          created_at: '2026-01-15', mustChangePassword: false
-        }
-      ],
-      permissions: {
-        'u1': ['avolta', 'backpacks-and-luggage', 'total-sales-bp-latam'],
-        'u2': ['avolta', 'backpacks-and-luggage', 'total-sales-bp-latam'],
-        'u3': ['total-sales-bp-latam']
-      }
+      id:         user.id,
+      email:      user.email,
+      name:       user.user_metadata?.name || user.email,
+      role:       user.user_metadata?.role || 'user',
+      projects:   user.user_metadata?.projects || [],
+      created_at: user.created_at ? user.created_at.split('T')[0] : '—',
     };
-  },
+  }
 
-  /* ---- Internal helpers ---- */
-  _get() {
-    try {
-      const raw = localStorage.getItem(MOCK_DB_KEY);
-      if (!raw) { const s = this._seed(); localStorage.setItem(MOCK_DB_KEY, JSON.stringify(s)); return s; }
-      return JSON.parse(raw);
-    } catch { return this._seed(); }
-  },
-  _save(db) { localStorage.setItem(MOCK_DB_KEY, JSON.stringify(db)); },
-  _uid()    { return 'id_' + Math.random().toString(36).substr(2,9) + Date.now(); },
-  _today()  { return new Date().toISOString().split('T')[0]; },
+  async function getUserPermissions(userId) {
+    const user = await getUserById(userId);
+    return user?.projects || [];
+  }
 
-  /* =======================
-     PROJECTS
-  ======================== */
+  async function setUserPermissions(userId, projectSlugs) {
+    const { data: { user } } = await _svc().auth.admin.getUserById(userId);
+    const meta = { ...(user?.user_metadata || {}), projects: projectSlugs };
+    await _svc().auth.admin.updateUserById(userId, { user_metadata: meta });
+  }
 
-  /* role: 'owner' → all statuses | others → active only */
-  getProjects(role = 'user') {
-    const db = this._get();
-    if (role === 'owner') return db.projects;
-    return db.projects.filter(p => p.status === 'active');
-  },
-
-  getProject(id) { return this._get().projects.find(p => p.id === id) || null; },
-  getProjectBySlug(slug) { return this._get().projects.find(p => p.slug === slug) || null; },
-
-  createProject(data) {
-    const db = this._get();
-    if (db.projects.find(p => p.slug === data.slug))
-      return { error: 'A project with this slug already exists.' };
-    const project = {
-      id: this._uid(), slug: data.slug, name: data.name,
-      description: data.description || '', icon: data.icon || '📊',
-      status: 'draft', created_at: this._today(), published_at: null
-    };
-    db.projects.push(project);
-    this._save(db);
-    return project;
-  },
-
-  updateProject(id, data) {
-    const db = this._get();
-    const i = db.projects.findIndex(p => p.id === id);
-    if (i === -1) return { error: 'Project not found.' };
-    db.projects[i] = { ...db.projects[i], ...data };
-    this._save(db);
-    return db.projects[i];
-  },
-
-  publishProject(id) {
-    return this.updateProject(id, { status: 'active', published_at: this._today() });
-  },
-
-  archiveProject(id) {
-    return this.updateProject(id, { status: 'archived' });
-  },
-
-  draftProject(id) {
-    return this.updateProject(id, { status: 'draft', published_at: null });
-  },
-
-  deleteProject(id) {
-    const db = this._get();
-    const project = db.projects.find(p => p.id === id);
-    if (!project) return { error: 'Project not found.' };
-    db.projects = db.projects.filter(p => p.id !== id);
-    // Remove from all permissions
-    Object.keys(db.permissions).forEach(uid => {
-      db.permissions[uid] = (db.permissions[uid] || []).filter(s => s !== project.slug);
-    });
-    this._save(db);
-    return { success: true };
-  },
-
-  /* =======================
-     USERS
-  ======================== */
-
-  /* includeOwner: false → hide owner row from admin's view */
-  getUsers(includeOwner = true) {
-    const users = this._get().users;
-    return includeOwner ? users : users.filter(u => u.role !== 'owner');
-  },
-
-  getUserByEmail(email) {
-    return this._get().users.find(u => u.email.toLowerCase() === email.toLowerCase()) || null;
-  },
-
-  getUserById(id) {
-    return this._get().users.find(u => u.id === id) || null;
-  },
-
-  createUser(data) {
-    const db = this._get();
-    if (db.users.find(u => u.email.toLowerCase() === data.email.toLowerCase()))
-      return { error: 'A user with this email already exists.' };
-    const user = {
-      id: this._uid(), email: data.email, name: data.name,
-      role: data.role || 'user',
-      password: data.password || null,
-      invited: data.invited || false,
-      created_at: this._today(),
-      mustChangePassword: data.mustChangePassword || false
-    };
-    db.users.push(user);
-    db.permissions[user.id] = data.permissions || [];
-    this._save(db);
-    return user;
-  },
-
-  updateUser(id, data) {
-    const db = this._get();
-    const user = db.users.find(u => u.id === id);
-    if (!user) return { error: 'User not found.' };
-    if (user.email === OWNER_EMAIL) return { error: 'The owner account cannot be modified.' };
-    const i = db.users.findIndex(u => u.id === id);
-    db.users[i] = { ...db.users[i], ...data };
-    this._save(db);
-    return db.users[i];
-  },
-
-  deleteUser(id) {
-    const db = this._get();
-    const user = db.users.find(u => u.id === id);
-    if (!user) return { error: 'User not found.' };
-    if (user.email === OWNER_EMAIL) return { error: 'The owner account cannot be deleted.' };
-    db.users = db.users.filter(u => u.id !== id);
-    delete db.permissions[id];
-    this._save(db);
-    return { success: true };
-  },
-
-  /* =======================
-     PERMISSIONS
-  ======================== */
-
-  getUserPermissions(userId) {
-    return this._get().permissions[userId] || [];
-  },
-
-  setUserPermissions(userId, projectSlugs) {
-    const db = this._get();
-    const user = db.users.find(u => u.id === userId);
-    if (user && user.email === OWNER_EMAIL) return; // owner always sees all
-    db.permissions[userId] = projectSlugs;
-    this._save(db);
-  },
-
-  canUserViewProject(userId, projectSlug) {
-    const db = this._get();
-    const user = db.users.find(u => u.id === userId);
-    if (!user) return false;
-    if (user.role === 'owner') return true;
-    if (user.role === 'admin') {
-      const project = db.projects.find(p => p.slug === projectSlug);
-      return project && project.status === 'active';
+  async function createUser(data) {
+    if (data.invited) {
+      const { error } = await _svc().auth.admin.inviteUserByEmail(data.email, {
+        data: { name: data.name, role: data.role || 'user', projects: data.permissions || [] }
+      });
+      if (error) return { error: error.message };
+    } else {
+      const { error } = await _svc().auth.admin.createUser({
+        email: data.email, password: data.password, email_confirm: true,
+        user_metadata: { name: data.name, role: data.role || 'user', projects: data.permissions || [] }
+      });
+      if (error) return { error: error.message };
     }
-    return (db.permissions[userId] || []).includes(projectSlug);
-  },
+    return { success: true, email: data.email };
+  }
 
-  /* Reset to seed data */
-  reset() { localStorage.removeItem(MOCK_DB_KEY); return this._get(); }
-};
+  async function updateUser(id, data) {
+    const { data: { user } } = await _svc().auth.admin.getUserById(id);
+    const meta = { ...(user?.user_metadata || {}), name: data.name, role: data.role };
+    const { error } = await _svc().auth.admin.updateUserById(id, { user_metadata: meta });
+    if (error) return { error: error.message };
+    return { success: true };
+  }
+
+  async function deleteUser(id) {
+    const { error } = await _svc().auth.admin.deleteUser(id);
+    if (error) return { error: error.message };
+    return { success: true };
+  }
+
+  /* ── PUBLIC API ───────────────────────────────────────────────────── */
+  return {
+    getProjects, getProject, getProjectBySlug,
+    createProject, updateProject, publishProject, archiveProject, draftProject, deleteProject,
+    getUsers, getUserById, getUserPermissions, setUserPermissions,
+    createUser, updateUser, deleteUser,
+  };
+
+})();

@@ -7,13 +7,16 @@ let currentTab    = 'users';
 let editingUserId = null;
 let editingProjId = null;
 let confirmAction = null;
-let _adminUser    = null; // set by initAdmin(), used by sync helpers
+let _adminUser    = null;
 
-/* ---- CSV upload state ---- */
+/* ---- CSV upload state (update-data flow) ---- */
 let csvFile          = null;
 let csvAnalysisState = null;
 let csvProjectSlug   = null;
 let csvProjectName   = null;
+
+/* ---- New project CSV state ---- */
+let newProjCsvFile = null;
 
 /* ---- Init ---- */
 async function initAdmin() {
@@ -25,21 +28,24 @@ async function initAdmin() {
   Auth.renderUser(user, '#user-name', '#user-email');
   Auth.renderRoleBadge(user, '#role-badge');
 
-  // Build nav
-  buildAdminNav(user);
+  await buildAdminNav(user);
 
-  // Show/hide Projects tab in sidebar (owner only)
   if (Auth.isOwner(user)) {
     document.querySelectorAll('.owner-only').forEach(el => el.style.display = '');
     document.getElementById('nav-projects-admin-link').style.display = 'block';
   }
 
-  // Read tab from URL param
   const params = new URLSearchParams(window.location.search);
-  const tab = params.get('tab') || 'users';
+  const tab    = params.get('tab') || 'users';
   switchTab(tab);
 
-  // Bind sidebar links
+  // Auto-open CSV upload modal if ?upload=<slug> is in URL
+  const uploadSlug = params.get('upload');
+  if (uploadSlug && Auth.isAdminOrOwner(user)) {
+    const proj = await MockDB.getProjectBySlug(uploadSlug);
+    if (proj) openUploadCSVForProject(proj);
+  }
+
   document.querySelectorAll('[data-tab]').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
@@ -49,20 +55,18 @@ async function initAdmin() {
 }
 
 /* ---- Build Admin dropdown in navbar ---- */
-function buildAdminNav(user) {
+async function buildAdminNav(user) {
   const dropdown = document.getElementById('nav-admin-dropdown');
   if (dropdown) dropdown.style.display = 'flex';
 
-  const projsDropdown = document.getElementById('nav-projects-dropdown');
-  if (!projsDropdown) return;
-
   const menu = document.getElementById('nav-projects-menu');
-  const role = Auth.role(user);
-  const projects = MockDB.getProjects(role).filter(p =>
-    role === 'owner' || p.status === 'active'
-  );
-  menu.innerHTML = projects.length
-    ? projects.map(p => `<a href="/${p.slug}/index.html"><span class="menu-icon">${p.icon}</span> ${p.name}</a>`).join('')
+  if (!menu) return;
+
+  const role     = Auth.role(user);
+  const projects = await MockDB.getProjects(role);
+  const visible  = projects.filter(p => role === 'owner' || p.status === 'active');
+  menu.innerHTML = visible.length
+    ? visible.map(p => `<a href="${p.custom_url || '/project/index.html?slug=' + p.slug}"><span class="menu-icon">${p.icon}</span> ${p.name}</a>`).join('')
     : '<div class="dropdown-label">No projects available</div>';
 }
 
@@ -80,11 +84,16 @@ function switchTab(tab) {
    USERS TAB
    ============================================================ */
 
-function renderUsersTable() {
+async function renderUsersTable() {
   const isOwner = Auth.isOwner(_adminUser);
-  // Owner sees everyone; admin sees non-owners
-  const users = MockDB.getUsers(isOwner);
-  const tbody = document.getElementById('users-tbody');
+  const tbody   = document.getElementById('users-tbody');
+  tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">⏳</div><p>Loading…</p></div></td></tr>`;
+
+  const [users, projects] = await Promise.all([
+    MockDB.getUsers(isOwner),
+    MockDB.getProjects('owner')
+  ]);
+  const projMap = Object.fromEntries(projects.map(p => [p.slug, p]));
 
   if (!users.length) {
     tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">👤</div><p>No users found.</p></div></td></tr>`;
@@ -92,27 +101,23 @@ function renderUsersTable() {
   }
 
   tbody.innerHTML = users.map(u => {
-    const perms    = MockDB.getUserPermissions(u.id);
     const isOwnerRow = u.role === 'owner';
-    const canEdit  = isOwner || (!isOwnerRow);
+    const canEdit    = isOwner || !isOwnerRow;
 
     let permHtml;
     if (u.role === 'owner' || u.role === 'admin') {
       permHtml = `<span class="perm-chip-all">All active projects</span>`;
-    } else if (perms.length === 0) {
+    } else if (!u.projects.length) {
       permHtml = `<span style="color:#aaa;font-size:12px;">None assigned</span>`;
     } else {
-      permHtml = `<div class="perm-chips">${perms.map(s => {
-        const p = MockDB.getProjectBySlug(s);
+      permHtml = `<div class="perm-chips">${u.projects.map(s => {
+        const p = projMap[s];
         return `<span class="perm-chip">${p ? p.icon + ' ' + p.name : s}</span>`;
       }).join('')}</div>`;
     }
 
-    const roleBadge = {
-      owner: 'badge-role-owner', admin: 'badge-role-admin', user: 'badge-role-user'
-    }[u.role] || '';
-
-    const actions = canEdit ? `
+    const roleBadge = { owner: 'badge-role-owner', admin: 'badge-role-admin', user: 'badge-role-user' }[u.role] || '';
+    const actions   = canEdit ? `
       <button class="btn-sm btn-sm-edit" onclick="openEditUser('${u.id}')">Edit</button>
       ${!isOwnerRow ? `<button class="btn-sm btn-sm-danger" onclick="confirmDeleteUser('${u.id}')">Remove</button>` : ''}
     ` : `<span style="color:#aaa;font-size:12px;">—</span>`;
@@ -131,21 +136,22 @@ function renderUsersTable() {
   }).join('');
 }
 
-/* ---- Add User Modal ---- */
 function openAddUser() {
   editingUserId = null;
   document.getElementById('modal-user-title').textContent = 'Add New User';
   document.getElementById('user-form').reset();
   document.getElementById('user-email-field').disabled = false;
   document.getElementById('user-role').value = 'user';
+  document.getElementById('method-section').style.display = '';
+  document.getElementById('password-section').style.display = 'none';
   setMethod('invite');
   buildPermChecklist(null);
   openModal('modal-user');
 }
 
-function openEditUser(id) {
+async function openEditUser(id) {
   editingUserId = id;
-  const u = MockDB.getUserById(id);
+  const u = await MockDB.getUserById(id);
   if (!u) return;
 
   document.getElementById('modal-user-title').textContent = 'Edit User';
@@ -158,7 +164,7 @@ function openEditUser(id) {
   document.getElementById('method-section').style.display = 'none';
   document.getElementById('password-section').style.display = 'none';
 
-  buildPermChecklist(MockDB.getUserPermissions(id));
+  buildPermChecklist(u.projects);
   openModal('modal-user');
 }
 
@@ -168,10 +174,11 @@ function setMethod(method) {
   document.getElementById('invite-note').style.display = method === 'invite' ? 'block' : 'none';
 }
 
-function buildPermChecklist(selectedSlugs) {
-  const projects = MockDB.getProjects('admin').filter(p => p.status === 'active');
-  const container = document.getElementById('perm-checklist');
-  const role = document.getElementById('user-role').value;
+async function buildPermChecklist(selectedSlugs) {
+  const allProjects = await MockDB.getProjects('admin');
+  const projects    = allProjects.filter(p => p.status === 'active');
+  const container   = document.getElementById('perm-checklist');
+  const role        = document.getElementById('user-role').value;
 
   if (role === 'admin') {
     container.innerHTML = `<p style="font-size:13px;color:var(--gray);padding:8px 0;">Admins automatically have access to all active projects.</p>`;
@@ -198,18 +205,16 @@ function buildPermChecklist(selectedSlugs) {
 }
 
 function togglePermItem(cb) {
-  const item = cb.closest('.perm-item');
-  item.classList.toggle('checked', cb.checked);
+  cb.closest('.perm-item').classList.toggle('checked', cb.checked);
 }
 
-function saveUser() {
+async function saveUser() {
   const name     = document.getElementById('user-name-field').value.trim();
   const email    = document.getElementById('user-email-field').value.trim();
   const role     = document.getElementById('user-role').value;
   const method   = document.querySelector('.method-btn.selected')?.dataset.method || 'invite';
   const password = document.getElementById('user-password').value;
   const errEl    = document.getElementById('user-form-error');
-
   errEl.style.display = 'none';
 
   if (!name || !email) { showFormError(errEl, 'Name and email are required.'); return; }
@@ -220,25 +225,19 @@ function saveUser() {
   const selectedPerms = [...document.querySelectorAll('input[name="perm"]:checked')].map(cb => cb.value);
 
   if (editingUserId) {
-    // Edit existing
-    const res = MockDB.updateUser(editingUserId, { name, role });
+    const res = await MockDB.updateUser(editingUserId, { name, role });
     if (res.error) { showFormError(errEl, res.error); return; }
-    MockDB.setUserPermissions(editingUserId, selectedPerms);
+    await MockDB.setUserPermissions(editingUserId, selectedPerms);
   } else {
-    // Create new
     const userData = {
       name, email, role,
-      password:           method === 'manual' ? password : null,
-      invited:            method === 'invite',
-      mustChangePassword: method === 'manual',
-      permissions:        selectedPerms
+      password:    method === 'manual' ? password : null,
+      invited:     method === 'invite',
+      permissions: selectedPerms
     };
-    const res = MockDB.createUser(userData);
+    const res = await MockDB.createUser(userData);
     if (res.error) { showFormError(errEl, res.error); return; }
-
-    if (method === 'invite') {
-      showToast(`✉️  Invite sent to ${email} (simulated — Supabase in Phase 2)`);
-    }
+    if (method === 'invite') showToast(`✉️  Invite sent to ${email}`);
   }
 
   closeModal('modal-user');
@@ -246,13 +245,13 @@ function saveUser() {
   showToast(editingUserId ? 'User updated successfully.' : 'User created successfully.');
 }
 
-function confirmDeleteUser(id) {
-  const u = MockDB.getUserById(id);
+async function confirmDeleteUser(id) {
+  const u = await MockDB.getUserById(id);
   if (!u) return;
   document.getElementById('confirm-msg').innerHTML =
     `Are you sure you want to remove <strong>${u.name}</strong> (${u.email})?<br>This action cannot be undone.`;
-  confirmAction = () => {
-    MockDB.deleteUser(id);
+  confirmAction = async () => {
+    await MockDB.deleteUser(id);
     renderUsersTable();
     showToast('User removed.');
   };
@@ -263,9 +262,11 @@ function confirmDeleteUser(id) {
    PROJECTS TAB (owner only)
    ============================================================ */
 
-function renderProjectsTable() {
-  const projects = MockDB.getProjects('owner');
-  const tbody    = document.getElementById('projects-tbody');
+async function renderProjectsTable() {
+  const tbody = document.getElementById('projects-tbody');
+  tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">⏳</div><p>Loading…</p></div></td></tr>`;
+
+  const projects = await MockDB.getProjects('owner');
 
   if (!projects.length) {
     tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📁</div><p>No projects yet. Create your first one.</p></div></td></tr>`;
@@ -282,7 +283,7 @@ function renderProjectsTable() {
     const actions = `
       <div class="actions-cell">
         <button class="btn-sm btn-sm-edit"   onclick="openEditProject('${p.id}')">Edit</button>
-        <button class="btn-sm btn-sm-upload" onclick="openUploadCSV('${p.id}')">⬆ Data</button>
+        <button class="btn-sm btn-sm-upload" onclick="openUploadCSVById('${p.id}')">⬆ Data</button>
         ${p.status === 'draft'    ? `<button class="btn-sm btn-sm-success" onclick="publishProject('${p.id}')">Publish</button>` : ''}
         ${p.status === 'active'   ? `<button class="btn-sm btn-sm-warn"    onclick="archiveProject('${p.id}')">Archive</button>` : ''}
         ${p.status === 'archived' ? `<button class="btn-sm btn-sm-warn"    onclick="draftProject('${p.id}')">Restore</button>` : ''}
@@ -302,24 +303,31 @@ function renderProjectsTable() {
         </td>
         <td>${statusBadge}</td>
         <td style="font-size:12px;color:var(--gray);max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.description}</td>
-        <td style="font-size:12px;color:var(--gray)">${p.published_at || p.created_at}</td>
+        <td style="font-size:12px;color:var(--gray)">${p.published_at ? p.published_at.split('T')[0] : p.created_at ? p.created_at.split('T')[0] : '—'}</td>
         <td>${actions}</td>
       </tr>`;
   }).join('');
 }
 
 function openAddProject() {
-  editingProjId = null;
+  editingProjId  = null;
+  newProjCsvFile = null;
   document.getElementById('modal-proj-title').textContent = 'New Project';
   document.getElementById('proj-form').reset();
   document.getElementById('proj-slug').disabled = false;
   document.getElementById('proj-form-error').style.display = 'none';
+  document.getElementById('proj-save-btn').textContent = 'Create Project';
+  _clearNewProjCsv();
+  const csvSec = document.getElementById('new-proj-csv-section');
+  if (csvSec) csvSec.style.display = 'block';
+  const note = document.getElementById('proj-note');
+  if (note) note.style.display = 'block';
   openModal('modal-project');
 }
 
-function openEditProject(id) {
+async function openEditProject(id) {
   editingProjId = id;
-  const p = MockDB.getProject(id);
+  const p = await MockDB.getProject(id);
   if (!p) return;
   document.getElementById('modal-proj-title').textContent = 'Edit Project';
   document.getElementById('proj-name').value    = p.name;
@@ -328,59 +336,97 @@ function openEditProject(id) {
   document.getElementById('proj-icon').value    = p.icon;
   document.getElementById('proj-desc').value    = p.description;
   document.getElementById('proj-form-error').style.display = 'none';
+  document.getElementById('proj-save-btn').textContent = 'Save Changes';
+  const csvSec = document.getElementById('new-proj-csv-section');
+  if (csvSec) csvSec.style.display = 'none';
+  const note = document.getElementById('proj-note');
+  if (note) note.style.display = 'none';
   openModal('modal-project');
 }
 
-function saveProject() {
-  const name = document.getElementById('proj-name').value.trim();
-  const slug = document.getElementById('proj-slug').value.trim().toLowerCase().replace(/\s+/g, '-');
-  const icon = document.getElementById('proj-icon').value.trim() || '📊';
-  const desc = document.getElementById('proj-desc').value.trim();
+async function saveProject() {
+  const name  = document.getElementById('proj-name').value.trim();
+  const slug  = document.getElementById('proj-slug').value.trim().toLowerCase().replace(/\s+/g, '-');
+  const icon  = document.getElementById('proj-icon').value.trim() || '📊';
+  const desc  = document.getElementById('proj-desc').value.trim();
   const errEl = document.getElementById('proj-form-error');
+  const btn   = document.getElementById('proj-save-btn');
   errEl.style.display = 'none';
 
   if (!name || !slug) { showFormError(errEl, 'Name and slug are required.'); return; }
 
+  btn.disabled = true;
+
   if (editingProjId) {
-    const res = MockDB.updateProject(editingProjId, { name, icon, description: desc });
+    btn.textContent = 'Saving…';
+    const res = await MockDB.updateProject(editingProjId, { name, icon, description: desc });
+    btn.disabled = false; btn.textContent = 'Save Changes';
     if (res.error) { showFormError(errEl, res.error); return; }
     showToast('Project updated.');
-  } else {
-    const res = MockDB.createProject({ name, slug, icon, description: desc });
-    if (res.error) { showFormError(errEl, res.error); return; }
-    showToast('Project created as Draft. Set permissions and publish when ready.');
+    closeModal('modal-project');
+    await renderProjectsTable();
+    await buildAdminNav(_adminUser);
+    return;
   }
 
-  closeModal('modal-project');
-  renderProjectsTable();
-  buildAdminNav(_adminUser);
+  // Create new project
+  btn.textContent = 'Creating…';
+  const res = await MockDB.createProject({ name, slug, icon, description: desc });
+  if (res.error) {
+    btn.disabled = false; btn.textContent = 'Create Project';
+    showFormError(errEl, res.error); return;
+  }
+
+  // If CSV file was chosen, upload it
+  if (newProjCsvFile) {
+    btn.textContent = 'Uploading CSV…';
+    try {
+      const state = await CSVUpload.analyse(newProjCsvFile, slug);
+      await CSVUpload.confirm(state, null);
+      showToast('Project created with data! Redirecting to dashboard…');
+      closeModal('modal-project');
+      setTimeout(() => { window.location.href = `/project/index.html?slug=${slug}`; }, 1200);
+    } catch (e) {
+      btn.disabled = false; btn.textContent = 'Create Project';
+      showToast('Project created but CSV upload failed: ' + e.message);
+      closeModal('modal-project');
+      await renderProjectsTable();
+      await buildAdminNav(_adminUser);
+    }
+  } else {
+    btn.disabled = false; btn.textContent = 'Create Project';
+    showToast('Project created as Draft.');
+    closeModal('modal-project');
+    await renderProjectsTable();
+    await buildAdminNav(_adminUser);
+  }
 }
 
-function publishProject(id) {
-  MockDB.publishProject(id);
+async function publishProject(id) {
+  await MockDB.publishProject(id);
   renderProjectsTable();
   showToast('Project published and now visible to authorised users.');
 }
 
-function archiveProject(id) {
-  MockDB.archiveProject(id);
+async function archiveProject(id) {
+  await MockDB.archiveProject(id);
   renderProjectsTable();
   showToast('Project archived.');
 }
 
-function draftProject(id) {
-  MockDB.draftProject(id);
+async function draftProject(id) {
+  await MockDB.draftProject(id);
   renderProjectsTable();
   showToast('Project restored to Draft.');
 }
 
-function confirmDeleteProject(id) {
-  const p = MockDB.getProject(id);
+async function confirmDeleteProject(id) {
+  const p = await MockDB.getProject(id);
   if (!p) return;
   document.getElementById('confirm-msg').innerHTML =
-    `Are you sure you want to delete <strong>${p.name}</strong>?<br>All user permissions for this project will also be removed.`;
-  confirmAction = () => {
-    MockDB.deleteProject(id);
+    `Are you sure you want to delete <strong>${p.name}</strong>?<br>All data for this project will also be permanently removed.`;
+  confirmAction = async () => {
+    await MockDB.deleteProject(id);
     renderProjectsTable();
     showToast('Project deleted.');
   };
@@ -391,10 +437,15 @@ function confirmDeleteProject(id) {
    CSV UPLOAD HANDLERS
    ============================================================ */
 
-function openUploadCSV(projId) {
-  const p = MockDB.getProject(projId);
+/* Called from Projects table "⬆ Data" button (has project id) */
+async function openUploadCSVById(projId) {
+  const p = await MockDB.getProject(projId);
   if (!p) return;
+  openUploadCSVForProject(p);
+}
 
+/* Open the upload modal for a project object */
+function openUploadCSVForProject(p) {
   csvFile          = null;
   csvAnalysisState = null;
   csvProjectSlug   = p.slug;
@@ -403,10 +454,9 @@ function openUploadCSV(projId) {
   document.getElementById('csv-proj-name').textContent = p.name;
   _csvShowStep('drop');
 
-  // Reset dropzone
-  const input = document.getElementById('csv-file-input');
+  const input    = document.getElementById('csv-file-input');
   const dropzone = document.getElementById('csv-dropzone');
-  if (input) input.value = '';
+  if (input)    input.value = '';
   if (dropzone) dropzone.classList.remove('has-file');
   document.getElementById('csv-file-name').style.display = 'none';
   document.getElementById('csv-analyse-btn').style.display = 'none';
@@ -429,7 +479,6 @@ function closeCsvModal() {
   csvAnalysisState = null;
 }
 
-/* Called when user selects a file via input or drop */
 function _onCsvFileChosen(file) {
   if (!file) return;
   if (!file.name.match(/\.csv$/i)) {
@@ -461,7 +510,6 @@ function _renderCsvPreview(state) {
   const typeLabels = { date: '📅 date', numeric: '🔢 numeric', categorical: '🏷 category' };
   const keySet     = new Set(state.keys);
 
-  // Column type chips
   const chips = Object.entries(state.types).map(([col, type]) => {
     const isKey = keySet.has(col);
     return `<span class="col-chip col-chip-${type}${isKey ? ' col-chip-key' : ''}">
@@ -476,28 +524,16 @@ function _renderCsvPreview(state) {
       🔑 Duplicate-detection key: <strong>${state.keys.join(' + ')}</strong>
     </p>`;
 
-  // Diff cards
   const { newRows, updateRows, unchangedRows } = state.diff;
   const noChanges = newRows.length + updateRows.length === 0;
   document.getElementById('csv-diff').innerHTML = `
     <div class="upload-section-label" style="margin-top:18px;">Data Preview (${state.records.length} rows in file)</div>
     <div class="diff-summary">
-      <div class="diff-card new-rows">
-        <div class="diff-count">${newRows.length}</div>
-        <div class="diff-label">New rows</div>
-      </div>
-      <div class="diff-card update-rows">
-        <div class="diff-count">${updateRows.length}</div>
-        <div class="diff-label">Updated</div>
-      </div>
-      <div class="diff-card same-rows">
-        <div class="diff-count">${unchangedRows.length}</div>
-        <div class="diff-label">Unchanged</div>
-      </div>
+      <div class="diff-card new-rows"><div class="diff-count">${newRows.length}</div><div class="diff-label">New rows</div></div>
+      <div class="diff-card update-rows"><div class="diff-count">${updateRows.length}</div><div class="diff-label">Updated</div></div>
+      <div class="diff-card same-rows"><div class="diff-count">${unchangedRows.length}</div><div class="diff-label">Unchanged</div></div>
     </div>
-    ${noChanges ? `<p style="font-size:13px;color:var(--gray);margin-top:10px;text-align:center;">
-      ⚠️ No new or changed rows detected — nothing will be written.
-    </p>` : ''}`;
+    ${noChanges ? `<p style="font-size:13px;color:var(--gray);margin-top:10px;text-align:center;">⚠️ No new or changed rows detected — nothing will be written.</p>` : ''}`;
 }
 
 async function runConfirmUpload() {
@@ -519,25 +555,20 @@ async function runConfirmUpload() {
 }
 
 function _showUploadResult(result) {
-  const prompt = _buildCoworkPrompt(csvProjectName, csvProjectSlug, csvAnalysisState);
-
   document.getElementById('csv-result-content').innerHTML = `
-    <div class="upload-result success" style="text-align:center;padding:20px 18px;">
+    <div class="upload-result success" style="text-align:center;padding:24px 18px;">
       <div class="upload-result-icon">✅</div>
       <div class="upload-result-title">Upload complete!</div>
-      <div class="upload-result-stats">
+      <div class="upload-result-stats" style="margin:10px 0 18px;">
         <span>${result.inserted}</span> new &nbsp;·&nbsp;
         <span>${result.updated}</span> updated &nbsp;·&nbsp;
         <span>${result.unchanged}</span> unchanged
       </div>
-    </div>
-    <div style="margin-top:16px;">
-      <div class="cowork-prompt-header">
-        <span>🤖 Claude Cowork Prompt</span>
-        <span class="prompt-tip">Paste this into Claude Cowork to build the dashboard for this project.</span>
-      </div>
-      <textarea class="cowork-prompt-text" id="csv-cowork-prompt" readonly>${prompt}</textarea>
-      <button class="btn-copy-prompt" id="csv-copy-btn" onclick="copyCsvPrompt()">📋 Copy Prompt</button>
+      <a href="/project/index.html?slug=${csvProjectSlug}"
+         style="display:inline-block;padding:10px 28px;background:var(--navy);color:#fff;
+                border-radius:7px;text-decoration:none;font-weight:700;font-size:14px;">
+        View Dashboard →
+      </a>
     </div>`;
 
   _csvShowStep('result');
@@ -545,41 +576,20 @@ function _showUploadResult(result) {
   showToast(`✅ Data uploaded for ${csvProjectName}!`);
 }
 
-function _buildCoworkPrompt(name, slug, state) {
-  const colDescriptions = Object.entries(state.types)
-    .map(([col, type]) => `${col} (${type})`).join(', ');
-  const metrics = Object.entries(state.types)
-    .filter(([, t]) => t === 'numeric').map(([col]) => col).join(', ') || 'main metrics';
-  const dims    = state.keys.join(', ');
-  const total   = state.records.length;
-
-  return `I have a dataset for the "${name}" dashboard (project slug: ${slug}).
-
-The CSV has ${total} rows with these columns:
-${colDescriptions}
-
-The unique composite key is based on: ${dims}
-The main numeric metrics are: ${metrics}
-
-Please build an interactive HTML dashboard for this data. Requirements:
-- Match Travel Blue branding (navy #1B2A6B, yellow #FFC72C)
-- Show KPI cards at the top for each main metric
-- Include charts for trends over time (if date column exists) and breakdowns by category
-- Add a filterable/sortable data table
-- Read data from Supabase: URL = window.SUPABASE_URL, anon key = window.SUPABASE_KEY
-  - Table: "project_data", filter: project_slug = "${slug}", column: row_data (jsonb)
-- Save the output as /${slug}/index.html in the project folder`;
+/* ---- New Project CSV helpers ---- */
+function _clearNewProjCsv() {
+  newProjCsvFile = null;
+  const placeholder = document.getElementById('new-proj-csv-placeholder');
+  const selected    = document.getElementById('new-proj-csv-selected');
+  const clearBtn    = document.getElementById('new-proj-csv-clear');
+  const input       = document.getElementById('new-proj-csv-input');
+  if (placeholder) placeholder.style.display = 'flex';
+  if (selected)    selected.style.display    = 'none';
+  if (clearBtn)    clearBtn.style.display    = 'none';
+  if (input)       input.value               = '';
 }
 
-function copyCsvPrompt() {
-  const el = document.getElementById('csv-cowork-prompt');
-  if (!el) return;
-  el.select();
-  try { document.execCommand('copy'); } catch (_) {}
-  const btn = document.getElementById('csv-copy-btn');
-  if (btn) { btn.textContent = '✓ Copied!'; btn.classList.add('copied'); }
-  showToast('Prompt copied to clipboard!');
-}
+function clearNewProjCsv() { _clearNewProjCsv(); }
 
 /* ============================================================
    MODAL HELPERS
@@ -592,14 +602,13 @@ function closeModal(id) {
   document.getElementById(id).classList.remove('open');
   document.body.style.overflow = '';
 }
-function runConfirm() {
-  if (confirmAction) { confirmAction(); confirmAction = null; }
+async function runConfirm() {
+  if (confirmAction) { await confirmAction(); confirmAction = null; }
   closeModal('modal-confirm');
 }
 
 function showFormError(el, msg) { el.textContent = msg; el.style.display = 'block'; }
 
-/* Close modal when clicking overlay */
 document.addEventListener('click', e => {
   if (e.target.classList.contains('modal-overlay')) {
     e.target.classList.remove('open');
@@ -623,8 +632,9 @@ function showToast(msg) {
   }, 3500);
 }
 
-/* ---- Auto-generate slug from name ---- */
+/* ---- DOMContentLoaded ---- */
 document.addEventListener('DOMContentLoaded', async () => {
+  // Auto-generate slug from project name
   const nameField = document.getElementById('proj-name');
   const slugField = document.getElementById('proj-slug');
   if (nameField && slugField) {
@@ -637,38 +647,49 @@ document.addEventListener('DOMContentLoaded', async () => {
     slugField.addEventListener('input', () => { slugField.dataset.manual = '1'; });
   }
 
-  // Bind role change to rebuild perm checklist
+  // Role change → rebuild perm checklist
   const roleSelect = document.getElementById('user-role');
-  if (roleSelect) {
-    roleSelect.addEventListener('change', () => buildPermChecklist(null));
-  }
+  if (roleSelect) roleSelect.addEventListener('change', () => buildPermChecklist(null));
 
-  // Bind method buttons
+  // Method buttons
   document.querySelectorAll('.method-btn').forEach(btn => {
     btn.addEventListener('click', () => setMethod(btn.dataset.method));
   });
 
-  // CSV dropzone: file input change
+  // CSV upload modal: file input
   const csvInput = document.getElementById('csv-file-input');
-  if (csvInput) {
-    csvInput.addEventListener('change', e => _onCsvFileChosen(e.target.files[0]));
-  }
+  if (csvInput) csvInput.addEventListener('change', e => _onCsvFileChosen(e.target.files[0]));
 
-  // CSV dropzone: drag-and-drop
+  // CSV upload modal: drag-and-drop
   const dropzone = document.getElementById('csv-dropzone');
   if (dropzone) {
     dropzone.addEventListener('dragover',  e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
     dropzone.addEventListener('dragleave', ()  => dropzone.classList.remove('drag-over'));
     dropzone.addEventListener('drop',      e  => {
-      e.preventDefault();
-      dropzone.classList.remove('drag-over');
+      e.preventDefault(); dropzone.classList.remove('drag-over');
       _onCsvFileChosen(e.dataTransfer.files[0]);
     });
   }
 
-  await initAdmin();
+  // New project CSV input
+  const newProjInput = document.getElementById('new-proj-csv-input');
+  if (newProjInput) {
+    newProjInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (!file.name.match(/\.csv$/i)) { showToast('Please select a .csv file.'); return; }
+      newProjCsvFile = file;
+      document.getElementById('new-proj-csv-placeholder').style.display = 'none';
+      document.getElementById('new-proj-csv-selected').style.display    = 'flex';
+      document.getElementById('new-proj-csv-selected').querySelector('span').textContent =
+        `📄 ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+      document.getElementById('new-proj-csv-clear').style.display = 'inline-block';
+    });
+  }
 
   // Theme toggle
   const themeBtn = document.getElementById('btn-theme');
   if (themeBtn) themeBtn.addEventListener('click', () => ThemeToggle.toggle());
+
+  await initAdmin();
 });

@@ -15,8 +15,8 @@ const Auth = {
   /* ── Async: fetch user from Supabase session ── */
   async getUser() {
     if (this._cachedUser !== null) return this._cachedUser;
-    const { data: { session } } = await this._sb().auth.getSession();
-    this._cachedUser = session?.user || null;
+    const { data: { user } } = await this._sb().auth.getUser(); // always fresh from server
+    this._cachedUser = user || null;
     return this._cachedUser;
   },
 

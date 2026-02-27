@@ -110,7 +110,7 @@
     }
 
     /* Build project cards */
-    const projects = MockDB.getProjects(role);
+    const projects = await MockDB.getProjects(role);
     const grid     = document.getElementById('cards-grid');
     const subtitle = document.getElementById('projects-subtitle');
     const navMenu  = document.getElementById('nav-projects-menu');
@@ -122,6 +122,7 @@
       return Auth.canViewProject(user, p.slug);
     });
 
+
     subtitle.textContent = visible.length
       ? `${visible.length} project${visible.length > 1 ? 's' : ''} available to you.`
       : 'No projects have been assigned to your account yet.';
@@ -131,7 +132,7 @@
       navMenu.innerHTML = '<div class="dropdown-label">No projects available</div>';
     } else {
       navMenu.innerHTML = visible.map(p => `
-        <a href="/${p.slug}/index.html">
+        <a href="${p.custom_url || '/project/index.html?slug=' + p.slug}">
           <span class="menu-icon">${p.icon}</span> ${p.name}
           ${p.status === 'draft' ? '<span class="card-draft-badge" style="margin-left:auto;font-size:9px;">Draft</span>' : ''}
         </a>
@@ -163,7 +164,7 @@
           </div>
           <div class="card-footer">
             <span class="card-tag">${p.status === 'draft' ? '⚠ Not published' : 'Dashboard'}</span>
-            <a href="/${p.slug}/index.html" class="btn-access">
+            <a href="${p.custom_url || '/project/index.html?slug=' + p.slug}" class="btn-access">
               Open
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
