@@ -4,3 +4,24 @@
 
 [build.environment]
   SECRETS_SCAN_OMIT_PATHS = "js/config.js"
+
+# ── Security headers applied to every response ──────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Prevent this site from being embedded in iframes (clickjacking protection)
+    X-Frame-Options = "DENY"
+    # Prevent MIME-type sniffing
+    X-Content-Type-Options = "nosniff"
+    # Don't send referrer to external sites
+    Referrer-Policy = "no-referrer"
+    # Basic XSS protection for older browsers
+    X-XSS-Protection = "1; mode=block"
+    # Disable browser caching of all pages (sensitive internal data)
+    Cache-Control = "no-store, no-cache, must-revalidate, proxy-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+    # Tell search engines not to index anything (belt-and-suspenders with robots.txt)
+    X-Robots-Tag = "noindex, nofollow"
+    # Content Security Policy: restrict what can load on these pages
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';"
