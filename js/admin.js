@@ -663,4 +663,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   initAdmin();
+
+  // Theme toggle
+  const themeBtn = document.getElementById('btn-theme');
+  if (themeBtn) themeBtn.addEventListener('click', () => ThemeToggle.toggle());
 });

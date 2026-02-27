@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- TOPBAR -->
+  <!-- TOPBAR (full navigation) -->
   <header class="topbar">
     <div class="topbar-logo">
       <svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -21,44 +21,36 @@
         <span class="logo-tagline">London · Since 1987</span>
       </div>
     </div>
-  </header>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="navbar-links">
-
-      <!-- Home (direct link) -->
+    <nav class="topbar-nav">
       <a href="/home.html" class="active">Home</a>
-
-      <!-- Projects dropdown (populated by JS) -->
       <div class="nav-dropdown" id="nav-projects-dropdown">
         <div class="nav-dropdown-btn">
           Projects
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
         </div>
-        <div class="nav-dropdown-menu" id="nav-projects-menu">
-          <!-- Populated by JS -->
-        </div>
+        <div class="nav-dropdown-menu" id="nav-projects-menu"></div>
       </div>
-
-      <!-- Admin dropdown (owner + admin only, injected by JS) -->
       <div class="nav-dropdown" id="nav-admin-dropdown" style="display:none;">
         <div class="nav-dropdown-btn">
           Admin
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
         </div>
         <div class="nav-dropdown-menu">
-          <a href="/admin/index.html"><span class="menu-icon">👥</span> User Management</a>
+          <a href="/admin/index.html?tab=users"><span class="menu-icon">👥</span> User Management</a>
           <div id="nav-projects-admin-link" style="display:none;">
             <a href="/admin/index.html?tab=projects"><span class="menu-icon">📁</span> Projects</a>
           </div>
         </div>
       </div>
+    </nav>
 
+    <div class="topbar-search">
+      <svg class="topbar-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="search" class="topbar-search-input" placeholder="Search…" id="topbar-search" />
     </div>
 
-    <!-- User info + logout -->
-    <div class="navbar-user">
+    <div class="topbar-user">
       <div class="user-info">
         <div class="user-name">
           <span id="user-name">—</span>
@@ -66,13 +58,13 @@
         </div>
         <div class="user-email" id="user-email">—</div>
       </div>
+      <button class="btn-theme" id="btn-theme" title="Toggle dark mode">🌙</button>
       <button class="btn-logout" data-logout>Sign Out</button>
     </div>
-  </nav>
+  </header>
 
   <!-- PAGE BANNER -->
   <section class="page-banner">
-    <div class="banner-accent"></div>
     <h1>Dashboard <span>Hub</span></h1>
     <p>Select a project to access its reports and analytics.</p>
   </section>
@@ -94,6 +86,7 @@
 
   <script src="js/mock-data.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/theme.js"></script>
   <script>
     const user = Auth.requireLogin();
     if (!user) throw new Error('not logged in');
@@ -138,6 +131,9 @@
         </a>
       `).join('');
     }
+
+    /* Theme toggle */
+    document.getElementById('btn-theme').addEventListener('click', () => ThemeToggle.toggle());
 
     /* Render cards */
     if (visible.length === 0) {
