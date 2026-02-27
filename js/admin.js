@@ -351,54 +351,52 @@ async function saveProject() {
   const desc  = document.getElementById('proj-desc').value.trim();
   const errEl = document.getElementById('proj-form-error');
   const btn   = document.getElementById('proj-save-btn');
-  errEl.style.display = 'none';
+  const origLabel = editingProjId ? 'Save Changes' : 'Create Project';
 
+  errEl.style.display = 'none';
   if (!name || !slug) { showFormError(errEl, 'Name and slug are required.'); return; }
 
   btn.disabled = true;
 
-  if (editingProjId) {
-    btn.textContent = 'Saving…';
-    const res = await MockDB.updateProject(editingProjId, { name, icon, description: desc });
-    btn.disabled = false; btn.textContent = 'Save Changes';
-    if (res.error) { showFormError(errEl, res.error); return; }
-    showToast('Project updated.');
-    closeModal('modal-project');
-    await renderProjectsTable();
-    await buildAdminNav(_adminUser);
-    return;
-  }
+  try {
+    if (editingProjId) {
+      btn.textContent = 'Saving…';
+      const res = await MockDB.updateProject(editingProjId, { name, icon, description: desc });
+      if (res?.error) { showFormError(errEl, res.error); btn.disabled = false; btn.textContent = origLabel; return; }
+      showToast('Project updated.');
+      closeModal('modal-project');
+      await renderProjectsTable();
+      await buildAdminNav(_adminUser);
+      return;
+    }
 
-  // Create new project
-  btn.textContent = 'Creating…';
-  const res = await MockDB.createProject({ name, slug, icon, description: desc });
-  if (res.error) {
-    btn.disabled = false; btn.textContent = 'Create Project';
-    showFormError(errEl, res.error); return;
-  }
+    // Create new project
+    btn.textContent = 'Creating…';
+    const res = await MockDB.createProject({ name, slug, icon, description: desc });
+    if (res?.error) { showFormError(errEl, res.error); btn.disabled = false; btn.textContent = origLabel; return; }
 
-  // If CSV file was chosen, upload it
-  if (newProjCsvFile) {
-    btn.textContent = 'Uploading CSV…';
-    try {
+    // If CSV file was chosen, upload it
+    if (newProjCsvFile) {
+      btn.textContent = 'Analysing CSV…';
       const state = await CSVUpload.analyse(newProjCsvFile, slug);
+      btn.textContent = 'Uploading…';
       await CSVUpload.confirm(state, null);
       showToast('Project created with data! Redirecting to dashboard…');
       closeModal('modal-project');
       setTimeout(() => { window.location.href = `/project/index.html?slug=${slug}`; }, 1200);
-    } catch (e) {
-      btn.disabled = false; btn.textContent = 'Create Project';
-      showToast('Project created but CSV upload failed: ' + e.message);
+    } else {
+      btn.disabled = false; btn.textContent = origLabel;
+      showToast('Project created as Draft.');
       closeModal('modal-project');
       await renderProjectsTable();
       await buildAdminNav(_adminUser);
     }
-  } else {
-    btn.disabled = false; btn.textContent = 'Create Project';
-    showToast('Project created as Draft.');
-    closeModal('modal-project');
-    await renderProjectsTable();
-    await buildAdminNav(_adminUser);
+
+  } catch (e) {
+    console.error('[saveProject]', e);
+    btn.disabled = false;
+    btn.textContent = origLabel;
+    showFormError(errEl, 'Error: ' + (e.message || String(e)));
   }
 }
 
