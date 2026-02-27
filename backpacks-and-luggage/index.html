@@ -184,7 +184,7 @@
     document.getElementById('btn-theme').addEventListener('click', () => ThemeToggle.toggle());
 
     // Owner: check upload status from Supabase
-    if (Auth.isOwner()) {
+    if (Auth.isOwner(user)) {
       document.getElementById('bl-placeholder').style.display = 'none';
       document.getElementById('bl-owner-panel').style.display = 'block';
 

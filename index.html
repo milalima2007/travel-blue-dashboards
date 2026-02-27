@@ -59,9 +59,7 @@
   <script src="js/auth.js"></script>
   <script>
     // Redirect if already logged in
-    if (Auth.isLoggedIn()) {
-      window.location.href = 'home.html';
-    }
+    Auth.getUser().then(u => { if (u) window.location.href = 'home.html'; });
 
     document.getElementById('login-form').addEventListener('submit', async function (e) {
       e.preventDefault();
