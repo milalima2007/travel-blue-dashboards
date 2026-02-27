@@ -3,6 +3,7 @@
 <head>
 <script src="/js/config.js"></script>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="../css/style.css" />
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Travel Blue × Avolta — Global Analytics Dashboard</title>
 <style>
@@ -118,12 +119,89 @@ async function loadAllData() {
 </script>
 </head>
 <body>
+
+  <!-- TOPBAR (full navigation) -->
+  <header class="topbar">
+    <div class="topbar-logo">
+      <svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <rect width="48" height="48" rx="8" fill="#1B2A6B"/>
+        <path d="M10 34 Q16 10 24 24 Q32 38 38 14" stroke="#FFC72C" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <circle cx="38" cy="14" r="2.5" fill="#FFC72C"/>
+      </svg>
+      <div class="logo-text-wrap">
+        <span class="logo-brand">Travel Blue</span>
+        <span class="logo-tagline">London · Since 1987</span>
+      </div>
+    </div>
+    <nav class="topbar-nav">
+      <a href="/home.html">Home</a>
+      <div class="nav-dropdown" id="nav-projects-dropdown">
+        <div class="nav-dropdown-btn active">
+          Projects
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="nav-dropdown-menu" id="nav-projects-menu"></div>
+      </div>
+      <div class="nav-dropdown" id="nav-admin-dropdown" style="display:none;">
+        <div class="nav-dropdown-btn">
+          Admin
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="nav-dropdown-menu">
+          <a href="/admin/index.html?tab=users"><span class="menu-icon">👥</span> User Management</a>
+          <div id="nav-projects-admin-link" style="display:none;">
+            <a href="/admin/index.html?tab=projects"><span class="menu-icon">📁</span> Projects</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="topbar-search">
+      <svg class="topbar-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="search" class="topbar-search-input" placeholder="Search…" id="topbar-search" />
+    </div>
+    <div class="topbar-user">
+      <div class="user-info">
+        <div class="user-name">
+          <span id="user-name">—</span>
+          <span id="role-badge" class="role-badge" style="display:none;"></span>
+        </div>
+        <div class="user-email" id="user-email">—</div>
+      </div>
+      <button class="btn-theme" id="btn-theme" title="Toggle dark mode">🌙</button>
+      <button class="btn-logout" data-logout>Sign Out</button>
+    </div>
+  </header>
+
 <div class="header">
 <div><h1>Travel Blue × <span>Avolta</span> — Global Analytics</h1><div class="sub">Sell-Out Performance Dashboard · 2023–2025 · All Zones</div></div>
 <div style="text-align:right;font-size:11px;color:var(--dim)">Data: Jan 2023 – Dec 2025<br>Currency: CHF · Source: Avolta POS</div>
 </div>
 <div class="tabs" id="tabs"></div>
 <div class="content" id="main"></div>
+
+<script src="../js/mock-data.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/theme.js"></script>
+<script>
+  /* ---- Auth + Navbar init ---- */
+  (function() {
+    var user = Auth.requireLogin();
+    if (!user) return;
+    Auth.renderUser('#user-name', '#user-email');
+    Auth.renderRoleBadge('#role-badge');
+    if (Auth.isAdminOrOwner()) document.getElementById('nav-admin-dropdown').style.display = 'flex';
+    if (Auth.isOwner()) document.getElementById('nav-projects-admin-link').style.display = 'block';
+    var _vis = MockDB.getProjects(user.role).filter(function(p) {
+      return user.role === 'owner' || user.role === 'admin' || MockDB.canUserViewProject(user.id, p.slug);
+    });
+    document.getElementById('nav-projects-menu').innerHTML = _vis.map(function(p) {
+      return '<a href="/' + p.slug + '/index.html" class="' + (p.slug === 'avolta' ? 'active' : '') + '">' +
+             '<span class="menu-icon">' + p.icon + '</span> ' + p.name + '</a>';
+    }).join('') || '<div class="dropdown-label">No projects available</div>';
+    document.getElementById('btn-theme').addEventListener('click', function() { ThemeToggle.toggle(); });
+  })();
+</script>
+
 <script>
 
 // === DATA ===
