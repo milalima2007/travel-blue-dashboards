@@ -584,3 +584,209 @@ body.login-page {
   .form-grid { grid-template-columns: 1fr; }
   .modal { max-width: 100%; }
 }
+
+/* ================================================
+   CSV UPLOAD UI
+   ================================================ */
+
+/* Drop zone */
+.csv-dropzone {
+  border: 2px dashed var(--gray-light);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  background: #FAFAFA;
+  position: relative;
+}
+.csv-dropzone:hover,
+.csv-dropzone.drag-over {
+  border-color: var(--navy);
+  background: rgba(27,42,107,0.03);
+}
+.csv-dropzone.has-file {
+  border-color: var(--success);
+  background: rgba(39,174,96,0.04);
+}
+.csv-dropzone input[type="file"] {
+  position: absolute; inset: 0;
+  opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.dropzone-icon  { font-size: 32px; margin-bottom: 8px; }
+.dropzone-label { font-size: 13.5px; font-weight: 600; color: var(--navy); }
+.dropzone-hint  { font-size: 12px; color: var(--gray); margin-top: 4px; }
+.dropzone-file  { font-size: 13px; font-weight: 600; color: var(--success); margin-top: 6px; }
+
+/* Column type chips */
+.col-types-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.col-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 20px;
+  font-size: 11.5px; font-weight: 600;
+}
+.col-chip-date        { background: rgba(59,130,246,0.12); color: #1D4ED8; }
+.col-chip-numeric     { background: rgba(16,185,129,0.12); color: #065F46; }
+.col-chip-categorical { background: rgba(139,92,246,0.12); color: #5B21B6; }
+.col-chip-key         { background: rgba(255,199,44,0.2);  color: #92400E; border: 1px solid rgba(255,199,44,0.5); }
+
+/* Diff preview cards */
+.diff-summary {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin: 14px 0;
+}
+.diff-card {
+  border-radius: 8px; padding: 12px 14px; text-align: center;
+}
+.diff-card .diff-count { font-size: 22px; font-weight: 800; line-height: 1; }
+.diff-card .diff-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+.diff-card.new-rows     { background: rgba(16,185,129,0.10); color: #065F46; }
+.diff-card.update-rows  { background: rgba(255,199,44,0.15); color: #92400E; }
+.diff-card.same-rows    { background: rgba(100,116,139,0.10); color: #475569; }
+
+/* Progress bar */
+.upload-progress { margin-top: 14px; }
+.progress-label  { font-size: 12.5px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+.progress-bar-wrap {
+  background: var(--gray-light); border-radius: 20px; overflow: hidden; height: 8px;
+}
+.progress-bar {
+  height: 100%; background: var(--navy);
+  border-radius: 20px; transition: width 0.4s ease;
+  width: 0%;
+}
+.progress-bar.done { background: var(--success); }
+
+/* Upload result */
+.upload-result {
+  border-radius: var(--radius); padding: 16px 18px; margin-top: 14px;
+}
+.upload-result.success { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); }
+.upload-result.error   { background: rgba(231,76,60,0.08);  border: 1px solid rgba(231,76,60,0.2); }
+.upload-result .result-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.upload-result.success .result-title { color: #065F46; }
+.upload-result.error   .result-title { color: var(--danger-dark); }
+
+/* ================================================
+   PROJECT PAGE — Upload Status + Cowork Prompt
+   ================================================ */
+.project-status-wrap {
+  max-width: 680px; margin: 0 auto; padding: 40px 20px;
+}
+
+/* State: no data */
+.status-card {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.status-card-header {
+  padding: 20px 24px; display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--gray-light);
+}
+.status-card-icon  { font-size: 28px; }
+.status-card-title { font-size: 16px; font-weight: 700; color: var(--navy); }
+.status-card-sub   { font-size: 12.5px; color: var(--gray); margin-top: 2px; }
+.status-card-body  { padding: 20px 24px; }
+
+/* Cowork prompt box */
+.cowork-prompt-wrap { margin-top: 16px; }
+.cowork-prompt-label {
+  font-size: 12px; font-weight: 700; color: var(--gray);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+}
+.cowork-prompt-box {
+  background: #F8F9FC; border: 1.5px solid var(--gray-light);
+  border-radius: 8px; padding: 14px 16px;
+  font-family: 'Courier New', monospace; font-size: 12.5px;
+  color: var(--text); line-height: 1.7;
+  white-space: pre-wrap; word-break: break-word;
+  position: relative;
+}
+.btn-copy-prompt {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 10px; padding: 8px 16px;
+  background: var(--navy); color: #fff;
+  border: none; border-radius: 6px;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: var(--transition);
+}
+.btn-copy-prompt:hover { background: var(--yellow); color: var(--navy); }
+.btn-copy-prompt.copied { background: var(--success); }
+
+/* Tooltip for prompt fields */
+.prompt-tip {
+  margin-top: 10px; padding: 10px 14px;
+  background: rgba(255,199,44,0.08);
+  border-left: 3px solid var(--yellow);
+  border-radius: 0 6px 6px 0;
+  font-size: 12px; color: var(--gray-dark); line-height: 1.6;
+}
+.prompt-tip strong { color: var(--navy); }
+
+/* Step timeline */
+.step-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.step-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 13.5px; color: var(--gray-dark);
+}
+.step-num {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  background: var(--navy); color: #fff;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.step-done .step-num { background: var(--success); }
+
+/* Data stats bar */
+.data-stats {
+  display: flex; gap: 20px; flex-wrap: wrap;
+  padding: 12px 16px;
+  background: rgba(27,42,107,0.04); border-radius: 8px;
+  margin-bottom: 16px;
+}
+.data-stat-item { display: flex; flex-direction: column; }
+.data-stat-val   { font-size: 20px; font-weight: 800; color: var(--navy); line-height: 1; }
+.data-stat-label { font-size: 11px; color: var(--gray); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
+
+/* Upload section label */
+.upload-section-label {
+  font-size: 11.5px; font-weight: 700; color: var(--gray);
+  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;
+}
+
+/* Spinner */
+@keyframes tb-spin { to { transform: rotate(360deg); } }
+.upload-spinner {
+  width: 40px; height: 40px; margin: 0 auto;
+  border: 4px solid var(--gray-light);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: tb-spin 0.8s linear infinite;
+}
+
+/* btn-sm upload variant */
+.btn-sm-upload {
+  background: rgba(255,199,44,0.15); color: #7A5100;
+  border: 1px solid rgba(255,199,44,0.5);
+}
+.btn-sm-upload:hover { background: var(--yellow); color: var(--navy); }
+
+/* Cowork prompt header row */
+.cowork-prompt-header {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12.5px; font-weight: 700; color: var(--navy);
+  margin-bottom: 8px;
+}
+.cowork-prompt-text {
+  width: 100%; min-height: 160px; resize: vertical;
+  background: #F8F9FC; border: 1.5px solid var(--gray-light);
+  border-radius: 8px; padding: 12px 14px;
+  font-family: 'Courier New', monospace; font-size: 12px;
+  color: var(--text); line-height: 1.7;
+}
+
+/* Upload result inside modal */
+.upload-result-icon  { font-size: 36px; text-align: center; margin-bottom: 8px; }
+.upload-result-title { font-size: 15px; font-weight: 700; color: #065F46; text-align: center; margin-bottom: 6px; }
+.upload-result-stats { text-align: center; font-size: 13px; color: var(--gray-dark); margin-bottom: 18px; }
+.upload-result-stats span { font-weight: 700; color: var(--navy); }

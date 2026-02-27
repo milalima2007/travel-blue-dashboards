@@ -283,9 +283,73 @@
     © 2026 <span>Travel Blue Ltd.</span> — Internal use only.
   </footer>
 
+  <!-- MODAL: CSV UPLOAD -->
+  <div class="modal-overlay" id="modal-csv-upload">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h3>Upload CSV — <span id="csv-proj-name"></span></h3>
+        <button class="modal-close" onclick="closeModal('modal-csv-upload')">✕</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Step 1: Dropzone -->
+        <div id="csv-step-drop">
+          <div class="csv-dropzone" id="csv-dropzone">
+            <input type="file" id="csv-file-input" accept=".csv,text/csv" />
+            <div class="dropzone-icon">📂</div>
+            <div class="dropzone-label">Drag &amp; drop your CSV file here</div>
+            <div class="dropzone-hint">or click to browse — .csv, max 50 MB</div>
+            <div class="dropzone-file" id="csv-file-name" style="display:none;"></div>
+          </div>
+          <div style="text-align:right;margin-top:14px;">
+            <button class="btn-navy" id="csv-analyse-btn" onclick="runAnalyse()" style="display:none;">Analyse File →</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Analysing spinner -->
+        <div id="csv-step-analysing" style="display:none;">
+          <div style="text-align:center;padding:40px 0;">
+            <div class="upload-spinner"></div>
+            <p style="margin-top:16px;color:var(--navy);font-weight:600;">Analysing your CSV…</p>
+            <p style="font-size:12px;color:var(--gray);margin-top:4px;">Detecting column types and checking for duplicates</p>
+          </div>
+        </div>
+
+        <!-- Step 3: Preview -->
+        <div id="csv-step-preview" style="display:none;">
+          <div id="csv-col-types"></div>
+          <div id="csv-diff"></div>
+        </div>
+
+        <!-- Step 4: Progress -->
+        <div id="csv-step-progress" style="display:none;">
+          <div style="padding:30px 0;">
+            <p id="csv-progress-label" style="font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:12px;">Uploading…</p>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" id="csv-progress-bar" style="width:0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: Result -->
+        <div id="csv-step-result" style="display:none;">
+          <div id="csv-result-content"></div>
+        </div>
+
+      </div>
+      <div class="modal-footer" id="csv-modal-footer">
+        <button class="btn-ghost" onclick="closeCsvModal()">Close</button>
+        <button class="btn-navy" id="csv-confirm-btn" style="display:none;" onclick="runConfirmUpload()">⬆ Upload Data</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script src="../js/mock-data.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/theme.js"></script>
+  <script src="../js/csv-upload.js"></script>
   <script src="../js/admin.js"></script>
 </body>
 </html>

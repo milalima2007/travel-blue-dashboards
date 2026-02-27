@@ -72,11 +72,73 @@
 
   <!-- CONTENT -->
   <main class="main-content">
-    <div class="placeholder-wrap">
+
+    <!-- Standard placeholder shown to non-owners or when data not yet loaded -->
+    <div class="placeholder-wrap" id="bl-placeholder">
       <div class="placeholder-icon">🧳</div>
       <h2>Dashboard Under Construction</h2>
       <p>The Backpacks &amp; Luggage dashboard is being built. Data and visualisations will appear here once ready.</p>
       <a href="/home.html" class="btn-back">← Back to Hub</a>
+    </div>
+
+    <!-- Owner-only: upload status + Cowork prompt (hidden until JS runs) -->
+    <div class="project-status-wrap" id="bl-owner-panel" style="display:none;">
+
+      <!-- Status card: no data yet -->
+      <div class="status-card" id="bl-no-data" style="display:none;">
+        <div class="status-card-header">
+          <span class="status-card-icon">📭</span>
+          <div>
+            <div class="status-card-title">No data uploaded yet</div>
+            <div class="status-card-sub">Upload a CSV to get started.</div>
+          </div>
+        </div>
+        <div class="status-card-body">
+          <div class="step-list">
+            <div class="step-item">
+              <div class="step-num">1</div>
+              <span>Go to <strong>Admin → Projects</strong> and click <strong>⬆ Data</strong> next to this project.</span>
+            </div>
+            <div class="step-item">
+              <div class="step-num">2</div>
+              <span>Upload your CSV file — columns and composite key will be auto-detected.</span>
+            </div>
+            <div class="step-item">
+              <div class="step-num">3</div>
+              <span>Come back here — a Cowork prompt will appear so you can build the dashboard instantly.</span>
+            </div>
+          </div>
+          <div style="margin-top:20px;">
+            <a href="/admin/index.html?tab=projects" class="btn-yellow" style="display:inline-block;text-decoration:none;padding:10px 20px;border-radius:7px;font-weight:700;font-size:13.5px;background:var(--yellow);color:var(--navy);">
+              Go to Admin → Projects
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status card: data uploaded, show Cowork prompt -->
+      <div class="status-card" id="bl-has-data" style="display:none;">
+        <div class="status-card-header">
+          <span class="status-card-icon">✅</span>
+          <div>
+            <div class="status-card-title">Data uploaded — ready to build!</div>
+            <div class="status-card-sub" id="bl-data-info">Loading…</div>
+          </div>
+        </div>
+        <div class="status-card-body">
+          <div class="data-stats" id="bl-data-stats"></div>
+          <div class="cowork-prompt-label">🤖 Claude Cowork Prompt</div>
+          <div class="prompt-tip">
+            <strong>How to use:</strong> Copy the prompt below and paste it into Claude Cowork.
+            Claude will read the data from Supabase and build a fully interactive dashboard, saving it as <code>/backpacks-and-luggage/index.html</code>.
+          </div>
+          <div style="margin-top:12px;">
+            <textarea class="cowork-prompt-text" id="bl-cowork-prompt" readonly></textarea>
+            <button class="btn-copy-prompt" id="bl-copy-btn" onclick="blCopyPrompt()">📋 Copy Prompt</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </main>
 
@@ -84,15 +146,21 @@
     © 2026 <span>Travel Blue Ltd.</span> — Internal use only.
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script src="../js/mock-data.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/theme.js"></script>
+  <script src="../js/csv-upload.js"></script>
   <script>
+    const PROJECT_SLUG = 'backpacks-and-luggage';
+    const PROJECT_NAME = 'Backpacks & Luggage';
+
     const user = Auth.requireLogin();
     if (!user) throw new Error('not logged in');
 
     // Permission check for this project
-    if (!Auth.isAdminOrOwner() && !MockDB.canUserViewProject(user.id, 'backpacks-and-luggage')) {
+    if (!Auth.isAdminOrOwner() && !MockDB.canUserViewProject(user.id, PROJECT_SLUG)) {
       window.location.href = '/home.html';
     }
 
@@ -107,11 +175,84 @@
     );
     const menu = document.getElementById('nav-projects-menu');
     menu.innerHTML = _vis.map(p =>
-      `<a href="/${p.slug}/index.html" class="${p.slug === 'backpacks-and-luggage' ? 'active' : ''}">` +
+      `<a href="/${p.slug}/index.html" class="${p.slug === PROJECT_SLUG ? 'active' : ''}">` +
       `<span class="menu-icon">${p.icon}</span> ${p.name}</a>`
     ).join('') || '<div class="dropdown-label">No projects available</div>';
 
     document.getElementById('btn-theme').addEventListener('click', () => ThemeToggle.toggle());
+
+    // Owner: check upload status from Supabase
+    if (Auth.isOwner()) {
+      document.getElementById('bl-placeholder').style.display = 'none';
+      document.getElementById('bl-owner-panel').style.display = 'block';
+
+      CSVUpload.getMeta(PROJECT_SLUG).then(meta => {
+        if (!meta || !meta.total_rows) {
+          document.getElementById('bl-no-data').style.display = 'block';
+          return;
+        }
+        // Data exists — show stats + prompt
+        document.getElementById('bl-has-data').style.display = 'block';
+
+        const uploadDate = meta.last_upload_at
+          ? new Date(meta.last_upload_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+          : '—';
+        document.getElementById('bl-data-info').textContent =
+          `Last upload: ${uploadDate} · ${meta.total_rows.toLocaleString()} rows`;
+
+        const colCount = meta.column_types ? Object.keys(meta.column_types).length : '—';
+        document.getElementById('bl-data-stats').innerHTML = `
+          <div class="data-stat-item">
+            <span class="data-stat-val">${meta.total_rows.toLocaleString()}</span>
+            <span class="data-stat-label">Total Rows</span>
+          </div>
+          <div class="data-stat-item">
+            <span class="data-stat-val">${colCount}</span>
+            <span class="data-stat-label">Columns</span>
+          </div>
+          <div class="data-stat-item">
+            <span class="data-stat-val">${uploadDate}</span>
+            <span class="data-stat-label">Last Upload</span>
+          </div>`;
+
+        // Build Cowork prompt from meta
+        const types = meta.column_types || {};
+        const keys  = meta.composite_keys || [];
+        const colDescriptions = Object.entries(types).map(([col, type]) => `${col} (${type})`).join(', ');
+        const metrics = Object.entries(types).filter(([, t]) => t === 'numeric').map(([c]) => c).join(', ') || 'main metrics';
+
+        const prompt = `I have a dataset for the "${PROJECT_NAME}" dashboard (project slug: ${PROJECT_SLUG}).
+
+The data has ${meta.total_rows} rows with these columns:
+${colDescriptions}
+
+The unique composite key is based on: ${keys.join(', ')}
+The main numeric metrics are: ${metrics}
+
+Please build an interactive HTML dashboard for this data. Requirements:
+- Match Travel Blue branding (navy #1B2A6B, yellow #FFC72C)
+- Show KPI cards at the top for each main metric
+- Include charts for trends over time (if date column exists) and breakdowns by category
+- Add a filterable/sortable data table
+- Read data from Supabase: URL = window.SUPABASE_URL, anon key = window.SUPABASE_KEY
+  - Table: "project_data", filter: project_slug = "${PROJECT_SLUG}", column: row_data (jsonb)
+- Save the output as /${PROJECT_SLUG}/index.html in the project folder`;
+
+        document.getElementById('bl-cowork-prompt').value = prompt;
+      }).catch(() => {
+        document.getElementById('bl-no-data').style.display = 'block';
+      });
+    }
+
+    function blCopyPrompt() {
+      const el = document.getElementById('bl-cowork-prompt');
+      if (!el) return;
+      el.select();
+      try { document.execCommand('copy'); } catch (_) {}
+      const btn = document.getElementById('bl-copy-btn');
+      if (btn) { btn.textContent = '✓ Copied!'; btn.classList.add('copied'); }
+      setTimeout(() => { if (btn) { btn.textContent = '📋 Copy Prompt'; btn.classList.remove('copied'); } }, 2500);
+    }
   </script>
 </body>
 </html>
