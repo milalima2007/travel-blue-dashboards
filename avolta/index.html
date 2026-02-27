@@ -184,15 +184,16 @@ async function loadAllData() {
 <script src="../js/theme.js"></script>
 <script>
   /* ---- Auth + Navbar init ---- */
-  (function() {
-    var user = Auth.requireLogin();
+  (async function() {
+    var user = await Auth.requireLogin();
     if (!user) return;
-    Auth.renderUser('#user-name', '#user-email');
-    Auth.renderRoleBadge('#role-badge');
-    if (Auth.isAdminOrOwner()) document.getElementById('nav-admin-dropdown').style.display = 'flex';
-    if (Auth.isOwner()) document.getElementById('nav-projects-admin-link').style.display = 'block';
-    var _vis = MockDB.getProjects(user.role).filter(function(p) {
-      return user.role === 'owner' || user.role === 'admin' || MockDB.canUserViewProject(user.id, p.slug);
+    var role = Auth.role(user);
+    Auth.renderUser(user, '#user-name', '#user-email');
+    Auth.renderRoleBadge(user, '#role-badge');
+    if (Auth.isAdminOrOwner(user)) document.getElementById('nav-admin-dropdown').style.display = 'flex';
+    if (Auth.isOwner(user)) document.getElementById('nav-projects-admin-link').style.display = 'block';
+    var _vis = MockDB.getProjects(role).filter(function(p) {
+      return Auth.canViewProject(user, p.slug);
     });
     document.getElementById('nav-projects-menu').innerHTML = _vis.map(function(p) {
       return '<a href="/' + p.slug + '/index.html" class="' + (p.slug === 'avolta' ? 'active' : '') + '">' +

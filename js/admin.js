@@ -7,6 +7,7 @@ let currentTab    = 'users';
 let editingUserId = null;
 let editingProjId = null;
 let confirmAction = null;
+let _adminUser    = null; // set by initAdmin(), used by sync helpers
 
 /* ---- CSV upload state ---- */
 let csvFile          = null;
@@ -15,18 +16,20 @@ let csvProjectSlug   = null;
 let csvProjectName   = null;
 
 /* ---- Init ---- */
-function initAdmin() {
-  const user = Auth.requireAdminOrOwner();
+async function initAdmin() {
+  const user = await Auth.requireAdminOrOwner();
   if (!user) return;
 
-  Auth.renderUser('#user-name', '#user-email');
-  Auth.renderRoleBadge('#role-badge');
+  _adminUser = user;
+
+  Auth.renderUser(user, '#user-name', '#user-email');
+  Auth.renderRoleBadge(user, '#role-badge');
 
   // Build nav
   buildAdminNav(user);
 
   // Show/hide Projects tab in sidebar (owner only)
-  if (Auth.isOwner()) {
+  if (Auth.isOwner(user)) {
     document.querySelectorAll('.owner-only').forEach(el => el.style.display = '');
     document.getElementById('nav-projects-admin-link').style.display = 'block';
   }
@@ -54,8 +57,9 @@ function buildAdminNav(user) {
   if (!projsDropdown) return;
 
   const menu = document.getElementById('nav-projects-menu');
-  const projects = MockDB.getProjects(user.role).filter(p =>
-    user.role === 'owner' || p.status === 'active'
+  const role = Auth.role(user);
+  const projects = MockDB.getProjects(role).filter(p =>
+    role === 'owner' || p.status === 'active'
   );
   menu.innerHTML = projects.length
     ? projects.map(p => `<a href="/${p.slug}/index.html"><span class="menu-icon">${p.icon}</span> ${p.name}</a>`).join('')
@@ -77,7 +81,7 @@ function switchTab(tab) {
    ============================================================ */
 
 function renderUsersTable() {
-  const isOwner = Auth.isOwner();
+  const isOwner = Auth.isOwner(_adminUser);
   // Owner sees everyone; admin sees non-owners
   const users = MockDB.getUsers(isOwner);
   const tbody = document.getElementById('users-tbody');
@@ -349,7 +353,7 @@ function saveProject() {
 
   closeModal('modal-project');
   renderProjectsTable();
-  buildAdminNav(Auth.getUser());
+  buildAdminNav(_adminUser);
 }
 
 function publishProject(id) {
@@ -620,7 +624,7 @@ function showToast(msg) {
 }
 
 /* ---- Auto-generate slug from name ---- */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const nameField = document.getElementById('proj-name');
   const slugField = document.getElementById('proj-slug');
   if (nameField && slugField) {
@@ -662,7 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  initAdmin();
+  await initAdmin();
 
   // Theme toggle
   const themeBtn = document.getElementById('btn-theme');

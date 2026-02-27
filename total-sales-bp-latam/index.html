@@ -1209,28 +1209,31 @@ window.addEventListener('DOMContentLoaded', function() {
 });
   </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="../js/mock-data.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/theme.js"></script>
   <script>
-    const user = Auth.requireLogin();
-    if (!user) throw new Error('not logged in');
+  (async () => {
+    const user = await Auth.requireLogin();
+    if (!user) return;
+
+    const role = Auth.role(user);
 
     // Permission check for this project
-    if (!Auth.isAdminOrOwner() && !MockDB.canUserViewProject(user.id, 'total-sales-bp-latam')) {
+    if (!Auth.canViewProject(user, 'total-sales-bp-latam')) {
       window.location.href = '/home.html';
+      return;
     }
 
-    Auth.renderUser('#user-name', '#user-email');
-    Auth.renderRoleBadge('#role-badge');
+    Auth.renderUser(user, '#user-name', '#user-email');
+    Auth.renderRoleBadge(user, '#role-badge');
 
-    if (Auth.isAdminOrOwner()) document.getElementById('nav-admin-dropdown').style.display = 'flex';
-    if (Auth.isOwner()) document.getElementById('nav-projects-admin-link').style.display = 'block';
+    if (Auth.isAdminOrOwner(user)) document.getElementById('nav-admin-dropdown').style.display = 'flex';
+    if (Auth.isOwner(user)) document.getElementById('nav-projects-admin-link').style.display = 'block';
 
     // Build projects dropdown
-    const _vis = MockDB.getProjects(user.role).filter(p =>
-      user.role === 'owner' || user.role === 'admin' || MockDB.canUserViewProject(user.id, p.slug)
-    );
+    const _vis = MockDB.getProjects(role).filter(p => Auth.canViewProject(user, p.slug));
     const menu = document.getElementById('nav-projects-menu');
     menu.innerHTML = _vis.map(p =>
       `<a href="/${p.slug}/index.html" class="${p.slug === 'total-sales-bp-latam' ? 'active' : ''}">` +
@@ -1241,6 +1244,7 @@ window.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btn-theme').addEventListener('click', function() {
       toggleDark();
     });
+  })();
   </script>
 </body>
 </html>

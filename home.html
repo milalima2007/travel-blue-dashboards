@@ -84,36 +84,40 @@
     © 2026 <span>Travel Blue Ltd.</span> — Internal use only. All rights reserved.
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="js/mock-data.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/theme.js"></script>
   <script>
-    const user = Auth.requireLogin();
-    if (!user) throw new Error('not logged in');
+  (async () => {
+    const user = await Auth.requireLogin();
+    if (!user) return;
 
-    Auth.renderUser('#user-name', '#user-email');
-    Auth.renderRoleBadge('#role-badge');
+    const role = Auth.role(user);
+
+    Auth.renderUser(user, '#user-name', '#user-email');
+    Auth.renderRoleBadge(user, '#role-badge');
 
     /* Show Admin dropdown for owner / admin */
-    if (Auth.isAdminOrOwner()) {
+    if (Auth.isAdminOrOwner(user)) {
       document.getElementById('nav-admin-dropdown').style.display = 'flex';
     }
     /* Show Projects sub-link for owner */
-    if (Auth.isOwner()) {
+    if (Auth.isOwner(user)) {
       document.getElementById('nav-projects-admin-link').style.display = 'block';
     }
 
     /* Build project cards */
-    const projects = MockDB.getProjects(user.role);
+    const projects = MockDB.getProjects(role);
     const grid     = document.getElementById('cards-grid');
     const subtitle = document.getElementById('projects-subtitle');
     const navMenu  = document.getElementById('nav-projects-menu');
 
     /* Filter what this user is allowed to see */
     const visible = projects.filter(p => {
-      if (user.role === 'owner') return true; // owner sees active + draft
-      if (user.role === 'admin') return p.status === 'active';
-      return MockDB.canUserViewProject(user.id, p.slug);
+      if (role === 'owner') return true;
+      if (role === 'admin') return p.status === 'active';
+      return Auth.canViewProject(user, p.slug);
     });
 
     subtitle.textContent = visible.length
@@ -167,6 +171,7 @@
         </div>
       `).join('');
     }
+  })();
   </script>
 </body>
 </html>

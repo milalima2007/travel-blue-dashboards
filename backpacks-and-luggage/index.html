@@ -156,23 +156,25 @@
     const PROJECT_SLUG = 'backpacks-and-luggage';
     const PROJECT_NAME = 'Backpacks & Luggage';
 
-    const user = Auth.requireLogin();
-    if (!user) throw new Error('not logged in');
+  (async () => {
+    const user = await Auth.requireLogin();
+    if (!user) return;
+
+    const role = Auth.role(user);
 
     // Permission check for this project
-    if (!Auth.isAdminOrOwner() && !MockDB.canUserViewProject(user.id, PROJECT_SLUG)) {
+    if (!Auth.canViewProject(user, PROJECT_SLUG)) {
       window.location.href = '/home.html';
+      return;
     }
 
-    Auth.renderUser('#user-name', '#user-email');
-    Auth.renderRoleBadge('#role-badge');
+    Auth.renderUser(user, '#user-name', '#user-email');
+    Auth.renderRoleBadge(user, '#role-badge');
 
-    if (Auth.isAdminOrOwner()) document.getElementById('nav-admin-dropdown').style.display = 'flex';
-    if (Auth.isOwner()) document.getElementById('nav-projects-admin-link').style.display = 'block';
+    if (Auth.isAdminOrOwner(user)) document.getElementById('nav-admin-dropdown').style.display = 'flex';
+    if (Auth.isOwner(user)) document.getElementById('nav-projects-admin-link').style.display = 'block';
 
-    const _vis = MockDB.getProjects(user.role).filter(p =>
-      user.role === 'owner' || user.role === 'admin' || MockDB.canUserViewProject(user.id, p.slug)
-    );
+    const _vis = MockDB.getProjects(role).filter(p => Auth.canViewProject(user, p.slug));
     const menu = document.getElementById('nav-projects-menu');
     menu.innerHTML = _vis.map(p =>
       `<a href="/${p.slug}/index.html" class="${p.slug === PROJECT_SLUG ? 'active' : ''}">` +
@@ -253,6 +255,7 @@ Please build an interactive HTML dashboard for this data. Requirements:
       if (btn) { btn.textContent = '✓ Copied!'; btn.classList.add('copied'); }
       setTimeout(() => { if (btn) { btn.textContent = '📋 Copy Prompt'; btn.classList.remove('copied'); } }, 2500);
     }
+  })();
   </script>
 </body>
 </html>

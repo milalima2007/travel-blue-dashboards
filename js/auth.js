@@ -1,82 +1,93 @@
 /* ============================================================
-   TRAVEL BLUE DASHBOARDS — Auth Module (Phase 1: Mock)
-   Phase 2: replace login() body with Supabase Auth call
+   TRAVEL BLUE DASHBOARDS — Auth Module (Supabase Auth)
    ============================================================ */
 
-const AUTH_KEY = 'tb_session';
-
 const Auth = {
+  _client: null,
+  _cachedUser: null,
 
-  getUser()         { try { const r = localStorage.getItem(AUTH_KEY); return r ? JSON.parse(r) : null; } catch { return null; } },
-  setUser(u)        { localStorage.setItem(AUTH_KEY, JSON.stringify(u)); },
-  isLoggedIn()      { return !!this.getUser(); },
-  getRole()         { return this.getUser()?.role || null; },
-  isOwner()         { return this.getRole() === 'owner'; },
-  isAdmin()         { return this.getRole() === 'admin'; },
-  isAdminOrOwner()  { return ['owner','admin'].includes(this.getRole()); },
+  _sb() {
+    if (!this._client)
+      this._client = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+    return this._client;
+  },
 
-  logout() {
-    localStorage.removeItem(AUTH_KEY);
+  /* ── Async: fetch user from Supabase session ── */
+  async getUser() {
+    if (this._cachedUser !== null) return this._cachedUser;
+    const { data: { session } } = await this._sb().auth.getSession();
+    this._cachedUser = session?.user || null;
+    return this._cachedUser;
+  },
+
+  /* ── Sync helpers — call AFTER getUser() resolves ── */
+  role(user)           { return user?.user_metadata?.role || 'user'; },
+  isOwner(user)        { return this.role(user) === 'owner'; },
+  isAdmin(user)        { return this.role(user) === 'admin'; },
+  isAdminOrOwner(user) { return ['owner', 'admin'].includes(this.role(user)); },
+
+  /* Returns true if user can view the project slug */
+  canViewProject(user, slug) {
+    if (this.isAdminOrOwner(user)) return true;
+    const projects = user?.user_metadata?.projects || [];
+    return projects.includes(slug);
+  },
+
+  /* ── Async: redirect to login if not authenticated ── */
+  async requireLogin() {
+    const user = await this.getUser();
+    if (!user) { window.location.href = '/index.html'; return null; }
+    return user;
+  },
+
+  /* ── Async: redirect to home if not admin/owner ── */
+  async requireAdminOrOwner() {
+    const user = await this.requireLogin();
+    if (user && !this.isAdminOrOwner(user)) { window.location.href = '/home.html'; return null; }
+    return user;
+  },
+
+  /* ── Logout ── */
+  async logout() {
+    this._cachedUser = null;
+    await this._sb().auth.signOut();
     window.location.href = '/index.html';
   },
 
-  /* Redirect to login if not authenticated. Returns user or null. */
-  requireLogin() {
-    if (!this.isLoggedIn()) { window.location.href = '/index.html'; return null; }
-    return this.getUser();
-  },
-
-  /* Redirect to home if not admin or owner */
-  requireAdminOrOwner() {
-    const u = this.requireLogin();
-    if (u && !this.isAdminOrOwner()) { window.location.href = '/home.html'; return null; }
-    return u;
-  },
-
-  /* Inject user name + email into navbar elements */
-  renderUser(nameSelector = '#user-name', emailSelector = '#user-email') {
-    const u = this.getUser();
-    if (!u) return;
+  /* ── Render helpers ── */
+  renderUser(user, nameSelector = '#user-name', emailSelector = '#user-email') {
     const n = document.querySelector(nameSelector);
     const e = document.querySelector(emailSelector);
-    if (n) n.textContent = u.name || u.email;
-    if (e) e.textContent = u.email;
+    if (n) n.textContent = user?.user_metadata?.name || user?.email || '—';
+    if (e) e.textContent = user?.email || '—';
   },
 
-  /* Render role badge next to user name */
-  renderRoleBadge(selector = '#role-badge') {
-    const u = this.getUser();
-    if (!u) return;
+  renderRoleBadge(user, selector = '#role-badge') {
+    const role = this.role(user);
     const el = document.querySelector(selector);
     if (!el) return;
     const colors = { owner: 'badge-owner', admin: 'badge-admin', user: 'badge-user' };
-    el.textContent = u.role.charAt(0).toUpperCase() + u.role.slice(1);
-    el.className = 'role-badge ' + (colors[u.role] || '');
+    el.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+    el.className = 'role-badge ' + (colors[role] || '');
     el.style.display = 'inline-block';
   },
 
-  /* ---- MOCK LOGIN (Phase 1) ----
-     Replace this entire function body with Supabase signIn in Phase 2 */
+  /* ── Login with Supabase Auth ── */
   async login(email, password) {
     if (!email || !password)
       return { success: false, error: 'Please enter your email and password.' };
 
-    const dbUser = MockDB.getUserByEmail(email);
-    if (!dbUser)
-      return { success: false, error: 'No account found with this email address.' };
+    const { data, error } = await this._sb().auth.signInWithPassword({ email, password });
+    if (error) return { success: false, error: this._friendlyError(error.message) };
 
-    if (dbUser.password && dbUser.password !== password)
-      return { success: false, error: 'Incorrect password. Please try again.' };
+    this._cachedUser = data.user;
+    return { success: true, user: data.user };
+  },
 
-    const session = {
-      id:   dbUser.id,
-      email: dbUser.email,
-      name:  dbUser.name,
-      role:  dbUser.role,
-      mustChangePassword: dbUser.mustChangePassword || false
-    };
-    this.setUser(session);
-    return { success: true, user: session };
+  _friendlyError(msg) {
+    if (/invalid login/i.test(msg))        return 'Incorrect email or password. Please try again.';
+    if (/email not confirmed/i.test(msg))  return 'Please confirm your email address first.';
+    return msg;
   }
 };
 
