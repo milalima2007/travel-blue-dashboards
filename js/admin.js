@@ -251,8 +251,9 @@ async function confirmDeleteUser(id) {
   document.getElementById('confirm-msg').innerHTML =
     `Are you sure you want to remove <strong>${u.name}</strong> (${u.email})?<br>This action cannot be undone.`;
   confirmAction = async () => {
-    await MockDB.deleteUser(id);
-    renderUsersTable();
+    const res = await MockDB.deleteUser(id);
+    if (res?.error) { showToast('Error: ' + res.error); return; }
+    await renderUsersTable();
     showToast('User removed.');
   };
   openModal('modal-confirm');
@@ -424,8 +425,10 @@ async function confirmDeleteProject(id) {
   document.getElementById('confirm-msg').innerHTML =
     `Are you sure you want to delete <strong>${p.name}</strong>?<br>All data for this project will also be permanently removed.`;
   confirmAction = async () => {
-    await MockDB.deleteProject(id);
-    renderProjectsTable();
+    const res = await MockDB.deleteProject(id);
+    if (res?.error) { showToast('Error: ' + res.error); return; }
+    await renderProjectsTable();
+    await buildAdminNav(_adminUser);
     showToast('Project deleted.');
   };
   openModal('modal-confirm');
@@ -601,8 +604,17 @@ function closeModal(id) {
   document.body.style.overflow = '';
 }
 async function runConfirm() {
-  if (confirmAction) { await confirmAction(); confirmAction = null; }
-  closeModal('modal-confirm');
+  const btn = document.querySelector('#modal-confirm .btn-sm-danger');
+  if (btn) { btn.disabled = true; btn.textContent = 'Processing…'; }
+  try {
+    if (confirmAction) { await confirmAction(); confirmAction = null; }
+    closeModal('modal-confirm');
+  } catch (e) {
+    console.error('[runConfirm]', e);
+    showToast('Error: ' + (e.message || String(e)));
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Yes, proceed'; }
+  }
 }
 
 function showFormError(el, msg) { el.textContent = msg; el.style.display = 'block'; }
