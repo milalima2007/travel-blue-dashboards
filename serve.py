@@ -21,6 +21,15 @@ from urllib.parse import urlparse
 PORT = 5500
 BASE = Path(__file__).resolve().parent
 
+# ── Pages that receive the Publicar button ────────────────────────────────────
+# Only dashboard/project pages — home, login and admin are excluded.
+DASHBOARD_PATHS = {
+    '/project/index.html',
+    '/avolta/index.html',
+    '/backpacks-and-luggage/index.html',
+    '/total-sales-bp-latam/index.html',
+}
+
 # ── Dev tools injected before </body> ────────────────────────────────────────
 DEV_TOOLS = r"""<script>
 (function () {
@@ -160,9 +169,13 @@ class DevHandler(http.server.SimpleHTTPRequestHandler):
         if filepath.is_dir():
             filepath = filepath / 'index.html'
 
+        req_path = parsed.path  # already normalised, no query string
+        is_dashboard = req_path in DASHBOARD_PATHS
+
         if filepath.exists() and filepath.suffix == '.html':
             content = filepath.read_text(encoding='utf-8')
-            content = content.replace('</body>', DEV_TOOLS + '</body>', 1)
+            if is_dashboard:
+                content = content.replace('</body>', DEV_TOOLS + '</body>', 1)
             encoded = content.encode('utf-8')
             self.send_response(200)
             self.send_header('Content-Type', 'text/html; charset=utf-8')
@@ -190,7 +203,7 @@ if __name__ == '__main__':
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
     print('\n  Travel Blue Dev Server')
     print(f'  http://localhost:{PORT}')
-    print('  Botao Publicar injetado em todas as paginas')
+    print('  Botao Publicar ativo apenas em paginas de projeto')
     print('  Ctrl+C para parar\n')
     with socketserver.TCPServer(('', PORT), DevHandler) as httpd:
         httpd.allow_reuse_address = True
