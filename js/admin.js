@@ -9,6 +9,66 @@ let editingProjId = null;
 let confirmAction = null;
 let _adminUser    = null;
 
+/* ============================================================
+   EMOJI PICKER
+   ============================================================ */
+const EMOJI_CATEGORIES = [
+  { label: 'Charts & Data',     emojis: ['📊','📈','📉','📋','📌','🗂','💹','📁','🗃','📐','🔢','📎'] },
+  { label: 'Business',          emojis: ['💼','💰','💵','🤝','🏆','🎯','✅','📑','🥇','🔑','📧','📩'] },
+  { label: 'Travel & Products', emojis: ['✈️','🧳','🗺','🌍','🌐','🛫','🏨','🎒','🧤','👜','🎁','🛒'] },
+  { label: 'General',           emojis: ['⭐','🌟','🔥','💡','🔔','📢','🎉','🚀','⚡','🔍','🌱','🌿'] }
+];
+
+function _buildEmojiDropdown() {
+  const dd = document.getElementById('emoji-dropdown');
+  if (!dd || dd.dataset.built) return;
+  dd.innerHTML = EMOJI_CATEGORIES.map(cat => `
+    <div class="emoji-cat-label">${cat.label}</div>
+    <div class="emoji-grid">
+      ${cat.emojis.map(e => `<button type="button" class="emoji-btn" data-emoji="${e}" onclick="selectEmoji('${e}')">${e}</button>`).join('')}
+    </div>
+  `).join('');
+  dd.dataset.built = '1';
+  // Highlight whichever emoji is currently selected
+  const current = document.getElementById('proj-icon')?.value;
+  if (current) dd.querySelectorAll('.emoji-btn').forEach(b => b.classList.toggle('selected', b.dataset.emoji === current));
+}
+
+function toggleEmojiPicker(e) {
+  e.stopPropagation();
+  _buildEmojiDropdown();
+  const dd  = document.getElementById('emoji-dropdown');
+  const btn = document.getElementById('emoji-preview-btn');
+  const open = dd.style.display !== 'none';
+  dd.style.display = open ? 'none' : 'block';
+  if (btn) btn.classList.toggle('open', !open);
+}
+
+function selectEmoji(emoji) {
+  document.getElementById('proj-icon').value              = emoji;
+  document.getElementById('emoji-preview-display').textContent = emoji;
+  // Highlight selected button
+  document.querySelectorAll('.emoji-btn').forEach(b => b.classList.toggle('selected', b.dataset.emoji === emoji));
+  // Close dropdown
+  const dd  = document.getElementById('emoji-dropdown');
+  const btn = document.getElementById('emoji-preview-btn');
+  if (dd)  dd.style.display = 'none';
+  if (btn) btn.classList.remove('open');
+}
+
+function _closeEmojiPicker() {
+  const dd  = document.getElementById('emoji-dropdown');
+  const btn = document.getElementById('emoji-preview-btn');
+  if (dd)  dd.style.display = 'none';
+  if (btn) btn.classList.remove('open');
+}
+
+// Close emoji picker when clicking outside
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('emoji-picker-wrap');
+  if (wrap && !wrap.contains(e.target)) _closeEmojiPicker();
+});
+
 /* ---- CSV upload state (update-data flow) ---- */
 let csvFile          = null;
 let csvAnalysisState = null;
@@ -319,6 +379,8 @@ function openAddProject() {
   document.getElementById('proj-form-error').style.display = 'none';
   document.getElementById('proj-save-btn').textContent = 'Create Project';
   _clearNewProjCsv();
+  selectEmoji('📊');
+  _closeEmojiPicker();
   const csvSec = document.getElementById('new-proj-csv-section');
   if (csvSec) csvSec.style.display = 'block';
   const note = document.getElementById('proj-note');
@@ -334,7 +396,8 @@ async function openEditProject(id) {
   document.getElementById('proj-name').value    = p.name;
   document.getElementById('proj-slug').value    = p.slug;
   document.getElementById('proj-slug').disabled = true;
-  document.getElementById('proj-icon').value    = p.icon;
+  selectEmoji(p.icon || '📊');
+  _closeEmojiPicker();
   document.getElementById('proj-desc').value    = p.description;
   document.getElementById('proj-form-error').style.display = 'none';
   document.getElementById('proj-save-btn').textContent = 'Save Changes';

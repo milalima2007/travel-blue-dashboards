@@ -239,7 +239,14 @@
             </div>
             <div class="form-group">
               <label>Icon (emoji)</label>
-              <input type="text" id="proj-icon" placeholder="📊" maxlength="4" />
+              <div class="emoji-picker-wrap" id="emoji-picker-wrap">
+                <button type="button" class="emoji-preview-btn" id="emoji-preview-btn" onclick="toggleEmojiPicker(event)">
+                  <span id="emoji-preview-display">📊</span>
+                  <span class="emoji-preview-caret">▾</span>
+                </button>
+                <input type="hidden" id="proj-icon" value="📊" />
+                <div class="emoji-dropdown" id="emoji-dropdown" style="display:none;"></div>
+              </div>
             </div>
           </div>
           <div class="form-group">
