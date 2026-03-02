@@ -133,7 +133,14 @@ const CSVUpload = (() => {
   /* ---- UPSERT rows into project_data ---- */
   async function upsertRows(projectSlug, rows, batchId) {
     const CHUNK = 500;
-    const records = rows.map(({ row, key }) => ({
+
+    // Deduplicate by composite_key before sending to Postgres.
+    // If the CSV has duplicate rows sharing the same key, a single UPSERT
+    // batch would hit "ON CONFLICT DO UPDATE command cannot affect row a
+    // second time". Keep the last occurrence of each key (latest value wins).
+    const unique = [...new Map(rows.map(r => [r.key, r])).values()];
+
+    const records = unique.map(({ row, key }) => ({
       project_slug:  projectSlug,
       composite_key: key,
       row_data:      row,
