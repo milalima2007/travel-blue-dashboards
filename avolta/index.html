@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <script src="/js/config.js"></script>
@@ -180,7 +180,7 @@ async function loadAllData() {
 <div class="tabs" id="tabs"></div>
 <div class="content" id="main"></div>
 
-<script src="../js/mock-data.js"></script>
+<script src="../js/data-layer.js"></script>
 <script src="../js/auth.js"></script>
 <script src="../js/theme.js"></script>
 <script>
@@ -193,7 +193,7 @@ async function loadAllData() {
     Auth.renderRoleBadge(user, '#role-badge');
     if (Auth.isAdminOrOwner(user)) document.getElementById('nav-admin-dropdown').style.display = 'flex';
     if (Auth.isOwner(user)) document.getElementById('nav-projects-admin-link').style.display = 'block';
-    var _allProjects = await MockDB.getProjects(role);
+    var _allProjects = await DataLayer.getProjects(role);
     var _vis = _allProjects.filter(function(p) {
       return Auth.canViewProject(user, p.slug);
     });

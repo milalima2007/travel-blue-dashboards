@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    TRAVEL BLUE DASHBOARDS — Admin Panel Logic
    ============================================================ */
 
@@ -42,7 +42,7 @@ async function initAdmin() {
   // Auto-open CSV upload modal if ?upload=<slug> is in URL
   const uploadSlug = params.get('upload');
   if (uploadSlug && Auth.isAdminOrOwner(user)) {
-    const proj = await MockDB.getProjectBySlug(uploadSlug);
+    const proj = await DataLayer.getProjectBySlug(uploadSlug);
     if (proj) openUploadCSVForProject(proj);
   }
 
@@ -63,7 +63,7 @@ async function buildAdminNav(user) {
   if (!menu) return;
 
   const role     = Auth.role(user);
-  const projects = await MockDB.getProjects(role);
+  const projects = await DataLayer.getProjects(role);
   const visible  = projects.filter(p => role === 'owner' || p.status === 'active');
   menu.innerHTML = visible.length
     ? visible.map(p => `<a href="${p.custom_url || '/project/index.html?slug=' + p.slug}"><span class="menu-icon">${p.icon}</span> ${p.name}</a>`).join('')
@@ -90,8 +90,8 @@ async function renderUsersTable() {
   tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">⏳</div><p>Loading…</p></div></td></tr>`;
 
   const [users, projects] = await Promise.all([
-    MockDB.getUsers(isOwner),
-    MockDB.getProjects('owner')
+    DataLayer.getUsers(isOwner),
+    DataLayer.getProjects('owner')
   ]);
   const projMap = Object.fromEntries(projects.map(p => [p.slug, p]));
 
@@ -151,7 +151,7 @@ function openAddUser() {
 
 async function openEditUser(id) {
   editingUserId = id;
-  const u = await MockDB.getUserById(id);
+  const u = await DataLayer.getUserById(id);
   if (!u) return;
 
   document.getElementById('modal-user-title').textContent = 'Edit User';
@@ -175,7 +175,7 @@ function setMethod(method) {
 }
 
 async function buildPermChecklist(selectedSlugs) {
-  const allProjects = await MockDB.getProjects('admin');
+  const allProjects = await DataLayer.getProjects('admin');
   const projects    = allProjects.filter(p => p.status === 'active');
   const container   = document.getElementById('perm-checklist');
   const role        = document.getElementById('user-role').value;
@@ -225,9 +225,9 @@ async function saveUser() {
   const selectedPerms = [...document.querySelectorAll('input[name="perm"]:checked')].map(cb => cb.value);
 
   if (editingUserId) {
-    const res = await MockDB.updateUser(editingUserId, { name, role });
+    const res = await DataLayer.updateUser(editingUserId, { name, role });
     if (res.error) { showFormError(errEl, res.error); return; }
-    await MockDB.setUserPermissions(editingUserId, selectedPerms);
+    await DataLayer.setUserPermissions(editingUserId, selectedPerms);
   } else {
     const userData = {
       name, email, role,
@@ -235,7 +235,7 @@ async function saveUser() {
       invited:     method === 'invite',
       permissions: selectedPerms
     };
-    const res = await MockDB.createUser(userData);
+    const res = await DataLayer.createUser(userData);
     if (res.error) { showFormError(errEl, res.error); return; }
     if (method === 'invite') showToast(`✉️  Invite sent to ${email}`);
   }
@@ -246,12 +246,12 @@ async function saveUser() {
 }
 
 async function confirmDeleteUser(id) {
-  const u = await MockDB.getUserById(id);
+  const u = await DataLayer.getUserById(id);
   if (!u) return;
   document.getElementById('confirm-msg').innerHTML =
     `Are you sure you want to remove <strong>${u.name}</strong> (${u.email})?<br>This action cannot be undone.`;
   confirmAction = async () => {
-    const res = await MockDB.deleteUser(id);
+    const res = await DataLayer.deleteUser(id);
     if (res?.error) throw new Error(res.error);
     await renderUsersTable();
     showToast('User removed.');
@@ -267,7 +267,7 @@ async function renderProjectsTable() {
   const tbody = document.getElementById('projects-tbody');
   tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">⏳</div><p>Loading…</p></div></td></tr>`;
 
-  const projects = await MockDB.getProjects('owner');
+  const projects = await DataLayer.getProjects('owner');
 
   if (!projects.length) {
     tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📁</div><p>No projects yet. Create your first one.</p></div></td></tr>`;
@@ -328,7 +328,7 @@ function openAddProject() {
 
 async function openEditProject(id) {
   editingProjId = id;
-  const p = await MockDB.getProject(id);
+  const p = await DataLayer.getProject(id);
   if (!p) return;
   document.getElementById('modal-proj-title').textContent = 'Edit Project';
   document.getElementById('proj-name').value    = p.name;
@@ -362,7 +362,7 @@ async function saveProject() {
   try {
     if (editingProjId) {
       btn.textContent = 'Saving…';
-      const res = await MockDB.updateProject(editingProjId, { name, icon, description: desc });
+      const res = await DataLayer.updateProject(editingProjId, { name, icon, description: desc });
       if (res?.error) { showFormError(errEl, res.error); btn.disabled = false; btn.textContent = origLabel; return; }
       showToast('Project updated.');
       closeModal('modal-project');
@@ -373,7 +373,7 @@ async function saveProject() {
 
     // Create new project
     btn.textContent = 'Creating…';
-    const res = await MockDB.createProject({ name, slug, icon, description: desc });
+    const res = await DataLayer.createProject({ name, slug, icon, description: desc });
     if (res?.error) { showFormError(errEl, res.error); btn.disabled = false; btn.textContent = origLabel; return; }
 
     // If CSV file was chosen, upload it
@@ -402,30 +402,30 @@ async function saveProject() {
 }
 
 async function publishProject(id) {
-  await MockDB.publishProject(id);
+  await DataLayer.publishProject(id);
   renderProjectsTable();
   showToast('Project published and now visible to authorised users.');
 }
 
 async function archiveProject(id) {
-  await MockDB.archiveProject(id);
+  await DataLayer.archiveProject(id);
   renderProjectsTable();
   showToast('Project archived.');
 }
 
 async function draftProject(id) {
-  await MockDB.draftProject(id);
+  await DataLayer.draftProject(id);
   renderProjectsTable();
   showToast('Project restored to Draft.');
 }
 
 async function confirmDeleteProject(id) {
-  const p = await MockDB.getProject(id);
+  const p = await DataLayer.getProject(id);
   if (!p) return;
   document.getElementById('confirm-msg').innerHTML =
     `Are you sure you want to delete <strong>${p.name}</strong>?<br>All data for this project will also be permanently removed.`;
   confirmAction = async () => {
-    const res = await MockDB.deleteProject(id);
+    const res = await DataLayer.deleteProject(id);
     if (res?.error) throw new Error(res.error);
     await renderProjectsTable();
     await buildAdminNav(_adminUser);
@@ -440,7 +440,7 @@ async function confirmDeleteProject(id) {
 
 /* Called from Projects table "⬆ Data" button (has project id) */
 async function openUploadCSVById(projId) {
-  const p = await MockDB.getProject(projId);
+  const p = await DataLayer.getProject(projId);
   if (!p) return;
   openUploadCSVForProject(p);
 }

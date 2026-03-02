@@ -1,9 +1,9 @@
 /* ============================================================
    TRAVEL BLUE DASHBOARDS — Data Layer (Supabase)
-   All methods are async. Replaces localStorage MockDB.
+   All methods are async.
    ============================================================ */
 
-const MockDB = (() => {
+const DataLayer = (() => {
 
   let _anonClient = null, _svcClient = null;
 
