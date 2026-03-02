@@ -75,8 +75,9 @@ const MockDB = (() => {
     // Clean up related tables
     await _svc().from('project_data').delete().eq('project_slug', proj.slug);
     await _svc().from('project_meta').delete().eq('project_slug', proj.slug);
-    const { error } = await _svc().from('projects').delete().eq('id', id);
-    if (error) return { error: error.message };
+    const { data: deleted, error } = await _svc().from('projects').delete().eq('id', id).select();
+    if (error) { console.error('[deleteProject]', error); return { error: error.message }; }
+    if (!deleted || deleted.length === 0) return { error: 'Delete blocked — check Supabase RLS policies on the projects table.' };
     return { success: true };
   }
 

@@ -252,7 +252,7 @@ async function confirmDeleteUser(id) {
     `Are you sure you want to remove <strong>${u.name}</strong> (${u.email})?<br>This action cannot be undone.`;
   confirmAction = async () => {
     const res = await MockDB.deleteUser(id);
-    if (res?.error) { showToast('Error: ' + res.error); return; }
+    if (res?.error) throw new Error(res.error);
     await renderUsersTable();
     showToast('User removed.');
   };
@@ -426,7 +426,7 @@ async function confirmDeleteProject(id) {
     `Are you sure you want to delete <strong>${p.name}</strong>?<br>All data for this project will also be permanently removed.`;
   confirmAction = async () => {
     const res = await MockDB.deleteProject(id);
-    if (res?.error) { showToast('Error: ' + res.error); return; }
+    if (res?.error) throw new Error(res.error);
     await renderProjectsTable();
     await buildAdminNav(_adminUser);
     showToast('Project deleted.');
