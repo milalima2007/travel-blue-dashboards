@@ -12,7 +12,8 @@ const CSVUpload = (() => {
     if (!_svcClient) {
       _svcClient = supabase.createClient(
         window.SUPABASE_URL,
-        window.SUPABASE_SERVICE_KEY
+        window.SUPABASE_SERVICE_KEY,
+        { auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false } }
       );
     }
     return _svcClient;

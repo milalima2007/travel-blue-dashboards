@@ -609,7 +609,8 @@
     selects.forEach(s => { newCfg[s.dataset.col] = s.value; });
 
     // Save to project_meta.chart_config
-    const _svc = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_SERVICE_KEY);
+    const _svc = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_SERVICE_KEY,
+      { auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false } });
     await _svc.from('project_meta').upsert(
       { project_slug: _slug, chart_config: newCfg },
       { onConflict: 'project_slug' }
