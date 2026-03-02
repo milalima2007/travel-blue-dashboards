@@ -140,26 +140,26 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--tx
       <div class="nav-dropdown" id="nav-projects-dropdown">
         <div class="nav-dropdown-btn active">
           Projects
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          <i data-lucide="chevron-down" class="chevron"></i>
         </div>
         <div class="nav-dropdown-menu" id="nav-projects-menu"></div>
       </div>
       <div class="nav-dropdown" id="nav-admin-dropdown" style="display:none;">
         <div class="nav-dropdown-btn">
           Admin
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          <i data-lucide="chevron-down" class="chevron"></i>
         </div>
         <div class="nav-dropdown-menu">
-          <a href="/admin/index.html?tab=users"><span class="menu-icon">👥</span> User Management</a>
+          <a href="/admin/index.html?tab=users"><span class="menu-icon"><i data-lucide="users"></i></span> User Management</a>
           <div id="nav-projects-admin-link" style="display:none;">
-            <a href="/admin/index.html?tab=projects"><span class="menu-icon">📁</span> Projects</a>
+            <a href="/admin/index.html?tab=projects"><span class="menu-icon"><i data-lucide="folder"></i></span> Projects</a>
           </div>
         </div>
       </div>
     </nav>
 
     <div class="topbar-search">
-      <svg class="topbar-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <i data-lucide="search" class="topbar-search-icon"></i>
       <input type="search" class="topbar-search-input" placeholder="Search…" id="topbar-search" />
     </div>
 
@@ -171,7 +171,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--tx
         </div>
         <div class="user-email" id="user-email">—</div>
       </div>
-      <button class="btn-theme" id="btn-theme" title="Toggle dark mode">🌙</button>
+      <button class="btn-theme" id="btn-theme" title="Toggle dark mode"><i data-lucide="moon"></i></button>
       <button class="btn-logout" data-logout>Sign Out</button>
     </div>
   </header>
@@ -1220,6 +1220,7 @@ window.addEventListener('DOMContentLoaded', function() {
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="../js/mock-data.js"></script>
   <script src="../js/auth.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="../js/theme.js"></script>
   <script>
   (async () => {
@@ -1247,6 +1248,7 @@ window.addEventListener('DOMContentLoaded', function() {
       `<a href="${p.custom_url || '/project/index.html?slug=' + p.slug}" class="${p.slug === 'total-sales-bp-latam' ? 'active' : ''}">` +
       `<span class="menu-icon">${p.icon}</span> ${p.name}</a>`
     ).join('') || '<div class="dropdown-label">No projects available</div>';
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 
     // Update Data button (owner/admin only)
     if (Auth.isAdminOrOwner(user)) {

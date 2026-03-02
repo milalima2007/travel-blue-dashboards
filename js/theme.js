@@ -25,7 +25,13 @@ const ThemeToggle = {
     document.body.classList.toggle('light', !isDark);
     const btn = document.getElementById('btn-theme');
     if (btn) {
-      btn.textContent = isDark ? '☀️' : '🌙';
+      const iconName = isDark ? 'sun' : 'moon';
+      if (typeof lucide !== 'undefined') {
+        btn.innerHTML = `<i data-lucide="${iconName}"></i>`;
+        lucide.createIcons();
+      } else {
+        btn.textContent = isDark ? '☀️' : '🌙';
+      }
       btn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
     }
   }

@@ -111,7 +111,8 @@ img { max-width: 100%; display: block; }
   background: rgba(255,199,44,0.12); color: var(--yellow); padding-left: 22px;
 }
 .nav-dropdown-menu a.active { color: var(--yellow); background: rgba(255,199,44,0.08); }
-.nav-dropdown-menu .menu-icon { font-size: 14px; width: 18px; text-align: center; }
+.nav-dropdown-menu .menu-icon { width: 18px; text-align: center; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nav-dropdown-menu .menu-icon svg { width: 14px; height: 14px; flex-shrink: 0; }
 .nav-dropdown-menu .dropdown-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0; }
 .nav-dropdown-menu .dropdown-label {
   padding: 7px 16px 3px; font-size: 10px; font-weight: 700;
@@ -161,6 +162,7 @@ img { max-width: 100%; display: block; }
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; font-size: 14px; transition: var(--transition); flex-shrink: 0;
 }
+.btn-theme svg { width: 15px; height: 15px; flex-shrink: 0; }
 .btn-theme:hover { background: rgba(27,42,107,0.1); }
 
 /* ================================================
@@ -373,7 +375,8 @@ body.login-page {
 }
 .admin-sidebar a:hover { color: var(--navy); background: rgba(27,42,107,0.04); }
 .admin-sidebar a.active { color: var(--navy); font-weight: 700; border-left-color: var(--yellow); background: rgba(27,42,107,0.04); }
-.admin-sidebar .sidebar-icon { font-size: 16px; width: 20px; text-align: center; }
+.admin-sidebar .sidebar-icon { width: 20px; text-align: center; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.admin-sidebar .sidebar-icon svg { width: 16px; height: 16px; flex-shrink: 0; }
 
 .admin-main { flex: 1; padding: 32px 36px; min-width: 0; }
 
@@ -473,7 +476,8 @@ body.login-page {
 
 /* Empty state */
 .empty-state { text-align: center; padding: 50px 20px; color: var(--gray); }
-.empty-state .empty-icon { font-size: 38px; margin-bottom: 12px; opacity: 0.4; }
+.empty-state .empty-icon { font-size: 38px; margin-bottom: 12px; opacity: 0.4; display: flex; align-items: center; justify-content: center; }
+.empty-state .empty-icon svg { width: 38px; height: 38px; }
 .empty-state p { font-size: 14px; }
 
 /* ================================================
