@@ -368,6 +368,12 @@ class DevHandler(http.server.SimpleHTTPRequestHandler):
         except Exception as e:
             self._json(500, {'ok': False, 'error': str(e)})
 
+    # ── Disable caching for all responses (dev server only) ──────────────────
+    def end_headers(self):
+        self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
+        self.send_header('Pragma', 'no-cache')
+        super().end_headers()
+
     # ── GET: serve HTML with dev tools injected ──────────────────────────────
     def do_GET(self):
         parsed   = urlparse(self.path)
