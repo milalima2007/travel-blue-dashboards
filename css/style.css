@@ -12,6 +12,7 @@
   --yellow:      #FFC72C;
   --yellow-dark: #E6B000;
   --white:       #FFFFFF;
+  --card:        #FFFFFF;
   --bg:          #F4F6FB;
   --gray-light:  #ECECEC;
   --gray:        #888888;
@@ -171,6 +172,7 @@ img { max-width: 100%; display: block; }
 body.dark {
   --bg:         #0f1623;
   --white:      #18243a;
+  --card:       #18243a;
   --text:       #c8d8ec;
   --gray:       #7a90a8;
   --gray-light: #253040;
@@ -178,6 +180,8 @@ body.dark {
   --shadow:     0 2px 12px rgba(0,0,0,0.35);
   --shadow-lg:  0 6px 28px rgba(0,0,0,0.5);
 }
+
+/* ── Layout ── */
 body.dark .site-footer { background: #0a1020; border-top: 1px solid #1a2a3a; }
 body.dark .page-banner { background: #0d1a2e; }
 body.dark .admin-sidebar { background: var(--white); border-right-color: var(--gray-light); }
@@ -185,17 +189,108 @@ body.dark .table-wrap { background: var(--white); }
 body.dark .data-table thead { background: rgba(255,255,255,0.04); }
 body.dark .data-table td,
 body.dark .data-table th { border-color: var(--gray-light); }
+body.dark .data-table tbody tr:hover { background: rgba(255,255,255,0.03); }
 body.dark .dash-card { background: var(--white); border-color: rgba(255,255,255,0.05); }
 body.dark .modal { background: var(--white); }
+body.dark .login-card { background: var(--white); }
+body.dark .editor-panel { background: #18243a; color: var(--text); }
+
+/* ── Navy text → readable light-blue on dark backgrounds ── */
+/* --navy (#1B2A6B) is dark and invisible on dark backgrounds.         */
+/* All elements using color:navy outside the (yellow) topbar need fix. */
+body.dark .card-title,
+body.dark .section-title,
+body.dark .panel-title,
+body.dark .modal-header h3,
+body.dark .data-stat-val,
+body.dark .status-card-title,
+body.dark .login-card h2,
+body.dark .placeholder-wrap h2,
+body.dark .dropzone-label,
+body.dark .progress-label,
+body.dark .cowork-prompt-header,
+body.dark .upload-result-stats span { color: #b8d4f0; }
+
+body.dark .form-group label        { color: #a0b8d8; }
+body.dark .data-table th           { color: #a0b8d8; }
+body.dark .perm-item-name          { color: #b8d4f0; }
+body.dark .confirm-msg strong      { color: #b8d4f0; }
+body.dark .prompt-tip strong       { color: #b8d4f0; }
+body.dark .data-stat-label         { color: var(--gray); }
+
+/* ── Admin sidebar ── */
+body.dark .admin-sidebar a         { color: var(--gray-dark); }
+body.dark .admin-sidebar a:hover   { color: #b8d4f0; background: rgba(184,212,240,0.06); }
+body.dark .admin-sidebar a.active  {
+  color: #b8d4f0; background: rgba(184,212,240,0.08);
+  border-left-color: var(--yellow);
+}
+
+/* ── Buttons ── */
+body.dark .btn-sm-edit             { background: rgba(184,212,240,0.1); color: #b8d4f0; }
+body.dark .btn-sm-edit:hover       { background: #b8d4f0; color: #0f1623; }
+body.dark .btn-sm-warn             { background: rgba(255,199,44,0.12); color: #fbbf24; }
+body.dark .btn-sm-warn:hover       { background: var(--yellow); color: var(--navy); }
+body.dark .btn-ghost               { border-color: var(--gray-light); color: var(--gray-dark); }
+body.dark .btn-ghost:hover         { border-color: #b8d4f0; color: #b8d4f0; }
+body.dark .btn-sm-upload           { background: rgba(255,199,44,0.12); color: #fbbf24; border-color: rgba(255,199,44,0.3); }
+
+/* ── Form elements ── */
 body.dark .form-group input,
 body.dark .form-group select,
-body.dark .form-group textarea {
-  background: #1a2a3c; border-color: #2a3a4c; color: var(--text);
-}
-body.dark .login-card { background: var(--white); }
-body.dark .method-btn { background: #1a2a3c; border-color: #2a3a4c; }
-body.dark .perm-item { border-color: #2a3a4c; }
-body.dark .perm-item:hover { background: rgba(255,255,255,0.04); }
+body.dark .form-group textarea     { background: #1a2a3c; border-color: #2a3a4c; color: var(--text); }
+body.dark .form-group input::placeholder,
+body.dark .form-group textarea::placeholder { color: var(--gray); }
+body.dark .form-group input:focus,
+body.dark .form-group select:focus,
+body.dark .form-group textarea:focus { border-color: #b8d4f0; box-shadow: 0 0 0 3px rgba(184,212,240,0.12); }
+body.dark .method-btn              { background: #1a2a3c; border-color: #2a3a4c; }
+body.dark .method-btn .method-label { color: var(--gray-dark); }
+body.dark .method-btn.selected     { border-color: #b8d4f0; background: rgba(184,212,240,0.06); }
+body.dark .method-btn.selected .method-label { color: #b8d4f0; }
+body.dark .error-msg               { background: rgba(231,76,60,0.1); border-color: rgba(231,76,60,0.25); color: #ff9980; }
+
+/* ── Permission items ── */
+body.dark .perm-item               { border-color: #2a3a4c; }
+body.dark .perm-item:hover         { background: rgba(255,255,255,0.04); border-color: #3a4a5c; }
+body.dark .perm-item.checked       { border-color: #b8d4f0; background: rgba(184,212,240,0.06); }
+body.dark .perm-chip               { background: rgba(184,212,240,0.1); color: #b8d4f0; }
+body.dark .perm-chip-all           { background: rgba(255,199,44,0.12); color: #fbbf24; }
+
+/* ── Status / role badges ── */
+body.dark .badge-active            { background: rgba(16,185,129,0.15); color: #34d399; }
+body.dark .badge-draft             { background: rgba(255,199,44,0.12); color: #fbbf24; }
+body.dark .badge-archived          { background: rgba(100,116,139,0.15); color: #94a3b8; }
+body.dark .badge-role-owner        { background: rgba(255,199,44,0.15); color: var(--yellow); }
+body.dark .badge-role-admin        { background: rgba(184,212,240,0.12); color: #b8d4f0; }
+body.dark .badge-role-user         { background: rgba(100,116,139,0.12); color: #94a3b8; }
+
+/* ── Confirm dialog ── */
+body.dark .confirm-msg             { color: var(--gray-dark); }
+
+/* ── CSV Upload UI ── */
+body.dark .csv-dropzone            { background: #1a2a3c; border-color: #2a3a4c; }
+body.dark .csv-dropzone:hover,
+body.dark .csv-dropzone.drag-over  { background: rgba(184,212,240,0.05); border-color: #b8d4f0; }
+body.dark .col-chip-date           { background: rgba(59,130,246,0.15);  color: #60a5fa; }
+body.dark .col-chip-numeric        { background: rgba(16,185,129,0.15);  color: #34d399; }
+body.dark .col-chip-categorical    { background: rgba(139,92,246,0.15);  color: #a78bfa; }
+body.dark .col-chip-key            { background: rgba(255,199,44,0.15);  color: #fbbf24; border-color: rgba(255,199,44,0.3); }
+body.dark .diff-card.new-rows      { background: rgba(16,185,129,0.10);  color: #34d399; }
+body.dark .diff-card.update-rows   { background: rgba(255,199,44,0.10);  color: #fbbf24; }
+body.dark .diff-card.same-rows     { background: rgba(100,116,139,0.10); color: #94a3b8; }
+body.dark .upload-result.success   { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); }
+body.dark .upload-result.error     { background: rgba(231,76,60,0.08);  border-color: rgba(231,76,60,0.2); }
+body.dark .upload-result-title,
+body.dark .upload-result.success .result-title { color: #34d399; }
+body.dark .upload-result.error .result-title   { color: #ff9980; }
+
+/* ── Cowork / prompt boxes ── */
+body.dark .cowork-prompt-box,
+body.dark .cowork-prompt-text      { background: #111e30; border-color: #2a3a4c; color: var(--text); }
+
+/* ── Upload spinner ── */
+body.dark .upload-spinner          { border-color: #253040; border-top-color: #b8d4f0; }
 
 /* ================================================
    PAGE HEADER BANNER

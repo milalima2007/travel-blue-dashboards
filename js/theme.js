@@ -1,6 +1,7 @@
 /* ============================================================
    TRAVEL BLUE DASHBOARDS — Global Theme Toggle
-   Toggles between body.light (default) and body.dark
+   Priority: 1) user manual override (localStorage)
+             2) system preference (prefers-color-scheme)
    - Pages using style.css: body.dark applies dark CSS vars
    - Avolta page: body.light applies its own light overrides;
      no class = avolta dark default (its :root is dark)
@@ -10,8 +11,14 @@ const ThemeToggle = {
   STORAGE_KEY: 'tb_theme',
 
   init() {
-    const saved = localStorage.getItem(this.STORAGE_KEY) || 'light';
-    this._apply(saved === 'dark');
+    const saved      = localStorage.getItem(this.STORAGE_KEY);
+    const sysDark    = window.matchMedia('(prefers-color-scheme: dark)');
+    // Use saved manual preference; otherwise follow system
+    this._apply(saved !== null ? saved === 'dark' : sysDark.matches);
+    // Update automatically when system changes (only if no manual override)
+    sysDark.addEventListener('change', e => {
+      if (localStorage.getItem(this.STORAGE_KEY) === null) this._apply(e.matches);
+    });
   },
 
   toggle() {
