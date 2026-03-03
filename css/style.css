@@ -1189,3 +1189,35 @@ body.dark .col-hint-box              { background: rgba(255,255,255,0.03); borde
 body.dark .col-hint-box code         { background: rgba(100,150,220,0.12); color: #8ab4f8; }
 body.dark .proj-instructions         { background: #1a2a3c; border-color: #2a3a4c; color: var(--text); }
 body.dark .proj-instructions:focus   { border-color: #6080b0; }
+
+/* ── Project Created Success — command box ───────────────────────────────── */
+.proj-cmd-box {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: #f4f6fb;
+  border: 1.5px solid var(--gray-light);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  color: #1a2440;
+  max-height: 280px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+.proj-cmd-copy {
+  display: inline-block;
+  padding: 7px 20px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 4px;
+  transition: background .2s;
+}
+.proj-cmd-copy:hover { background: #253580; }
+body.dark .proj-cmd-box  { background: #1a2a3c; border-color: #2a3a4c; color: #c8d8f0; }

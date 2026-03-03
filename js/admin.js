@@ -784,16 +784,11 @@ async function saveProject() {
       const state = await CSVUpload.analyse(newProjCsvFile, slug);
       btn.textContent = 'Uploading CSV…';
       await CSVUpload.confirm(state, null);
-      showToast('Project created! Brief saved for Claude.');
-      closeModal('modal-project');
-      setTimeout(() => { window.location.href = `/project/index.html?slug=${slug}`; }, 1200);
-    } else {
-      btn.disabled = false; btn.textContent = origLabel;
-      showToast('Project created as Draft. Brief saved for Claude!');
-      closeModal('modal-project');
-      await renderProjectsTable();
-      await buildAdminNav(_adminUser);
     }
+
+    await renderProjectsTable();
+    await buildAdminNav(_adminUser);
+    _showProjectCreatedSuccess(name, slug, instr);
 
   } catch(e) {
     console.error('[saveProject]', e);
@@ -801,6 +796,47 @@ async function saveProject() {
     btn.textContent = origLabel;
     showFormError(errEl, 'Error: ' + (e.message || String(e)));
   }
+}
+
+function _showProjectCreatedSuccess(name, slug, instr) {
+  const cmd = `Build the dashboard for project "${name}" (slug: ${slug}) at \`${slug}/index.html\` in the travel-blue-dashboards repo.
+
+Build instructions from the client:
+${instr}
+
+Technical notes:
+- Use backpacks-and-luggage/index.html as structural reference (auth, topbar, Chart.js, Supabase, dark mode, theming)
+- Set PROJECT_SLUG = '${slug}'
+- Data is in Supabase: table project_data, column row_data (JSONB), filter project_slug='${slug}'
+- Column types/chart config in Supabase: table project_meta, filter project_slug='${slug}'
+- After creating the file, add '/${slug}/index.html' to DASHBOARD_PATHS in serve.py (both root and worktree copies)
+- Do NOT push to Netlify — commit locally only and wait for user approval`;
+
+  const overlay = document.getElementById('modal-project');
+  const modal   = overlay.querySelector('.modal');
+  modal.innerHTML = `
+    <div class="modal-header">
+      <h3>Project Created ✅</h3>
+      <button class="modal-close" onclick="closeModal('modal-project')">✕</button>
+    </div>
+    <div class="modal-body" style="padding-bottom:8px;">
+      <p style="font-size:13.5px;color:var(--text);margin-bottom:18px;line-height:1.6;">
+        Obrigada! Os seus ficheiros e instruções foram gravados com sucesso.<br>
+        Copie o comando abaixo e cole numa <strong>nova sessão do Claude Code</strong>:
+      </p>
+      <div class="proj-cmd-box" id="proj-cmd-box">${cmd.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      <button class="proj-cmd-copy" id="proj-cmd-copy" onclick="
+        navigator.clipboard.writeText(document.getElementById('proj-cmd-box').innerText).then(()=>{
+          const b = document.getElementById('proj-cmd-copy');
+          b.textContent = '✅ Copied!'; b.style.background='#27ae60';
+          setTimeout(()=>{ b.textContent='Copy'; b.style.background=''; }, 2000);
+        });
+      ">Copy</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-navy" onclick="closeModal('modal-project')">Done</button>
+    </div>`;
+  overlay.classList.add('open');
 }
 
 async function publishProject(id) {
