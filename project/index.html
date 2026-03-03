@@ -271,6 +271,7 @@
         <span class="menu-icon">${p.icon}</span> ${p.name}
       </a>`
     ).join('') || '<div class="dropdown-label">No projects available</div>';
+    Auth.appendNewProjectLink(document.getElementById('nav-projects-menu'), _user);
     if (typeof lucide !== 'undefined') lucide.createIcons();
 
     // Theme toggle

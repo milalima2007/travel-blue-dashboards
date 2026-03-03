@@ -139,6 +139,7 @@
         </a>
       `).join('');
     }
+    Auth.appendNewProjectLink(navMenu, user);
 
     /* Theme toggle */
     document.getElementById('btn-theme').addEventListener('click', () => ThemeToggle.toggle());

@@ -202,6 +202,7 @@ async function loadAllData() {
       return '<a href="' + href + '" class="' + (p.slug === 'avolta' ? 'active' : '') + '">' +
              '<span class="menu-icon">' + p.icon + '</span> ' + p.name + '</a>';
     }).join('') || '<div class="dropdown-label">No projects available</div>';
+    Auth.appendNewProjectLink(document.getElementById('nav-projects-menu'), user);
     if (typeof lucide !== 'undefined') lucide.createIcons();
     document.getElementById('btn-theme').addEventListener('click', function() { ThemeToggle.toggle(); });
 

@@ -1248,6 +1248,7 @@ window.addEventListener('DOMContentLoaded', function() {
       `<a href="${p.custom_url || '/project/index.html?slug=' + p.slug}" class="${p.slug === 'total-sales-bp-latam' ? 'active' : ''}">` +
       `<span class="menu-icon">${p.icon}</span> ${p.name}</a>`
     ).join('') || '<div class="dropdown-label">No projects available</div>';
+    Auth.appendNewProjectLink(menu, user);
     if (typeof lucide !== 'undefined') lucide.createIcons();
 
     // Update Data button (owner/admin only)

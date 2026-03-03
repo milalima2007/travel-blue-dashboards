@@ -891,6 +891,34 @@ body.login-page {
 .upload-result-stats span { font-weight: 700; color: var(--navy); }
 
 /* ============================================================
+   NAV — "+ New Project" local-only entry
+   ============================================================ */
+.dropdown-separator {
+  height: 1px;
+  background: var(--gray-light);
+  margin: 5px 8px;
+}
+.nav-new-project-link {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: var(--navy) !important;
+  background: rgba(255,199,44,0.08);
+  border-radius: 0 0 8px 8px;
+  transition: background var(--transition);
+}
+.nav-new-project-link:hover {
+  background: rgba(255,199,44,0.20) !important;
+  color: var(--navy) !important;
+}
+body.dark .dropdown-separator         { background: #2a3a4c; }
+body.dark .nav-new-project-link       { color: #ffd966 !important; background: rgba(255,199,44,0.06); }
+body.dark .nav-new-project-link:hover { background: rgba(255,199,44,0.14) !important; }
+
+/* ============================================================
    EMOJI PICKER
    ============================================================ */
 .emoji-picker-wrap {

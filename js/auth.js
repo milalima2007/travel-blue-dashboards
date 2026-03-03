@@ -88,6 +88,21 @@ const Auth = {
     if (/invalid login/i.test(msg))        return 'Incorrect email or password. Please try again.';
     if (/email not confirmed/i.test(msg))  return 'Please confirm your email address first.';
     return msg;
+  },
+
+  /* ── Append "+ New Project" to Projects nav dropdown ── */
+  /* Only visible on localhost and only for owners */
+  appendNewProjectLink(menuEl, user) {
+    if (!menuEl || !this.isOwner(user)) return;
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') return;
+    const sep  = document.createElement('div');
+    sep.className = 'dropdown-separator';
+    const link = document.createElement('a');
+    link.href  = '/admin/index.html?tab=projects&action=new';
+    link.className = 'nav-new-project-link';
+    link.innerHTML = '<span class="menu-icon">➕</span> New Project';
+    menuEl.appendChild(sep);
+    menuEl.appendChild(link);
   }
 };
 

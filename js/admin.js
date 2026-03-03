@@ -106,6 +106,12 @@ async function initAdmin() {
     if (proj) openUploadCSVForProject(proj);
   }
 
+  // Auto-open New Project modal if ?action=new (from nav "+ New Project" link)
+  if (params.get('action') === 'new' && Auth.isOwner(user)) {
+    switchTab('projects');
+    setTimeout(() => openAddProject(), 200);
+  }
+
   document.querySelectorAll('[data-tab]').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
@@ -128,6 +134,8 @@ async function buildAdminNav(user) {
   menu.innerHTML = visible.length
     ? visible.map(p => `<a href="${p.custom_url || '/project/index.html?slug=' + p.slug}"><span class="menu-icon">${p.icon}</span> ${p.name}</a>`).join('')
     : '<div class="dropdown-label">No projects available</div>';
+
+  Auth.appendNewProjectLink(menu, user);
 }
 
 /* ---- Tab switching ---- */
@@ -336,7 +344,7 @@ async function renderProjectsTable() {
 
   tbody.innerHTML = projects.map(p => {
     const statusBadge = {
-      active:   `<span class="badge badge-active">● Active</span>`,
+      active:   `<span class="badge badge-active">● Online</span>`,
       draft:    `<span class="badge badge-draft">◐ Draft</span>`,
       archived: `<span class="badge badge-archived">○ Archived</span>`
     }[p.status] || '';
@@ -467,7 +475,7 @@ async function saveProject() {
 async function publishProject(id) {
   await DataLayer.publishProject(id);
   renderProjectsTable();
-  showToast('Project published and now visible to authorised users.');
+  showToast('Project is now Online — assign user access in the Users tab.');
 }
 
 async function archiveProject(id) {
