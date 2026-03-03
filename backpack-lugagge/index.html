@@ -394,19 +394,35 @@
 
   /* ── year/month from row ── */
   function rowYear(r) {
-    if (C.year  && r[C.year])  return String(r[C.year]).trim();
+    if (C.year && r[C.year] !== undefined && r[C.year] !== null && r[C.year] !== '') {
+      const y = String(r[C.year]).trim();
+      // Handle float strings like "2025.0" from Python/pandas CSV exports
+      return y.includes('.') ? String(parseInt(parseFloat(y))) : y;
+    }
     if (C.date  && r[C.date])  return String(r[C.date]).slice(0,4);
     return '';
   }
   function rowMonth(r) {
-    if (C.month && r[C.month]) {
+    if (C.month && r[C.month] !== undefined && r[C.month] !== null && r[C.month] !== '') {
       const m = String(r[C.month]).trim();
-      // If it's just a number, build YYYY-MM
-      if (/^\d{1,2}$/.test(m) && C.year && r[C.year]) return `${r[C.year]}-${m.padStart(2,'0')}`;
+      const mf = parseFloat(m);
+      // Handle numeric months (integer or float like "1.0")
+      if (!isNaN(mf) && mf >= 1 && mf <= 12 && C.year && r[C.year]) {
+        return `${rowYear(r)}-${String(Math.round(mf)).padStart(2,'0')}`;
+      }
       return m;
     }
     if (C.date  && r[C.date])  return String(r[C.date]).slice(0,7);
     return '';
+  }
+  /* ── month number (1-12) for grouped charts ── */
+  function getMonthNum(r) {
+    if (C.month && r[C.month] !== undefined && r[C.month] !== null && r[C.month] !== '') {
+      const mf = parseFloat(String(r[C.month]).trim());
+      if (!isNaN(mf) && mf >= 1 && mf <= 12) return Math.round(mf);
+    }
+    if (C.date && r[C.date]) return parseInt(String(r[C.date]).slice(5,7)) || 0;
+    return 0;
   }
 
   /* ── type helpers ── */
@@ -543,35 +559,49 @@
         <div class="kpi-delta">BP 2025: ${fmt(s25b)} &nbsp;·&nbsp; Qty BP: ${fmtN(q26b)}</div>
       </div>`;
 
-    // Monthly timeline
-    const actRows = _filt.filter(isActual), bpRows = _filt.filter(isBP);
-    const monthSet = new Set([...actRows, ...bpRows].map(rowMonth).filter(Boolean));
-    const months = [...monthSet].sort();
-    const actByM = aggBy(actRows, rowMonth), bpByM = aggBy(bpRows, rowMonth);
-    const pctBP  = months.map(m => { const a2 = actByM[m]||0, b2 = bpByM[m]||0; return b2 ? ((a2-b2)/Math.abs(b2))*100 : null; });
+    // Monthly timeline — X axis: months (Jan-Dec), datasets: one per year/type
+    function mSums(rows) {
+      return Array.from({length:12}, (_,i) => {
+        const s = sum(rows.filter(r => getMonthNum(r) === i+1), C.value);
+        return s || null;
+      });
+    }
+    const tl24a = mSums(_filt.filter(r => isActual(r) && rowYear(r)==='2024'));
+    const tl25a = mSums(_filt.filter(r => isActual(r) && rowYear(r)==='2025'));
+    const tl26a = mSums(_filt.filter(r => isActual(r) && rowYear(r)==='2026'));
+    const tl26b = mSums(_filt.filter(r => isBP(r)     && rowYear(r)==='2026'));
+    const tl25b = mSums(_filt.filter(r => isBP(r)     && rowYear(r)==='2025'));
+    const pct25BP = tl25a.map((v,i) => {
+      const bv = tl25b[i]||0; return bv && v ? ((v-bv)/Math.abs(bv))*100 : null;
+    });
 
     mkChart('ch-timeline', {
       type: 'bar',
       data: {
-        labels: months.map(monthLabel),
+        labels: MN,
         datasets: [
-          { label: 'Actual',         data: months.map(m => actByM[m]||0), backgroundColor: C_NAVY+'cc',   order: 2 },
-          { label: 'Business Plan',  data: months.map(m => bpByM[m]||0),  backgroundColor: C_BP+'cc',     order: 2 },
-          { label: '% vs BP',        data: pctBP, type:'line', yAxisID:'yP',
-            borderColor: C_RED, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3, order:1 }
+          { label:'2024 Actual', data:tl24a, backgroundColor:C_2024+'cc', order:2 },
+          { label:'2025 Actual', data:tl25a, backgroundColor:C_2025+'cc', order:2 },
+          { label:'2026 YTD',   data:tl26a, backgroundColor:C_2026+'cc', order:2 },
+          { label:'2026 BP',    data:tl26b, backgroundColor:C_BP+'99', borderColor:C_BP, borderWidth:1.5, order:2 },
+          { label:'% 2025 vs BP', data:pct25BP, type:'line', yAxisID:'yP',
+            borderColor:C_RED, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3, order:1 }
         ]
       },
       options: {
         responsive:true, maintainAspectRatio:false,
         plugins: {
           legend: { labels: { boxWidth:12, font:{size:11} } },
-          tooltip: { callbacks: { label: ctx => ctx.dataset.label==='% vs BP'
-            ? `% vs BP: ${ctx.parsed.y?.toFixed(1)}%` : `${ctx.dataset.label}: ${fmt(ctx.parsed.y)}` } }
+          tooltip: { callbacks: { label: ctx => ctx.dataset.label.startsWith('%')
+            ? `${ctx.dataset.label}: ${ctx.parsed.y?.toFixed(1)}%`
+            : `${ctx.dataset.label}: ${fmt(ctx.parsed.y)}` } }
         },
         scales: {
-          x: { ticks: { font:{size:9}, maxRotation:45 } },
-          y: { ticks: { font:{size:10}, callback: v => fmt(v) }, title:{ display:true, text:'USD', font:{size:10} } },
-          yP:{ position:'right', grid:{drawOnChartArea:false}, ticks:{ font:{size:10}, callback: v => v?.toFixed(0)+'%' }, title:{display:true,text:'% vs BP',font:{size:10}} }
+          x:  { ticks:{ font:{size:10} } },
+          y:  { ticks:{ font:{size:10}, callback: v => fmt(v) }, title:{ display:true, text:'USD', font:{size:10} } },
+          yP: { position:'right', grid:{drawOnChartArea:false},
+                ticks:{ font:{size:10}, callback: v => v?.toFixed(0)+'%' },
+                title:{ display:true, text:'% vs BP', font:{size:10} } }
         }
       }
     });
@@ -1006,10 +1036,12 @@
     const rows = raw.map(r => r.row_data);
     resolveColumns(rows[0]);
 
-    // Filter: CUSTOMERS only — exclude INTERCO and any non-customer COMPANY values
+    // Filter: exclude INTERCO rows only (keep CUSTOMERS and any other non-interco company type)
     _all = C.company
-      ? rows.filter(r => { const co = norm(r[C.company]); return co.includes('customer') && !co.includes('interco'); })
+      ? rows.filter(r => !norm(r[C.company]).includes('interco'))
       : rows;
+    console.log('[BL] total rows:', rows.length, '| after interco filter:', _all.length,
+      '| sample company values:', [...new Set(rows.slice(0,200).map(r=>r[C.company]))].slice(0,8));
 
     _filt = [..._all];
 
