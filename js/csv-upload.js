@@ -84,16 +84,25 @@ const CSVUpload = (() => {
 
   /* ---- Compare CSV rows with existing Supabase data ---- */
   async function compareWithExisting(projectSlug, records, keyColumns) {
-    const { data: existing, error } = await _svc()
-      .from('project_data')
-      .select('composite_key, row_data')
-      .eq('project_slug', projectSlug);
-
-    if (error && error.code !== 'PGRST116') {
-      console.warn('Could not fetch existing data:', error.message);
+    // Paginate — Supabase returns max 1000 rows per request
+    const PAGE = 1000;
+    let allExisting = [], page = 0;
+    while (true) {
+      const { data: chunk, error } = await _svc()
+        .from('project_data')
+        .select('composite_key, row_data')
+        .eq('project_slug', projectSlug)
+        .range(page * PAGE, (page + 1) * PAGE - 1);
+      if (error && error.code !== 'PGRST116') {
+        console.warn('Could not fetch existing data:', error.message);
+        break;
+      }
+      if (chunk?.length) allExisting.push(...chunk);
+      if (!chunk?.length || chunk.length < PAGE) break;
+      page++;
     }
 
-    const existingMap = new Map((existing || []).map(r => [r.composite_key, r.row_data]));
+    const existingMap = new Map(allExisting.map(r => [r.composite_key, r.row_data]));
     const newRows = [], updateRows = [], unchangedRows = [];
 
     records.forEach(row => {

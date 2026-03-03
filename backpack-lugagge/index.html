@@ -1019,8 +1019,24 @@
       document.body.appendChild(btn);
     }
 
-    const { data: raw, error } = await sb
-      .from('project_data').select('row_data').eq('project_slug', PROJECT_SLUG);
+    // Paginated fetch — Supabase/PostgREST returns max 1000 rows by default
+    const PAGE = 1000;
+    let allRaw = [], page = 0, fetchError = null;
+    document.querySelector('#state-loading .state-sub').textContent = 'Fetching data from Supabase…';
+    while (true) {
+      const { data: chunk, error: err } = await sb
+        .from('project_data').select('row_data')
+        .eq('project_slug', PROJECT_SLUG)
+        .range(page * PAGE, (page + 1) * PAGE - 1);
+      if (err) { fetchError = err; break; }
+      if (chunk?.length) allRaw.push(...chunk);
+      if (!chunk?.length || chunk.length < PAGE) break;
+      page++;
+      document.querySelector('#state-loading .state-sub').textContent =
+        `Fetching data… ${allRaw.length.toLocaleString()} rows loaded`;
+    }
+    const raw = allRaw, error = fetchError;
+    console.log('[BL] fetched', raw.length, 'rows in', page + 1, 'page(s)');
 
     if (error || !raw?.length) {
       document.getElementById('state-loading').innerHTML = `
