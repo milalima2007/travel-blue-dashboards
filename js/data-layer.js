@@ -46,12 +46,31 @@ const DataLayer = (() => {
   async function createProject(data) {
     const { data: proj, error } = await _svc()
       .from('projects')
-      .insert({ slug: data.slug, name: data.name, description: data.description || '',
-                icon: data.icon || '📊', status: 'draft' })
+      .insert({
+        slug:               data.slug,
+        name:               data.name,
+        description:        data.description        || '',
+        icon:               data.icon               || '📊',
+        status:             'draft',
+        build_instructions: data.build_instructions || '',
+        build_status:       'pending',
+        reference_images:   [],
+      })
       .select().single();
     if (error)
       return { error: error.code === '23505' ? 'A project with this slug already exists.' : error.message };
     return proj;
+  }
+
+  async function uploadReferenceImage(file, projectSlug) {
+    const ts   = Date.now();
+    const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const path = `reference-images/${projectSlug}/${ts}_${safe}`;
+    const { data, error } = await _svc().storage
+      .from('csv-uploads')
+      .upload(path, file, { upsert: false, contentType: file.type || 'image/jpeg' });
+    if (error) throw new Error(`Image upload failed: ${error.message}`);
+    return data.path;
   }
 
   async function updateProject(id, data) {
@@ -159,6 +178,7 @@ const DataLayer = (() => {
   return {
     getProjects, getProject, getProjectBySlug,
     createProject, updateProject, publishProject, archiveProject, draftProject, deleteProject,
+    uploadReferenceImage,
     getUsers, getUserById, getUserPermissions, setUserPermissions,
     createUser, updateUser, deleteUser,
   };

@@ -999,3 +999,193 @@ body.dark .emoji-preview-btn.open { border-color: #6080b0; }
 body.dark .emoji-dropdown     { background: #18243a; border-color: #2a3a4c; box-shadow: 0 8px 28px rgba(0,0,0,0.4); }
 body.dark .emoji-btn:hover    { background: #1a2a3c; border-color: #3a4a5c; }
 body.dark .emoji-btn.selected { background: rgba(184,212,240,0.12); border-color: #b8d4f0; }
+
+/* ============================================================
+   MODAL — extra size variant
+   ============================================================ */
+.modal-xl { max-width: 680px; }
+
+/* ============================================================
+   WIZARD — 2-step project creation nav
+   ============================================================ */
+.wizard-steps {
+  display: flex;
+  align-items: center;
+  padding: 14px 26px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--gray-light);
+  gap: 0;
+}
+.wizard-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--gray);
+  transition: color var(--transition);
+}
+.wizard-step.active { color: var(--navy); }
+.wizard-step.done   { color: var(--success); }
+.wizard-step-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  background: var(--card);
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+.wizard-step.active .wizard-step-dot {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+.wizard-step.done .wizard-step-dot {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+.wizard-connector {
+  flex: 1;
+  height: 2px;
+  background: var(--gray-light);
+  margin: 0 12px;
+}
+
+/* ============================================================
+   REFERENCE IMAGES — drop zone & thumbnails
+   ============================================================ */
+.ref-images-zone {
+  border: 2px dashed var(--gray-light);
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: var(--bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: border-color var(--transition);
+}
+.ref-images-zone:hover { border-color: var(--navy); }
+.ref-images-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.ref-thumb {
+  position: relative;
+  width: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid var(--gray-light);
+  background: var(--bg);
+}
+.ref-thumb img {
+  width: 80px; height: 60px;
+  object-fit: cover;
+  display: block;
+}
+.ref-thumb-remove {
+  position: absolute;
+  top: 2px; right: 2px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 18px; height: 18px;
+  font-size: 9px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+}
+.ref-thumb-remove:hover { background: var(--danger); }
+.ref-thumb-name {
+  font-size: 9.5px;
+  color: var(--gray);
+  text-align: center;
+  padding: 3px 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================================
+   EMOJI — search input & search results view
+   ============================================================ */
+.emoji-search-wrap {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--gray-light);
+  margin-bottom: 8px;
+}
+.emoji-search-input {
+  width: 100%;
+  padding: 7px 10px;
+  font-size: 12.5px;
+  border: 1px solid var(--gray-light);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  font-family: inherit;
+}
+.emoji-search-input:focus { border-color: var(--navy); }
+.emoji-search-view { min-height: 32px; }
+
+/* ============================================================
+   COLUMN HINT BOX & INSTRUCTIONS TEXTAREA
+   ============================================================ */
+.col-hint-box {
+  background: rgba(27,42,107,0.05);
+  border: 1px solid var(--gray-light);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--gray-dark);
+  margin-top: 8px;
+  line-height: 1.8;
+}
+.col-hint-box code {
+  background: rgba(27,42,107,0.08);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 11.5px;
+  color: var(--navy);
+  font-family: monospace;
+}
+.proj-instructions {
+  width: 100%;
+  min-height: 110px;
+  resize: vertical;
+  font-size: 13px;
+  line-height: 1.6;
+  font-family: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--gray-light);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition);
+  display: block;
+}
+.proj-instructions:focus { border-color: var(--navy); }
+
+/* Dark mode — wizard, ref-images, emoji search, instructions */
+body.dark .wizard-steps              { background: #18243a; border-color: #2a3a4c; }
+body.dark .wizard-step-dot           { background: #1a2a3c; border-color: #2a3a4c; color: var(--text); }
+body.dark .wizard-step.active .wizard-step-dot { background: #4a6fa8; border-color: #4a6fa8; color: #fff; }
+body.dark .wizard-step.done  .wizard-step-dot  { background: #27AE60; border-color: #27AE60; color: #fff; }
+body.dark .wizard-connector          { background: #2a3a4c; }
+body.dark .ref-images-zone           { background: #1a2a3c; border-color: #2a3a4c; }
+body.dark .ref-images-zone:hover     { border-color: #6080b0; }
+body.dark .ref-thumb                 { border-color: #2a3a4c; background: #1a2a3c; }
+body.dark .emoji-search-wrap         { border-color: #2a3a4c; }
+body.dark .emoji-search-input        { background: #1a2a3c; border-color: #2a3a4c; color: var(--text); }
+body.dark .emoji-search-input:focus  { border-color: #6080b0; }
+body.dark .col-hint-box              { background: rgba(255,255,255,0.03); border-color: #2a3a4c; }
+body.dark .col-hint-box code         { background: rgba(100,150,220,0.12); color: #8ab4f8; }
+body.dark .proj-instructions         { background: #1a2a3c; border-color: #2a3a4c; color: var(--text); }
+body.dark .proj-instructions:focus   { border-color: #6080b0; }

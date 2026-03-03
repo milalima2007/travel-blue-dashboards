@@ -8,26 +8,114 @@ let editingUserId = null;
 let editingProjId = null;
 let confirmAction = null;
 let _adminUser    = null;
+let _refImageFiles  = [];    // File objects queued for upload
+let _wizardIsCreate = false; // true when in 2-step wizard (create mode)
 
 /* ============================================================
    EMOJI PICKER
    ============================================================ */
+/* Flat emoji list with keywords — used for search */
+const EMOJI_DATA = [
+  { e:'📊', k:'chart bar data analytics stats graph dashboard' },
+  { e:'📈', k:'chart up growth increase trend sales rise' },
+  { e:'📉', k:'chart down decline decrease fall loss' },
+  { e:'📋', k:'clipboard report list document data' },
+  { e:'📌', k:'pin map location point highlight' },
+  { e:'🗂', k:'folder files organized tabs archive' },
+  { e:'💹', k:'chart yen money finance growth stocks' },
+  { e:'📁', k:'folder files project storage' },
+  { e:'🗃', k:'files cabinet organized archive storage' },
+  { e:'📐', k:'ruler measure design layout planning' },
+  { e:'🔢', k:'numbers count data digits metrics' },
+  { e:'📎', k:'paperclip attach files link' },
+  { e:'📝', k:'note write memo edit document' },
+  { e:'🗓', k:'calendar schedule date planning events' },
+  { e:'📅', k:'calendar date schedule planning' },
+  { e:'🔍', k:'search magnify find analytics investigate' },
+  { e:'🔎', k:'search magnify zoom detailed analysis' },
+  { e:'📏', k:'ruler measure size scale analytics' },
+  { e:'💼', k:'business briefcase work professional corporate' },
+  { e:'💰', k:'money bag finance profit revenue earnings' },
+  { e:'💵', k:'dollar money cash revenue finance' },
+  { e:'💴', k:'yen asia money finance' },
+  { e:'💶', k:'euro europe money finance' },
+  { e:'🤝', k:'handshake deal partnership agreement business' },
+  { e:'🏆', k:'trophy award winner success achievement top' },
+  { e:'🎯', k:'target goal bullseye focus objective kpi' },
+  { e:'✅', k:'check done complete success approve tick' },
+  { e:'📑', k:'pages document report file' },
+  { e:'🥇', k:'gold first winner top performance ranking' },
+  { e:'🔑', k:'key access permission unlock admin' },
+  { e:'📧', k:'email message contact inbox communication' },
+  { e:'📩', k:'inbox mail receive message email' },
+  { e:'🏦', k:'bank finance institution money building' },
+  { e:'💳', k:'credit card payment finance purchase' },
+  { e:'💱', k:'currency exchange money rates finance' },
+  { e:'✈️', k:'airplane travel flight aviation plane' },
+  { e:'🧳', k:'luggage suitcase travel baggage trip' },
+  { e:'🗺', k:'map travel world geography route' },
+  { e:'🌍', k:'globe world europe africa international' },
+  { e:'🌐', k:'globe web internet worldwide global' },
+  { e:'🛫', k:'takeoff airplane departure flight travel' },
+  { e:'🏨', k:'hotel building accommodation travel stay' },
+  { e:'🎒', k:'backpack bag travel school adventure' },
+  { e:'🧤', k:'gloves accessories travel products' },
+  { e:'👜', k:'bag purse fashion accessories products' },
+  { e:'🎁', k:'gift present package shipping products' },
+  { e:'🛒', k:'cart shopping ecommerce purchase retail' },
+  { e:'🚢', k:'ship cruise travel sea voyage' },
+  { e:'🗼', k:'tower paris travel destination tourism' },
+  { e:'🛄', k:'baggage claim luggage airport travel' },
+  { e:'🏪', k:'shop store retail business products' },
+  { e:'📦', k:'box package shipping products delivery' },
+  { e:'🏷', k:'label tag price product category' },
+  { e:'⭐', k:'star rating favorite highlight featured' },
+  { e:'🌟', k:'star glow highlight special featured top' },
+  { e:'🔥', k:'fire hot trending popular top performance' },
+  { e:'💡', k:'idea lightbulb insight innovation smart' },
+  { e:'🔔', k:'bell notification alert reminder' },
+  { e:'📢', k:'megaphone announce broadcast marketing' },
+  { e:'🎉', k:'celebrate launch party success milestone' },
+  { e:'🚀', k:'rocket launch startup fast growth scale' },
+  { e:'⚡', k:'lightning fast speed energy power electric' },
+  { e:'🌱', k:'growth plant nature environment sustainability' },
+  { e:'🌿', k:'leaf nature environment green sustainability' },
+  { e:'🏗', k:'construction build project development work' },
+  { e:'🔧', k:'wrench tool fix maintenance settings technical' },
+  { e:'⚙', k:'gear settings cog technical configure system' },
+  { e:'🎨', k:'art design palette creative color style' },
+  { e:'🖥', k:'computer desktop monitor screen tech dashboard' },
+  { e:'📱', k:'mobile phone app digital screen' },
+  { e:'🌎', k:'globe world americas international global' },
+  { e:'📍', k:'pin location map place marker destination' },
+];
+
+/* Categorised display (shown when search is empty) */
 const EMOJI_CATEGORIES = [
-  { label: 'Charts & Data',     emojis: ['📊','📈','📉','📋','📌','🗂','💹','📁','🗃','📐','🔢','📎'] },
-  { label: 'Business',          emojis: ['💼','💰','💵','🤝','🏆','🎯','✅','📑','🥇','🔑','📧','📩'] },
-  { label: 'Travel & Products', emojis: ['✈️','🧳','🗺','🌍','🌐','🛫','🏨','🎒','🧤','👜','🎁','🛒'] },
-  { label: 'General',           emojis: ['⭐','🌟','🔥','💡','🔔','📢','🎉','🚀','⚡','🔍','🌱','🌿'] }
+  { label: 'Charts & Data',     emojis: ['📊','📈','📉','📋','📌','🗂','💹','📁','🗃','📐','🔢','📎','📝','🗓','📅','🔍','🔎','📏'] },
+  { label: 'Business',          emojis: ['💼','💰','💵','💴','💶','🤝','🏆','🎯','✅','📑','🥇','🔑','📧','📩','🏦','💳','💱'] },
+  { label: 'Travel & Products', emojis: ['✈️','🧳','🗺','🌍','🌐','🛫','🏨','🎒','🧤','👜','🎁','🛒','🚢','🗼','🛄','🏪','📦','🏷'] },
+  { label: 'General',           emojis: ['⭐','🌟','🔥','💡','🔔','📢','🎉','🚀','⚡','🌱','🌿','🏗','🔧','⚙','🎨','🖥','📱','🌎','📍'] }
 ];
 
 function _buildEmojiDropdown() {
   const dd = document.getElementById('emoji-dropdown');
   if (!dd || dd.dataset.built) return;
-  dd.innerHTML = EMOJI_CATEGORIES.map(cat => `
+  const catHtml = EMOJI_CATEGORIES.map(cat => `
     <div class="emoji-cat-label">${cat.label}</div>
     <div class="emoji-grid">
       ${cat.emojis.map(e => `<button type="button" class="emoji-btn" data-emoji="${e}" onclick="selectEmoji('${e}')">${e}</button>`).join('')}
     </div>
   `).join('');
+  dd.innerHTML = `
+    <div class="emoji-search-wrap">
+      <input type="text" class="emoji-search-input" id="emoji-search-input"
+             placeholder="Search…" oninput="_updateEmojiSearch(this.value)"
+             onclick="event.stopPropagation()" autocomplete="off" />
+    </div>
+    <div class="emoji-category-view" id="emoji-category-view">${catHtml}</div>
+    <div class="emoji-search-view" id="emoji-search-view" style="display:none;"></div>
+  `;
   dd.dataset.built = '1';
   // Highlight whichever emoji is currently selected
   const current = document.getElementById('proj-icon')?.value;
@@ -63,11 +151,185 @@ function _closeEmojiPicker() {
   if (btn) btn.classList.remove('open');
 }
 
+function _resetEmojiSearch() {
+  const searchInput = document.getElementById('emoji-search-input');
+  if (searchInput) searchInput.value = '';
+  const catView    = document.getElementById('emoji-category-view');
+  const searchView = document.getElementById('emoji-search-view');
+  if (catView)    catView.style.display    = 'block';
+  if (searchView) searchView.style.display = 'none';
+}
+
+function _updateEmojiSearch(query) {
+  const catView    = document.getElementById('emoji-category-view');
+  const searchView = document.getElementById('emoji-search-view');
+  if (!catView || !searchView) return;
+  const q = query.trim().toLowerCase();
+  if (!q) {
+    catView.style.display    = 'block';
+    searchView.style.display = 'none';
+    return;
+  }
+  catView.style.display    = 'none';
+  searchView.style.display = 'block';
+  const results = EMOJI_DATA.filter(item => item.k.includes(q) || item.e === q);
+  const current = document.getElementById('proj-icon')?.value;
+  if (!results.length) {
+    searchView.innerHTML = `<p style="font-size:12px;color:var(--gray);text-align:center;padding:12px 0;">No emoji found</p>`;
+    return;
+  }
+  searchView.innerHTML = `<div class="emoji-grid">
+    ${results.map(item => `<button type="button" class="emoji-btn${item.e === current ? ' selected' : ''}" data-emoji="${item.e}" onclick="selectEmoji('${item.e}')">${item.e}</button>`).join('')}
+  </div>`;
+}
+
 // Close emoji picker when clicking outside
 document.addEventListener('click', e => {
   const wrap = document.getElementById('emoji-picker-wrap');
   if (wrap && !wrap.contains(e.target)) _closeEmojiPicker();
 });
+
+/* ============================================================
+   WIZARD — 2-step project creation
+   ============================================================ */
+function _wizardSetStep(step, isWizard) {
+  const panel1  = document.getElementById('proj-panel-info');
+  const panel2  = document.getElementById('proj-panel-brief');
+  const steps   = document.getElementById('proj-wizard-steps');
+  const nextBtn = document.getElementById('proj-next-btn');
+  const backBtn = document.getElementById('proj-back-btn');
+  const saveBtn = document.getElementById('proj-save-btn');
+  const dot1    = document.getElementById('wizard-step-1');
+  const dot2    = document.getElementById('wizard-step-2');
+
+  if (!isWizard) {
+    // Edit mode — show both panels, no wizard nav
+    if (steps)  steps.style.display  = 'none';
+    if (panel1) panel1.style.display = 'block';
+    if (panel2) panel2.style.display = 'block';
+    if (nextBtn) nextBtn.style.display = 'none';
+    if (backBtn) backBtn.style.display = 'none';
+    if (saveBtn) saveBtn.style.display = '';
+    return;
+  }
+
+  // Create mode — wizard nav visible
+  if (steps) steps.style.display = 'flex';
+  if (step === 1) {
+    if (panel1) panel1.style.display = 'block';
+    if (panel2) panel2.style.display = 'none';
+    if (nextBtn) nextBtn.style.display = '';
+    if (backBtn) backBtn.style.display = 'none';
+    if (saveBtn) saveBtn.style.display = 'none';
+    if (dot1) { dot1.classList.add('active');    dot1.classList.remove('done'); }
+    if (dot2) { dot2.classList.remove('active'); dot2.classList.remove('done'); }
+  } else {
+    if (panel1) panel1.style.display = 'none';
+    if (panel2) panel2.style.display = 'block';
+    if (nextBtn) nextBtn.style.display = 'none';
+    if (backBtn) backBtn.style.display = '';
+    if (saveBtn) saveBtn.style.display = '';
+    if (dot1) { dot1.classList.remove('active'); dot1.classList.add('done'); }
+    if (dot2) { dot2.classList.add('active');    dot2.classList.remove('done'); }
+  }
+}
+
+function wizardNext() {
+  const name  = document.getElementById('proj-name').value.trim();
+  const slug  = document.getElementById('proj-slug').value.trim();
+  const errEl = document.getElementById('proj-form-error');
+  if (!name || !slug) { showFormError(errEl, 'Project name and slug are required.'); return; }
+  errEl.style.display = 'none';
+  _wizardSetStep(2, true);
+}
+
+function wizardBack() {
+  document.getElementById('proj-form-error').style.display = 'none';
+  _wizardSetStep(1, true);
+}
+
+/* ============================================================
+   REFERENCE IMAGES
+   ============================================================ */
+function _clearRefImages() {
+  _refImageFiles = [];
+  const thumbsEl = document.getElementById('ref-images-thumbs');
+  if (thumbsEl) { thumbsEl.innerHTML = ''; thumbsEl.style.display = 'none'; }
+}
+
+function _triggerRefImageInput() {
+  document.getElementById('ref-images-input')?.click();
+}
+
+function _addRefImagePreview(file, idx) {
+  const thumbsEl = document.getElementById('ref-images-thumbs');
+  if (!thumbsEl) return;
+  thumbsEl.style.display = 'flex';
+  const url = URL.createObjectURL(file);
+  const div = document.createElement('div');
+  div.className  = 'ref-thumb';
+  div.dataset.idx = idx;
+  const shortName = file.name.length > 14 ? file.name.slice(0, 12) + '…' : file.name;
+  div.innerHTML = `
+    <img src="${url}" alt="${file.name}" />
+    <button type="button" class="ref-thumb-remove" onclick="removeRefImage(${idx})" title="Remove">✕</button>
+    <div class="ref-thumb-name">${shortName}</div>
+  `;
+  thumbsEl.appendChild(div);
+}
+
+function removeRefImage(idx) {
+  _refImageFiles.splice(idx, 1);
+  const thumbsEl = document.getElementById('ref-images-thumbs');
+  if (!thumbsEl) return;
+  thumbsEl.innerHTML = '';
+  if (_refImageFiles.length === 0) {
+    thumbsEl.style.display = 'none';
+  } else {
+    _refImageFiles.forEach((f, i) => _addRefImagePreview(f, i));
+  }
+}
+
+/* ============================================================
+   CSV COLUMN HINT (auto-suggestion for new project brief)
+   ============================================================ */
+async function _parseCSVHeaders(file) {
+  return new Promise(resolve => {
+    Papa.parse(file, {
+      preview: 2, header: true,
+      complete: r => resolve(r.meta?.fields || []),
+      error:    ()  => resolve([])
+    });
+  });
+}
+
+async function _updateInstructionsHint(file) {
+  const hintEl = document.getElementById('proj-col-hint');
+  if (!hintEl) return;
+  try {
+    const headers = await _parseCSVHeaders(file);
+    if (!headers.length) { hintEl.style.display = 'none'; return; }
+    const colList = headers.slice(0, 12).map(h => `<code>${h}</code>`).join(', ');
+    const extra   = headers.length > 12 ? ` <span style="color:var(--gray);">+${headers.length - 12} more</span>` : '';
+    hintEl.innerHTML = `<strong>Detected columns:</strong> ${colList}${extra}`;
+    hintEl.style.display = 'block';
+    // Auto-fill instructions starter if field is empty
+    const instrEl = document.getElementById('proj-instructions');
+    if (instrEl && !instrEl.value.trim()) {
+      const dateCol = headers.find(h => /date|time|period|month|year/i.test(h));
+      const numCols = headers.filter(h => /amount|total|revenue|sales|qty|quantity|price|cost|value|count|units|number/i.test(h));
+      const catCols = headers.filter(h => h !== dateCol && !numCols.includes(h)).slice(0, 4);
+      let tpl = `Dashboard for ${file.name.replace(/\.csv$/i, '')}:\n\n`;
+      if (dateCol)      tpl += `- Time axis: ${dateCol}\n`;
+      if (numCols.length) tpl += `- KPIs: ${numCols.slice(0, 3).join(', ')}\n`;
+      if (catCols.length) tpl += `- Group by: ${catCols.join(', ')}\n`;
+      tpl += `\nCharts needed:\n- `;
+      instrEl.value = tpl;
+    }
+  } catch(e) {
+    hintEl.style.display = 'none';
+  }
+}
 
 /* ---- CSV upload state (update-data flow) ---- */
 let csvFile          = null;
@@ -93,6 +355,10 @@ async function initAdmin() {
   if (Auth.isOwner(user)) {
     document.querySelectorAll('.owner-only').forEach(el => el.style.display = '');
     document.getElementById('nav-projects-admin-link').style.display = 'block';
+    // Hide "New Project" button when running online (only local creation allowed)
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const newProjBtn = document.getElementById('btn-new-project-panel');
+    if (newProjBtn && !isLocal) newProjBtn.style.display = 'none';
   }
 
   const params = new URLSearchParams(window.location.search);
@@ -379,25 +645,36 @@ async function renderProjectsTable() {
 }
 
 function openAddProject() {
-  editingProjId  = null;
-  newProjCsvFile = null;
+  editingProjId   = null;
+  newProjCsvFile  = null;
+  _refImageFiles  = [];
+  _wizardIsCreate = true;
   document.getElementById('modal-proj-title').textContent = 'New Project';
   document.getElementById('proj-form').reset();
   document.getElementById('proj-slug').disabled = false;
   document.getElementById('proj-form-error').style.display = 'none';
   document.getElementById('proj-save-btn').textContent = 'Create Project';
-  _clearNewProjCsv();
   selectEmoji('📊');
   _closeEmojiPicker();
-  const csvSec = document.getElementById('new-proj-csv-section');
-  if (csvSec) csvSec.style.display = 'block';
+  _resetEmojiSearch();
+  _clearNewProjCsv();
+  _clearRefImages();
+  const hintEl = document.getElementById('proj-col-hint');
+  if (hintEl) { hintEl.style.display = 'none'; hintEl.innerHTML = ''; }
+  const instrEl = document.getElementById('proj-instructions');
+  if (instrEl) instrEl.value = '';
   const note = document.getElementById('proj-note');
   if (note) note.style.display = 'block';
+  const csvSec = document.getElementById('new-proj-csv-section');
+  if (csvSec) csvSec.style.display = 'block';
+  _wizardSetStep(1, true);
   openModal('modal-project');
 }
 
 async function openEditProject(id) {
-  editingProjId = id;
+  editingProjId   = id;
+  _wizardIsCreate = false;
+  _refImageFiles  = [];
   const p = await DataLayer.getProject(id);
   if (!p) return;
   document.getElementById('modal-proj-title').textContent = 'Edit Project';
@@ -406,13 +683,39 @@ async function openEditProject(id) {
   document.getElementById('proj-slug').disabled = true;
   selectEmoji(p.icon || '📊');
   _closeEmojiPicker();
-  document.getElementById('proj-desc').value    = p.description;
+  _resetEmojiSearch();
+  document.getElementById('proj-desc').value    = p.description || '';
   document.getElementById('proj-form-error').style.display = 'none';
   document.getElementById('proj-save-btn').textContent = 'Save Changes';
+
+  // CSV section: hidden in edit mode
   const csvSec = document.getElementById('new-proj-csv-section');
   if (csvSec) csvSec.style.display = 'none';
+  const hintEl = document.getElementById('proj-col-hint');
+  if (hintEl) hintEl.style.display = 'none';
+
+  // Instructions
+  const instrEl = document.getElementById('proj-instructions');
+  if (instrEl) instrEl.value = p.build_instructions || '';
+
+  // Existing reference images (show count; new uploads will be appended)
+  const thumbsEl = document.getElementById('ref-images-thumbs');
+  if (thumbsEl) {
+    thumbsEl.innerHTML = '';
+    if (p.reference_images && p.reference_images.length > 0) {
+      thumbsEl.innerHTML = `<p style="font-size:12px;color:var(--gray);padding:4px 0;">${p.reference_images.length} image(s) already uploaded. New uploads will be added.</p>`;
+      thumbsEl.style.display = 'block';
+    } else {
+      thumbsEl.style.display = 'none';
+    }
+  }
+
+  // Draft note: hidden in edit mode
   const note = document.getElementById('proj-note');
   if (note) note.style.display = 'none';
+
+  // Edit mode — no wizard, show both panels
+  _wizardSetStep(null, false);
   openModal('modal-project');
 }
 
@@ -421,20 +724,38 @@ async function saveProject() {
   const slug  = document.getElementById('proj-slug').value.trim().toLowerCase().replace(/\s+/g, '-');
   const icon  = document.getElementById('proj-icon').value.trim() || '📊';
   const desc  = document.getElementById('proj-desc').value.trim();
+  const instr = (document.getElementById('proj-instructions')?.value || '').trim();
   const errEl = document.getElementById('proj-form-error');
   const btn   = document.getElementById('proj-save-btn');
   const origLabel = editingProjId ? 'Save Changes' : 'Create Project';
 
   errEl.style.display = 'none';
   if (!name || !slug) { showFormError(errEl, 'Name and slug are required.'); return; }
+  // Instructions required for new projects
+  if (!editingProjId && !instr) {
+    showFormError(errEl, 'Dashboard Instructions are required — describe what you want Claude to build.');
+    return;
+  }
 
   btn.disabled = true;
 
   try {
     if (editingProjId) {
       btn.textContent = 'Saving…';
-      const res = await DataLayer.updateProject(editingProjId, { name, icon, description: desc });
+      const updateData = { name, icon, description: desc };
+      if (instr) updateData.build_instructions = instr;
+      const res = await DataLayer.updateProject(editingProjId, updateData);
       if (res?.error) { showFormError(errEl, res.error); btn.disabled = false; btn.textContent = origLabel; return; }
+      // Upload any new reference images
+      if (_refImageFiles.length > 0) {
+        btn.textContent = 'Uploading images…';
+        const existing  = (await DataLayer.getProject(editingProjId))?.reference_images || [];
+        const newPaths  = [];
+        for (const f of _refImageFiles) {
+          try { newPaths.push(await DataLayer.uploadReferenceImage(f, slug)); } catch(e) { console.warn(e.message); }
+        }
+        if (newPaths.length) await DataLayer.updateProject(editingProjId, { reference_images: [...existing, ...newPaths] });
+      }
       showToast('Project updated.');
       closeModal('modal-project');
       await renderProjectsTable();
@@ -444,27 +765,37 @@ async function saveProject() {
 
     // Create new project
     btn.textContent = 'Creating…';
-    const res = await DataLayer.createProject({ name, slug, icon, description: desc });
+    const res = await DataLayer.createProject({ name, slug, icon, description: desc, build_instructions: instr });
     if (res?.error) { showFormError(errEl, res.error); btn.disabled = false; btn.textContent = origLabel; return; }
 
-    // If CSV file was chosen, upload it
+    // Upload reference images
+    if (_refImageFiles.length > 0) {
+      btn.textContent = 'Uploading images…';
+      const imagePaths = [];
+      for (const f of _refImageFiles) {
+        try { imagePaths.push(await DataLayer.uploadReferenceImage(f, slug)); } catch(e) { console.warn(e.message); }
+      }
+      if (imagePaths.length) await DataLayer.updateProject(res.id, { reference_images: imagePaths });
+    }
+
+    // Upload CSV if selected
     if (newProjCsvFile) {
       btn.textContent = 'Analysing CSV…';
       const state = await CSVUpload.analyse(newProjCsvFile, slug);
-      btn.textContent = 'Uploading…';
+      btn.textContent = 'Uploading CSV…';
       await CSVUpload.confirm(state, null);
-      showToast('Project created with data! Redirecting to dashboard…');
+      showToast('Project created! Brief saved for Claude.');
       closeModal('modal-project');
       setTimeout(() => { window.location.href = `/project/index.html?slug=${slug}`; }, 1200);
     } else {
       btn.disabled = false; btn.textContent = origLabel;
-      showToast('Project created as Draft.');
+      showToast('Project created as Draft. Brief saved for Claude!');
       closeModal('modal-project');
       await renderProjectsTable();
       await buildAdminNav(_adminUser);
     }
 
-  } catch (e) {
+  } catch(e) {
     console.error('[saveProject]', e);
     btn.disabled = false;
     btn.textContent = origLabel;
@@ -752,10 +1083,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // New project CSV input
+  // New project CSV input — also triggers column hint
   const newProjInput = document.getElementById('new-proj-csv-input');
   if (newProjInput) {
-    newProjInput.addEventListener('change', e => {
+    newProjInput.addEventListener('change', async e => {
       const file = e.target.files[0];
       if (!file) return;
       if (!file.name.match(/\.csv$/i)) { showToast('Please select a .csv file.'); return; }
@@ -765,6 +1096,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('new-proj-csv-selected').querySelector('span').textContent =
         `📄 ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
       document.getElementById('new-proj-csv-clear').style.display = 'inline-block';
+      // Parse headers and auto-suggest instructions
+      await _updateInstructionsHint(file);
+    });
+  }
+
+  // Reference images input
+  const refImagesInput = document.getElementById('ref-images-input');
+  if (refImagesInput) {
+    refImagesInput.addEventListener('change', e => {
+      const files = Array.from(e.target.files || []);
+      files.forEach(file => {
+        if (!file.type.startsWith('image/')) return;
+        _refImageFiles.push(file);
+        _addRefImagePreview(file, _refImageFiles.length - 1);
+      });
+      e.target.value = ''; // reset so same file can be re-added
     });
   }
 
