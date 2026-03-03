@@ -133,6 +133,9 @@
     .insight-body  { font-size: 12px; color: #7b8499; line-height: 1.6; }
     .insight-action{ font-size: 11px; color: #4a5680; margin-top: 7px; font-style: italic; }
 
+    /* ── HEIGHT HELPERS ── */
+    .h560 { height: 560px; } .h700 { height: 700px; }
+
     /* ── LOADING STATE ── */
     #state-loading { display: flex; align-items: center; justify-content: center; min-height: 60vh; }
     .state-card { text-align: center; }
@@ -140,6 +143,88 @@
     .state-title { font-size: 18px; font-weight: 700; color: #e8ecf4; }
     .state-sub   { font-size: 13px; color: #5b6b8a; margin-top: 6px; }
     .state-link  { display: inline-block; margin-top: 14px; padding: 9px 22px; background: #3b82f6; color: #fff; border-radius: 7px; text-decoration: none; font-weight: 700; font-size: 13px; }
+
+    /* ── SEARCHABLE DROPDOWN (Customer) ── */
+    .csdrop { position: relative; }
+    .csdrop-trigger {
+      display: flex; align-items: center; gap: 6px; padding: 4px 9px;
+      border: 1px solid #1e2840; border-radius: 6px; font-size: 11.5px;
+      color: #c8d4e8; background: #161d30; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; white-space: nowrap; min-width: 160px; max-width: 240px;
+    }
+    .csdrop-trigger:hover { border-color: #3b82f6; }
+    .csdrop-trigger span { flex: 1; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+    .csdrop-arrow { opacity: .5; font-size: 8px; flex-shrink: 0; }
+    .csdrop-panel {
+      position: absolute; top: calc(100% + 4px); left: 0; z-index: 999;
+      background: #0f1523; border: 1px solid #1e2840; border-radius: 8px;
+      width: 260px; box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    }
+    .csdrop-search-row { padding: 8px 8px 6px; border-bottom: 1px solid #1a2236; }
+    .csdrop-search {
+      width: 100%; padding: 5px 9px; border: 1px solid #1e2840; border-radius: 5px;
+      background: #161d30; color: #c8d4e8; font-size: 11.5px; outline: none;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .csdrop-search:focus { border-color: #3b82f6; }
+    .csdrop-list { max-height: 240px; overflow-y: auto; }
+    .csdrop-opt {
+      padding: 6px 12px; font-size: 11.5px; color: #9aa5bc; cursor: pointer;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .csdrop-opt:hover { background: #161d30; color: #e8ecf4; }
+    .csdrop-opt.selected { color: #3b82f6; font-weight: 700; }
+
+    /* ── LIGHT MODE OVERRIDES ── */
+    body.light { background: #f0f4f8 !important; color: #1a2236 !important; }
+    body.light .topbar { background: #ffffff !important; border-bottom: 1px solid #e2e8f0 !important; }
+    body.light .topbar a, body.light .topbar-nav a,
+    body.light .nav-dropdown-btn, body.light .logo-brand { color: #1a2236 !important; }
+    body.light .logo-tagline { color: #64748b !important; }
+    body.light .nav-dropdown-menu { background: #ffffff !important; border-color: #e2e8f0 !important; }
+    body.light .nav-dropdown-menu a { color: #475569 !important; }
+    body.light .nav-dropdown-menu a:hover { background: #f1f5f9 !important; color: #1a2236 !important; }
+    body.light .btn-theme, body.light .btn-logout { background: #f1f5f9 !important; color: #475569 !important; border-color: #e2e8f0 !important; }
+    body.light .topbar-search-input { background: #f1f5f9 !important; border-color: #e2e8f0 !important; color: #1a2236 !important; }
+    body.light #user-name, body.light .user-email { color: #1a2236 !important; }
+    body.light .role-badge { background: #e2e8f0 !important; color: #475569 !important; }
+    body.light .db-header h1 { color: #1a2236 !important; }
+    body.light .db-sub { color: #64748b !important; }
+    body.light .tab-nav button { background: #e2e8f0 !important; color: #475569 !important; }
+    body.light .tab-nav button.active { background: #3b82f6 !important; color: #fff !important; }
+    body.light .tab-nav button:hover:not(.active) { background: #cbd5e1 !important; color: #1a2236 !important; }
+    body.light .filter-bar { background: #ffffff !important; border-color: #e2e8f0 !important; }
+    body.light .filter-label { color: #64748b !important; }
+    body.light .filter-select { background: #f8fafc !important; color: #1a2236 !important; border-color: #cbd5e1 !important; }
+    body.light .filter-select:focus { border-color: #3b82f6 !important; }
+    body.light .filter-reset { border-color: #cbd5e1 !important; color: #64748b !important; }
+    body.light .family-btn { border-color: #cbd5e1 !important; color: #475569 !important; background: transparent !important; }
+    body.light .family-btn.active { border-color: #3b82f6 !important; color: #3b82f6 !important; background: rgba(59,130,246,.08) !important; }
+    body.light .kpi-card { background: #ffffff !important; border-color: #e2e8f0 !important; }
+    body.light .kpi-label { color: #64748b !important; }
+    body.light .kpi-value { color: #1a2236 !important; }
+    body.light .kpi-delta { color: #64748b !important; }
+    body.light .chart-card { background: #ffffff !important; border-color: #e2e8f0 !important; }
+    body.light .chart-title { color: #1a2236 !important; }
+    body.light .chart-sub { color: #64748b !important; }
+    body.light .tbl-wrap { border-color: #e2e8f0 !important; }
+    body.light .tbl th { background: #f8fafc !important; color: #64748b !important; border-bottom-color: #e2e8f0 !important; }
+    body.light .tbl td { color: #374151 !important; border-bottom-color: #f1f5f9 !important; }
+    body.light .tbl tr:hover td { background: #f8fafc !important; }
+    body.light .section-title { color: #64748b !important; }
+    body.light .insight-card { background: #ffffff !important; border-color: #e2e8f0 !important; }
+    body.light .insight-title { color: #1a2236 !important; }
+    body.light .insight-body { color: #475569 !important; }
+    body.light .insight-action { color: #64748b !important; }
+    body.light .state-title { color: #1a2236 !important; }
+    body.light .state-sub { color: #64748b !important; }
+    body.light .csdrop-trigger { background: #f8fafc !important; border-color: #cbd5e1 !important; color: #1a2236 !important; }
+    body.light .csdrop-panel { background: #ffffff !important; border-color: #e2e8f0 !important; box-shadow: 0 8px 24px rgba(0,0,0,.12) !important; }
+    body.light .csdrop-search { background: #f8fafc !important; border-color: #cbd5e1 !important; color: #1a2236 !important; }
+    body.light .csdrop-search-row { border-bottom-color: #e2e8f0 !important; }
+    body.light .csdrop-opt { color: #475569 !important; }
+    body.light .csdrop-opt:hover { background: #f1f5f9 !important; color: #1a2236 !important; }
+    body.light .csdrop-opt.selected { color: #3b82f6 !important; }
   </style>
 </head>
 <body>
@@ -229,8 +314,20 @@
         <select class="filter-select" id="f-country" onchange="applyFilters()"><option value="">All Countries</option></select></div>
       <div class="filter-group"><span class="filter-label">TB Branch</span>
         <select class="filter-select" id="f-branch" onchange="applyFilters()"><option value="">All Branches</option></select></div>
-      <div class="filter-group"><span class="filter-label">Customer</span>
-        <select class="filter-select" id="f-customer" onchange="applyFilters()"><option value="">All Customers</option></select></div>
+      <div class="filter-group" id="csdrop-wrap">
+        <span class="filter-label">Customer</span>
+        <div class="csdrop" id="csdrop">
+          <button class="csdrop-trigger" type="button" onclick="csdropToggle()">
+            <span id="csdrop-label">All Customers</span><span class="csdrop-arrow">▼</span>
+          </button>
+          <div class="csdrop-panel" id="csdrop-panel" style="display:none;">
+            <div class="csdrop-search-row">
+              <input class="csdrop-search" id="csdrop-search" type="text" placeholder="🔍 Search customer…" oninput="csdropFilter(this.value)">
+            </div>
+            <div class="csdrop-list" id="csdrop-list"></div>
+          </div>
+        </div>
+      </div>
       <div class="filter-group"><span class="filter-label">Category</span>
         <select class="filter-select" id="f-category" onchange="applyFilters()"><option value="">All Categories</option></select></div>
       <div class="filter-group"><span class="filter-label">Sub-Cat.</span>
@@ -308,7 +405,7 @@
         <div class="section-title">Top Customers</div>
         <div class="chart-card">
           <div class="chart-sub">2024 · 2025 · 2026 YTD · BP 2026</div>
-          <div class="chart-wrap h460"><canvas id="ch-customer-bar"></canvas></div>
+          <div class="chart-wrap h700"><canvas id="ch-customer-bar"></canvas></div>
         </div>
       </div>
       <div class="section"><div id="tbl-customer"></div></div>
@@ -367,7 +464,13 @@
   ================================================================ */
   const PROJECT_SLUG = 'backpack-lugagge';
 
-  /* ── Chart.js dark defaults ── */
+  /* ── Chart.js defaults (respects light/dark) ── */
+  function isLight() { return document.body.classList.contains('light'); }
+  function chartColors() {
+    return isLight()
+      ? { text:'#64748b', grid:'#e2e8f0' }
+      : { text:'#5b6b8a', grid:'#1a2236' };
+  }
   Chart.defaults.color       = '#5b6b8a';
   Chart.defaults.borderColor = '#1a2236';
   Chart.defaults.font.family = "'DM Sans', sans-serif";
@@ -476,7 +579,11 @@
 
   /* ── type helpers ── */
   const isActual = r => { const t = norm(r[C.type]??''); return t.includes('actual')||t==='real'||t.includes('real'); };
-  const isBP     = r => { const t = norm(r[C.type]??''); return t.includes('business')||t.includes('plan')||t==='bp'; };
+  const isBP     = r => {
+    const t = norm(r[C.type]??'');
+    return t.includes('business')||t.includes('plan')||t==='bp'||
+           t.includes('budget')||t.includes('forecast')||t.includes('target')||t==='bud';
+  };
 
   /* ── data slices ── */
   const byYear = (yr, fn) => _filt.filter(r => rowYear(r) === String(yr) && fn(r));
@@ -496,12 +603,53 @@
   /* ── filter state ── */
   const F = { family:'ALL', year:'', month:'', country:'', branch:'', customer:'', category:'', subcat:'', sku:'' };
 
+  /* ── Searchable Customer Dropdown ── */
+  let _custOptions = [];
+  function csdropToggle() {
+    const panel = document.getElementById('csdrop-panel');
+    if (!panel) return;
+    const open = panel.style.display !== 'none';
+    if (open) { panel.style.display = 'none'; return; }
+    panel.style.display = 'block';
+    const inp = document.getElementById('csdrop-search');
+    if (inp) { inp.value = ''; inp.focus(); }
+    csdropFilter('');
+  }
+  function csdropFilter(q) {
+    const list = document.getElementById('csdrop-list'); if (!list) return;
+    const lower = q.toLowerCase().trim();
+    const items = lower ? _custOptions.filter(c => c.toLowerCase().includes(lower)) : _custOptions;
+    list.innerHTML = [
+      `<div class="csdrop-opt${!F.customer?' selected':''}" onclick="csdropSelect('','All Customers')">All Customers</div>`,
+      ...items.map(c => {
+        const safe = c.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+        return `<div class="csdrop-opt${norm(c)===norm(F.customer)?' selected':''}" onclick="csdropSelect('${safe}','${safe}')">${c}</div>`;
+      })
+    ].join('');
+  }
+  function csdropSelect(value, label) {
+    F.customer = value;
+    const lbl = document.getElementById('csdrop-label');
+    if (lbl) lbl.textContent = value || 'All Customers';
+    const panel = document.getElementById('csdrop-panel');
+    if (panel) panel.style.display = 'none';
+    applyFilters();
+  }
+  // Close on outside click
+  document.addEventListener('click', e => {
+    const wrap = document.getElementById('csdrop-wrap');
+    if (wrap && !wrap.contains(e.target)) {
+      const panel = document.getElementById('csdrop-panel');
+      if (panel) panel.style.display = 'none';
+    }
+  });
+
   function applyFilters() {
     F.year     = document.getElementById('f-year')?.value     || '';
     F.month    = document.getElementById('f-month')?.value    || '';
     F.country  = document.getElementById('f-country')?.value  || '';
     F.branch   = document.getElementById('f-branch')?.value   || '';
-    F.customer = document.getElementById('f-customer')?.value || '';
+    // F.customer is managed by csdropSelect()
     F.category = document.getElementById('f-category')?.value || '';
     F.subcat   = document.getElementById('f-subcat')?.value   || '';
     F.sku      = document.getElementById('f-sku')?.value      || '';
@@ -521,9 +669,14 @@
   }
 
   function resetFilters() {
-    ['f-year','f-month','f-country','f-branch','f-customer','f-category','f-subcat','f-sku']
+    ['f-year','f-month','f-country','f-branch','f-category','f-subcat','f-sku']
       .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
     Object.assign(F, { year:'', month:'', country:'', branch:'', customer:'', category:'', subcat:'', sku:'' });
+    // Reset searchable customer dropdown
+    const lbl = document.getElementById('csdrop-label');
+    if (lbl) lbl.textContent = 'All Customers';
+    const panel = document.getElementById('csdrop-panel');
+    if (panel) panel.style.display = 'none';
     _filt = F.family === 'ALL' ? [..._all] : _all.filter(r => C.family && norm(r[C.family]) === norm(F.family));
     renderTab();
   }
@@ -561,20 +714,22 @@
 
   const MN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  /* ── shared dark chart config helpers ── */
+  /* ── shared chart config helpers (light/dark aware) ── */
   function dScalesY() {
+    const cc = chartColors();
     return {
-      x: { grid:{ color:'#1a2236' }, ticks:{ color:'#5b6b8a', font:{size:10} } },
-      y: { grid:{ color:'#1a2236' }, ticks:{ color:'#5b6b8a', font:{size:10}, callback: v => fmt(v) } }
+      x: { grid:{ color:cc.grid }, ticks:{ color:cc.text, font:{size:10} } },
+      y: { grid:{ color:cc.grid }, ticks:{ color:cc.text, font:{size:10}, callback: v => fmt(v) } }
     };
   }
   function dScalesH() {
+    const cc = chartColors();
     return {
-      x: { grid:{ color:'#1a2236' }, ticks:{ color:'#5b6b8a', font:{size:9}, callback: v => fmt(v) } },
-      y: { grid:{ display:false },   ticks:{ color:'#c8d4e8', font:{size:9} } }
+      x: { grid:{ color:cc.grid }, ticks:{ color:cc.text, font:{size:9}, callback: v => fmt(v) } },
+      y: { grid:{ display:false }, ticks:{ color: isLight()?'#374151':'#c8d4e8', font:{size:9} } }
     };
   }
-  function dLegend() { return { labels:{ color:'#7b8499', boxWidth:10, font:{size:10} } }; }
+  function dLegend() { return { labels:{ color: isLight()?'#475569':'#7b8499', boxWidth:10, font:{size:10} } }; }
   function dTip(fn)  { return { callbacks:{ label: fn } }; }
 
   /* ================================================================
@@ -627,29 +782,40 @@
         <div class="kpi-delta" style="color:#4a5680;">${latestLbl}: ${fmt(lAct)}</div>
       </div>`;
 
-    /* Revenue Comparison — vertical bars + data labels */
+    /* Revenue Comparison — vertical bars + data labels
+       4 bars: Full 2024 | Full 2025 | YTD 2026 | Full Year BP 2026
+       Using full-year BP (s26b) avoids $0 when BP stored as annual totals */
     mkChart('ch-revenue-cmp', {
       type:'bar',
       data:{
-        labels:['2024','2025', latestLbl+' Real', latestLbl+' BP'],
-        datasets:[{ data:[s24,s25,lAct,lBP],
+        labels:['Full 2024','Full 2025', latestLbl+' Real', 'BP 2026 Full'],
+        datasets:[{ data:[s24, s25, lAct, s26b],
           backgroundColor:[C_2024+'cc',C_2025+'cc',C_2026+'cc',C_BP+'cc'],
           borderRadius:4, borderSkipped:false }]
       },
       options:{ responsive:true, maintainAspectRatio:false,
         plugins:{
           legend:{ display:false },
-          datalabels:{ display:true, anchor:'end', align:'top', color:'#c8d4e8', font:{size:10,weight:'700'}, formatter: v => fmt(v) },
+          datalabels:{ display:true, anchor:'end', align:'top',
+            color: isLight()?'#374151':'#c8d4e8', font:{size:10,weight:'700'}, formatter: v => fmt(v) },
           tooltip:{ callbacks:{ label: ctx => fmt(ctx.parsed.y) } }
         },
         scales: dScalesY()
       }
     });
 
-    /* Monthly Trend — line chart */
+    /* Monthly Trend — line chart.
+       For BP 2026: if data is stored as annual total (all rows in one month),
+       show a flat monthly target line (total / 12) instead. */
     function mSums(rows) {
       return Array.from({length:12}, (_,i) => sum(rows.filter(r => getMonthNum(r)===i+1), C.value) || null);
     }
+    // Detect if BP 2026 is stored monthly or as annual total
+    const bp26months = [...new Set(bp26.map(getMonthNum).filter(Boolean))];
+    const bp26IsAnnual = bp26months.length <= 1; // 0 or 1 distinct month = annual total
+    const bpMonthlyData = bp26IsAnnual
+      ? Array(12).fill(s26b > 0 ? s26b / 12 : null)   // flat monthly target
+      : mSums(bp26);                                    // real monthly breakdown
     mkChart('ch-timeline', {
       type:'line',
       data:{
@@ -658,7 +824,8 @@
           { label:'2024',    data:mSums(act24), borderColor:C_2024, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
           { label:'2025',    data:mSums(act25), borderColor:C_2025, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
           { label:'2026 YTD',data:mSums(act26), borderColor:C_2026, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
-          { label:'BP 2026', data:mSums(bp26),  borderColor:C_BP,   backgroundColor:'transparent', borderWidth:1.5, borderDash:[4,3], pointRadius:2, tension:.3 },
+          { label:'BP 2026 '+(bp26IsAnnual?'(avg/mo)':''), data:bpMonthlyData,
+            borderColor:C_BP, backgroundColor:'transparent', borderWidth:1.5, borderDash:[4,3], pointRadius:2, tension:.3 },
         ]
       },
       options:{ responsive:true, maintainAspectRatio:false,
@@ -738,27 +905,35 @@
       });
     }
 
-    /* Sub-category — horizontal bars with value + YoY labels */
+    /* Sub-category — horizontal bars with value + YoY labels (top 20) */
     if (C.subcat) {
       const scMap = aggBy(act25, r => r[C.subcat]);
-      const scs = topN(scMap, 22);
+      const scs = topN(scMap, 20);
       const scS24=scs.map(s=>sum(act24.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
       const scS25=scs.map(s=>sum(act25.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
+      const scS26=scs.map(s=>sum(act26.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
       mkChart('ch-subcat-bar', { type:'bar',
         data:{ labels:scs, datasets:[
-          {label:'2024', data:scS24, backgroundColor:C_2024+'88', borderRadius:2},
-          {label:'2025', data:scS25, backgroundColor:C_2025+'cc', borderRadius:2},
+          {label:'2024',     data:scS24, backgroundColor:C_2024+'88', borderRadius:2},
+          {label:'2025',     data:scS25, backgroundColor:C_2025+'cc', borderRadius:2},
+          {label:'2026 YTD', data:scS26, backgroundColor:C_2026+'cc', borderRadius:2},
         ]},
         options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
           plugins:{
             legend: dLegend(),
             datalabels:{
-              display: true, anchor:'end', align:'right', color:'#9aa5bc', font:{size:8,weight:'600'},
+              display: true, anchor:'end', align:'right',
+              color: isLight()?'#475569':'#9aa5bc', font:{size:8,weight:'600'},
               formatter:(v, ctx) => {
-                if (ctx.datasetIndex !== 1) return '';
-                const v24 = ctx.chart.data.datasets[0].data[ctx.dataIndex] || 0;
-                const g   = v24 ? ((v-v24)/Math.abs(v24)*100) : NaN;
-                return fmtShort(v) + (isFinite(g) ? ' ' + (g>=0?'+':'') + g.toFixed(0)+'%' : '');
+                // On 2025 bar: show value + YoY vs 2024
+                if (ctx.datasetIndex === 1) {
+                  const v24 = ctx.chart.data.datasets[0].data[ctx.dataIndex] || 0;
+                  const g   = v24 ? ((v-v24)/Math.abs(v24)*100) : NaN;
+                  return fmtShort(v) + (isFinite(g) ? ' '+(g>=0?'+':'')+g.toFixed(0)+'%' : '');
+                }
+                // On 2026 bar: show value only
+                if (ctx.datasetIndex === 2) return v > 0 ? fmtShort(v) : '';
+                return '';
               }
             },
             tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` } }
@@ -929,66 +1104,184 @@
   }
 
   /* ================================================================
-     INSIGHTS
+     INSIGHTS — rich, data-driven analysis
   ================================================================ */
   function renderInsights() {
     const act24=a(2024), act25=a(2025), act26=a(2026), bp26=b(2026);
     const s24=sum(act24,C.value), s25=sum(act25,C.value), s26=sum(act26,C.value), s26b=sum(bp26,C.value);
     const insights = [];
 
+    /* ── 1. YoY 2025 growth ── */
     const yoy25 = pct(s25,s24);
     insights.push({ type:yoy25>=0?'ok':'warn', icon:yoy25>=0?'📈':'📉',
-      title:`2025 Sales ${yoy25>=0?'Growth':'Decline'}: ${Math.abs(yoy25).toFixed(1)}% vs 2024`,
-      body:`Full-year 2025 actual: ${fmt(s25)} vs ${fmt(s24)} in 2024.`,
-      action: yoy25<0?'Investigate root causes — top declining customers and categories.':'Identify top drivers and replicate across underperforming markets.'
+      title:`2025 Revenue: ${yoy25>=0?'+':''}${yoy25.toFixed(1)}% vs 2024`,
+      body:`Full-year 2025 actual: <strong>${fmt(s25)}</strong> vs ${fmt(s24)} in 2024 — ${fmt(Math.abs(s25-s24))} ${s25>=s24?'added':'lost'}.`,
+      action: yoy25<0
+        ? `Critical: identify top declining SKUs and customers. Compare Q3-Q4 performance specifically.`
+        : `Identify the top 5 customers and SKUs driving this growth and ensure they are in the 2026 BP targets.`
     });
+
+    /* ── 2. 2026 YTD vs BP ── */
     if (s26b > 0) {
-      const gapBP = pct(s26,s26b);
-      insights.push({ type:gapBP>=0?'ok':(gapBP>-10?'info':'warn'), icon:'🎯',
-        title:`2026 YTD vs BP: ${gapBP>=0?'On Track ✅':Math.abs(gapBP).toFixed(1)+'% Below Target'}`,
-        body:`YTD actual: ${fmt(s26)} · BP: ${fmt(s26b)} · Gap: ${fmt(s26-s26b)}.`,
-        action: gapBP<0?'Review pipeline. Prioritise BP accounts underperforming.':'Maintain momentum and update full-year forecast upward.'
+      const gapBP = pct(s26, s26b);
+      const gapAbs = s26 - s26b;
+      // Pro-rated BP: how much of the full year BP should have been achieved by now?
+      const latestMon2 = [...new Set(act26.map(getMonthNum).filter(Boolean))].sort((a,b)=>b-a)[0] || 1;
+      const proratedBP = s26b * (latestMon2 / 12);
+      const gapProrated = pct(s26, proratedBP);
+      insights.push({ type:gapProrated>=0?'ok':(gapProrated>-20?'info':'warn'), icon:'🎯',
+        title:`2026 YTD (${MN[latestMon2-1]}): ${gapProrated>=0?'✅ On Track':Math.abs(gapProrated).toFixed(1)+'% Below Pro-Rated Target'}`,
+        body:`Actual: <strong>${fmt(s26)}</strong> · Pro-rated BP: ${fmt(proratedBP)} · Full-Year BP: ${fmt(s26b)}. Gap vs pro-rated: ${fmt(gapAbs)}.`,
+        action: gapProrated < -10
+          ? `Urgent: ${Math.abs(gapProrated).toFixed(0)}% behind pace. Focus on your top 5 BP customers not yet active in 2026 and push Q2 orders forward.`
+          : `Ahead of pace. Forecast Q2-Q4 acceleration and update full-year estimate upward.`
       });
     }
+
+    /* ── 3. Best & worst category 2025 ── */
     if (C.category) {
-      const cats = [...new Set(act25.map(r=>r[C.category]).filter(Boolean))];
-      const catG = cats.map(c => ({ c, s25:sum(act25.filter(r=>norm(r[C.category])===norm(c)),C.value), s24:sum(act24.filter(r=>norm(r[C.category])===norm(c)),C.value) }))
-        .map(x=>({...x, g:pct(x.s25,x.s24)})).filter(x=>isFinite(x.g)).sort((a,b)=>b.g-a.g);
-      if (catG.length) {
+      const cats = [...new Set([...act24,...act25].map(r=>r[C.category]).filter(Boolean))];
+      const catG = cats.map(c => ({
+        c,
+        s25: sum(act25.filter(r=>norm(r[C.category])===norm(c)), C.value),
+        s24: sum(act24.filter(r=>norm(r[C.category])===norm(c)), C.value)
+      })).filter(x => x.s25 > 0).map(x=>({...x, g:pct(x.s25,x.s24||0)}))
+        .filter(x=>isFinite(x.g)).sort((a,b)=>b.g-a.g);
+      if (catG.length >= 2) {
         const best=catG[0], worst=catG[catG.length-1];
-        insights.push({ type:'ok', icon:'🏆', title:`Best Category 2025: ${best.c} (+${best.g.toFixed(1)}%)`,
-          body:`${best.c} grew ${best.g.toFixed(1)}% in 2025 (${fmt(best.s25)} vs ${fmt(best.s24)}).`,
-          action:'Increase allocation and range depth in this category for 2026.' });
-        if (worst.g < -5) insights.push({ type:'warn', icon:'⚠️', title:`Declining: ${worst.c} (${worst.g.toFixed(1)}%)`,
-          body:`${worst.c} fell ${Math.abs(worst.g).toFixed(1)}% in 2025.`,
-          action:'Review pricing, product assortment and competitive positioning.' });
+        insights.push({ type:'ok', icon:'🏆',
+          title:`Best Category 2025: ${best.c} (+${best.g.toFixed(0)}%)`,
+          body:`${best.c}: <strong>${fmt(best.s25)}</strong> in 2025 vs ${fmt(best.s24)} in 2024. Represents ${((best.s25/s25)*100).toFixed(0)}% of total 2025 revenue.`,
+          action:`Prioritise this category in 2026 range planning. Ensure top-performing SKUs have sufficient stock and distribution coverage.`
+        });
+        if (worst.g < -5) insights.push({ type:'warn', icon:'⚠️',
+          title:`Declining Category: ${worst.c} (${worst.g.toFixed(0)}% vs 2024)`,
+          body:`${worst.c}: <strong>${fmt(worst.s25)}</strong> in 2025 vs ${fmt(worst.s24)} in 2024. Lost ${fmt(Math.abs(worst.s25-worst.s24))}.`,
+          action:`Investigate: price competitiveness, channel fit, and product relevance. Consider if this category should be included in 2026 BP or if resources should be reallocated.`
+        });
       }
     }
+
+    /* ── 4. Product × Region opportunity ── */
+    if (C.subcat && C.branch) {
+      const branches = [...new Set(act25.map(r=>r[C.branch]).filter(Boolean))];
+      const subcats  = [...new Set(act25.map(r=>r[C.subcat]).filter(Boolean))];
+      // For each subcat, find branches where it's present vs absent
+      let bestOpp = null, bestScore = 0;
+      subcats.forEach(sc => {
+        const scRows = act25.filter(r=>norm(r[C.subcat])===norm(sc));
+        const scTotal = sum(scRows, C.value);
+        if (scTotal < 500) return; // ignore tiny subcats
+        const brSales = branches.map(br => ({
+          br,
+          val: sum(scRows.filter(r=>norm(r[C.branch])===norm(br)), C.value)
+        }));
+        const nonZero = brSales.filter(x=>x.val>0);
+        const zero    = brSales.filter(x=>x.val===0);
+        if (nonZero.length >= 1 && zero.length >= 1) {
+          const topBr = nonZero.sort((a,b)=>b.val-a.val)[0];
+          const score = topBr.val * zero.length;
+          if (score > bestScore) {
+            bestScore = score;
+            bestOpp = { sc, topBr: topBr.br, topVal: topBr.val, missing: zero.map(x=>x.br).slice(0,3) };
+          }
+        }
+      });
+      if (bestOpp) insights.push({ type:'info', icon:'🌐',
+        title:`Regional Opportunity: ${bestOpp.sc}`,
+        body:`${bestOpp.sc} sells <strong>${fmt(bestOpp.topVal)}</strong> in ${bestOpp.topBr}, but has <strong>$0 or negligible sales</strong> in: ${bestOpp.missing.join(', ')}.`,
+        action:`Explore why ${bestOpp.sc} doesn't reach these branches. Share the ${bestOpp.topBr} playbook with regional managers and target these branches in 2026 with a launch plan.`
+      });
+    }
+
+    /* ── 5. Customers at risk (declining in 2026 vs pace) ── */
+    if (C.customer && act26.length > 0) {
+      const latestMon3 = [...new Set(act26.map(getMonthNum).filter(Boolean))].sort((a,b)=>b-a)[0] || 1;
+      const custs = [...new Set(act25.map(r=>r[C.customer]).filter(Boolean))];
+      const atRisk = custs.map(c => {
+        const v25 = sum(act25.filter(r=>norm(r[C.customer])===norm(c)), C.value);
+        const v26 = sum(act26.filter(r=>norm(r[C.customer])===norm(c)), C.value);
+        const v25pace = v25 * (latestMon3/12); // pro-rated 2025
+        return { c, v25, v26, v25pace, gap: pct(v26, v25pace) };
+      }).filter(x => x.v25 > 1000 && x.gap < -30) // significant 2025 revenue and >30% behind pace
+        .sort((a,b) => a.gap - b.gap).slice(0,3);
+      if (atRisk.length > 0) insights.push({ type:'warn', icon:'🚨',
+        title:`${atRisk.length} Key Customer${atRisk.length>1?'s':''} Falling Behind 2026 Pace`,
+        body:`Customers significantly below their 2025 pro-rated pace: <strong>${atRisk.map(x=>`${x.c} (${x.gap.toFixed(0)}%)`).join(' · ')}</strong>.`,
+        action:`Schedule calls with these accounts in the next 30 days. Understand blockers (order timing, product availability, competition) and offer support to accelerate 2026 activity.`
+      });
+    }
+
+    /* ── 6. New customer momentum ── */
+    if (C.customer) {
+      const newCusts = [...new Set(act25.map(r=>r[C.customer]).filter(Boolean))]
+        .map(c => ({
+          c,
+          v24: sum(act24.filter(r=>norm(r[C.customer])===norm(c)), C.value),
+          v25: sum(act25.filter(r=>norm(r[C.customer])===norm(c)), C.value)
+        }))
+        .filter(x => x.v24 < 200 && x.v25 > 2000) // near-zero in 2024, meaningful in 2025
+        .sort((a,b)=>b.v25-a.v25).slice(0,3);
+      if (newCusts.length > 0) insights.push({ type:'ok', icon:'⭐',
+        title:`${newCusts.length} Emerging Customer${newCusts.length>1?'s':''} to Watch`,
+        body:`New or reactivated accounts with strong 2025 entry: <strong>${newCusts.map(x=>`${x.c} (${fmt(x.v25)})`).join(' · ')}</strong>.`,
+        action:`Nurture these accounts in 2026 with dedicated account plans and BP targets. Fast-growing new customers often become top 10 accounts within 2 years if proactively managed.`
+      });
+    }
+
+    /* ── 7. Family mix ── */
     if (C.family) {
       const bpS=sum(act25.filter(r=>norm(r[C.family]).includes('backpack')),C.value);
       const lgS=sum(act25.filter(r=>norm(r[C.family]).includes('luggage')),C.value);
       const tot=bpS+lgS||1;
-      insights.push({ type:'info', icon:'🧳', title:`2025 Mix: Backpacks ${((bpS/tot)*100).toFixed(0)}% / Luggage ${((lgS/tot)*100).toFixed(0)}%`,
-        body:`Backpacks: ${fmt(bpS)} · Luggage: ${fmt(lgS)} in 2025 actual sales.`,
-        action:'Align product development and marketing budget with the higher-revenue category.' });
+      const bpPct=((bpS/tot)*100), lgPct=((lgS/tot)*100);
+      const bpS26=sum(act26.filter(r=>norm(r[C.family]).includes('backpack')),C.value);
+      const lgS26=sum(act26.filter(r=>norm(r[C.family]).includes('luggage')),C.value);
+      const tot26=bpS26+lgS26||1;
+      insights.push({ type:'info', icon:'🧳',
+        title:`Product Mix: Backpacks ${bpPct.toFixed(0)}% · Luggage ${lgPct.toFixed(0)}% (2025)`,
+        body:`2025: Backpacks ${fmt(bpS)} · Luggage ${fmt(lgS)}. In 2026 YTD: Backpacks ${((bpS26/tot26)*100).toFixed(0)}% · Luggage ${((lgS26/tot26)*100).toFixed(0)}%.`,
+        action: bpPct > 75
+          ? `Heavy backpack dependency. Diversify by running luggage-specific promotions in 2026 to balance the portfolio and reduce category risk.`
+          : lgPct > 75
+            ? `Luggage dominates. Evaluate backpack SKU assortment and whether the range meets customer needs.`
+            : `Healthy mix. Maintain investment proportional to margin contribution — check which family has higher gross margin and favour it in BP growth targets.`
+      });
     }
+
+    /* ── 8. Top market & fastest-growing market ── */
     if (C.country) {
-      const ctAgg25 = aggBy(act25, r=>r[C.country]), ctAgg24 = aggBy(act24, r=>r[C.country]);
-      const topCt = Object.entries(ctAgg25).sort((a,b)=>b[1]-a[1])[0];
-      if (topCt) {
-        const share=(topCt[1]/(sum(act25,C.value)||1))*100, yoy=pct(topCt[1],ctAgg24[topCt[0]]||0);
-        insights.push({ type:'info', icon:'🌍', title:`Top Market: ${topCt[0]} — ${share.toFixed(0)}% of 2025`,
-          body:`${topCt[0]}: ${fmt(topCt[1])} in 2025${isFinite(yoy)?' ('+Math.abs(yoy).toFixed(1)+'% '+(yoy>=0?'growth':'decline')+' vs 2024)':''}.`,
-          action:'Protect top market while identifying next growth market to prioritise.' });
+      const ctAgg25 = aggBy(act25, r=>r[C.country]);
+      const ctAgg24 = aggBy(act24, r=>r[C.country]);
+      const sorted = Object.entries(ctAgg25).sort((a,b)=>b[1]-a[1]);
+      if (sorted.length > 0) {
+        const [topCt, topVal] = sorted[0];
+        const share = (topVal/(s25||1))*100;
+        const topYoY = pct(topVal, ctAgg24[topCt]||0);
+        // Fastest growing market (min $500 in 2024 to avoid base-effect distortion)
+        const growing = sorted.filter(([c]) => (ctAgg24[c]||0) > 500)
+          .map(([c,v]) => ({ c, v, g: pct(v, ctAgg24[c]) }))
+          .filter(x=>isFinite(x.g)).sort((a,b)=>b.g-a.g);
+        const fastest = growing.find(x => x.c !== topCt);
+        insights.push({ type:'info', icon:'🌍',
+          title:`Top Market: ${topCt} (${share.toFixed(0)}% of 2025 Revenue)`,
+          body:`${topCt}: <strong>${fmt(topVal)}</strong> in 2025${isFinite(topYoY)?' ('+Math.abs(topYoY).toFixed(0)+'% '+(topYoY>=0?'▲':'▼')+' vs 2024)':''}. ${fastest?`Fastest growing (non-#1): ${fastest.c} (+${fastest.g.toFixed(0)}%, ${fmt(fastest.v)}).`:''}`,
+          action: share > 50
+            ? `High concentration risk: ${topCt} is over 50% of revenue. Build BP targets in 2nd and 3rd markets (${sorted.slice(1,3).map(([c])=>c).join(', ')}) to reduce dependency.`
+            : `Protect ${topCt} and replicate its success model${fastest?` in ${fastest.c}`:''}. Create a structured market entry plan for untapped regions.`
+        });
       }
     }
-    document.getElementById('insights-grid').innerHTML = insights.map(ins=>`
-      <div class="insight-card ${ins.type}">
-        <div class="insight-icon">${ins.icon}</div>
-        <div class="insight-title">${ins.title}</div>
-        <div class="insight-body">${ins.body}</div>
-        <div class="insight-action">→ ${ins.action}</div>
-      </div>`).join('') || '<div style="color:#4a5680;padding:40px;text-align:center;">No data available.</div>';
+
+    document.getElementById('insights-grid').innerHTML = insights.length
+      ? insights.map(ins=>`
+          <div class="insight-card ${ins.type}">
+            <div class="insight-icon">${ins.icon}</div>
+            <div class="insight-title">${ins.title}</div>
+            <div class="insight-body">${ins.body}</div>
+            <div class="insight-action">→ ${ins.action}</div>
+          </div>`).join('')
+      : '<div style="color:#4a5680;padding:40px;text-align:center;">No data available.</div>';
   }
 
   /* ================================================================
@@ -1018,10 +1311,12 @@
     fill('f-month',    months, monthLabel);
     fill('f-country',  countries);
     fill('f-branch',   branches);
-    fill('f-customer', customers);
     fill('f-category', cats);
     fill('f-subcat',   subcats);
     fill('f-sku',      skus);
+    // Populate searchable customer dropdown
+    _custOptions = customers;
+    csdropFilter('');
   }
 
   /* ================================================================
