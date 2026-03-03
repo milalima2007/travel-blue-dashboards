@@ -69,10 +69,34 @@ const CSVUpload = (() => {
     return types;
   }
 
-  /* ---- Detect composite key: all non-numeric columns ---- */
-  function detectCompositeKey(types) {
+  /* ---- Detect composite key: all non-numeric columns + dimensional numerics ----
+     Numeric columns are split into two categories:
+       • Dimensions  (month 1-12, year 1900-2100, small integer codes) → INCLUDED in key
+       • Measures    (revenue, quantity, cost, etc.)                   → EXCLUDED from key
+     This prevents UPSERT collapsing monthly rows that differ only by month number.
+  ---- */
+  function detectCompositeKey(types, records) {
     const keys = Object.entries(types)
-      .filter(([, t]) => t !== 'numeric')
+      .filter(([col, t]) => {
+        if (t !== 'numeric') return true; // always include non-numeric (date, categorical)
+
+        // For numeric columns: check if it looks like a DIMENSION (month/year/code)
+        // rather than a MEASURE (amount, quantity).
+        if (!records?.length) return false;
+        const vals = records
+          .map(r => parseFloat(String(r[col] ?? '').replace(/[$€£,\s]/g, '')))
+          .filter(v => !isNaN(v) && isFinite(v));
+        if (!vals.length) return false;
+        const min = Math.min(...vals), max = Math.max(...vals);
+        const allIntegers = vals.every(v => v === Math.round(v));
+
+        // Month-like: integer values 1–12 only
+        if (allIntegers && min >= 1 && max <= 12) return true;
+        // Year-like: integer values 1900–2100 only
+        if (allIntegers && min >= 1900 && max <= 2100) return true;
+
+        return false; // genuine measure → exclude from key
+      })
       .map(([col]) => col);
     return keys.length ? keys : [Object.keys(types)[0]];
   }
@@ -198,7 +222,7 @@ const CSVUpload = (() => {
     if (!records.length) throw new Error('The CSV file is empty.');
 
     const types   = detectColumnTypes(records);
-    const keys    = detectCompositeKey(types);
+    const keys    = detectCompositeKey(types, records); // pass records to detect dimensional numerics
     const diff    = await compareWithExisting(projectSlug, records, keys);
     const batchId = 'batch_' + Date.now();
 
