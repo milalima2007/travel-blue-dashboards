@@ -5,96 +5,141 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Travel Blue | Backpack &amp; Luggage Sales</title>
+  <title>Travel Blue | Backpack &amp; Luggage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css" />
   <style>
-    /* ── Filter Bar ── */
+    /* ── DARK DASHBOARD THEME ── */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      background: #070b14 !important;
+      color: #e8ecf4 !important;
+      font-family: 'DM Sans', sans-serif !important;
+    }
+
+    /* Topbar dark override */
+    .topbar { background: #0a0f1e !important; border-bottom: 1px solid #1a2236 !important; }
+    .topbar a, .topbar-nav a, .nav-dropdown-btn, .logo-brand { color: #c8d4e8 !important; }
+    .logo-tagline { color: #5b6b8a !important; }
+    .nav-dropdown-menu { background: #0f1523 !important; border-color: #1e2840 !important; }
+    .nav-dropdown-menu a { color: #9aa5bc !important; }
+    .nav-dropdown-menu a:hover { background: #161d30 !important; color: #e8ecf4 !important; }
+    .btn-theme, .btn-logout {
+      background: #161d30 !important; color: #9aa5bc !important; border: 1px solid #1e2840 !important;
+    }
+    .topbar-search-input { background: #161d30 !important; border-color: #1e2840 !important; color: #c8d4e8 !important; }
+    #user-name, .user-email { color: #c8d4e8 !important; }
+    .role-badge { background: #1e2840 !important; color: #9aa5bc !important; }
+
+    /* ── DB HEADER ── */
+    .db-header { padding: 16px 24px 0; }
+    .db-header h1 { font-size: 19px; font-weight: 800; color: #e8ecf4; line-height: 1.2; }
+    .db-header h1 span { color: #3b82f6; }
+    .db-sub { font-size: 10.5px; font-weight: 600; color: #5b6b8a; text-transform: uppercase; letter-spacing: .07em; margin-top: 3px; }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; padding: 10px 24px 0; overflow-x: auto; }
+    .tab-nav button {
+      padding: 7px 16px; font-size: 12.5px; font-weight: 600; border: none; border-radius: 6px;
+      cursor: pointer; background: #161d30; color: #7b8499; transition: .15s; white-space: nowrap;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .tab-nav button:hover { background: #1e2840; color: #e8ecf4; }
+    .tab-nav button.active { background: #3b82f6; color: #fff; }
+
+    /* ── FILTER BAR ── */
     .filter-bar {
-      background: var(--card); border-bottom: 1.5px solid var(--gray-light);
-      padding: 10px 28px; display: flex; flex-wrap: wrap; gap: 8px;
-      align-items: center; position: sticky; top: 60px; z-index: 90;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      padding: 9px 24px; background: #0a0f1e; border-bottom: 1px solid #1a2236;
+      border-top: 1px solid #1a2236; margin-top: 8px;
     }
-    .filter-select {
-      padding: 5px 10px; border: 1.5px solid var(--gray-light);
-      border-radius: 7px; font-size: 12px; color: var(--text);
-      background: var(--bg); outline: none; cursor: pointer; max-width: 140px;
-    }
-    .filter-select:focus { border-color: var(--navy); }
-    .filter-label { font-size: 10.5px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
     .filter-group { display: flex; align-items: center; gap: 5px; }
-    .filter-reset { padding: 5px 11px; background: none; border: 1.5px solid var(--gray-light); border-radius: 7px; font-size: 12px; color: var(--gray); cursor: pointer; }
-    .filter-reset:hover { border-color: var(--navy); color: var(--navy); }
+    .filter-label { font-size: 9.5px; font-weight: 700; color: #4a5680; text-transform: uppercase; letter-spacing: .07em; white-space: nowrap; }
+    .filter-select {
+      padding: 4px 9px; border: 1px solid #1e2840; border-radius: 6px; font-size: 11.5px;
+      color: #c8d4e8; background: #161d30; outline: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    }
+    .filter-select:focus { border-color: #3b82f6; }
+    .filter-reset {
+      padding: 4px 11px; background: none; border: 1px solid #1e2840; border-radius: 6px;
+      font-size: 11px; color: #4a5680; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    }
+    .filter-reset:hover { border-color: #3b82f6; color: #3b82f6; }
 
-    /* ── Family Toggle ── */
-    .family-toggle { display: flex; border-radius: 8px; overflow: hidden; border: 2px solid var(--navy); }
-    .family-btn { padding: 5px 16px; font-size: 12px; font-weight: 700; border: none; cursor: pointer; background: transparent; color: var(--navy); transition: background .15s, color .15s; }
-    .family-btn.active { background: var(--navy); color: #fff; }
+    /* ── FAMILY TOGGLE ── */
+    .family-toggle { display: flex; gap: 3px; }
+    .family-btn {
+      padding: 4px 13px; font-size: 11.5px; font-weight: 600; border-radius: 6px;
+      border: 1.5px solid #1e2840; cursor: pointer; background: transparent;
+      color: #7b8499; transition: .15s; font-family: 'DM Sans', sans-serif;
+    }
+    .family-btn.active { border-color: #3b82f6; color: #3b82f6; background: rgba(59,130,246,.1); }
+    .family-btn:hover:not(.active) { border-color: #2a3654; color: #c8d4e8; }
 
-    /* ── Tabs ── */
-    .dash-tabs { display: flex; gap: 2px; padding: 18px 28px 0; border-bottom: 2px solid var(--gray-light); overflow-x: auto; }
-    .dash-tab { padding: 9px 20px; font-size: 13px; font-weight: 600; color: var(--gray); border: none; background: none; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: color .15s; }
-    .dash-tab:hover { color: var(--navy); }
-    .dash-tab.active { color: var(--navy); border-bottom-color: var(--navy); }
-
-    /* ── Tab Pages ── */
-    .tab-page { display: none; padding: 24px 28px 48px; }
+    /* ── CONTENT ── */
+    .tab-page { display: none; padding: 16px 24px 56px; }
     .tab-page.active { display: block; }
 
-    /* ── Section ── */
-    .section { margin-bottom: 30px; }
-    .section-title { font-size: 12.5px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 14px; padding-bottom: 7px; border-bottom: 2px solid var(--gray-light); }
+    /* ── SECTION ── */
+    .section { margin-bottom: 20px; }
+    .section-title { font-size: 10.5px; font-weight: 700; color: #4a5680; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
 
-    /* ── KPI Cards ── */
-    .kpi-grid { display: flex; gap: 14px; flex-wrap: wrap; }
-    .kpi-card { flex: 1; min-width: 160px; background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); border-top: 3px solid var(--navy); }
-    .kpi-card.bp { border-top-color: #FFC72C; }
-    .kpi-label { font-size: 10.5px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
-    .kpi-value { font-size: 22px; font-weight: 800; color: var(--navy); line-height: 1.1; }
-    .kpi-delta { font-size: 11.5px; margin-top: 5px; color: var(--text); }
-    .green { color: #27AE60; font-weight: 700; }
-    .red   { color: #E74C3C; font-weight: 700; }
+    /* ── KPI GRID ── */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 8px; margin-bottom: 16px; }
+    .kpi-card { background: #0f1523; border-radius: 8px; padding: 13px 15px; border: 1px solid #1a2236; }
+    .kpi-label { font-size: 9px; font-weight: 700; color: #4a5680; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 5px; }
+    .kpi-value { font-size: 21px; font-weight: 800; color: #e8ecf4; line-height: 1.1; }
+    .kpi-delta { font-size: 11px; margin-top: 4px; color: #5b6b8a; }
+    .kpi-delta .pos { color: #22c55e; font-weight: 700; }
+    .kpi-delta .neg { color: #ff4d6d; font-weight: 700; }
+    .kpi-delta .warn { color: #ff4d6d; }
 
-    /* ── Charts ── */
-    .charts-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 18px; }
-    .chart-card { background: var(--card); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }
-    .chart-card.full { grid-column: 1 / -1; }
-    .chart-title { font-size: 12.5px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+    /* ── CHART CARDS ── */
+    .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 10px; }
+    .charts-grid.col3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .charts-grid.col1 { grid-template-columns: 1fr; }
+    .chart-card { background: #0f1523; border-radius: 8px; padding: 15px 17px; border: 1px solid #1a2236; }
+    .chart-title { font-size: 13px; font-weight: 700; color: #e8ecf4; margin-bottom: 1px; }
+    .chart-sub { font-size: 10px; color: #4a5680; margin-bottom: 11px; }
     .chart-wrap { position: relative; }
-    .h240 { height: 240px; } .h320 { height: 320px; } .h400 { height: 400px; }
+    .h200 { height: 200px; } .h240 { height: 240px; } .h280 { height: 280px; }
+    .h340 { height: 340px; } .h400 { height: 400px; } .h460 { height: 460px; }
 
-    /* ── Tables ── */
-    .tbl-wrap { overflow-x: auto; border-radius: var(--radius); box-shadow: var(--shadow); }
-    .tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
-    .tbl th { background: var(--navy); color: #fff; padding: 8px 11px; text-align: left; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    /* ── DARK TABLE ── */
+    .tbl-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid #1a2236; }
+    .tbl { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+    .tbl th {
+      background: #161d30; color: #5b6b8a; padding: 9px 12px;
+      text-align: left; font-size: 9.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .05em; white-space: nowrap;
+      border-bottom: 1px solid #1e2840;
+    }
     .tbl th.r, .tbl td.r { text-align: right; }
-    .tbl td { padding: 7px 11px; border-bottom: 1px solid var(--gray-light); color: var(--text); white-space: nowrap; }
-    .tbl tr:nth-child(even) td { background: rgba(27,42,107,.02); }
-    .tbl tr:hover td { background: rgba(27,42,107,.06); }
-    .pp { color: #27AE60; font-weight: 700; }
-    .pn { color: #E74C3C; font-weight: 700; }
+    .tbl td { padding: 7px 12px; border-bottom: 1px solid #0d1321; color: #b0bcd0; white-space: nowrap; }
+    .tbl tr:last-child td { border-bottom: none; }
+    .tbl tr:hover td { background: #111827; }
+    .pp { background: rgba(34,197,94,.15) !important; color: #22c55e !important; font-weight: 700; }
+    .pn { background: rgba(255,77,109,.15) !important; color: #ff4d6d !important; font-weight: 700; }
 
-    /* ── Insights ── */
-    .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
-    .insight-card { background: var(--card); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); border-left: 4px solid var(--navy); }
-    .insight-card.warn { border-left-color: #E74C3C; }
-    .insight-card.ok   { border-left-color: #27AE60; }
-    .insight-card.info { border-left-color: #FFC72C; }
-    .insight-icon  { font-size: 22px; margin-bottom: 6px; }
-    .insight-title { font-size: 13.5px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
-    .insight-body  { font-size: 12.5px; color: var(--text); line-height: 1.6; }
-    .insight-action { font-size: 11.5px; color: var(--gray); margin-top: 8px; font-style: italic; }
+    /* ── INSIGHTS ── */
+    .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+    .insight-card { background: #0f1523; border-radius: 8px; padding: 15px 17px; border: 1px solid #1a2236; border-left: 3px solid #3b82f6; }
+    .insight-card.warn { border-left-color: #ff4d6d; }
+    .insight-card.ok   { border-left-color: #22c55e; }
+    .insight-card.info { border-left-color: #ffc72c; }
+    .insight-icon  { font-size: 19px; margin-bottom: 5px; }
+    .insight-title { font-size: 13px; font-weight: 700; color: #e8ecf4; margin-bottom: 5px; }
+    .insight-body  { font-size: 12px; color: #7b8499; line-height: 1.6; }
+    .insight-action{ font-size: 11px; color: #4a5680; margin-top: 7px; font-style: italic; }
 
-    /* ── State ── */
-    .state-card { text-align: center; padding: 60px 24px; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
-    .state-icon  { font-size: 48px; margin-bottom: 12px; }
-    .state-title { font-size: 20px; font-weight: 700; color: var(--navy); }
-    .state-sub   { font-size: 14px; color: var(--gray); margin-top: 8px; }
-
-    /* Dark mode */
-    body.dark .family-btn        { color: #8ab4f8; }
-    body.dark .family-btn.active { background: #4a6fa8; color: #fff; }
-    body.dark .family-toggle     { border-color: #4a6fa8; }
+    /* ── LOADING STATE ── */
+    #state-loading { display: flex; align-items: center; justify-content: center; min-height: 60vh; }
+    .state-card { text-align: center; }
+    .state-icon  { font-size: 40px; margin-bottom: 12px; }
+    .state-title { font-size: 18px; font-weight: 700; color: #e8ecf4; }
+    .state-sub   { font-size: 13px; color: #5b6b8a; margin-top: 6px; }
+    .state-link  { display: inline-block; margin-top: 14px; padding: 9px 22px; background: #3b82f6; color: #fff; border-radius: 7px; text-decoration: none; font-weight: 700; font-size: 13px; }
   </style>
 </head>
 <body>
@@ -142,14 +187,8 @@
     </div>
   </header>
 
-  <!-- BANNER -->
-  <section class="page-banner">
-    <h1>Backpack <span>&amp; Luggage</span></h1>
-    <p>Sales &amp; Business Plan Analysis — CUSTOMERS only</p>
-  </section>
-
   <!-- LOADING -->
-  <div id="state-loading" class="tab-page active" style="padding:32px;">
+  <div id="state-loading">
     <div class="state-card">
       <div class="state-icon">⏳</div>
       <div class="state-title">Loading dashboard…</div>
@@ -157,174 +196,195 @@
     </div>
   </div>
 
-  <!-- FILTER BAR (hidden until data loads) -->
-  <div class="filter-bar" id="filter-bar" style="display:none;">
-    <div class="family-toggle">
-      <button class="family-btn active" id="btn-all" onclick="setFamily('ALL')">All</button>
-      <button class="family-btn" id="btn-bp"  onclick="setFamily('BACKPACKS')">Backpacks</button>
-      <button class="family-btn" id="btn-lg"  onclick="setFamily('LUGGAGE')">Luggage</button>
-    </div>
-    <div class="filter-group"><span class="filter-label">Year</span>
-      <select class="filter-select" id="f-year" onchange="applyFilters()"><option value="">All Years</option></select></div>
-    <div class="filter-group"><span class="filter-label">Month</span>
-      <select class="filter-select" id="f-month" onchange="applyFilters()"><option value="">All Months</option></select></div>
-    <div class="filter-group"><span class="filter-label">Country</span>
-      <select class="filter-select" id="f-country" onchange="applyFilters()"><option value="">All Countries</option></select></div>
-    <div class="filter-group"><span class="filter-label">TB Branch</span>
-      <select class="filter-select" id="f-branch" onchange="applyFilters()"><option value="">All Branches</option></select></div>
-    <div class="filter-group"><span class="filter-label">Customer</span>
-      <select class="filter-select" id="f-customer" onchange="applyFilters()"><option value="">All Customers</option></select></div>
-    <div class="filter-group"><span class="filter-label">Family</span>
-      <select class="filter-select" id="f-family-sel" onchange="applyFilters()"><option value="">All Families</option></select></div>
-    <div class="filter-group"><span class="filter-label">Category</span>
-      <select class="filter-select" id="f-category" onchange="applyFilters()"><option value="">All Categories</option></select></div>
-    <div class="filter-group"><span class="filter-label">Sub-Cat.</span>
-      <select class="filter-select" id="f-subcat" onchange="applyFilters()"><option value="">All Sub-Cat.</option></select></div>
-    <div class="filter-group"><span class="filter-label">SKU</span>
-      <select class="filter-select" id="f-sku" onchange="applyFilters()"><option value="">All SKUs</option></select></div>
-    <button class="filter-reset" onclick="resetFilters()">✕ Reset</button>
-  </div>
+  <!-- DASHBOARD (hidden until loaded) -->
+  <div id="dash-wrap" style="display:none;">
 
-  <!-- TABS (hidden until data loads) -->
-  <div class="dash-tabs" id="dash-tabs" style="display:none;">
-    <button class="dash-tab active" data-tab="overview"  onclick="showTab('overview')">📊 Overview</button>
-    <button class="dash-tab"        data-tab="product"   onclick="showTab('product')">📦 Product</button>
-    <button class="dash-tab"        data-tab="customer"  onclick="showTab('customer')">👥 Customer</button>
-    <button class="dash-tab"        data-tab="region"    onclick="showTab('region')">🌍 Region</button>
-    <button class="dash-tab"        data-tab="insights"  onclick="showTab('insights')">💡 Insights</button>
-  </div>
+    <div class="db-header">
+      <h1>Travel <span>Blue</span> — Backpack &amp; Luggage</h1>
+      <div class="db-sub">CUSTOMERS · Real 2023–2026 vs BP 2026</div>
+    </div>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       OVERVIEW TAB
-  ══════════════════════════════════════════════════════════════ -->
-  <div class="tab-page" id="tab-overview">
-    <div class="section">
-      <div class="section-title">Sales Performance — KPIs</div>
-      <div class="kpi-grid" id="kpi-row"></div>
-    </div>
-    <div class="section">
-      <div class="section-title">Monthly Sales: Actual vs Business Plan</div>
-      <div class="chart-card full">
-        <div class="chart-wrap h400"><canvas id="ch-timeline"></canvas></div>
-      </div>
-    </div>
-  </div>
+    <nav class="tab-nav">
+      <button class="active" data-tab="overview"  onclick="showTab('overview')">Overview</button>
+      <button              data-tab="product"   onclick="showTab('product')">Products</button>
+      <button              data-tab="customer"  onclick="showTab('customer')">Customers</button>
+      <button              data-tab="region"    onclick="showTab('region')">Geography</button>
+      <button              data-tab="insights"  onclick="showTab('insights')">Insights</button>
+    </nav>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       PRODUCT TAB
-  ══════════════════════════════════════════════════════════════ -->
-  <div class="tab-page" id="tab-product">
-    <div class="section">
-      <div class="section-title">Sales by Product Family</div>
-      <div class="charts-row">
-        <div class="chart-card"><div class="chart-title">Backpacks vs Luggage — Sales by Year</div><div class="chart-wrap h260"><canvas id="ch-family-bar"></canvas></div></div>
-        <div class="chart-card"><div class="chart-title">YoY Growth by Family</div><div class="chart-wrap h260"><canvas id="ch-family-yoy"></canvas></div></div>
+    <div class="filter-bar">
+      <div class="filter-group">
+        <span class="filter-label">Family</span>
+        <div class="family-toggle">
+          <button class="family-btn active" id="btn-all" onclick="setFamily('ALL')">All</button>
+          <button class="family-btn" id="btn-bp" onclick="setFamily('BACKPACKS')">Backpacks</button>
+          <button class="family-btn" id="btn-lg" onclick="setFamily('LUGGAGE')">Luggage</button>
+        </div>
       </div>
+      <div class="filter-group"><span class="filter-label">Year</span>
+        <select class="filter-select" id="f-year" onchange="applyFilters()"><option value="">All Years</option></select></div>
+      <div class="filter-group"><span class="filter-label">Month</span>
+        <select class="filter-select" id="f-month" onchange="applyFilters()"><option value="">All Months</option></select></div>
+      <div class="filter-group"><span class="filter-label">Country</span>
+        <select class="filter-select" id="f-country" onchange="applyFilters()"><option value="">All Countries</option></select></div>
+      <div class="filter-group"><span class="filter-label">TB Branch</span>
+        <select class="filter-select" id="f-branch" onchange="applyFilters()"><option value="">All Branches</option></select></div>
+      <div class="filter-group"><span class="filter-label">Customer</span>
+        <select class="filter-select" id="f-customer" onchange="applyFilters()"><option value="">All Customers</option></select></div>
+      <div class="filter-group"><span class="filter-label">Category</span>
+        <select class="filter-select" id="f-category" onchange="applyFilters()"><option value="">All Categories</option></select></div>
+      <div class="filter-group"><span class="filter-label">Sub-Cat.</span>
+        <select class="filter-select" id="f-subcat" onchange="applyFilters()"><option value="">All Sub-Cat.</option></select></div>
+      <div class="filter-group"><span class="filter-label">SKU</span>
+        <select class="filter-select" id="f-sku" onchange="applyFilters()"><option value="">All SKUs</option></select></div>
+      <button class="filter-reset" onclick="resetFilters()">✕ Reset</button>
     </div>
-    <div class="section">
-      <div class="section-title">Sales by Category</div>
-      <div class="charts-row">
-        <div class="chart-card"><div class="chart-wrap h340"><canvas id="ch-category-bar"></canvas></div></div>
-        <div id="tbl-category"></div>
-      </div>
-    </div>
-    <div class="section">
-      <div class="section-title">Sales by Sub-Category</div>
-      <div class="chart-card full"><div class="chart-wrap h360"><canvas id="ch-subcat-bar"></canvas></div></div>
-    </div>
-    <div class="section">
-      <div class="section-title">SKU Performance (SKU 2) — Top 50 by 2025 Sales</div>
-      <div id="tbl-sku"></div>
-    </div>
-  </div>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       CUSTOMER TAB
-  ══════════════════════════════════════════════════════════════ -->
-  <div class="tab-page" id="tab-customer">
-    <div class="section">
-      <div class="section-title">Sales by Customer (Grouped Name)</div>
-      <div class="charts-row">
-        <div class="chart-card"><div class="chart-wrap h340"><canvas id="ch-customer-bar"></canvas></div></div>
-        <div id="tbl-customer"></div>
+    <!-- ══ OVERVIEW ══ -->
+    <div class="tab-page active" id="tab-overview">
+      <div class="section">
+        <div class="kpi-grid" id="kpi-row"></div>
+      </div>
+      <div class="section">
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-title">Revenue Comparison</div>
+            <div class="chart-sub">Full Year + Current Period vs BP</div>
+            <div class="chart-wrap h280"><canvas id="ch-revenue-cmp"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Monthly Trend</div>
+            <div class="chart-sub">2024 vs 2025 vs 2026</div>
+            <div class="chart-wrap h280"><canvas id="ch-timeline"></canvas></div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="charts-grid col3">
+          <div class="chart-card">
+            <div class="chart-title">Channel</div>
+            <div class="chart-sub" id="ch-channel-ov-sub">2025</div>
+            <div class="chart-wrap h200"><canvas id="ch-channel-ov"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Region (TB Branch)</div>
+            <div class="chart-sub" id="ch-region-ov-sub">2025</div>
+            <div class="chart-wrap h200"><canvas id="ch-region-ov"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Family Split</div>
+            <div class="chart-sub" id="ch-family-ov-sub">2025</div>
+            <div class="chart-wrap h200"><canvas id="ch-family-ov"></canvas></div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="section">
-      <div class="section-title">Sales by Customer BP</div>
-      <div id="tbl-customer-bp"></div>
-    </div>
-    <div class="section">
-      <div class="section-title">Sales by Channel</div>
-      <div class="charts-row">
-        <div class="chart-card"><div class="chart-title">2025 Channel Mix</div><div class="chart-wrap h300"><canvas id="ch-channel-donut"></canvas></div></div>
-        <div id="tbl-channel"></div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       REGION TAB
-  ══════════════════════════════════════════════════════════════ -->
-  <div class="tab-page" id="tab-region">
-    <div class="section">
-      <div class="section-title">Sales by Country</div>
-      <div class="charts-row">
-        <div class="chart-card"><div class="chart-wrap h340"><canvas id="ch-country-bar"></canvas></div></div>
-        <div id="tbl-country"></div>
+    <!-- ══ PRODUCTS ══ -->
+    <div class="tab-page" id="tab-product">
+      <div class="section">
+        <div class="section-title">Category Revenue</div>
+        <div class="chart-card">
+          <div class="chart-sub">2024 vs 2025 vs 2026 YTD</div>
+          <div class="chart-wrap h280"><canvas id="ch-category-bar"></canvas></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">Sub-Categories</div>
+        <div class="chart-card">
+          <div class="chart-sub">2024 vs 2025 · with YoY % change</div>
+          <div class="chart-wrap h460"><canvas id="ch-subcat-bar"></canvas></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">SKU Performance — Top 50 by 2025 Sales</div>
+        <div id="tbl-sku"></div>
       </div>
     </div>
-    <div class="section">
-      <div class="section-title">Sales by TB Branch (Country 2)</div>
-      <div class="charts-row">
-        <div class="chart-card"><div class="chart-wrap h300"><canvas id="ch-branch-bar"></canvas></div></div>
-        <div id="tbl-branch"></div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       INSIGHTS TAB
-  ══════════════════════════════════════════════════════════════ -->
-  <div class="tab-page" id="tab-insights">
-    <div class="section">
-      <div class="section-title">Key Insights &amp; Recommended Actions</div>
+    <!-- ══ CUSTOMERS ══ -->
+    <div class="tab-page" id="tab-customer">
+      <div class="section">
+        <div class="section-title">Top Customers</div>
+        <div class="chart-card">
+          <div class="chart-sub">2024 · 2025 · 2026 YTD · BP 2026</div>
+          <div class="chart-wrap h460"><canvas id="ch-customer-bar"></canvas></div>
+        </div>
+      </div>
+      <div class="section"><div id="tbl-customer"></div></div>
+      <div class="section" id="sec-custbp" style="display:none;">
+        <div class="section-title">Customer BP Breakdown</div>
+        <div id="tbl-customer-bp"></div>
+      </div>
+      <div class="section" id="sec-channel" style="display:none;">
+        <div class="section-title">Channel Analysis</div>
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-wrap h260"><canvas id="ch-channel-donut"></canvas></div>
+          </div>
+          <div id="tbl-channel"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ GEOGRAPHY ══ -->
+    <div class="tab-page" id="tab-region">
+      <div class="section">
+        <div class="section-title">Top Countries</div>
+        <div class="chart-card">
+          <div class="chart-sub">2024 · 2025 · 2026 YTD</div>
+          <div class="chart-wrap h460"><canvas id="ch-country-bar"></canvas></div>
+        </div>
+      </div>
+      <div class="section"><div id="tbl-country"></div></div>
+      <div class="section" id="sec-branch" style="display:none;">
+        <div class="section-title">TB Branch</div>
+        <div class="chart-card">
+          <div class="chart-wrap h340"><canvas id="ch-branch-bar"></canvas></div>
+        </div>
+        <div style="margin-top:10px;" id="tbl-branch"></div>
+      </div>
+    </div>
+
+    <!-- ══ INSIGHTS ══ -->
+    <div class="tab-page" id="tab-insights">
       <div class="insight-grid" id="insights-grid"></div>
     </div>
-  </div>
 
-  <footer class="site-footer">
-    © 2026 <span>Travel Blue Ltd.</span> — Internal use only.
-  </footer>
+  </div><!-- /dash-wrap -->
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
   <script src="/js/data-layer.js"></script>
   <script src="/js/auth.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="/js/theme.js"></script>
   <script>
-  /* =============================================================
-     BACKPACK & LUGGAGE DASHBOARD
+  /* ================================================================
+     BACKPACK & LUGGAGE DASHBOARD  — dark design
      project_slug = 'backpack-lugagge'
-     Only CUSTOMERS rows (COMPANY col, case-insensitive)
-  ============================================================= */
+  ================================================================ */
   const PROJECT_SLUG = 'backpack-lugagge';
 
-  const C_NAVY  = '#1B2A6B', C_YELLOW = '#FFC72C',
-        C_GREEN = '#27AE60', C_RED    = '#E74C3C',
-        C_2023  = '#a0b4d0', C_2024  = '#6c8ebf',
-        C_2025  = '#1B2A6B', C_2026  = '#27AE60',
-        C_BP    = '#FFC72C';
-  const PALETTE = [C_NAVY,C_YELLOW,C_GREEN,C_RED,'#3498DB','#9B59B6','#F39C12','#1ABC9C','#E67E22','#2ECC71','#E74C3C','#8E44AD'];
+  /* ── Chart.js dark defaults ── */
+  Chart.defaults.color       = '#5b6b8a';
+  Chart.defaults.borderColor = '#1a2236';
+  Chart.defaults.font.family = "'DM Sans', sans-serif";
+  Chart.register(ChartDataLabels);
+  Chart.defaults.plugins.datalabels.display = false; // off by default, enable per chart
+
+  /* ── Palette ── */
+  const C_2024 = '#9b6dff', C_2025 = '#3b82f6', C_2026 = '#22c55e',
+        C_BP   = '#ffc72c', C_RED  = '#ff4d6d';
+  const PALETTE = [C_2025, C_2024, '#06b6d4', '#f97316', C_2026, C_BP, '#8b5cf6', '#ec4899', '#14b8a6', '#f59e0b', '#a855f7', '#ef4444'];
 
   let _all = [], _filt = [], _charts = {}, _tab = 'overview';
-  let C = {}; // column name map
+  let C = {};
 
   /* ── utils ── */
-  const norm  = v => String(v ?? '').trim().toLowerCase();
-  const num   = v => parseFloat(String(v ?? '').replace(/[$€£,\s]/g,'')) || 0;
-  const sum   = (rows, col) => rows.reduce((s,r) => s + num(r[col]), 0);
-  const sumQ  = (rows, col) => rows.reduce((s,r) => s + num(r[col]), 0);
+  const norm = v => String(v ?? '').trim().toLowerCase();
+  const num  = v => parseFloat(String(v ?? '').replace(/[$€£,\s]/g,'')) || 0;
+  const sum  = (rows, col) => rows.reduce((s,r) => s + num(r[col]), 0);
 
   function fmt(n) {
     if (!isFinite(n)||isNaN(n)) return '—';
@@ -333,35 +393,29 @@
     if (a >= 1e3) return '$'+(n/1e3).toFixed(1)+'K';
     return '$'+n.toFixed(0);
   }
-  function fmtN(n) {
+  function fmtShort(n) {
     if (!isFinite(n)||isNaN(n)) return '—';
     const a = Math.abs(n);
     if (a >= 1e6) return (n/1e6).toFixed(1)+'M';
-    if (a >= 1e3) return (n/1e3).toFixed(1)+'K';
+    if (a >= 1e3) return (n/1e3).toFixed(0)+'K';
     return n.toFixed(0);
   }
   function pct(a, b) { return b ? ((a-b)/Math.abs(b))*100 : NaN; }
   function pctHtml(p) {
-    if (!isFinite(p)||isNaN(p)) return '<span style="color:var(--gray)">—</span>';
-    return `<span class="${p>=0?'green':'red'}">${p>=0?'▲':'▼'} ${Math.abs(p).toFixed(1)}%</span>`;
+    if (!isFinite(p)||isNaN(p)) return '<span style="color:#4a5680">—</span>';
+    return `<span class="${p>=0?'pos':'neg'}">${p>=0?'▲':'▼'} ${Math.abs(p).toFixed(1)}%</span>`;
   }
   function pctTd(p) {
-    if (!isFinite(p)||isNaN(p)) return '<td class="r" style="color:var(--gray)">—</td>';
+    if (!isFinite(p)||isNaN(p)) return '<td class="r" style="color:#4a5680">—</td>';
     return `<td class="r ${p>=0?'pp':'pn'}">${p>=0?'▲':'▼'} ${Math.abs(p).toFixed(1)}%</td>`;
   }
 
   /* ── column resolver ── */
   function resolveColumns(sample) {
     const keys = Object.keys(sample);
-    function find(...candidates) {
-      for (const c of candidates) {
-        const k = keys.find(k => norm(k) === norm(c));
-        if (k) return k;
-      }
-      for (const c of candidates) {
-        const k = keys.find(k => norm(k).includes(norm(c)));
-        if (k) return k;
-      }
+    function find(...cands) {
+      for (const c of cands) { const k = keys.find(k => norm(k) === norm(c));   if (k) return k; }
+      for (const c of cands) { const k = keys.find(k => norm(k).includes(norm(c))); if (k) return k; }
       return null;
     }
     C.date     = find('date','data','fecha');
@@ -379,7 +433,6 @@
     C.custBP   = find('customer bp','customer_bp','customerbp');
     C.channel  = find('channel','canal');
     C.company  = find('company','empresa');
-    // value: try specific names then any numeric-like column
     C.value    = find('value','amount','net sales','net_sales','sales','usd','total','net');
     if (!C.value) {
       C.value = keys.find(k => {
@@ -392,30 +445,25 @@
     console.log('[BL] columns:', JSON.stringify(C));
   }
 
-  /* ── year/month from row ── */
+  /* ── year/month helpers ── */
   function rowYear(r) {
     if (C.year && r[C.year] !== undefined && r[C.year] !== null && r[C.year] !== '') {
       const y = String(r[C.year]).trim();
-      // Handle float strings like "2025.0" from Python/pandas CSV exports
       return y.includes('.') ? String(parseInt(parseFloat(y))) : y;
     }
-    if (C.date  && r[C.date])  return String(r[C.date]).slice(0,4);
+    if (C.date && r[C.date]) return String(r[C.date]).slice(0,4);
     return '';
   }
+  // rowMonth returns the month NUMBER as a 2-digit string (e.g. "01".."12")
+  // so the filter dropdown shows month names and filtering is year-independent
   function rowMonth(r) {
     if (C.month && r[C.month] !== undefined && r[C.month] !== null && r[C.month] !== '') {
-      const m = String(r[C.month]).trim();
-      const mf = parseFloat(m);
-      // Handle numeric months (integer or float like "1.0")
-      if (!isNaN(mf) && mf >= 1 && mf <= 12 && C.year && r[C.year]) {
-        return `${rowYear(r)}-${String(Math.round(mf)).padStart(2,'0')}`;
-      }
-      return m;
+      const mf = parseFloat(String(r[C.month]).trim());
+      if (!isNaN(mf) && mf >= 1 && mf <= 12) return String(Math.round(mf)).padStart(2,'0');
     }
-    if (C.date  && r[C.date])  return String(r[C.date]).slice(0,7);
+    if (C.date && r[C.date]) return String(r[C.date]).slice(5,7); // "MM" from YYYY-MM-DD
     return '';
   }
-  /* ── month number (1-12) for grouped charts ── */
   function getMonthNum(r) {
     if (C.month && r[C.month] !== undefined && r[C.month] !== null && r[C.month] !== '') {
       const mf = parseFloat(String(r[C.month]).trim());
@@ -430,8 +478,7 @@
   const isBP     = r => { const t = norm(r[C.type]??''); return t.includes('business')||t.includes('plan')||t==='bp'; };
 
   /* ── data slices ── */
-  const actual = () => _filt.filter(isActual);
-  const byYear = (yr, typeFn) => _filt.filter(r => rowYear(r)===String(yr) && typeFn(r));
+  const byYear = (yr, fn) => _filt.filter(r => rowYear(r) === String(yr) && fn(r));
   const a = yr => byYear(yr, isActual);
   const b = yr => byYear(yr, isBP);
 
@@ -442,43 +489,40 @@
     return m;
   }
   function topN(map, n) {
-    return Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,n).map(e=>e[0]);
+    return Object.entries(map).sort((a,b) => b[1]-a[1]).slice(0,n).map(e => e[0]);
   }
 
   /* ── filter state ── */
-  const F = { family:'ALL', year:'', month:'', country:'', branch:'', customer:'', familySel:'', category:'', subcat:'', sku:'' };
+  const F = { family:'ALL', year:'', month:'', country:'', branch:'', customer:'', category:'', subcat:'', sku:'' };
 
   function applyFilters() {
-    F.year      = document.getElementById('f-year')?.value      || '';
-    F.month     = document.getElementById('f-month')?.value     || '';
-    F.country   = document.getElementById('f-country')?.value   || '';
-    F.branch    = document.getElementById('f-branch')?.value    || '';
-    F.customer  = document.getElementById('f-customer')?.value  || '';
-    F.familySel = document.getElementById('f-family-sel')?.value|| '';
-    F.category  = document.getElementById('f-category')?.value  || '';
-    F.subcat    = document.getElementById('f-subcat')?.value    || '';
-    F.sku       = document.getElementById('f-sku')?.value       || '';
-
+    F.year     = document.getElementById('f-year')?.value     || '';
+    F.month    = document.getElementById('f-month')?.value    || '';
+    F.country  = document.getElementById('f-country')?.value  || '';
+    F.branch   = document.getElementById('f-branch')?.value   || '';
+    F.customer = document.getElementById('f-customer')?.value || '';
+    F.category = document.getElementById('f-category')?.value || '';
+    F.subcat   = document.getElementById('f-subcat')?.value   || '';
+    F.sku      = document.getElementById('f-sku')?.value      || '';
     _filt = _all.filter(r => {
       if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
-      if (F.familySel && C.family && norm(r[C.family]) !== norm(F.familySel)) return false;
-      if (F.year     && rowYear(r)          !== F.year)               return false;
-      if (F.month    && rowMonth(r)         !== F.month)              return false;
-      if (F.country  && C.country  && norm(r[C.country])  !== norm(F.country))  return false;
-      if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))   return false;
-      if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer)) return false;
-      if (F.category && C.category && norm(r[C.category]) !== norm(F.category)) return false;
-      if (F.subcat   && C.subcat   && norm(r[C.subcat])   !== norm(F.subcat))   return false;
-      if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))      return false;
+      if (F.year     && rowYear(r)          !== F.year)                              return false;
+      if (F.month    && rowMonth(r)         !== F.month)                             return false;
+      if (F.country  && C.country  && norm(r[C.country])  !== norm(F.country))      return false;
+      if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))       return false;
+      if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer))     return false;
+      if (F.category && C.category && norm(r[C.category]) !== norm(F.category))     return false;
+      if (F.subcat   && C.subcat   && norm(r[C.subcat])   !== norm(F.subcat))       return false;
+      if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))          return false;
       return true;
     });
     renderTab();
   }
 
   function resetFilters() {
-    ['f-year','f-month','f-country','f-branch','f-customer','f-family-sel','f-category','f-subcat','f-sku']
+    ['f-year','f-month','f-country','f-branch','f-customer','f-category','f-subcat','f-sku']
       .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-    Object.assign(F, { year:'', month:'', country:'', branch:'', customer:'', familySel:'', category:'', subcat:'', sku:'' });
+    Object.assign(F, { year:'', month:'', country:'', branch:'', customer:'', category:'', subcat:'', sku:'' });
     _filt = F.family === 'ALL' ? [..._all] : _all.filter(r => C.family && norm(r[C.family]) === norm(F.family));
     renderTab();
   }
@@ -494,11 +538,10 @@
   function showTab(tab) {
     _tab = tab;
     document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.dash-tab').forEach(b => { b.classList.toggle('active', b.dataset.tab === tab); });
+    document.querySelectorAll('.tab-nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
     document.getElementById('tab-'+tab)?.classList.add('active');
     renderTab();
   }
-
   function renderTab() {
     Object.values(_charts).forEach(c => c?.destroy());
     _charts = {};
@@ -510,487 +553,482 @@
       case 'insights':  renderInsights();  break;
     }
   }
-
   function mkChart(id, cfg) {
-    const el = document.getElementById(id);
-    if (!el) return;
+    const el = document.getElementById(id); if (!el) return;
     _charts[id] = new Chart(el, cfg);
   }
 
-  /* ── month label ── */
   const MN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  function monthLabel(m) {
-    if (m && m.includes('-') && m.length >= 7) {
-      const [y, mo] = m.split('-');
-      return (MN[parseInt(mo)-1]||mo) + " '" + String(y).slice(2);
-    }
-    return m;
+
+  /* ── shared dark chart config helpers ── */
+  function dScalesY() {
+    return {
+      x: { grid:{ color:'#1a2236' }, ticks:{ color:'#5b6b8a', font:{size:10} } },
+      y: { grid:{ color:'#1a2236' }, ticks:{ color:'#5b6b8a', font:{size:10}, callback: v => fmt(v) } }
+    };
   }
+  function dScalesH() {
+    return {
+      x: { grid:{ color:'#1a2236' }, ticks:{ color:'#5b6b8a', font:{size:9}, callback: v => fmt(v) } },
+      y: { grid:{ display:false },   ticks:{ color:'#c8d4e8', font:{size:9} } }
+    };
+  }
+  function dLegend() { return { labels:{ color:'#7b8499', boxWidth:10, font:{size:10} } }; }
+  function dTip(fn)  { return { callbacks:{ label: fn } }; }
 
-  /* =============================================================
+  /* ================================================================
      OVERVIEW
-  ============================================================= */
+  ================================================================ */
   function renderOverview() {
-    const s24 = sum(a(2024),C.value), s25 = sum(a(2025),C.value),
-          s26 = sum(a(2026),C.value), s26b = sum(b(2026),C.value),
-          s25b = sum(b(2025),C.value);
-    const q25 = sum(a(2025),C.qty),   q24 = sum(a(2024),C.qty),
-          q26 = sum(a(2026),C.qty),   q26b = sum(b(2026),C.qty);
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=b(2026), bp25=b(2025);
+    const s24=sum(act24,C.value), s25=sum(act25,C.value), s26=sum(act26,C.value),
+          s26b=sum(bp26,C.value), s25b=sum(bp25,C.value);
 
+    // Detect latest month with actual data
+    const latestYr  = [...new Set(_filt.filter(isActual).map(rowYear).filter(Boolean))].sort().pop() || '2026';
+    const latestMon = [...new Set(_filt.filter(r => isActual(r) && rowYear(r)===latestYr).map(getMonthNum).filter(Boolean))].sort((a,b)=>b-a)[0] || 1;
+    const latestLbl = MN[latestMon-1] + ' ' + latestYr;
+    const lAct  = sum(_filt.filter(r => isActual(r) && rowYear(r)===latestYr && getMonthNum(r)===latestMon), C.value);
+    const lBP   = sum(_filt.filter(r => isBP(r)     && rowYear(r)===latestYr && getMonthNum(r)===latestMon), C.value);
+    const lPrev = sum(_filt.filter(r => isActual(r) && rowYear(r)===String(+latestYr-1) && getMonthNum(r)===latestMon), C.value);
+    const achPct = lBP ? (lAct/lBP)*100 : NaN;
+
+    /* KPIs */
     document.getElementById('kpi-row').innerHTML = `
       <div class="kpi-card">
-        <div class="kpi-label">Sales 2024 — Actual</div>
-        <div class="kpi-value">${fmt(s24)}</div>
-        <div class="kpi-delta">Qty: ${fmtN(q24)}</div>
+        <div class="kpi-label">Real ${latestLbl}</div>
+        <div class="kpi-value">${fmt(lAct)}</div>
+        <div class="kpi-delta">${pctHtml(pct(lAct,lPrev))} vs ${MN[latestMon-1]} ${+latestYr-1}</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-label">Sales 2025 — Actual</div>
+        <div class="kpi-label">BP ${latestLbl}</div>
+        <div class="kpi-value">${fmt(lBP)}</div>
+        <div class="kpi-delta" style="color:#4a5680;">Target</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">% Ach ${latestLbl}</div>
+        <div class="kpi-value" style="color:${achPct>=100?C_2026:achPct>=80?C_BP:C_RED}">${isFinite(achPct)?achPct.toFixed(0)+'%':'—'}</div>
+        <div class="kpi-delta"><span class="warn">Gap ${fmt(lAct-lBP)}</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Rev 2025</div>
         <div class="kpi-value">${fmt(s25)}</div>
-        <div class="kpi-delta">vs 2024: ${pctHtml(pct(s25,s24))} &nbsp;·&nbsp; Qty: ${fmtN(q25)} ${pctHtml(pct(q25,q24))}</div>
+        <div class="kpi-delta">${pctHtml(pct(s25,s24))} vs 2024</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-label">Sales 2026 — Actual YTD</div>
-        <div class="kpi-value">${fmt(s26)}</div>
-        <div class="kpi-delta">vs 2025: ${pctHtml(pct(s26,s25))} &nbsp;·&nbsp; vs BP: ${pctHtml(pct(s26,s26b))} &nbsp;·&nbsp; Qty: ${fmtN(q26)}</div>
-      </div>
-      <div class="kpi-card bp">
-        <div class="kpi-label">Business Plan 2026</div>
+        <div class="kpi-label">BP 2026 Full</div>
         <div class="kpi-value">${fmt(s26b)}</div>
-        <div class="kpi-delta">BP 2025: ${fmt(s25b)} &nbsp;·&nbsp; Qty BP: ${fmtN(q26b)}</div>
+        <div class="kpi-delta">${pctHtml(pct(s26b,s25))} vs Real 2025</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg Monthly 2025</div>
+        <div class="kpi-value">${fmt(s25/12)}</div>
+        <div class="kpi-delta" style="color:#4a5680;">${latestLbl}: ${fmt(lAct)}</div>
       </div>`;
 
-    // Monthly timeline — X axis: months (Jan-Dec), datasets: one per year/type
-    function mSums(rows) {
-      return Array.from({length:12}, (_,i) => {
-        const s = sum(rows.filter(r => getMonthNum(r) === i+1), C.value);
-        return s || null;
-      });
-    }
-    const tl24a = mSums(_filt.filter(r => isActual(r) && rowYear(r)==='2024'));
-    const tl25a = mSums(_filt.filter(r => isActual(r) && rowYear(r)==='2025'));
-    const tl26a = mSums(_filt.filter(r => isActual(r) && rowYear(r)==='2026'));
-    const tl26b = mSums(_filt.filter(r => isBP(r)     && rowYear(r)==='2026'));
-    const tl25b = mSums(_filt.filter(r => isBP(r)     && rowYear(r)==='2025'));
-    const pct25BP = tl25a.map((v,i) => {
-      const bv = tl25b[i]||0; return bv && v ? ((v-bv)/Math.abs(bv))*100 : null;
-    });
-
-    mkChart('ch-timeline', {
-      type: 'bar',
-      data: {
-        labels: MN,
-        datasets: [
-          { label:'2024 Actual', data:tl24a, backgroundColor:C_2024+'cc', order:2 },
-          { label:'2025 Actual', data:tl25a, backgroundColor:C_2025+'cc', order:2 },
-          { label:'2026 YTD',   data:tl26a, backgroundColor:C_2026+'cc', order:2 },
-          { label:'2026 BP',    data:tl26b, backgroundColor:C_BP+'99', borderColor:C_BP, borderWidth:1.5, order:2 },
-          { label:'% 2025 vs BP', data:pct25BP, type:'line', yAxisID:'yP',
-            borderColor:C_RED, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3, order:1 }
-        ]
+    /* Revenue Comparison — vertical bars + data labels */
+    mkChart('ch-revenue-cmp', {
+      type:'bar',
+      data:{
+        labels:['2024','2025', latestLbl+' Real', latestLbl+' BP'],
+        datasets:[{ data:[s24,s25,lAct,lBP],
+          backgroundColor:[C_2024+'cc',C_2025+'cc',C_2026+'cc',C_BP+'cc'],
+          borderRadius:4, borderSkipped:false }]
       },
-      options: {
-        responsive:true, maintainAspectRatio:false,
-        plugins: {
-          legend: { labels: { boxWidth:12, font:{size:11} } },
-          tooltip: { callbacks: { label: ctx => ctx.dataset.label.startsWith('%')
-            ? `${ctx.dataset.label}: ${ctx.parsed.y?.toFixed(1)}%`
-            : `${ctx.dataset.label}: ${fmt(ctx.parsed.y)}` } }
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{ display:false },
+          datalabels:{ display:true, anchor:'end', align:'top', color:'#c8d4e8', font:{size:10,weight:'700'}, formatter: v => fmt(v) },
+          tooltip:{ callbacks:{ label: ctx => fmt(ctx.parsed.y) } }
         },
-        scales: {
-          x:  { ticks:{ font:{size:10} } },
-          y:  { ticks:{ font:{size:10}, callback: v => fmt(v) }, title:{ display:true, text:'USD', font:{size:10} } },
-          yP: { position:'right', grid:{drawOnChartArea:false},
-                ticks:{ font:{size:10}, callback: v => v?.toFixed(0)+'%' },
-                title:{ display:true, text:'% vs BP', font:{size:10} } }
-        }
+        scales: dScalesY()
       }
     });
+
+    /* Monthly Trend — line chart */
+    function mSums(rows) {
+      return Array.from({length:12}, (_,i) => sum(rows.filter(r => getMonthNum(r)===i+1), C.value) || null);
+    }
+    mkChart('ch-timeline', {
+      type:'line',
+      data:{
+        labels: MN,
+        datasets:[
+          { label:'2024',    data:mSums(act24), borderColor:C_2024, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
+          { label:'2025',    data:mSums(act25), borderColor:C_2025, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
+          { label:'2026 YTD',data:mSums(act26), borderColor:C_2026, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
+          { label:'BP 2026', data:mSums(bp26),  borderColor:C_BP,   backgroundColor:'transparent', borderWidth:1.5, borderDash:[4,3], pointRadius:2, tension:.3 },
+        ]
+      },
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend: dLegend(), datalabels:{display:false}, tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.y)}` } } },
+        scales: dScalesY()
+      }
+    });
+
+    /* Channel donut */
+    if (C.channel) {
+      const chMap = aggBy(act25, r => r[C.channel]);
+      const chs = topN(chMap, 8);
+      const chLabels = chs.map(k => act25.find(r => norm(r[C.channel])===norm(k))?.[C.channel] || k);
+      const tot = chs.reduce((s,k) => s+chMap[k], 0)||1;
+      mkChart('ch-channel-ov', { type:'doughnut',
+        data:{ labels:chLabels, datasets:[{ data:chs.map(k=>chMap[k]), backgroundColor:PALETTE, borderWidth:0 }] },
+        options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
+          plugins:{ legend:{ position:'bottom', labels:{ color:'#7b8499', boxWidth:9, font:{size:9}, padding:5 } },
+            datalabels:{display:false}, tooltip:{ callbacks:{ label: ctx=>`${ctx.label}: ${fmt(ctx.parsed)} (${((ctx.parsed/tot)*100).toFixed(0)}%)` } } } }
+      });
+    }
+
+    /* Region donut */
+    if (C.branch) {
+      const brMap = aggBy(act25, r => r[C.branch]);
+      const brs = topN(brMap, 8);
+      const brLabels = brs.map(k => act25.find(r => norm(r[C.branch])===norm(k))?.[C.branch] || k);
+      const tot = brs.reduce((s,k) => s+brMap[k], 0)||1;
+      mkChart('ch-region-ov', { type:'doughnut',
+        data:{ labels:brLabels, datasets:[{ data:brs.map(k=>brMap[k]), backgroundColor:PALETTE.slice(2), borderWidth:0 }] },
+        options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
+          plugins:{ legend:{ position:'bottom', labels:{ color:'#7b8499', boxWidth:9, font:{size:9}, padding:5 } },
+            datalabels:{display:false}, tooltip:{ callbacks:{ label: ctx=>`${ctx.label}: ${fmt(ctx.parsed)} (${((ctx.parsed/tot)*100).toFixed(0)}%)` } } } }
+      });
+    }
+
+    /* Family donut */
+    if (C.family) {
+      const famMap = aggBy(act25, r => r[C.family]);
+      const fams = topN(famMap, 6);
+      mkChart('ch-family-ov', { type:'doughnut',
+        data:{ labels:fams, datasets:[{ data:fams.map(k=>famMap[k]), backgroundColor:[C_2025,C_2024,C_2026,C_BP], borderWidth:0 }] },
+        options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
+          plugins:{ legend:{ position:'bottom', labels:{ color:'#7b8499', boxWidth:9, font:{size:9}, padding:5 } },
+            datalabels:{display:false}, tooltip:{ callbacks:{ label: ctx=>`${ctx.label}: ${fmt(ctx.parsed)}` } } } }
+      });
+    }
   }
 
-  /* =============================================================
-     PRODUCT
-  ============================================================= */
+  /* ================================================================
+     PRODUCTS
+  ================================================================ */
   function renderProduct() {
     const act24=a(2024), act25=a(2025), act26=a(2026), bp26=b(2026);
 
-    // Family bar
-    const families = [...new Set(act25.map(r=>r[C.family]).filter(Boolean))];
-    const fS24 = families.map(f=>sum(act24.filter(r=>norm(r[C.family])===norm(f)),C.value));
-    const fS25 = families.map(f=>sum(act25.filter(r=>norm(r[C.family])===norm(f)),C.value));
-    const fS26 = families.map(f=>sum(act26.filter(r=>norm(r[C.family])===norm(f)),C.value));
-    mkChart('ch-family-bar', { type:'bar', data:{ labels:families,
-      datasets:[
-        {label:'2024', data:fS24, backgroundColor:C_2024+'cc'},
-        {label:'2025', data:fS25, backgroundColor:C_2025+'cc'},
-        {label:'2026 YTD', data:fS26, backgroundColor:C_2026+'cc'}
-      ]},
-      options:{ responsive:true, maintainAspectRatio:false,
-        plugins:{ legend:{labels:{boxWidth:12,font:{size:11}}}, tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.y)}`}} },
-        scales:{ y:{ticks:{callback:v=>fmt(v),font:{size:10}}}, x:{ticks:{font:{size:11}}} }
-      }
-    });
-
-    // Family YoY %
-    mkChart('ch-family-yoy', { type:'bar', data:{ labels:families,
-      datasets:[
-        {label:'% 2025 vs 2024', data:families.map((_,i)=>isFinite(pct(fS25[i],fS24[i]))?pct(fS25[i],fS24[i]):null), backgroundColor:C_2025+'aa'},
-        {label:'% 2026 vs 2025', data:families.map((_,i)=>isFinite(pct(fS26[i],fS25[i]))?pct(fS26[i],fS25[i]):null), backgroundColor:C_2026+'aa'}
-      ]},
-      options:{ responsive:true, maintainAspectRatio:false,
-        plugins:{ legend:{labels:{boxWidth:12,font:{size:11}}}, tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y?.toFixed(1)}%`}} },
-        scales:{ y:{ticks:{callback:v=>v?.toFixed(0)+'%',font:{size:10}}}, x:{ticks:{font:{size:11}}} }
-      }
-    });
-
-    // Category
+    /* Category — vertical grouped bars */
     if (C.category) {
-      const catMap = aggBy(act25, r=>r[C.category]);
+      const catMap = aggBy(act25, r => r[C.category]);
       const cats = topN(catMap, 15);
-      const cS24 = cats.map(c=>sum(act24.filter(r=>norm(r[C.category])===norm(c)),C.value));
-      const cS25 = cats.map(c=>sum(act25.filter(r=>norm(r[C.category])===norm(c)),C.value));
-      const cS26 = cats.map(c=>sum(act26.filter(r=>norm(r[C.category])===norm(c)),C.value));
-      const cBP  = cats.map(c=>sum(bp26.filter(r=>norm(r[C.category])===norm(c)),C.value));
-      const tot25 = sum(act25,C.value)||1;
-
-      mkChart('ch-category-bar', { type:'bar', data:{ labels:cats,
-        datasets:[
-          {label:'2024',data:cS24,backgroundColor:C_2024+'cc'},
-          {label:'2025',data:cS25,backgroundColor:C_2025+'cc'},
-          {label:'2026',data:cS26,backgroundColor:C_2026+'cc'}
+      const cS24=cats.map(c=>sum(act24.filter(r=>norm(r[C.category])===norm(c)),C.value));
+      const cS25=cats.map(c=>sum(act25.filter(r=>norm(r[C.category])===norm(c)),C.value));
+      const cS26=cats.map(c=>sum(act26.filter(r=>norm(r[C.category])===norm(c)),C.value));
+      mkChart('ch-category-bar', { type:'bar',
+        data:{ labels:cats, datasets:[
+          {label:'2024',     data:cS24, backgroundColor:C_2024+'99', borderRadius:3},
+          {label:'2025',     data:cS25, backgroundColor:C_2025+'cc', borderRadius:3},
+          {label:'2026 YTD', data:cS26, backgroundColor:C_2026+'cc', borderRadius:3},
         ]},
-        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-          plugins:{ legend:{labels:{boxWidth:12,font:{size:10}}}, tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}`}} },
-          scales:{ x:{ticks:{callback:v=>fmt(v),font:{size:9}}}, y:{ticks:{font:{size:9}}} }
+        options:{ responsive:true, maintainAspectRatio:false,
+          plugins:{
+            legend: dLegend(),
+            datalabels:{ display:true, anchor:'end', align:'top', color:'#9aa5bc', font:{size:8,weight:'600'}, formatter: v => v>0 ? fmtShort(v) : '' },
+            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.y)}` } }
+          },
+          scales: dScalesY()
         }
       });
-
-      document.getElementById('tbl-category').innerHTML = `<div class="tbl-wrap"><table class="tbl">
-        <thead><tr><th>Category</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
-        <tbody>${cats.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(cS24[i])}</td><td class="r">${fmt(cS25[i])}</td>${pctTd(pct(cS25[i],cS24[i]))}<td class="r">${fmt(cS26[i])}</td>${pctTd(pct(cS26[i],cS25[i]))}<td class="r">${fmt(cBP[i])}</td>${pctTd(pct(cS26[i],cBP[i]))}<td class="r">${((cS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
-        </tbody></table></div>`;
     }
 
-    // Sub-category
+    /* Sub-category — horizontal bars with value + YoY labels */
     if (C.subcat) {
-      const scMap = aggBy(act25, r=>r[C.subcat]);
-      const scs = topN(scMap, 20);
-      const scS24 = scs.map(s=>sum(act24.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
-      const scS25 = scs.map(s=>sum(act25.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
-      const scS26 = scs.map(s=>sum(act26.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
-      mkChart('ch-subcat-bar', { type:'bar', data:{ labels:scs,
-        datasets:[
-          {label:'2024',data:scS24,backgroundColor:C_2024+'cc'},
-          {label:'2025',data:scS25,backgroundColor:C_2025+'cc'},
-          {label:'2026',data:scS26,backgroundColor:C_2026+'cc'}
+      const scMap = aggBy(act25, r => r[C.subcat]);
+      const scs = topN(scMap, 22);
+      const scS24=scs.map(s=>sum(act24.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
+      const scS25=scs.map(s=>sum(act25.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
+      mkChart('ch-subcat-bar', { type:'bar',
+        data:{ labels:scs, datasets:[
+          {label:'2024', data:scS24, backgroundColor:C_2024+'88', borderRadius:2},
+          {label:'2025', data:scS25, backgroundColor:C_2025+'cc', borderRadius:2},
         ]},
         options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-          plugins:{ legend:{labels:{boxWidth:12,font:{size:10}}}, tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}`}} },
-          scales:{ x:{ticks:{callback:v=>fmt(v),font:{size:9}}}, y:{ticks:{font:{size:9}}} }
+          plugins:{
+            legend: dLegend(),
+            datalabels:{
+              display: true, anchor:'end', align:'right', color:'#9aa5bc', font:{size:8,weight:'600'},
+              formatter:(v, ctx) => {
+                if (ctx.datasetIndex !== 1) return '';
+                const v24 = ctx.chart.data.datasets[0].data[ctx.dataIndex] || 0;
+                const g   = v24 ? ((v-v24)/Math.abs(v24)*100) : NaN;
+                return fmtShort(v) + (isFinite(g) ? ' ' + (g>=0?'+':'') + g.toFixed(0)+'%' : '');
+              }
+            },
+            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` } }
+          },
+          scales: dScalesH()
         }
       });
     }
 
-    // SKU table
+    /* SKU table */
     if (C.sku) {
-      const skuMap = aggBy(act25, r=>r[C.sku]);
+      const skuMap = aggBy(act25, r => r[C.sku]);
       const skus = topN(skuMap, 50);
       const kS24=skus.map(s=>sum(act24.filter(r=>norm(r[C.sku])===norm(s)),C.value));
       const kS25=skus.map(s=>sum(act25.filter(r=>norm(r[C.sku])===norm(s)),C.value));
       const kS26=skus.map(s=>sum(act26.filter(r=>norm(r[C.sku])===norm(s)),C.value));
-      document.getElementById('tbl-sku').innerHTML = `<div class="tbl-wrap" style="max-height:420px;overflow-y:auto;"><table class="tbl">
-        <thead><tr><th>SKU 2</th><th class="r">Sales 2024</th><th class="r">Sales 2025</th><th class="r">%25v24</th><th class="r">Sales 2026</th><th class="r">%26v25</th></tr></thead>
-        <tbody>${skus.map((s,i)=>`<tr><td>${s}</td><td class="r">${fmt(kS24[i])}</td><td class="r">${fmt(kS25[i])}</td>${pctTd(pct(kS25[i],kS24[i]))}<td class="r">${fmt(kS26[i])}</td>${pctTd(pct(kS26[i],kS25[i]))}</tr>`).join('')}
-        </tbody></table></div>`;
+      document.getElementById('tbl-sku').innerHTML = `
+        <div class="tbl-wrap" style="max-height:400px;overflow-y:auto;"><table class="tbl">
+          <thead><tr><th>SKU</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th></tr></thead>
+          <tbody>${skus.map((s,i)=>`<tr><td>${s}</td><td class="r">${fmt(kS24[i])}</td><td class="r">${fmt(kS25[i])}</td>${pctTd(pct(kS25[i],kS24[i]))}<td class="r">${fmt(kS26[i])}</td>${pctTd(pct(kS26[i],kS25[i]))}</tr>`).join('')}
+          </tbody></table></div>`;
     }
   }
 
-  /* =============================================================
-     CUSTOMER
-  ============================================================= */
+  /* ================================================================
+     CUSTOMERS
+  ================================================================ */
   function renderCustomer() {
     const act24=a(2024), act25=a(2025), act26=a(2026), bp26=b(2026);
 
-    // Customer grouped
     if (C.customer) {
-      const custMap = aggBy(act25, r=>r[C.customer]);
-      const custs = topN(custMap, 15);
+      const custMap = aggBy(act25, r => r[C.customer]);
+      const custs = topN(custMap, 20);
       const cS24=custs.map(c=>sum(act24.filter(r=>norm(r[C.customer])===norm(c)),C.value));
       const cS25=custs.map(c=>sum(act25.filter(r=>norm(r[C.customer])===norm(c)),C.value));
       const cS26=custs.map(c=>sum(act26.filter(r=>norm(r[C.customer])===norm(c)),C.value));
-      const tot25=sum(act25,C.value)||1;
+      const cBP =custs.map(c=>sum(bp26.filter(r=>norm(r[C.customer])===norm(c)),C.value));
+      const tot25 = sum(act25,C.value)||1;
 
-      mkChart('ch-customer-bar', { type:'bar', data:{ labels:custs,
-        datasets:[
-          {label:'2024',data:cS24,backgroundColor:C_2024+'cc'},
-          {label:'2025',data:cS25,backgroundColor:C_2025+'cc'},
-          {label:'2026 YTD',data:cS26,backgroundColor:C_2026+'cc'}
+      mkChart('ch-customer-bar', { type:'bar',
+        data:{ labels:custs, datasets:[
+          {label:'2024',     data:cS24, backgroundColor:C_2024+'88', borderRadius:2},
+          {label:'2025',     data:cS25, backgroundColor:C_2025+'cc', borderRadius:2},
+          {label:'2026 YTD', data:cS26, backgroundColor:C_2026+'cc', borderRadius:2},
+          {label:'BP 2026',  data:cBP,  backgroundColor:C_BP+'88',   borderRadius:2},
         ]},
         options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-          plugins:{ legend:{labels:{boxWidth:12,font:{size:10}}}, tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}`}} },
-          scales:{ x:{ticks:{callback:v=>fmt(v),font:{size:9}}}, y:{ticks:{font:{size:9}}} }
+          plugins:{ legend: dLegend(), datalabels:{display:false}, tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` } } },
+          scales: dScalesH()
         }
       });
 
-      document.getElementById('tbl-customer').innerHTML = `<div class="tbl-wrap"><table class="tbl">
-        <thead><tr><th>Customer</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th><th class="r">Mix 25</th></tr></thead>
-        <tbody>${custs.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(cS24[i])}</td><td class="r">${fmt(cS25[i])}</td>${pctTd(pct(cS25[i],cS24[i]))}<td class="r">${fmt(cS26[i])}</td>${pctTd(pct(cS26[i],cS25[i]))}<td class="r">${((cS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
-        </tbody></table></div>`;
+      document.getElementById('tbl-customer').innerHTML = `
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Customer</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
+          <tbody>${custs.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(cS24[i])}</td><td class="r">${fmt(cS25[i])}</td>${pctTd(pct(cS25[i],cS24[i]))}<td class="r">${fmt(cS26[i])}</td>${pctTd(pct(cS26[i],cS25[i]))}<td class="r">${fmt(cBP[i])}</td>${pctTd(pct(cS26[i],cBP[i]))}<td class="r">${((cS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
+          </tbody></table></div>`;
     }
 
-    // Customer BP
     if (C.custBP) {
-      const bpCustMap = aggBy(act25, r=>r[C.custBP]);
-      const bpCusts = topN(bpCustMap, 20);
-      const bcS24=bpCusts.map(c=>sum(act24.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
-      const bcS25=bpCusts.map(c=>sum(act25.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
-      const bcS26=bpCusts.map(c=>sum(act26.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
-      const bcBP =bpCusts.map(c=>sum(bp26.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
-
-      document.getElementById('tbl-customer-bp').innerHTML = `<div class="tbl-wrap"><table class="tbl">
-        <thead><tr><th>Customer BP</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th></tr></thead>
-        <tbody>${bpCusts.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(bcS24[i])}</td><td class="r">${fmt(bcS25[i])}</td>${pctTd(pct(bcS25[i],bcS24[i]))}<td class="r">${fmt(bcS26[i])}</td>${pctTd(pct(bcS26[i],bcS25[i]))}<td class="r">${fmt(bcBP[i])}</td>${pctTd(pct(bcS26[i],bcBP[i]))}</tr>`).join('')}
-        </tbody></table></div>`;
+      document.getElementById('sec-custbp').style.display = '';
+      const bpMap = aggBy(act25, r => r[C.custBP]);
+      const bpCs  = topN(bpMap, 20);
+      const bcS24=bpCs.map(c=>sum(act24.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
+      const bcS25=bpCs.map(c=>sum(act25.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
+      const bcS26=bpCs.map(c=>sum(act26.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
+      const bcBP =bpCs.map(c=>sum(bp26.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
+      document.getElementById('tbl-customer-bp').innerHTML = `
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Customer BP</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th></tr></thead>
+          <tbody>${bpCs.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(bcS24[i])}</td><td class="r">${fmt(bcS25[i])}</td>${pctTd(pct(bcS25[i],bcS24[i]))}<td class="r">${fmt(bcS26[i])}</td>${pctTd(pct(bcS26[i],bcS25[i]))}<td class="r">${fmt(bcBP[i])}</td>${pctTd(pct(bcS26[i],bcBP[i]))}</tr>`).join('')}
+          </tbody></table></div>`;
     }
 
-    // Channel
     if (C.channel) {
-      // Normalize channel names (case-insensitive dedup)
-      const chNormMap = {};
-      act25.forEach(r => {
-        const nk = norm(r[C.channel]);
-        if (!chNormMap[nk]) chNormMap[nk] = r[C.channel]; // keep first casing
+      document.getElementById('sec-channel').style.display = '';
+      const chNMap = {};
+      act25.forEach(r => { const nk=norm(r[C.channel]); if (!chNMap[nk]) chNMap[nk]=r[C.channel]; });
+      const chAgg = aggBy(act25, r => norm(r[C.channel]));
+      const chs   = topN(chAgg, 12);
+      const chLbls = chs.map(nk => chNMap[nk] || nk);
+      const chS24=chs.map(nk=>sum(act24.filter(r=>norm(r[C.channel])===nk),C.value));
+      const chS25=chs.map(nk=>sum(act25.filter(r=>norm(r[C.channel])===nk),C.value));
+      const chS26=chs.map(nk=>sum(act26.filter(r=>norm(r[C.channel])===nk),C.value));
+      const chBP =chs.map(nk=>sum(bp26.filter(r=>norm(r[C.channel])===nk),C.value));
+      const tot25 = sum(act25,C.value)||1;
+      mkChart('ch-channel-donut', { type:'doughnut',
+        data:{ labels:chLbls, datasets:[{ data:chS25, backgroundColor:PALETTE, borderWidth:0 }] },
+        options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
+          plugins:{ legend:{ position:'right', labels:{ color:'#7b8499', boxWidth:9, font:{size:10} } },
+            datalabels:{display:false}, tooltip:{ callbacks:{ label: ctx=>`${ctx.label}: ${fmt(ctx.parsed)} (${((ctx.parsed/tot25)*100).toFixed(1)}%)` } } } }
       });
-      const chNormMap24 = {}; act24.forEach(r=>{ const nk=norm(r[C.channel]); if(!chNormMap24[nk]) chNormMap24[nk]=r[C.channel]; });
-
-      const chAgg25 = aggBy(act25, r=>norm(r[C.channel]));
-      const channels = topN(chAgg25, 15); // normalized keys
-      const chLabels = channels.map(nk => chNormMap[nk] || nk);
-
-      const chS24=channels.map(nk=>sum(act24.filter(r=>norm(r[C.channel])===nk),C.value));
-      const chS25=channels.map(nk=>sum(act25.filter(r=>norm(r[C.channel])===nk),C.value));
-      const chS26=channels.map(nk=>sum(act26.filter(r=>norm(r[C.channel])===nk),C.value));
-      const chBP =channels.map(nk=>sum(bp26.filter(r=>norm(r[C.channel])===nk),C.value));
-      const tot25=sum(act25,C.value)||1;
-
-      mkChart('ch-channel-donut', { type:'doughnut', data:{ labels:chLabels,
-        datasets:[{ data:chS25, backgroundColor:PALETTE.slice(0,channels.length) }]},
-        options:{ responsive:true, maintainAspectRatio:false,
-          plugins:{ legend:{position:'right',labels:{boxWidth:12,font:{size:10}}},
-            tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${fmt(ctx.parsed)} (${((ctx.parsed/tot25)*100).toFixed(1)}%)`}} }
-        }
-      });
-
-      document.getElementById('tbl-channel').innerHTML = `<div class="tbl-wrap"><table class="tbl">
-        <thead><tr><th>Channel</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
-        <tbody>${chLabels.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(chS24[i])}</td><td class="r">${fmt(chS25[i])}</td>${pctTd(pct(chS25[i],chS24[i]))}<td class="r">${fmt(chS26[i])}</td>${pctTd(pct(chS26[i],chS25[i]))}<td class="r">${fmt(chBP[i])}</td>${pctTd(pct(chS26[i],chBP[i]))}<td class="r">${((chS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
-        </tbody></table></div>`;
+      document.getElementById('tbl-channel').innerHTML = `
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Channel</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
+          <tbody>${chLbls.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(chS24[i])}</td><td class="r">${fmt(chS25[i])}</td>${pctTd(pct(chS25[i],chS24[i]))}<td class="r">${fmt(chS26[i])}</td>${pctTd(pct(chS26[i],chS25[i]))}<td class="r">${fmt(chBP[i])}</td>${pctTd(pct(chS26[i],chBP[i]))}<td class="r">${((chS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
+          </tbody></table></div>`;
     }
   }
 
-  /* =============================================================
-     REGION
-  ============================================================= */
+  /* ================================================================
+     GEOGRAPHY
+  ================================================================ */
   function renderRegion() {
     const act24=a(2024), act25=a(2025), act26=a(2026), bp26=b(2026);
 
-    // Country
     if (C.country) {
-      const ctMap = aggBy(act25, r=>r[C.country]);
-      const cts = topN(ctMap, 20);
+      const ctMap = aggBy(act25, r => r[C.country]);
+      const cts   = topN(ctMap, 20);
       const ctS24=cts.map(c=>sum(act24.filter(r=>norm(r[C.country])===norm(c)),C.value));
       const ctS25=cts.map(c=>sum(act25.filter(r=>norm(r[C.country])===norm(c)),C.value));
       const ctS26=cts.map(c=>sum(act26.filter(r=>norm(r[C.country])===norm(c)),C.value));
       const ctBP =cts.map(c=>sum(bp26.filter(r=>norm(r[C.country])===norm(c)),C.value));
-      const tot25=sum(act25,C.value)||1;
-
-      mkChart('ch-country-bar', { type:'bar', data:{ labels:cts,
-        datasets:[
-          {label:'2024',data:ctS24,backgroundColor:C_2024+'cc'},
-          {label:'2025',data:ctS25,backgroundColor:C_2025+'cc'},
-          {label:'2026 YTD',data:ctS26,backgroundColor:C_2026+'cc'}
+      const tot25 = sum(act25,C.value)||1;
+      mkChart('ch-country-bar', { type:'bar',
+        data:{ labels:cts, datasets:[
+          {label:'2024',     data:ctS24, backgroundColor:C_2024+'88', borderRadius:2},
+          {label:'2025',     data:ctS25, backgroundColor:C_2025+'cc', borderRadius:2},
+          {label:'2026 YTD', data:ctS26, backgroundColor:C_2026+'cc', borderRadius:2},
         ]},
         options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-          plugins:{ legend:{labels:{boxWidth:12,font:{size:10}}}, tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}`}} },
-          scales:{ x:{ticks:{callback:v=>fmt(v),font:{size:9}}}, y:{ticks:{font:{size:9}}} }
+          plugins:{
+            legend: dLegend(),
+            datalabels:{ display:true, anchor:'end', align:'right', color:'#9aa5bc', font:{size:8,weight:'600'},
+              formatter:(v,ctx) => ctx.datasetIndex===1 && v>0 ? fmtShort(v) : '' },
+            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` } }
+          },
+          scales: dScalesH()
         }
       });
-
-      document.getElementById('tbl-country').innerHTML = `<div class="tbl-wrap"><table class="tbl">
-        <thead><tr><th>Country</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
-        <tbody>${cts.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(ctS24[i])}</td><td class="r">${fmt(ctS25[i])}</td>${pctTd(pct(ctS25[i],ctS24[i]))}<td class="r">${fmt(ctS26[i])}</td>${pctTd(pct(ctS26[i],ctS25[i]))}<td class="r">${fmt(ctBP[i])}</td>${pctTd(pct(ctS26[i],ctBP[i]))}<td class="r">${((ctS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
-        </tbody></table></div>`;
+      document.getElementById('tbl-country').innerHTML = `
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Country</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
+          <tbody>${cts.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(ctS24[i])}</td><td class="r">${fmt(ctS25[i])}</td>${pctTd(pct(ctS25[i],ctS24[i]))}<td class="r">${fmt(ctS26[i])}</td>${pctTd(pct(ctS26[i],ctS25[i]))}<td class="r">${fmt(ctBP[i])}</td>${pctTd(pct(ctS26[i],ctBP[i]))}<td class="r">${((ctS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
+          </tbody></table></div>`;
     }
 
-    // TB Branch (COUNTRY 2)
     if (C.branch) {
-      const brMap = aggBy(act25, r=>r[C.branch]);
-      const brs = topN(brMap, 15);
+      document.getElementById('sec-branch').style.display = '';
+      const brMap = aggBy(act25, r => r[C.branch]);
+      const brs   = topN(brMap, 15);
       const brS24=brs.map(b=>sum(act24.filter(r=>norm(r[C.branch])===norm(b)),C.value));
       const brS25=brs.map(b=>sum(act25.filter(r=>norm(r[C.branch])===norm(b)),C.value));
       const brS26=brs.map(b=>sum(act26.filter(r=>norm(r[C.branch])===norm(b)),C.value));
       const brBP =brs.map(b=>sum(bp26.filter(r=>norm(r[C.branch])===norm(b)),C.value));
-
-      mkChart('ch-branch-bar', { type:'bar', data:{ labels:brs,
-        datasets:[
-          {label:'2024',data:brS24,backgroundColor:C_2024+'cc'},
-          {label:'2025',data:brS25,backgroundColor:C_2025+'cc'},
-          {label:'2026 YTD',data:brS26,backgroundColor:C_2026+'cc'}
+      mkChart('ch-branch-bar', { type:'bar',
+        data:{ labels:brs, datasets:[
+          {label:'2024',     data:brS24, backgroundColor:C_2024+'88', borderRadius:2},
+          {label:'2025',     data:brS25, backgroundColor:C_2025+'cc', borderRadius:2},
+          {label:'2026 YTD', data:brS26, backgroundColor:C_2026+'cc', borderRadius:2},
         ]},
         options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-          plugins:{ legend:{labels:{boxWidth:12,font:{size:10}}}, tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}`}} },
-          scales:{ x:{ticks:{callback:v=>fmt(v),font:{size:9}}}, y:{ticks:{font:{size:9}}} }
+          plugins:{
+            legend: dLegend(),
+            datalabels:{ display:true, anchor:'end', align:'right', color:'#9aa5bc', font:{size:8,weight:'600'},
+              formatter:(v,ctx) => ctx.datasetIndex===1 && v>0 ? fmtShort(v) : '' },
+            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` } }
+          },
+          scales: dScalesH()
         }
       });
-
-      document.getElementById('tbl-branch').innerHTML = `<div class="tbl-wrap"><table class="tbl">
-        <thead><tr><th>TB Branch</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th></tr></thead>
-        <tbody>${brs.map((b,i)=>`<tr><td>${b}</td><td class="r">${fmt(brS24[i])}</td><td class="r">${fmt(brS25[i])}</td>${pctTd(pct(brS25[i],brS24[i]))}<td class="r">${fmt(brS26[i])}</td>${pctTd(pct(brS26[i],brS25[i]))}<td class="r">${fmt(brBP[i])}</td>${pctTd(pct(brS26[i],brBP[i]))}</tr>`).join('')}
-        </tbody></table></div>`;
+      document.getElementById('tbl-branch').innerHTML = `
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>TB Branch</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th></tr></thead>
+          <tbody>${brs.map((b,i)=>`<tr><td>${b}</td><td class="r">${fmt(brS24[i])}</td><td class="r">${fmt(brS25[i])}</td>${pctTd(pct(brS25[i],brS24[i]))}<td class="r">${fmt(brS26[i])}</td>${pctTd(pct(brS26[i],brS25[i]))}<td class="r">${fmt(brBP[i])}</td>${pctTd(pct(brS26[i],brBP[i]))}</tr>`).join('')}
+          </tbody></table></div>`;
     }
   }
 
-  /* =============================================================
+  /* ================================================================
      INSIGHTS
-  ============================================================= */
+  ================================================================ */
   function renderInsights() {
     const act24=a(2024), act25=a(2025), act26=a(2026), bp26=b(2026);
     const s24=sum(act24,C.value), s25=sum(act25,C.value), s26=sum(act26,C.value), s26b=sum(bp26,C.value);
     const insights = [];
 
-    // YoY 2025
-    const yoy25 = pct(s25, s24);
-    insights.push({
-      type: yoy25>=0?'ok':'warn', icon: yoy25>=0?'📈':'📉',
-      title: `2025 Sales ${yoy25>=0?'Growth':'Decline'}: ${Math.abs(yoy25).toFixed(1)}% vs 2024`,
-      body: `Full-year 2025 actual sales: ${fmt(s25)} vs ${fmt(s24)} in 2024.`,
-      action: yoy25<0
-        ? 'Investigate root causes — check top declining customers and categories.'
-        : 'Identify the top drivers and replicate across underperforming markets.'
+    const yoy25 = pct(s25,s24);
+    insights.push({ type:yoy25>=0?'ok':'warn', icon:yoy25>=0?'📈':'📉',
+      title:`2025 Sales ${yoy25>=0?'Growth':'Decline'}: ${Math.abs(yoy25).toFixed(1)}% vs 2024`,
+      body:`Full-year 2025 actual: ${fmt(s25)} vs ${fmt(s24)} in 2024.`,
+      action: yoy25<0?'Investigate root causes — top declining customers and categories.':'Identify top drivers and replicate across underperforming markets.'
     });
-
-    // 2026 vs BP
     if (s26b > 0) {
-      const gapBP = pct(s26, s26b);
-      insights.push({
-        type: gapBP>=0?'ok':(gapBP>-10?'info':'warn'), icon:'🎯',
-        title: `2026 YTD vs Business Plan: ${gapBP>=0?'On Track ✅':Math.abs(gapBP).toFixed(1)+'% Below Target'}`,
-        body: `YTD actual: ${fmt(s26)} · BP target: ${fmt(s26b)} · Gap: ${fmt(s26-s26b)}.`,
-        action: gapBP<0
-          ? 'Review pipeline for remaining months. Prioritise BP accounts that are underperforming.'
-          : 'Maintain momentum and update the full-year forecast upward.'
+      const gapBP = pct(s26,s26b);
+      insights.push({ type:gapBP>=0?'ok':(gapBP>-10?'info':'warn'), icon:'🎯',
+        title:`2026 YTD vs BP: ${gapBP>=0?'On Track ✅':Math.abs(gapBP).toFixed(1)+'% Below Target'}`,
+        body:`YTD actual: ${fmt(s26)} · BP: ${fmt(s26b)} · Gap: ${fmt(s26-s26b)}.`,
+        action: gapBP<0?'Review pipeline. Prioritise BP accounts underperforming.':'Maintain momentum and update full-year forecast upward.'
       });
     }
-
-    // Top growing category
     if (C.category) {
       const cats = [...new Set(act25.map(r=>r[C.category]).filter(Boolean))];
       const catG = cats.map(c => ({ c, s25:sum(act25.filter(r=>norm(r[C.category])===norm(c)),C.value), s24:sum(act24.filter(r=>norm(r[C.category])===norm(c)),C.value) }))
         .map(x=>({...x, g:pct(x.s25,x.s24)})).filter(x=>isFinite(x.g)).sort((a,b)=>b.g-a.g);
       if (catG.length) {
         const best=catG[0], worst=catG[catG.length-1];
-        insights.push({ type:'ok', icon:'🏆',
-          title:`Best Category 2025: ${best.c} (+${best.g.toFixed(1)}%)`,
+        insights.push({ type:'ok', icon:'🏆', title:`Best Category 2025: ${best.c} (+${best.g.toFixed(1)}%)`,
           body:`${best.c} grew ${best.g.toFixed(1)}% in 2025 (${fmt(best.s25)} vs ${fmt(best.s24)}).`,
-          action:'Increase allocation and range depth in this category for 2026.'
-        });
-        if (worst.g < -5) insights.push({ type:'warn', icon:'⚠️',
-          title:`Declining Category: ${worst.c} (${worst.g.toFixed(1)}%)`,
-          body:`${worst.c} fell ${Math.abs(worst.g).toFixed(1)}% in 2025 (${fmt(worst.s25)} vs ${fmt(worst.s24)}).`,
-          action:'Review pricing, product assortment and competitive positioning for this category.'
-        });
+          action:'Increase allocation and range depth in this category for 2026.' });
+        if (worst.g < -5) insights.push({ type:'warn', icon:'⚠️', title:`Declining: ${worst.c} (${worst.g.toFixed(1)}%)`,
+          body:`${worst.c} fell ${Math.abs(worst.g).toFixed(1)}% in 2025.`,
+          action:'Review pricing, product assortment and competitive positioning.' });
       }
     }
-
-    // Family split
     if (C.family) {
       const bpS=sum(act25.filter(r=>norm(r[C.family]).includes('backpack')),C.value);
       const lgS=sum(act25.filter(r=>norm(r[C.family]).includes('luggage')),C.value);
       const tot=bpS+lgS||1;
-      insights.push({ type:'info', icon:'🧳',
-        title:`2025 Mix: Backpacks ${((bpS/tot)*100).toFixed(0)}% / Luggage ${((lgS/tot)*100).toFixed(0)}%`,
+      insights.push({ type:'info', icon:'🧳', title:`2025 Mix: Backpacks ${((bpS/tot)*100).toFixed(0)}% / Luggage ${((lgS/tot)*100).toFixed(0)}%`,
         body:`Backpacks: ${fmt(bpS)} · Luggage: ${fmt(lgS)} in 2025 actual sales.`,
-        action:'Align product development and marketing budget with the higher-revenue category.'
-      });
+        action:'Align product development and marketing budget with the higher-revenue category.' });
     }
-
-    // Channel concentration
-    if (C.channel) {
-      const chAgg = aggBy(act25, r=>norm(r[C.channel]));
-      const topCh = Object.entries(chAgg).sort((a,b)=>b[1]-a[1])[0];
-      if (topCh) {
-        const share=(topCh[1]/(sum(act25,C.value)||1))*100;
-        const chName=act25.find(r=>norm(r[C.channel])===topCh[0])?.[C.channel]||topCh[0];
-        insights.push({ type:share>65?'warn':'info', icon:'📡',
-          title:`Channel Concentration: ${chName} = ${share.toFixed(0)}% of 2025 Sales`,
-          body:`The ${chName} channel drives ${fmt(topCh[1])} — ${share.toFixed(1)}% of total 2025 revenue.`,
-          action:share>65?'Diversify the channel mix to reduce single-channel dependency risk.':'Continue strengthening the lead channel while developing secondary channels.'
-        });
-      }
-    }
-
-    // Top country
     if (C.country) {
-      const ctAgg25 = aggBy(act25, r=>r[C.country]);
-      const ctAgg24 = aggBy(act24, r=>r[C.country]);
+      const ctAgg25 = aggBy(act25, r=>r[C.country]), ctAgg24 = aggBy(act24, r=>r[C.country]);
       const topCt = Object.entries(ctAgg25).sort((a,b)=>b[1]-a[1])[0];
       if (topCt) {
-        const share=(topCt[1]/(sum(act25,C.value)||1))*100;
-        const yoy=pct(topCt[1], ctAgg24[topCt[0]]||0);
-        insights.push({ type:'info', icon:'🌍',
-          title:`Top Market: ${topCt[0]} — ${share.toFixed(0)}% of 2025 Sales`,
+        const share=(topCt[1]/(sum(act25,C.value)||1))*100, yoy=pct(topCt[1],ctAgg24[topCt[0]]||0);
+        insights.push({ type:'info', icon:'🌍', title:`Top Market: ${topCt[0]} — ${share.toFixed(0)}% of 2025`,
           body:`${topCt[0]}: ${fmt(topCt[1])} in 2025${isFinite(yoy)?' ('+Math.abs(yoy).toFixed(1)+'% '+(yoy>=0?'growth':'decline')+' vs 2024)':''}.`,
-          action:'Protect the top market while identifying the next growth market to prioritise.'
-        });
+          action:'Protect top market while identifying next growth market to prioritise.' });
       }
     }
-
     document.getElementById('insights-grid').innerHTML = insights.map(ins=>`
       <div class="insight-card ${ins.type}">
         <div class="insight-icon">${ins.icon}</div>
         <div class="insight-title">${ins.title}</div>
         <div class="insight-body">${ins.body}</div>
         <div class="insight-action">→ ${ins.action}</div>
-      </div>`).join('') || '<div class="state-card"><div class="state-title">No data available.</div></div>';
+      </div>`).join('') || '<div style="color:#4a5680;padding:40px;text-align:center;">No data available.</div>';
   }
 
-  /* =============================================================
+  /* ================================================================
      POPULATE FILTER DROPDOWNS
-  ============================================================= */
+  ================================================================ */
   function populateFilters() {
     const act = _all.filter(isActual);
-    const years     = [...new Set(_all.map(rowYear).filter(Boolean))].sort();
-    const months    = [...new Set(_all.map(rowMonth).filter(Boolean))].sort();
+    const years  = [...new Set(_all.map(rowYear).filter(Boolean))].sort();
+    const months = [...new Set(_all.map(rowMonth).filter(Boolean))].sort();
     const countries = [...new Set(act.map(r=>r[C.country]).filter(Boolean))].sort();
     const branches  = [...new Set(act.map(r=>r[C.branch]).filter(Boolean))].sort();
     const customers = [...new Set(act.map(r=>r[C.customer]).filter(Boolean))].sort();
-    const families  = [...new Set(act.map(r=>r[C.family]).filter(Boolean))].sort();
     const cats      = [...new Set(act.map(r=>r[C.category]).filter(Boolean))].sort();
     const subcats   = [...new Set(act.map(r=>r[C.subcat]).filter(Boolean))].sort();
     const skus      = [...new Set(act.map(r=>r[C.sku]).filter(Boolean))].sort();
-
+    // Month dropdown: show full name (January … December), value = "01".."12"
+    const MONTH_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    function monthLabel(m) {
+      const n = parseInt(m, 10);
+      return (!isNaN(n) && n >= 1 && n <= 12) ? MONTH_FULL[n-1] : m;
+    }
     function fill(id, vals, labelFn=v=>v) {
       const el = document.getElementById(id); if (!el) return;
-      const placeholder = el.options[0].outerHTML;
-      el.innerHTML = placeholder + vals.map(v=>`<option value="${v}">${labelFn(v)}</option>`).join('');
+      el.innerHTML = el.options[0].outerHTML + vals.map(v=>`<option value="${v}">${labelFn(v)}</option>`).join('');
     }
-    fill('f-year',       years);
-    fill('f-month',      months, monthLabel);
-    fill('f-country',    countries);
-    fill('f-branch',     branches);
-    fill('f-customer',   customers);
-    fill('f-family-sel', families);
-    fill('f-category',   cats);
-    fill('f-subcat',     subcats);
-    fill('f-sku',        skus);
+    fill('f-year',     years);
+    fill('f-month',    months, monthLabel);
+    fill('f-country',  countries);
+    fill('f-branch',   branches);
+    fill('f-customer', customers);
+    fill('f-category', cats);
+    fill('f-subcat',   subcats);
+    fill('f-sku',      skus);
   }
 
-  /* =============================================================
+  /* ================================================================
      INIT
-  ============================================================= */
+  ================================================================ */
   (async () => {
     const user = await Auth.requireLogin();
     if (!user) return;
-
     const role = Auth.role(user);
     if (!Auth.canViewProject(user, PROJECT_SLUG)) { window.location.href = '/home.html'; return; }
 
@@ -1009,34 +1047,33 @@
     if (typeof lucide !== 'undefined') lucide.createIcons();
     document.getElementById('btn-theme').addEventListener('click', () => ThemeToggle.toggle());
 
-    const sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
-
     if (Auth.isAdminOrOwner(user)) {
       const btn = document.createElement('button');
       btn.textContent = '⬆ Update Data';
-      btn.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999;padding:10px 18px;background:#1B2A6B;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.2);';
+      btn.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999;padding:10px 18px;background:#3b82f6;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.4);';
       btn.onclick = () => { window.location.href = `/admin/index.html?upload=${PROJECT_SLUG}`; };
       document.body.appendChild(btn);
     }
 
-    // Paginated fetch — Supabase/PostgREST returns max 1000 rows by default
+    const sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+
+    // Paginated fetch — Supabase default is 1000 rows
     const PAGE = 1000;
     let allRaw = [], page = 0, fetchError = null;
-    document.querySelector('#state-loading .state-sub').textContent = 'Fetching data from Supabase…';
+    const loadingSub = document.querySelector('#state-loading .state-sub');
     while (true) {
       const { data: chunk, error: err } = await sb
         .from('project_data').select('row_data')
         .eq('project_slug', PROJECT_SLUG)
-        .range(page * PAGE, (page + 1) * PAGE - 1);
+        .range(page * PAGE, (page+1) * PAGE - 1);
       if (err) { fetchError = err; break; }
       if (chunk?.length) allRaw.push(...chunk);
       if (!chunk?.length || chunk.length < PAGE) break;
       page++;
-      document.querySelector('#state-loading .state-sub').textContent =
-        `Fetching data… ${allRaw.length.toLocaleString()} rows loaded`;
+      if (loadingSub) loadingSub.textContent = `Fetching… ${allRaw.length.toLocaleString()} rows loaded`;
     }
     const raw = allRaw, error = fetchError;
-    console.log('[BL] fetched', raw.length, 'rows in', page + 1, 'page(s)');
+    console.log('[BL] fetched', raw.length, 'rows in', page+1, 'page(s)');
 
     if (error || !raw?.length) {
       document.getElementById('state-loading').innerHTML = `
@@ -1044,7 +1081,7 @@
           <div class="state-icon">📭</div>
           <div class="state-title">No data yet</div>
           <div class="state-sub">${Auth.isAdminOrOwner(user) ? 'Upload a CSV in the Admin panel.' : 'Data is being prepared.'}</div>
-          ${Auth.isAdminOrOwner(user) ? `<div style="margin-top:16px;"><a href="/admin/index.html?upload=${PROJECT_SLUG}" style="display:inline-block;padding:10px 24px;background:var(--navy);color:#fff;border-radius:7px;text-decoration:none;font-weight:700;font-size:13px;">⬆ Upload CSV</a></div>` : ''}
+          ${Auth.isAdminOrOwner(user) ? `<a href="/admin/index.html?upload=${PROJECT_SLUG}" class="state-link">⬆ Upload CSV</a>` : ''}
         </div>`;
       return;
     }
@@ -1052,19 +1089,14 @@
     const rows = raw.map(r => r.row_data);
     resolveColumns(rows[0]);
 
-    // Filter: exclude INTERCO rows only (keep CUSTOMERS and any other non-interco company type)
-    _all = C.company
-      ? rows.filter(r => !norm(r[C.company]).includes('interco'))
-      : rows;
-    console.log('[BL] total rows:', rows.length, '| after interco filter:', _all.length,
-      '| sample company values:', [...new Set(rows.slice(0,200).map(r=>r[C.company]))].slice(0,8));
+    // Exclude INTERCO rows
+    _all = C.company ? rows.filter(r => !norm(r[C.company]).includes('interco')) : rows;
+    console.log('[BL] total:', rows.length, '| after filter:', _all.length,
+      '| company sample:', [...new Set(rows.slice(0,200).map(r=>r[C.company]))].slice(0,8));
 
     _filt = [..._all];
-
-    // Show UI
     document.getElementById('state-loading').style.display = 'none';
-    document.getElementById('filter-bar').style.display = 'flex';
-    document.getElementById('dash-tabs').style.display  = 'flex';
+    document.getElementById('dash-wrap').style.display     = 'block';
     populateFilters();
     showTab('overview');
   })();
