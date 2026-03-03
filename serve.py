@@ -28,6 +28,7 @@ DASHBOARD_PATHS = {
     '/avolta/index.html',
     '/backpacks-and-luggage/index.html',
     '/total-sales-bp-latam/index.html',
+    '/backpack-lugagge/index.html',
 }
 
 # ── Dev tools injected before </body> ────────────────────────────────────────
