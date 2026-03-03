@@ -330,10 +330,34 @@
       </div>
       <div class="filter-group"><span class="filter-label">Category</span>
         <select class="filter-select" id="f-category" onchange="applyFilters()"><option value="">All Categories</option></select></div>
-      <div class="filter-group"><span class="filter-label">Sub-Cat.</span>
-        <select class="filter-select" id="f-subcat" onchange="applyFilters()"><option value="">All Sub-Cat.</option></select></div>
-      <div class="filter-group"><span class="filter-label">SKU</span>
-        <select class="filter-select" id="f-sku" onchange="applyFilters()"><option value="">All SKUs</option></select></div>
+      <div class="filter-group" id="csdrop-wrap-subcat">
+        <span class="filter-label">Sub-Cat.</span>
+        <div class="csdrop">
+          <button class="csdrop-trigger" type="button" onclick="gsdropToggle('subcat')">
+            <span id="csdrop-label-subcat">All Sub-Cat.</span><span class="csdrop-arrow">▼</span>
+          </button>
+          <div class="csdrop-panel" id="csdrop-panel-subcat" style="display:none;">
+            <div class="csdrop-search-row">
+              <input class="csdrop-search" id="csdrop-search-subcat" type="text" placeholder="🔍 Search sub-category…" oninput="gsdropFilter('subcat',this.value)">
+            </div>
+            <div class="csdrop-list" id="csdrop-list-subcat"></div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-group" id="csdrop-wrap-sku">
+        <span class="filter-label">SKU</span>
+        <div class="csdrop">
+          <button class="csdrop-trigger" type="button" onclick="gsdropToggle('sku')">
+            <span id="csdrop-label-sku">All SKUs</span><span class="csdrop-arrow">▼</span>
+          </button>
+          <div class="csdrop-panel" id="csdrop-panel-sku" style="display:none;">
+            <div class="csdrop-search-row">
+              <input class="csdrop-search" id="csdrop-search-sku" type="text" placeholder="🔍 Search SKU…" oninput="gsdropFilter('sku',this.value)">
+            </div>
+            <div class="csdrop-list" id="csdrop-list-sku"></div>
+          </div>
+        </div>
+      </div>
       <button class="filter-reset" onclick="resetFilters()">✕ Reset</button>
     </div>
 
@@ -590,6 +614,23 @@
   const a = yr => byYear(yr, isActual);
   const b = yr => byYear(yr, isBP);
 
+  /* bAll: BP data filtered like _filt but IGNORING the month filter.
+     BP in this dataset is stored as annual totals (Mês=12), so applying
+     a month filter would exclude all BP rows incorrectly. */
+  function bAll(yr) {
+    return _all.filter(r => {
+      if (rowYear(r) !== String(yr) || !isBP(r)) return false;
+      if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
+      if (F.country   && C.country   && norm(r[C.country])   !== norm(F.country))   return false;
+      if (F.branch    && C.branch    && norm(r[C.branch])    !== norm(F.branch))     return false;
+      if (F.customer  && C.customer  && norm(r[C.customer])  !== norm(F.customer))   return false;
+      if (F.category  && C.category  && norm(r[C.category])  !== norm(F.category))   return false;
+      if (F.subcat    && C.subcat    && norm(r[C.subcat])    !== norm(F.subcat))      return false;
+      if (F.sku       && C.sku       && norm(r[C.sku])       !== norm(F.sku))         return false;
+      return true;
+    });
+  }
+
   /* ── aggregation ── */
   function aggBy(rows, keyFn) {
     const m = {};
@@ -603,45 +644,64 @@
   /* ── filter state ── */
   const F = { family:'ALL', year:'', month:'', country:'', branch:'', customer:'', category:'', subcat:'', sku:'' };
 
-  /* ── Searchable Customer Dropdown ── */
-  let _custOptions = [];
-  function csdropToggle() {
-    const panel = document.getElementById('csdrop-panel');
-    if (!panel) return;
-    const open = panel.style.display !== 'none';
-    if (open) { panel.style.display = 'none'; return; }
-    panel.style.display = 'block';
-    const inp = document.getElementById('csdrop-search');
-    if (inp) { inp.value = ''; inp.focus(); }
-    csdropFilter('');
+  /* ── Generalized Searchable Dropdowns ── */
+  // _gsdropOpts: { customer: [...], subcat: [...], sku: [...] }
+  const _gsdropOpts = { customer:[], subcat:[], sku:[] };
+  const _gsdropDefaults = { customer:'All Customers', subcat:'All Sub-Cat.', sku:'All SKUs' };
+  const _gsdropFields  = { customer:'customer', subcat:'subcat', sku:'sku' };
+
+  function gsdropToggle(id) {
+    // Close all others first
+    ['customer','subcat','sku'].forEach(k => {
+      const p = document.getElementById('csdrop-panel-'+k);
+      if (p && k !== id) p.style.display = 'none';
+    });
+    const panel = document.getElementById('csdrop-panel-'+id); if (!panel) return;
+    const open  = panel.style.display !== 'none';
+    panel.style.display = open ? 'none' : 'block';
+    if (!open) {
+      const inp = document.getElementById('csdrop-search-'+id);
+      if (inp) { inp.value = ''; inp.focus(); }
+      gsdropFilter(id, '');
+    }
   }
-  function csdropFilter(q) {
-    const list = document.getElementById('csdrop-list'); if (!list) return;
+  function gsdropFilter(id, q) {
+    const list = document.getElementById('csdrop-list-'+id); if (!list) return;
     const lower = q.toLowerCase().trim();
-    const items = lower ? _custOptions.filter(c => c.toLowerCase().includes(lower)) : _custOptions;
+    const opts  = _gsdropOpts[id] || [];
+    const items = lower ? opts.filter(c => c.toLowerCase().includes(lower)) : opts;
+    const field = _gsdropFields[id];
+    const cur   = F[field] || '';
+    const def   = _gsdropDefaults[id] || 'All';
     list.innerHTML = [
-      `<div class="csdrop-opt${!F.customer?' selected':''}" onclick="csdropSelect('','All Customers')">All Customers</div>`,
+      `<div class="csdrop-opt${!cur?' selected':''}" onclick="gsdropSelect('${id}','')">` + def + `</div>`,
       ...items.map(c => {
-        const safe = c.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-        return `<div class="csdrop-opt${norm(c)===norm(F.customer)?' selected':''}" onclick="csdropSelect('${safe}','${safe}')">${c}</div>`;
+        const safe = c.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+        return `<div class="csdrop-opt${norm(c)===norm(cur)?' selected':''}" onclick="gsdropSelect('${id}','${safe}')">${c}</div>`;
       })
     ].join('');
   }
-  function csdropSelect(value, label) {
-    F.customer = value;
-    const lbl = document.getElementById('csdrop-label');
-    if (lbl) lbl.textContent = value || 'All Customers';
-    const panel = document.getElementById('csdrop-panel');
+  function gsdropSelect(id, value) {
+    const field = _gsdropFields[id];
+    F[field] = value;
+    const lbl = document.getElementById('csdrop-label-'+id);
+    if (lbl) lbl.textContent = value || _gsdropDefaults[id] || 'All';
+    const panel = document.getElementById('csdrop-panel-'+id);
     if (panel) panel.style.display = 'none';
     applyFilters();
   }
-  // Close on outside click
+  // Backward compatibility aliases for customer dropdown
+  function csdropToggle()           { gsdropToggle('customer'); }
+  function csdropFilter(q)          { gsdropFilter('customer', q); }
+  function csdropSelect(value)      { gsdropSelect('customer', value); }
+
+  // Close all dropdowns on outside click
   document.addEventListener('click', e => {
-    const wrap = document.getElementById('csdrop-wrap');
-    if (wrap && !wrap.contains(e.target)) {
-      const panel = document.getElementById('csdrop-panel');
-      if (panel) panel.style.display = 'none';
-    }
+    ['customer','subcat','sku'].forEach(id => {
+      const wrap  = document.getElementById('csdrop-wrap-'+id) || document.getElementById('csdrop-wrap');
+      const panel = document.getElementById('csdrop-panel-'+id) || document.getElementById('csdrop-panel');
+      if (panel && wrap && !wrap.contains(e.target)) panel.style.display = 'none';
+    });
   });
 
   function applyFilters() {
@@ -649,10 +709,8 @@
     F.month    = document.getElementById('f-month')?.value    || '';
     F.country  = document.getElementById('f-country')?.value  || '';
     F.branch   = document.getElementById('f-branch')?.value   || '';
-    // F.customer is managed by csdropSelect()
     F.category = document.getElementById('f-category')?.value || '';
-    F.subcat   = document.getElementById('f-subcat')?.value   || '';
-    F.sku      = document.getElementById('f-sku')?.value      || '';
+    // F.customer, F.subcat, F.sku are managed by gsdropSelect()
     _filt = _all.filter(r => {
       if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
       if (F.year     && rowYear(r)          !== F.year)                              return false;
@@ -669,14 +727,19 @@
   }
 
   function resetFilters() {
-    ['f-year','f-month','f-country','f-branch','f-category','f-subcat','f-sku']
+    ['f-year','f-month','f-country','f-branch','f-category']
       .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
     Object.assign(F, { year:'', month:'', country:'', branch:'', customer:'', category:'', subcat:'', sku:'' });
-    // Reset searchable customer dropdown
-    const lbl = document.getElementById('csdrop-label');
-    if (lbl) lbl.textContent = 'All Customers';
-    const panel = document.getElementById('csdrop-panel');
-    if (panel) panel.style.display = 'none';
+    // Reset all searchable dropdowns
+    Object.entries(_gsdropDefaults).forEach(([id, def]) => {
+      const lbl = document.getElementById('csdrop-label-'+id);
+      if (lbl) lbl.textContent = def;
+      const panel = document.getElementById('csdrop-panel-'+id);
+      if (panel) panel.style.display = 'none';
+    });
+    // Legacy customer label
+    const custLbl = document.getElementById('csdrop-label');
+    if (custLbl) custLbl.textContent = 'All Customers';
     _filt = F.family === 'ALL' ? [..._all] : _all.filter(r => C.family && norm(r[C.family]) === norm(F.family));
     renderTab();
   }
@@ -736,7 +799,9 @@
      OVERVIEW
   ================================================================ */
   function renderOverview() {
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=b(2026), bp25=b(2025);
+    const act24=a(2024), act25=a(2025), act26=a(2026);
+    // BP data is stored as annual totals (Mês=12) → use bAll() to bypass month filter
+    const bp26=bAll(2026), bp25=bAll(2025);
     const s24=sum(act24,C.value), s25=sum(act25,C.value), s26=sum(act26,C.value),
           s26b=sum(bp26,C.value), s25b=sum(bp25,C.value);
 
@@ -745,7 +810,8 @@
     const latestMon = [...new Set(_filt.filter(r => isActual(r) && rowYear(r)===latestYr).map(getMonthNum).filter(Boolean))].sort((a,b)=>b-a)[0] || 1;
     const latestLbl = MN[latestMon-1] + ' ' + latestYr;
     const lAct  = sum(_filt.filter(r => isActual(r) && rowYear(r)===latestYr && getMonthNum(r)===latestMon), C.value);
-    const lBP   = sum(_filt.filter(r => isBP(r)     && rowYear(r)===latestYr && getMonthNum(r)===latestMon), C.value);
+    // lBP: monthly BP target = full year BP / 12 (since BP stored as annual totals)
+    const lBP   = s26b > 0 ? s26b / 12 : 0;
     const lPrev = sum(_filt.filter(r => isActual(r) && rowYear(r)===String(+latestYr-1) && getMonthNum(r)===latestMon), C.value);
     const achPct = lBP ? (lAct/lBP)*100 : NaN;
 
@@ -783,8 +849,8 @@
       </div>`;
 
     /* Revenue Comparison — vertical bars + data labels
-       4 bars: Full 2024 | Full 2025 | YTD 2026 | Full Year BP 2026
-       Using full-year BP (s26b) avoids $0 when BP stored as annual totals */
+       4 bars: Full 2024 | Full 2025 | YTD 2026 | Full Year BP 2026 */
+    const qtyArr = [sum(act24,C.qty), sum(act25,C.qty), sum(act26,C.qty), sum(bp26,C.qty)];
     mkChart('ch-revenue-cmp', {
       type:'bar',
       data:{
@@ -798,38 +864,67 @@
           legend:{ display:false },
           datalabels:{ display:true, anchor:'end', align:'top',
             color: isLight()?'#374151':'#c8d4e8', font:{size:10,weight:'700'}, formatter: v => fmt(v) },
-          tooltip:{ callbacks:{ label: ctx => fmt(ctx.parsed.y) } }
+          tooltip:{ callbacks:{ label: ctx => {
+            const q = qtyArr[ctx.dataIndex];
+            return `${fmt(ctx.parsed.y)}` + (q ? ` | Qty: ${Math.round(q).toLocaleString()}` : '');
+          }}}
         },
         scales: dScalesY()
       }
     });
 
     /* Monthly Trend — line chart.
-       For BP 2026: if data is stored as annual total (all rows in one month),
-       show a flat monthly target line (total / 12) instead. */
+       BP 2026 is stored as annual totals (Mês=12) → show flat monthly avg line.
+       mSumsActual uses _filt (month-filtered), but for all-months view shows full trend. */
     function mSums(rows) {
       return Array.from({length:12}, (_,i) => sum(rows.filter(r => getMonthNum(r)===i+1), C.value) || null);
     }
-    // Detect if BP 2026 is stored monthly or as annual total
-    const bp26months = [...new Set(bp26.map(getMonthNum).filter(Boolean))];
-    const bp26IsAnnual = bp26months.length <= 1; // 0 or 1 distinct month = annual total
-    const bpMonthlyData = bp26IsAnnual
-      ? Array(12).fill(s26b > 0 ? s26b / 12 : null)   // flat monthly target
-      : mSums(bp26);                                    // real monthly breakdown
+    function mSumsQty(rows) {
+      return Array.from({length:12}, (_,i) => sum(rows.filter(r => getMonthNum(r)===i+1), C.qty) || 0);
+    }
+    // For monthly trend, use all actual data (not month-filtered) so the trend is always complete
+    const allAct24=_all.filter(r=>isActual(r)&&rowYear(r)==='2024');
+    const allAct25=_all.filter(r=>isActual(r)&&rowYear(r)==='2025');
+    const allAct26=_all.filter(r=>isActual(r)&&rowYear(r)==='2026');
+    // Apply family/country/branch/customer/category/subcat/sku filters but NOT year/month
+    function applyNonTemporalFilters(rows) {
+      return rows.filter(r => {
+        if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
+        if (F.country  && C.country  && norm(r[C.country])  !== norm(F.country))  return false;
+        if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))   return false;
+        if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer)) return false;
+        if (F.category && C.category && norm(r[C.category]) !== norm(F.category)) return false;
+        if (F.subcat   && C.subcat   && norm(r[C.subcat])   !== norm(F.subcat))   return false;
+        if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))       return false;
+        return true;
+      });
+    }
+    const tAct24=applyNonTemporalFilters(allAct24);
+    const tAct25=applyNonTemporalFilters(allAct25);
+    const tAct26=applyNonTemporalFilters(allAct26);
+    const bpMonthlyAvg = s26b > 0 ? s26b / 12 : null;
+    const bpFlatLine   = Array(12).fill(bpMonthlyAvg);
     mkChart('ch-timeline', {
       type:'line',
       data:{
         labels: MN,
         datasets:[
-          { label:'2024',    data:mSums(act24), borderColor:C_2024, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
-          { label:'2025',    data:mSums(act25), borderColor:C_2025, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
-          { label:'2026 YTD',data:mSums(act26), borderColor:C_2026, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
-          { label:'BP 2026 '+(bp26IsAnnual?'(avg/mo)':''), data:bpMonthlyData,
-            borderColor:C_BP, backgroundColor:'transparent', borderWidth:1.5, borderDash:[4,3], pointRadius:2, tension:.3 },
+          { label:'2024',         data:mSums(tAct24), borderColor:C_2024, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
+          { label:'2025',         data:mSums(tAct25), borderColor:C_2025, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
+          { label:'2026 YTD',     data:mSums(tAct26), borderColor:C_2026, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
+          { label:'BP 2026 (avg/mo)', data:bpFlatLine, borderColor:C_BP, backgroundColor:'transparent', borderWidth:1.5, borderDash:[4,3], pointRadius:2, tension:0 },
         ]
       },
       options:{ responsive:true, maintainAspectRatio:false,
-        plugins:{ legend: dLegend(), datalabels:{display:false}, tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.y)}` } } },
+        plugins:{ legend: dLegend(), datalabels:{display:false},
+          tooltip:{ callbacks:{ label: ctx => {
+            const v = ctx.parsed.y;
+            if (!isFinite(v)) return '';
+            const qData = ctx.datasetIndex===0 ? mSumsQty(tAct24) : ctx.datasetIndex===1 ? mSumsQty(tAct25) : ctx.datasetIndex===2 ? mSumsQty(tAct26) : null;
+            const q = qData ? qData[ctx.dataIndex] : null;
+            return `${ctx.dataset.label}: ${fmt(v)}` + (q ? ` | Qty: ${Math.round(q).toLocaleString()}` : '');
+          }}}
+        },
         scales: dScalesY()
       }
     });
@@ -879,7 +974,7 @@
      PRODUCTS
   ================================================================ */
   function renderProduct() {
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=b(2026);
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=bAll(2026);
 
     /* Category — vertical grouped bars */
     if (C.category) {
@@ -912,6 +1007,10 @@
       const scS24=scs.map(s=>sum(act24.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
       const scS25=scs.map(s=>sum(act25.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
       const scS26=scs.map(s=>sum(act26.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
+      const scQ24=scs.map(s=>sum(act24.filter(r=>norm(r[C.subcat])===norm(s)),C.qty));
+      const scQ25=scs.map(s=>sum(act25.filter(r=>norm(r[C.subcat])===norm(s)),C.qty));
+      const scQ26=scs.map(s=>sum(act26.filter(r=>norm(r[C.subcat])===norm(s)),C.qty));
+      const scQtyByDs = [scQ24, scQ25, scQ26];
       mkChart('ch-subcat-bar', { type:'bar',
         data:{ labels:scs, datasets:[
           {label:'2024',     data:scS24, backgroundColor:C_2024+'88', borderRadius:2},
@@ -925,18 +1024,19 @@
               display: true, anchor:'end', align:'right',
               color: isLight()?'#475569':'#9aa5bc', font:{size:8,weight:'600'},
               formatter:(v, ctx) => {
-                // On 2025 bar: show value + YoY vs 2024
                 if (ctx.datasetIndex === 1) {
                   const v24 = ctx.chart.data.datasets[0].data[ctx.dataIndex] || 0;
                   const g   = v24 ? ((v-v24)/Math.abs(v24)*100) : NaN;
                   return fmtShort(v) + (isFinite(g) ? ' '+(g>=0?'+':'')+g.toFixed(0)+'%' : '');
                 }
-                // On 2026 bar: show value only
                 if (ctx.datasetIndex === 2) return v > 0 ? fmtShort(v) : '';
                 return '';
               }
             },
-            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` } }
+            tooltip:{ callbacks:{ label: ctx => {
+              const q = scQtyByDs[ctx.datasetIndex]?.[ctx.dataIndex];
+              return `${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` + (q ? ` | Qty: ${Math.round(q).toLocaleString()}` : '');
+            }}}
           },
           scales: dScalesH()
         }
@@ -962,7 +1062,7 @@
      CUSTOMERS
   ================================================================ */
   function renderCustomer() {
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=b(2026);
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=bAll(2026);
 
     if (C.customer) {
       const custMap = aggBy(act25, r => r[C.customer]);
@@ -973,6 +1073,10 @@
       const cBP =custs.map(c=>sum(bp26.filter(r=>norm(r[C.customer])===norm(c)),C.value));
       const tot25 = sum(act25,C.value)||1;
 
+      const cQ24=custs.map(c=>sum(act24.filter(r=>norm(r[C.customer])===norm(c)),C.qty));
+      const cQ25=custs.map(c=>sum(act25.filter(r=>norm(r[C.customer])===norm(c)),C.qty));
+      const cQ26=custs.map(c=>sum(act26.filter(r=>norm(r[C.customer])===norm(c)),C.qty));
+      const custQtyByDs = [cQ24, cQ25, cQ26, null];
       mkChart('ch-customer-bar', { type:'bar',
         data:{ labels:custs, datasets:[
           {label:'2024',     data:cS24, backgroundColor:C_2024+'88', borderRadius:2},
@@ -981,7 +1085,13 @@
           {label:'BP 2026',  data:cBP,  backgroundColor:C_BP+'88',   borderRadius:2},
         ]},
         options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-          plugins:{ legend: dLegend(), datalabels:{display:false}, tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` } } },
+          plugins:{ legend: dLegend(), datalabels:{display:false},
+            tooltip:{ callbacks:{ label: ctx => {
+              const qArr = custQtyByDs[ctx.datasetIndex];
+              const q = qArr ? qArr[ctx.dataIndex] : null;
+              return `${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` + (q ? ` | Qty: ${Math.round(q).toLocaleString()}` : '');
+            }}}
+          },
           scales: dScalesH()
         }
       });
@@ -1038,7 +1148,7 @@
      GEOGRAPHY
   ================================================================ */
   function renderRegion() {
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=b(2026);
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=bAll(2026);
 
     if (C.country) {
       const ctMap = aggBy(act25, r => r[C.country]);
@@ -1107,7 +1217,7 @@
      INSIGHTS — rich, data-driven analysis
   ================================================================ */
   function renderInsights() {
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=b(2026);
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=bAll(2026);
     const s24=sum(act24,C.value), s25=sum(act25,C.value), s26=sum(act26,C.value), s26b=sum(bp26,C.value);
     const insights = [];
 
@@ -1312,11 +1422,13 @@
     fill('f-country',  countries);
     fill('f-branch',   branches);
     fill('f-category', cats);
-    fill('f-subcat',   subcats);
-    fill('f-sku',      skus);
-    // Populate searchable customer dropdown
-    _custOptions = customers;
-    csdropFilter('');
+    // Populate searchable dropdowns
+    _gsdropOpts.customer = customers;
+    _gsdropOpts.subcat   = subcats;
+    _gsdropOpts.sku      = skus;
+    gsdropFilter('customer', '');
+    gsdropFilter('subcat',   '');
+    gsdropFilter('sku',      '');
   }
 
   /* ================================================================
