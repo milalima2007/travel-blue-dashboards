@@ -295,6 +295,7 @@
       <button              data-tab="customer"  onclick="showTab('customer')">Customers</button>
       <button              data-tab="region"    onclick="showTab('region')">Geography</button>
       <button              data-tab="insights"  onclick="showTab('insights')">Insights</button>
+      <button              data-tab="buffer"    onclick="showTab('buffer')">📦 Buffer</button>
     </nav>
 
     <div class="filter-bar">
@@ -472,6 +473,15 @@
       <div class="insight-grid" id="insights-grid"></div>
     </div>
 
+    <!-- ══ BUFFER ══ -->
+    <div class="tab-page" id="tab-buffer">
+      <div class="section">
+        <div class="section-title">Buffer &amp; Stock — TB LATAM <span style="font-size:11px;font-weight:400;color:#4a90e2;">Coverage analysis (months of stock)</span></div>
+        <div id="buf-kpis" class="kpi-row" style="margin-bottom:16px;display:flex;gap:12px;flex-wrap:wrap;"></div>
+        <div id="buf-table-wrap" class="tbl-wrap"></div>
+      </div>
+    </div>
+
   </div><!-- /dash-wrap -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -512,6 +522,8 @@
   /* ── utils ── */
   const norm = v => String(v ?? '').trim().toLowerCase();
   const num  = v => parseFloat(String(v ?? '').replace(/[$€£,\s]/g,'')) || 0;
+  // numCost: handles European decimal comma (e.g. "15,40" → 15.40)
+  const numCost = v => { const s=String(v??'').trim().replace(/[$€£\s]/g,''); if(!s) return 0; return s.includes(',')&&!s.includes('.') ? parseFloat(s.replace(',','.')) : parseFloat(s.replace(/,/g,'')) || 0; };
   const sum  = (rows, col) => rows.reduce((s,r) => s + num(r[col]), 0);
 
   function fmt(n) {
@@ -558,6 +570,9 @@
     C.subcat   = find('sub-category','subcategory','sub category','sub-cat','subcat');
     C.sku      = find('sku 2','sku2','sku');
     C.customer = find('customer grouped name','customer grouped','customer_grouped');
+    C.cost     = find('cost','custo');
+    C.cbm      = find('cbm','volume','cubic');
+    C.desc     = find('description','descrição','descricao','desc');
     C.custBP   = find('customer bp','customer_bp','customerbp');
     C.channel  = find('channel','canal');
     C.company  = find('company','empresa');
@@ -673,12 +688,12 @@
     const field = _gsdropFields[id];
     const cur   = F[field] || '';
     const def   = _gsdropDefaults[id] || 'All';
+    const esc   = v => String(v).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
     list.innerHTML = [
-      `<div class="csdrop-opt${!cur?' selected':''}" onclick="gsdropSelect('${id}','')">` + def + `</div>`,
-      ...items.map(c => {
-        const safe = c.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-        return `<div class="csdrop-opt${norm(c)===norm(cur)?' selected':''}" onclick="gsdropSelect('${id}','${safe}')">${c}</div>`;
-      })
+      `<div class="csdrop-opt${!cur?' selected':''}" data-gid="${id}" data-gval="" onclick="gsdropSelect(this.dataset.gid,this.dataset.gval)">${def}</div>`,
+      ...items.map(c =>
+        `<div class="csdrop-opt${norm(c)===norm(cur)?' selected':''}" data-gid="${id}" data-gval="${esc(c)}" onclick="gsdropSelect(this.dataset.gid,this.dataset.gval)">${esc(c)}</div>`
+      )
     ].join('');
   }
   function gsdropSelect(id, value) {
@@ -768,6 +783,7 @@
       case 'customer':  renderCustomer();  break;
       case 'region':    renderRegion();    break;
       case 'insights':  renderInsights();  break;
+      case 'buffer':    renderBuffer();    break;
     }
   }
   function mkChart(id, cfg) {
@@ -1406,6 +1422,138 @@
   }
 
   /* ================================================================
+     BUFFER & STOCK — TB LATAM coverage analysis
+  ================================================================ */
+  function renderBuffer() {
+    const LATAM = 'tb latam';
+    const isLatam = r => norm(r[C.branch] || r['COUNTRY 2'] || '') === LATAM;
+
+    const stkRows  = _all.filter(r => (r['TYPE']||'').toUpperCase()==='STOCK'  && isLatam(r));
+    const bufRows  = _all.filter(r => (r['TYPE']||'').toUpperCase()==='BUFFER' && isLatam(r));
+    const real25   = _all.filter(r => isActual(r) && rowYear(r)==='2025'       && isLatam(r));
+
+    // All unique SKUs
+    const allSKUs = [...new Set([...stkRows,...bufRows].map(r=>r['SKU 2']).filter(Boolean))].sort();
+
+    // Buffer delivery months (sorted)
+    const bufMonths = [...new Set(bufRows.map(r=>{
+      const y=String(r['Ano']||''), m=String(r['Mês']||'').padStart(2,'0');
+      return y && m !== '00' ? y+'-'+m : null;
+    }).filter(Boolean))].sort();
+
+    // Month label helper
+    const MN2 = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const monLbl = ym => { const [y,m]=ym.split('-'); return (MN2[+m-1]||m)+' '+y; };
+
+    // KPI totals
+    let totStockQty=0, totStockCost=0, totStockCBM=0, totBufQty=0;
+
+    const tableRows = allSKUs.map(sku => {
+      const sRows = stkRows.filter(r=>r['SKU 2']===sku);
+      const bRows = bufRows.filter(r=>r['SKU 2']===sku);
+      const rRows = real25.filter(r=>(r[C.sku]||r['SKU 2'])===sku);
+
+      const desc    = sRows[0]?.['DESCRIPTION'] || bRows[0]?.['DESCRIPTION'] || '';
+      const cat     = sRows[0]?.[C.category]    || bRows[0]?.[C.category]    || '';
+      const subcat  = sRows[0]?.[C.subcat]      || bRows[0]?.[C.subcat]      || '';
+      const family  = sRows[0]?.['FAMILY']       || bRows[0]?.['FAMILY']      || '';
+
+      const stockQty  = sRows.reduce((s,r)=>s+num(r['QUANTITY']),0);
+      const unitCost  = sRows.length ? numCost(sRows[0]['COST']||'0') : 0;
+      const unitCBM   = sRows.length ? num(sRows[0]['CBM']||'0') : (bRows.length ? num(bRows[0]['CBM']||'0') : 0);
+      const totalCost = stockQty * unitCost;
+      const totalCBM  = stockQty * unitCBM;
+
+      // Avg monthly qty 2025 (TB LATAM real sales)
+      const avg25 = rRows.reduce((s,r)=>s+num(r[C.qty]),0) / 12;
+
+      // Buffer by delivery month
+      const bufByMon = {};
+      bRows.forEach(r => {
+        const y=String(r['Ano']||''), m=String(r['Mês']||'').padStart(2,'0');
+        const key = y && m!=='00' ? y+'-'+m : 'unknown';
+        bufByMon[key] = (bufByMon[key]||0) + num(r['QUANTITY']);
+      });
+      const totalBuf = Object.values(bufByMon).reduce((s,v)=>s+v,0);
+
+      // Coverage calculation (in months)
+      const cov = (qty, avg) => avg > 0 ? +(qty/avg).toFixed(1) : null;
+      const covNow = cov(stockQty, avg25);
+
+      // Cumulative coverage per delivery month
+      let cumQty = stockQty;
+      const covByMon = {};
+      bufMonths.forEach(ym => {
+        cumQty += (bufByMon[ym] || 0);
+        covByMon[ym] = cov(cumQty, avg25);
+      });
+
+      totStockQty  += stockQty;
+      totStockCost += totalCost;
+      totStockCBM  += totalCBM;
+      totBufQty    += totalBuf;
+
+      return { sku, desc, cat, subcat, family, avg25, stockQty, totalBuf, bufByMon, unitCost, totalCost, unitCBM, totalCBM, covNow, covByMon };
+    });
+
+    // KPI cards
+    const fmtN = v => v == null ? '—' : v >= 1000 ? (v/1000).toFixed(1)+'K' : v.toFixed(0);
+    document.getElementById('buf-kpis').innerHTML = [
+      ['Total SKUs', allSKUs.length, ''],
+      ['Stock Qty', fmtN(totStockQty), 'units on hand'],
+      ['Stock Cost', '$'+fmtN(totStockCost), 'current inventory'],
+      ['Total CBM', totStockCBM.toFixed(2), 'm³ in warehouse'],
+      ['Buffer Qty', fmtN(totBufQty), 'units incoming'],
+    ].map(([l,v,s])=>`<div class="kpi-card" style="min-width:140px;"><div class="kpi-label">${l}</div><div class="kpi-value" style="font-size:22px;">${v}</div><div class="kpi-delta" style="color:#4a5680;">${s}</div></div>`).join('');
+
+    // Coverage colour
+    const covCol = v => v == null ? '#4a5680' : v >= 3 ? '#22c55e' : v >= 1.5 ? '#f59e0b' : '#ef4444';
+    const covFmt = v => v == null ? '—' : v.toFixed(1)+'mo';
+
+    // Table
+    const bufMonHdrs = bufMonths.map(ym=>`<th class="r" title="Buffer units arriving ${monLbl(ym)}">Buf ${monLbl(ym)}</th>`).join('');
+    const covHdrs    = bufMonths.map(ym=>`<th class="r" title="Coverage after ${monLbl(ym)} arrivals">+${monLbl(ym)}</th>`).join('');
+
+    const tbody = tableRows.map(r => {
+      const bufCells = bufMonths.map(ym=>`<td class="r">${r.bufByMon[ym]?fmtN(r.bufByMon[ym]):''}</td>`).join('');
+      const covCells = bufMonths.map(ym=>`<td class="r" style="color:${covCol(r.covByMon[ym])};font-weight:600;">${covFmt(r.covByMon[ym])}</td>`).join('');
+      return `<tr>
+        <td style="font-weight:600;white-space:nowrap;">${r.sku}</td>
+        <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.desc}">${r.desc}</td>
+        <td>${r.family}</td>
+        <td>${r.cat}</td>
+        <td>${r.subcat}</td>
+        <td class="r">${r.avg25 > 0 ? r.avg25.toFixed(1) : '—'}</td>
+        <td class="r" style="font-weight:600;">${fmtN(r.stockQty)}</td>
+        ${bufCells}
+        <td class="r" style="color:${covCol(r.covNow)};font-weight:700;">${covFmt(r.covNow)}</td>
+        ${covCells}
+        <td class="r">${r.unitCost > 0 ? '$'+r.unitCost.toFixed(2) : '—'}</td>
+        <td class="r">${r.totalCost > 0 ? '$'+fmtN(r.totalCost) : '—'}</td>
+        <td class="r">${r.unitCBM > 0 ? r.unitCBM.toFixed(4) : '—'}</td>
+        <td class="r">${r.totalCBM > 0 ? r.totalCBM.toFixed(2) : '—'}</td>
+      </tr>`;
+    }).join('');
+
+    document.getElementById('buf-table-wrap').innerHTML = `
+      <table class="tbl" style="font-size:11px;min-width:900px;">
+        <thead><tr>
+          <th>SKU</th><th>Description</th><th>Family</th><th>Category</th><th>Sub-Cat</th>
+          <th class="r">Avg Mo.<br>Qty 2025</th>
+          <th class="r">Stock<br>Qty</th>
+          ${bufMonHdrs}
+          <th class="r" style="background:#1a2340;">Coverage<br>Now</th>
+          ${covHdrs}
+          <th class="r">Unit<br>Cost</th>
+          <th class="r">Total<br>Cost</th>
+          <th class="r">Unit<br>CBM</th>
+          <th class="r">Total<br>CBM</th>
+        </tr></thead>
+        <tbody>${tbody}</tbody>
+      </table>`;
+  }
+
+  /* ================================================================
      POPULATE FILTER DROPDOWNS
   ================================================================ */
   function populateFilters() {
@@ -1476,23 +1624,28 @@
 
     const sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
 
-    // Paginated fetch — Supabase default is 1000 rows
-    const PAGE = 1000;
+    // Parallel paginated fetch — 5 pages at a time → ~5× faster than sequential
+    const PAGE = 1000, PARALLEL = 5;
     let allRaw = [], page = 0, fetchError = null;
     const loadingSub = document.querySelector('#state-loading .state-sub');
-    while (true) {
-      const { data: chunk, error: err } = await sb
-        .from('project_data').select('row_data')
-        .eq('project_slug', PROJECT_SLUG)
-        .range(page * PAGE, (page+1) * PAGE - 1);
-      if (err) { fetchError = err; break; }
-      if (chunk?.length) allRaw.push(...chunk);
-      if (!chunk?.length || chunk.length < PAGE) break;
-      page++;
+    outer: while (true) {
+      const batch = await Promise.all(
+        Array.from({length: PARALLEL}, (_, i) =>
+          sb.from('project_data').select('row_data')
+            .eq('project_slug', PROJECT_SLUG)
+            .range((page+i)*PAGE, (page+i+1)*PAGE-1)
+        )
+      );
+      for (const {data: chunk, error: err} of batch) {
+        if (err) { fetchError = err; break outer; }
+        if (chunk?.length) allRaw.push(...chunk);
+        if (!chunk?.length || chunk.length < PAGE) break outer;
+      }
+      page += PARALLEL;
       if (loadingSub) loadingSub.textContent = `Fetching… ${allRaw.length.toLocaleString()} rows loaded`;
     }
     const raw = allRaw, error = fetchError;
-    console.log('[BL] fetched', raw.length, 'rows in', page+1, 'page(s)');
+    console.log('[BL] fetched', raw.length, 'rows, parallel pages');
 
     if (error || !raw?.length) {
       document.getElementById('state-loading').innerHTML = `
