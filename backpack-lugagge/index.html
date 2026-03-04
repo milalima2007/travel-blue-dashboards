@@ -1093,7 +1093,7 @@
      PRODUCTS
   ================================================================ */
   function renderProduct() {
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=bAll(2026);
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
 
     /* Category — vertical grouped bars */
     if (C.category) {
@@ -1312,7 +1312,9 @@
      CUSTOMERS
   ================================================================ */
   function renderCustomer() {
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=bAll(2026);
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
+    const _MN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const bpLbl = F.month ? (_MN[+F.month-1]||F.month)+' BP 26' : 'BP 2026';
 
     if (C.customer) {
       const custMap = aggBy(act25, r => r[C.customer]);
@@ -1332,7 +1334,7 @@
           {label:'2024',     data:cS24, backgroundColor:C_2024+'88', borderRadius:2},
           {label:'2025',     data:cS25, backgroundColor:C_2025+'cc', borderRadius:2},
           {label:'2026 YTD', data:cS26, backgroundColor:C_2026+'cc', borderRadius:2},
-          {label:'BP 2026',  data:cBP,  backgroundColor:C_BP+'88',   borderRadius:2},
+          {label:bpLbl,      data:cBP,  backgroundColor:C_BP+'88',   borderRadius:2},
         ]},
         options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
           plugins:{ legend: dLegend(), datalabels:{display:false},
@@ -1348,7 +1350,7 @@
 
       document.getElementById('tbl-customer').innerHTML = `
         <div class="tbl-wrap"><table class="tbl">
-          <thead><tr><th>Customer</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
+          <thead><tr><th>Customer</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
           <tbody>${custs.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(cS24[i])}</td><td class="r">${fmt(cS25[i])}</td>${pctTd(pct(cS25[i],cS24[i]))}<td class="r">${fmt(cS26[i])}</td>${pctTd(pct(cS26[i],cS25[i]))}<td class="r">${fmt(cBP[i])}</td>${pctTd(pct(cS26[i],cBP[i]))}<td class="r">${((cS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
           </tbody></table></div>`;
     }
@@ -1363,7 +1365,7 @@
       const bcBP =bpCs.map(c=>sum(bp26.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
       document.getElementById('tbl-customer-bp').innerHTML = `
         <div class="tbl-wrap"><table class="tbl">
-          <thead><tr><th>Customer BP</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th></tr></thead>
+          <thead><tr><th>Customer BP</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th></tr></thead>
           <tbody>${bpCs.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(bcS24[i])}</td><td class="r">${fmt(bcS25[i])}</td>${pctTd(pct(bcS25[i],bcS24[i]))}<td class="r">${fmt(bcS26[i])}</td>${pctTd(pct(bcS26[i],bcS25[i]))}<td class="r">${fmt(bcBP[i])}</td>${pctTd(pct(bcS26[i],bcBP[i]))}</tr>`).join('')}
           </tbody></table></div>`;
     }
@@ -1388,7 +1390,7 @@
       });
       document.getElementById('tbl-channel').innerHTML = `
         <div class="tbl-wrap"><table class="tbl">
-          <thead><tr><th>Channel</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
+          <thead><tr><th>Channel</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
           <tbody>${chLbls.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(chS24[i])}</td><td class="r">${fmt(chS25[i])}</td>${pctTd(pct(chS25[i],chS24[i]))}<td class="r">${fmt(chS26[i])}</td>${pctTd(pct(chS26[i],chS25[i]))}<td class="r">${fmt(chBP[i])}</td>${pctTd(pct(chS26[i],chBP[i]))}<td class="r">${((chS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
           </tbody></table></div>`;
     }
@@ -1398,7 +1400,9 @@
      GEOGRAPHY
   ================================================================ */
   function renderRegion() {
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=bAll(2026);
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
+    const _MN2 = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const bpLbl = F.month ? (_MN2[+F.month-1]||F.month)+' BP 26' : 'BP 2026';
 
     if (C.country) {
       const ctMap = aggBy(act25, r => r[C.country]);
@@ -1426,7 +1430,7 @@
       });
       document.getElementById('tbl-country').innerHTML = `
         <div class="tbl-wrap"><table class="tbl">
-          <thead><tr><th>Country</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
+          <thead><tr><th>Country</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
           <tbody>${cts.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(ctS24[i])}</td><td class="r">${fmt(ctS25[i])}</td>${pctTd(pct(ctS25[i],ctS24[i]))}<td class="r">${fmt(ctS26[i])}</td>${pctTd(pct(ctS26[i],ctS25[i]))}<td class="r">${fmt(ctBP[i])}</td>${pctTd(pct(ctS26[i],ctBP[i]))}<td class="r">${((ctS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
           </tbody></table></div>`;
     }
@@ -1457,7 +1461,7 @@
       });
       document.getElementById('tbl-branch').innerHTML = `
         <div class="tbl-wrap"><table class="tbl">
-          <thead><tr><th>TB Branch</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">BP 2026</th><th class="r">%vs BP</th></tr></thead>
+          <thead><tr><th>TB Branch</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th></tr></thead>
           <tbody>${brs.map((b,i)=>`<tr><td>${b}</td><td class="r">${fmt(brS24[i])}</td><td class="r">${fmt(brS25[i])}</td>${pctTd(pct(brS25[i],brS24[i]))}<td class="r">${fmt(brS26[i])}</td>${pctTd(pct(brS26[i],brS25[i]))}<td class="r">${fmt(brBP[i])}</td>${pctTd(pct(brS26[i],brBP[i]))}</tr>`).join('')}
           </tbody></table></div>`;
     }
@@ -1467,7 +1471,7 @@
      INSIGHTS — rich, data-driven analysis
   ================================================================ */
   function renderInsights() {
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26=bAll(2026);
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
     const s24=sum(act24,C.value), s25=sum(act25,C.value), s26=sum(act26,C.value), s26b=sum(bp26,C.value);
     const insights = [];
 
