@@ -800,18 +800,19 @@
   ================================================================ */
   function renderOverview() {
     const act24=a(2024), act25=a(2025), act26=a(2026);
-    // BP data is stored as annual totals (Mês=12) → use bAll() to bypass month filter
+    // bAll() = BP full year (ignores month filter) · b() = BP filtered by selected month
     const bp26=bAll(2026), bp25=bAll(2025);
+    const bp26m=b(2026); // BP for currently selected month (or full year if no month filter)
     const s24=sum(act24,C.value), s25=sum(act25,C.value), s26=sum(act26,C.value),
-          s26b=sum(bp26,C.value), s25b=sum(bp25,C.value);
+          s26b=sum(bp26,C.value), s26bm=sum(bp26m,C.value), s25b=sum(bp25,C.value);
 
     // Detect latest month with actual data
     const latestYr  = [...new Set(_filt.filter(isActual).map(rowYear).filter(Boolean))].sort().pop() || '2026';
     const latestMon = [...new Set(_filt.filter(r => isActual(r) && rowYear(r)===latestYr).map(getMonthNum).filter(Boolean))].sort((a,b)=>b-a)[0] || 1;
     const latestLbl = MN[latestMon-1] + ' ' + latestYr;
     const lAct  = sum(_filt.filter(r => isActual(r) && rowYear(r)===latestYr && getMonthNum(r)===latestMon), C.value);
-    // lBP: monthly BP target = full year BP / 12 (since BP stored as annual totals)
-    const lBP   = s26b > 0 ? s26b / 12 : 0;
+    // lBP: actual BP for the detected latest month (from full-year BP rows, filtered to that month)
+    const lBP   = sum(bp26.filter(r => getMonthNum(r) === latestMon), C.value);
     const lPrev = sum(_filt.filter(r => isActual(r) && rowYear(r)===String(+latestYr-1) && getMonthNum(r)===latestMon), C.value);
     const achPct = lBP ? (lAct/lBP)*100 : NaN;
 
@@ -848,14 +849,15 @@
         <div class="kpi-delta" style="color:#4a5680;">${latestLbl}: ${fmt(lAct)}</div>
       </div>`;
 
-    /* Revenue Comparison — vertical bars + data labels
-       4 bars: Full 2024 | Full 2025 | YTD 2026 | Full Year BP 2026 */
-    const qtyArr = [sum(act24,C.qty), sum(act25,C.qty), sum(act26,C.qty), sum(bp26,C.qty)];
+    /* Revenue Comparison — 4 bars: Full 2024 | Full 2025 | Current Period Real | BP (month-filtered or full year) */
+    const revBP    = F.month ? s26bm : s26b;
+    const revBPLbl = F.month ? latestLbl+' BP' : 'BP 2026 Full';
+    const qtyArr   = [sum(act24,C.qty), sum(act25,C.qty), sum(act26,C.qty), F.month ? sum(bp26m,C.qty) : sum(bp26,C.qty)];
     mkChart('ch-revenue-cmp', {
       type:'bar',
       data:{
-        labels:['Full 2024','Full 2025', latestLbl+' Real', 'BP 2026 Full'],
-        datasets:[{ data:[s24, s25, lAct, s26b],
+        labels:['Full 2024','Full 2025', latestLbl+' Real', revBPLbl],
+        datasets:[{ data:[s24, s25, lAct, revBP],
           backgroundColor:[C_2024+'cc',C_2025+'cc',C_2026+'cc',C_BP+'cc'],
           borderRadius:4, borderSkipped:false }]
       },
@@ -902,17 +904,18 @@
     const tAct24=applyNonTemporalFilters(allAct24);
     const tAct25=applyNonTemporalFilters(allAct25);
     const tAct26=applyNonTemporalFilters(allAct26);
-    const bpMonthlyAvg = s26b > 0 ? s26b / 12 : null;
-    const bpFlatLine   = Array(12).fill(bpMonthlyAvg);
+    // Monthly BP — use _all (bypass month filter), apply non-temporal filters
+    const allBP26 = _all.filter(r => isBP(r) && rowYear(r)==='2026');
+    const tBP26   = applyNonTemporalFilters(allBP26);
     mkChart('ch-timeline', {
       type:'line',
       data:{
         labels: MN,
         datasets:[
-          { label:'2024',         data:mSums(tAct24), borderColor:C_2024, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
-          { label:'2025',         data:mSums(tAct25), borderColor:C_2025, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
-          { label:'2026 YTD',     data:mSums(tAct26), borderColor:C_2026, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
-          { label:'BP 2026 (avg/mo)', data:bpFlatLine, borderColor:C_BP, backgroundColor:'transparent', borderWidth:1.5, borderDash:[4,3], pointRadius:2, tension:0 },
+          { label:'2024',     data:mSums(tAct24), borderColor:C_2024, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
+          { label:'2025',     data:mSums(tAct25), borderColor:C_2025, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
+          { label:'2026 YTD', data:mSums(tAct26), borderColor:C_2026, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
+          { label:'BP 2026',  data:mSums(tBP26),  borderColor:C_BP,   backgroundColor:'transparent', borderWidth:1.5, borderDash:[4,3], pointRadius:2, tension:.3 },
         ]
       },
       options:{ responsive:true, maintainAspectRatio:false,
@@ -920,7 +923,7 @@
           tooltip:{ callbacks:{ label: ctx => {
             const v = ctx.parsed.y;
             if (!isFinite(v)) return '';
-            const qData = ctx.datasetIndex===0 ? mSumsQty(tAct24) : ctx.datasetIndex===1 ? mSumsQty(tAct25) : ctx.datasetIndex===2 ? mSumsQty(tAct26) : null;
+            const qData = ctx.datasetIndex===0 ? mSumsQty(tAct24) : ctx.datasetIndex===1 ? mSumsQty(tAct25) : ctx.datasetIndex===2 ? mSumsQty(tAct26) : ctx.datasetIndex===3 ? mSumsQty(tBP26) : null;
             const q = qData ? qData[ctx.dataIndex] : null;
             return `${ctx.dataset.label}: ${fmt(v)}` + (q ? ` | Qty: ${Math.round(q).toLocaleString()}` : '');
           }}}
@@ -929,11 +932,19 @@
       }
     });
 
+    /* Donut charts — follow the Year filter (default: latest year with actual data).
+       Use _all + non-temporal filters so month filter doesn't affect distribution. */
+    const _donutYr   = F.year || (applyNonTemporalFilters(_all.filter(r=>isActual(r)&&rowYear(r)==='2026')).length ? '2026' : '2025');
+    const _donutRows = applyNonTemporalFilters(_all.filter(r => isActual(r) && rowYear(r) === _donutYr));
+    ['ch-channel-ov-sub','ch-region-ov-sub','ch-family-ov-sub'].forEach(id => {
+      const el=document.getElementById(id); if(el) el.textContent=_donutYr;
+    });
+
     /* Channel donut */
     if (C.channel) {
-      const chMap = aggBy(act25, r => r[C.channel]);
+      const chMap = aggBy(_donutRows, r => r[C.channel]);
       const chs = topN(chMap, 8);
-      const chLabels = chs.map(k => act25.find(r => norm(r[C.channel])===norm(k))?.[C.channel] || k);
+      const chLabels = chs.map(k => _donutRows.find(r => norm(r[C.channel])===norm(k))?.[C.channel] || k);
       const tot = chs.reduce((s,k) => s+chMap[k], 0)||1;
       mkChart('ch-channel-ov', { type:'doughnut',
         data:{ labels:chLabels, datasets:[{ data:chs.map(k=>chMap[k]), backgroundColor:PALETTE, borderWidth:0 }] },
@@ -945,9 +956,9 @@
 
     /* Region donut */
     if (C.branch) {
-      const brMap = aggBy(act25, r => r[C.branch]);
+      const brMap = aggBy(_donutRows, r => r[C.branch]);
       const brs = topN(brMap, 8);
-      const brLabels = brs.map(k => act25.find(r => norm(r[C.branch])===norm(k))?.[C.branch] || k);
+      const brLabels = brs.map(k => _donutRows.find(r => norm(r[C.branch])===norm(k))?.[C.branch] || k);
       const tot = brs.reduce((s,k) => s+brMap[k], 0)||1;
       mkChart('ch-region-ov', { type:'doughnut',
         data:{ labels:brLabels, datasets:[{ data:brs.map(k=>brMap[k]), backgroundColor:PALETTE.slice(2), borderWidth:0 }] },
@@ -959,7 +970,7 @@
 
     /* Family donut */
     if (C.family) {
-      const famMap = aggBy(act25, r => r[C.family]);
+      const famMap = aggBy(_donutRows, r => r[C.family]);
       const fams = topN(famMap, 6);
       mkChart('ch-family-ov', { type:'doughnut',
         data:{ labels:fams, datasets:[{ data:fams.map(k=>famMap[k]), backgroundColor:[C_2025,C_2024,C_2026,C_BP], borderWidth:0 }] },
