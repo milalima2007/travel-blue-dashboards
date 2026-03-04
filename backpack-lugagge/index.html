@@ -240,6 +240,36 @@
     body.light .csdrop-opt { color: #334155 !important; }
     body.light .csdrop-opt:hover { background: #eff6ff !important; color: #0f172a !important; }
     body.light .csdrop-opt.selected { color: #2563eb !important; background: #eff6ff !important; font-weight: 700 !important; }
+
+    /* ── SKU × Country/Branch matrix ── */
+    .sku-ct-zero { color:#2e3a52; }
+    .sku-ct-low  { color:#6b7a9f; }
+    .sku-ct-mid  { background:rgba(245,166,35,.18); color:#f5a623; font-weight:600; }
+    .sku-ct-high { background:rgba(34,197,94,.20); color:#22c55e; font-weight:700; }
+    .sku-ct-dom  { background:rgba(34,197,94,.38); color:#4ade80; font-weight:800; }
+    .sku-matrix-legend { display:flex; gap:14px; font-size:10px; color:#6b7a9f; margin-bottom:8px; flex-wrap:wrap; align-items:center; }
+    .sku-matrix-legend span { display:flex; align-items:center; gap:4px; }
+    .leg-dot { display:inline-block; width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+    /* ── Country / Branch profile cards ── */
+    .country-profile-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+    .cp-card { background:#161e30; border:1px solid #232f45; border-radius:10px; padding:16px; }
+    .cp-card-title { font-size:13px; font-weight:700; color:#e2e8f0; margin-bottom:2px; }
+    .cp-card-sub   { font-size:11px; color:#6b7a9f; margin-bottom:10px; line-height:1.5; }
+    .cp-bar { height:5px; background:#3b82f6; border-radius:3px; margin-top:3px; min-width:2px; }
+    .cp-note { font-size:10px; color:#6b7a9f; margin-top:10px; padding-top:8px; border-top:1px solid #232f45; }
+    .cp-note.warn { color:#f5a623; }
+    body.light .sku-ct-zero { color:#cbd5e1; }
+    body.light .sku-ct-low  { color:#94a3b8; }
+    body.light .sku-ct-mid  { background:rgba(180,83,9,.10); color:#b45309; }
+    body.light .sku-ct-high { background:rgba(21,128,61,.12); color:#166534; }
+    body.light .sku-ct-dom  { background:rgba(21,128,61,.22); color:#14532d; }
+    body.light .sku-matrix-legend { color:#64748b; }
+    body.light .cp-card { background:#ffffff !important; border-color:#dde3ed !important; box-shadow:0 2px 10px rgba(0,0,0,.07) !important; }
+    body.light .cp-card-title { color:#0f172a !important; }
+    body.light .cp-card-sub   { color:#64748b !important; }
+    body.light .cp-note       { color:#64748b !important; border-top-color:#e2e8f0 !important; }
+    body.light .cp-note.warn  { color:#b45309 !important; }
+    body.light .cp-bar { background:#2563eb; }
   </style>
 </head>
 <body>
@@ -436,6 +466,26 @@
       <div class="section">
         <div class="section-title">SKU Performance — Top 50 by 2025 Sales</div>
         <div id="tbl-sku"></div>
+      </div>
+
+      <!-- SKU × Country matrix -->
+      <div class="section">
+        <div class="section-title">SKU × Country — Distribution Matrix
+          <span style="font-size:11px;font-weight:400;color:#4a90e2;margin-left:8px;">% of each country's 2025 revenue · top 20 SKUs × top 12 countries</span>
+        </div>
+        <div id="tbl-sku-country"></div>
+      </div>
+
+      <!-- Country profile cards -->
+      <div class="section">
+        <div class="section-title">Country Profiles — Top SKUs per Market</div>
+        <div id="div-country-profiles"></div>
+      </div>
+
+      <!-- Branch profile cards (shown only if branch column present) -->
+      <div class="section" id="sec-branch-profiles" style="display:none;">
+        <div class="section-title">TB Branch Profiles — Top SKUs per Branch</div>
+        <div id="div-branch-profiles"></div>
       </div>
     </div>
 
@@ -1124,6 +1174,137 @@
           <thead><tr><th>SKU</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th></tr></thead>
           <tbody>${skus.map((s,i)=>`<tr><td>${s}</td><td class="r">${fmt(kS24[i])}</td><td class="r">${fmt(kS25[i])}</td>${pctTd(pct(kS25[i],kS24[i]))}<td class="r">${fmt(kS26[i])}</td>${pctTd(pct(kS26[i],kS25[i]))}</tr>`).join('')}
           </tbody></table></div>`;
+    }
+
+    /* ── SKU × Country/Branch distribution matrix + profile cards ── */
+    if (C.sku && C.country) {
+      // Use all 2025 actual rows, respecting active filters EXCEPT country
+      // (so we can compare all countries simultaneously in the matrix)
+      const act25xc = _all.filter(r => {
+        if (rowYear(r) !== '2025' || !isActual(r)) return false;
+        if (F.family !== 'ALL' && C.family   && norm(r[C.family])   !== norm(F.family))   return false;
+        if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))    return false;
+        if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer))  return false;
+        if (F.category && C.category && norm(r[C.category]) !== norm(F.category))  return false;
+        if (F.subcat   && C.subcat   && norm(r[C.subcat])   !== norm(F.subcat))    return false;
+        if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))       return false;
+        return true;
+      });
+      const totalGlobal = sum(act25xc, C.value) || 1;
+      const skuMapG = aggBy(act25xc, r => r[C.sku]);
+      const topSKUs = topN(skuMapG, 20);
+      const ctMapG  = aggBy(act25xc, r => r[C.country]);
+      const topCts  = topN(ctMapG, 12);
+
+      // Precompute SKU×Country values in one efficient pass
+      const skuCtVal = {};
+      topSKUs.forEach(sku => {
+        const skuRows = act25xc.filter(r => norm(r[C.sku]) === norm(sku));
+        topCts.forEach(ct => {
+          skuCtVal[sku+'|||'+ct] = sum(skuRows.filter(r => norm(r[C.country]) === norm(ct)), C.value);
+        });
+      });
+
+      // Cell colour by % of country revenue
+      const cellCls = p => p === 0 ? 'sku-ct-zero' : p < 3 ? 'sku-ct-low' : p < 10 ? 'sku-ct-mid' : p < 20 ? 'sku-ct-high' : 'sku-ct-dom';
+      const abbr    = s => s.length > 10 ? s.slice(0,9)+'…' : s;
+
+      const matHtml = `
+        <div class="sku-matrix-legend">
+          <span><span class="leg-dot" style="background:#4ade80;"></span> ≥20% dominant</span>
+          <span><span class="leg-dot" style="background:#22c55e;opacity:.55;"></span> 10–20% high</span>
+          <span><span class="leg-dot" style="background:#f5a623;opacity:.6;"></span> 3–10% medium</span>
+          <span><span class="leg-dot" style="background:#6b7a9f;"></span> &lt;3% low</span>
+          <span><span class="leg-dot" style="background:#161e30;border:1px solid #2a3450;"></span> — zero</span>
+        </div>
+        <div class="tbl-wrap" style="overflow-x:auto;max-height:560px;overflow-y:auto;">
+          <table class="tbl" style="font-size:11px;border-collapse:collapse;min-width:820px;">
+            <thead>
+              <tr>
+                <th style="position:sticky;left:0;z-index:3;min-width:130px;white-space:nowrap;">SKU</th>
+                <th class="r" style="min-width:68px;white-space:nowrap;">Global%</th>
+                ${topCts.map(ct=>`<th class="r" style="min-width:72px;font-size:10px;" title="${ct}">${abbr(ct)}</th>`).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              ${topSKUs.map(sku => {
+                const gPct = (skuMapG[sku]||0) / totalGlobal * 100;
+                return `<tr>
+                  <td style="position:sticky;left:0;z-index:1;font-weight:600;font-size:10px;white-space:nowrap;max-width:140px;overflow:hidden;text-overflow:ellipsis;" title="${sku}">${sku}</td>
+                  <td class="r" style="font-weight:700;white-space:nowrap;">${gPct.toFixed(1)}%<br><span style="font-size:9px;color:#4a5680;font-weight:400;">${fmtShort(skuMapG[sku]||0)}</span></td>
+                  ${topCts.map(ct => {
+                    const v = skuCtVal[sku+'|||'+ct] || 0;
+                    const ctT = ctMapG[ct] || 1;
+                    const p   = v / ctT * 100;
+                    const cls = cellCls(p);
+                    return `<td class="r ${cls}" title="${ct}: ${fmt(v)} = ${p.toFixed(1)}% of market">${p > 0 ? p.toFixed(1)+'%' : '—'}</td>`;
+                  }).join('')}
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>`;
+      document.getElementById('tbl-sku-country').innerHTML = matHtml;
+
+      /* ── helper: build profile cards for any grouping dimension ── */
+      function buildProfileCards(groupCol, groupMap, groupList, label) {
+        let html = '<div class="country-profile-grid">';
+        groupList.forEach(grp => {
+          const grpRows = act25xc.filter(r => norm(r[groupCol]) === norm(grp));
+          const grpTot  = groupMap[grp] || 1;
+          const gSkuMap = aggBy(grpRows, r => r[C.sku]);
+          const top5    = topN(gSkuMap, 5);
+          let cumPct = 0;
+          const rowsH = top5.map((s, i) => {
+            const v  = gSkuMap[s] || 0;
+            const p  = v / grpTot * 100;
+            cumPct  += p;
+            const bw = Math.min(Math.round(p * 4), 100);
+            return `<tr>
+              <td style="padding:3px 8px;font-size:10px;font-weight:600;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis;" title="${s}">${i+1}. ${s}</td>
+              <td class="r" style="padding:3px 8px;font-size:10px;white-space:nowrap;">${fmtShort(v)}</td>
+              <td class="r" style="padding:3px 8px;font-size:10px;font-weight:700;white-space:nowrap;">${p.toFixed(1)}%</td>
+              <td style="padding:3px 8px;width:80px;"><div class="cp-bar" style="width:${bw}px;"></div></td>
+            </tr>`;
+          }).join('');
+          // Count how many of the global top-20 have 0 sales in this group
+          const zeroG = topSKUs.filter(s => {
+            if (groupCol === C.country) return (skuCtVal[s+'|||'+grp]||0) === 0;
+            return (gSkuMap[s]||0) === 0;
+          }).length;
+          const noteCls  = zeroG >= 6 ? 'cp-note warn' : 'cp-note';
+          const noteText = zeroG > 0
+            ? `⚠️ ${zeroG} of top-20 global SKUs have <strong>0 sales</strong> here.`
+            : `✅ All top-20 global SKUs sell here.`;
+          html += `
+            <div class="cp-card">
+              <div class="cp-card-title">${grp}</div>
+              <div class="cp-card-sub">${fmt(grpTot)} total 2025 · Top 5 cover <strong>${cumPct.toFixed(0)}%</strong> of ${label} revenue</div>
+              <table class="tbl" style="margin:0;">
+                <thead><tr><th>SKU</th><th class="r">Revenue</th><th class="r">Mix%</th><th></th></tr></thead>
+                <tbody>${rowsH}</tbody>
+              </table>
+              <div class="${noteCls}">${noteText}</div>
+            </div>`;
+        });
+        html += '</div>';
+        return html;
+      }
+
+      // Country profile cards
+      document.getElementById('div-country-profiles').innerHTML =
+        buildProfileCards(C.country, ctMapG, topCts, 'country');
+
+      // Branch profile cards (if branch column is present and different from country)
+      if (C.branch && C.branch !== C.country) {
+        const brMapG = aggBy(act25xc, r => r[C.branch]);
+        const topBrs = topN(brMapG, 8);
+        if (topBrs.length) {
+          document.getElementById('sec-branch-profiles').style.display = '';
+          document.getElementById('div-branch-profiles').innerHTML =
+            buildProfileCards(C.branch, brMapG, topBrs, 'branch');
+        }
+      }
     }
   }
 
