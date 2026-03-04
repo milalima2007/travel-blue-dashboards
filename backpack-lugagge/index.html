@@ -176,55 +176,70 @@
     .csdrop-opt.selected { color: #3b82f6; font-weight: 700; }
 
     /* ── LIGHT MODE OVERRIDES ── */
-    body.light { background: #f0f4f8 !important; color: #1a2236 !important; }
-    body.light .topbar { background: #ffffff !important; border-bottom: 1px solid #e2e8f0 !important; }
+    body.light { background: #eef2f7 !important; color: #0f172a !important; }
+    /* Topbar */
+    body.light .topbar { background: #ffffff !important; border-bottom: 1px solid #dde3ed !important; box-shadow: 0 2px 8px rgba(0,0,0,.08) !important; }
     body.light .topbar a, body.light .topbar-nav a,
-    body.light .nav-dropdown-btn, body.light .logo-brand { color: #1a2236 !important; }
+    body.light .nav-dropdown-btn, body.light .logo-brand { color: #0f172a !important; }
     body.light .logo-tagline { color: #64748b !important; }
-    body.light .nav-dropdown-menu { background: #ffffff !important; border-color: #e2e8f0 !important; }
-    body.light .nav-dropdown-menu a { color: #475569 !important; }
-    body.light .nav-dropdown-menu a:hover { background: #f1f5f9 !important; color: #1a2236 !important; }
-    body.light .btn-theme, body.light .btn-logout { background: #f1f5f9 !important; color: #475569 !important; border-color: #e2e8f0 !important; }
-    body.light .topbar-search-input { background: #f1f5f9 !important; border-color: #e2e8f0 !important; color: #1a2236 !important; }
-    body.light #user-name, body.light .user-email { color: #1a2236 !important; }
-    body.light .role-badge { background: #e2e8f0 !important; color: #475569 !important; }
-    body.light .db-header h1 { color: #1a2236 !important; }
-    body.light .db-sub { color: #64748b !important; }
-    body.light .tab-nav button { background: #e2e8f0 !important; color: #475569 !important; }
-    body.light .tab-nav button.active { background: #3b82f6 !important; color: #fff !important; }
-    body.light .tab-nav button:hover:not(.active) { background: #cbd5e1 !important; color: #1a2236 !important; }
-    body.light .filter-bar { background: #ffffff !important; border-color: #e2e8f0 !important; }
-    body.light .filter-label { color: #64748b !important; }
-    body.light .filter-select { background: #f8fafc !important; color: #1a2236 !important; border-color: #cbd5e1 !important; }
-    body.light .filter-select:focus { border-color: #3b82f6 !important; }
-    body.light .filter-reset { border-color: #cbd5e1 !important; color: #64748b !important; }
-    body.light .family-btn { border-color: #cbd5e1 !important; color: #475569 !important; background: transparent !important; }
-    body.light .family-btn.active { border-color: #3b82f6 !important; color: #3b82f6 !important; background: rgba(59,130,246,.08) !important; }
-    body.light .kpi-card { background: #ffffff !important; border-color: #e2e8f0 !important; }
-    body.light .kpi-label { color: #64748b !important; }
-    body.light .kpi-value { color: #1a2236 !important; }
+    body.light .nav-dropdown-menu { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 4px 16px rgba(0,0,0,.1) !important; }
+    body.light .nav-dropdown-menu a { color: #334155 !important; }
+    body.light .nav-dropdown-menu a:hover { background: #f1f5f9 !important; color: #0f172a !important; }
+    body.light .btn-theme, body.light .btn-logout { background: #f1f5f9 !important; color: #475569 !important; border-color: #dde3ed !important; }
+    body.light .topbar-search-input { background: #f8fafc !important; border-color: #dde3ed !important; color: #0f172a !important; }
+    body.light #user-name, body.light .user-email { color: #0f172a !important; }
+    body.light .role-badge { background: #dbeafe !important; color: #1d4ed8 !important; }
+    /* Header */
+    body.light .db-header h1 { color: #0f172a !important; }
+    body.light .db-sub { color: #475569 !important; }
+    /* Tab nav */
+    body.light .tab-nav { background: transparent !important; }
+    body.light .tab-nav button { background: #ffffff !important; color: #475569 !important; border: 1px solid #dde3ed !important; box-shadow: 0 1px 3px rgba(0,0,0,.06) !important; }
+    body.light .tab-nav button.active { background: #2563eb !important; color: #fff !important; border-color: #2563eb !important; box-shadow: 0 2px 8px rgba(37,99,235,.35) !important; }
+    body.light .tab-nav button:hover:not(.active) { background: #f1f5f9 !important; color: #0f172a !important; border-color: #cbd5e1 !important; }
+    /* Filter bar */
+    body.light .filter-bar { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 2px 8px rgba(0,0,0,.06) !important; }
+    body.light .filter-label { color: #475569 !important; font-weight: 600 !important; }
+    body.light .filter-select { background: #f8fafc !important; color: #0f172a !important; border-color: #cbd5e1 !important; }
+    body.light .filter-select:focus { border-color: #2563eb !important; outline: none !important; }
+    body.light .filter-reset { border-color: #cbd5e1 !important; color: #64748b !important; background: #f8fafc !important; }
+    body.light .family-btn { border-color: #cbd5e1 !important; color: #475569 !important; background: #f8fafc !important; }
+    body.light .family-btn.active { border-color: #2563eb !important; color: #2563eb !important; background: #eff6ff !important; font-weight: 700 !important; }
+    /* KPI cards */
+    body.light .kpi-card { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 2px 10px rgba(0,0,0,.07) !important; }
+    body.light .kpi-label { color: #64748b !important; font-weight: 600 !important; font-size: 10px !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
+    body.light .kpi-value { color: #0f172a !important; }
     body.light .kpi-delta { color: #64748b !important; }
-    body.light .chart-card { background: #ffffff !important; border-color: #e2e8f0 !important; }
-    body.light .chart-title { color: #1a2236 !important; }
+    /* Chart cards */
+    body.light .chart-card { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 2px 12px rgba(0,0,0,.07) !important; }
+    body.light .chart-title { color: #0f172a !important; font-weight: 700 !important; }
     body.light .chart-sub { color: #64748b !important; }
-    body.light .tbl-wrap { border-color: #e2e8f0 !important; }
-    body.light .tbl th { background: #f8fafc !important; color: #64748b !important; border-bottom-color: #e2e8f0 !important; }
-    body.light .tbl td { color: #374151 !important; border-bottom-color: #f1f5f9 !important; }
-    body.light .tbl tr:hover td { background: #f8fafc !important; }
-    body.light .section-title { color: #64748b !important; }
-    body.light .insight-card { background: #ffffff !important; border-color: #e2e8f0 !important; }
-    body.light .insight-title { color: #1a2236 !important; }
-    body.light .insight-body { color: #475569 !important; }
-    body.light .insight-action { color: #64748b !important; }
-    body.light .state-title { color: #1a2236 !important; }
-    body.light .state-sub { color: #64748b !important; }
-    body.light .csdrop-trigger { background: #f8fafc !important; border-color: #cbd5e1 !important; color: #1a2236 !important; }
-    body.light .csdrop-panel { background: #ffffff !important; border-color: #e2e8f0 !important; box-shadow: 0 8px 24px rgba(0,0,0,.12) !important; }
-    body.light .csdrop-search { background: #f8fafc !important; border-color: #cbd5e1 !important; color: #1a2236 !important; }
+    /* Tables */
+    body.light .tbl-wrap { border-color: #dde3ed !important; box-shadow: 0 2px 10px rgba(0,0,0,.06) !important; background: #ffffff !important; border-radius: 10px !important; overflow: hidden !important; }
+    body.light .tbl th { background: #f1f5f9 !important; color: #334155 !important; border-bottom: 2px solid #dde3ed !important; font-weight: 700 !important; }
+    body.light .tbl td { color: #0f172a !important; border-bottom-color: #eef2f7 !important; }
+    body.light .tbl tr:hover td { background: #eff6ff !important; }
+    /* Sections */
+    body.light .section { background: transparent !important; }
+    body.light .section-title { color: #0f172a !important; font-weight: 700 !important; border-bottom-color: #dde3ed !important; }
+    /* Insights */
+    body.light .insight-card { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 2px 10px rgba(0,0,0,.07) !important; }
+    body.light .insight-title { color: #0f172a !important; font-weight: 700 !important; }
+    body.light .insight-body { color: #334155 !important; }
+    body.light .insight-action { color: #2563eb !important; font-weight: 600 !important; }
+    /* State cards */
+    body.light .state-title { color: #0f172a !important; }
+    body.light .state-sub { color: #475569 !important; }
+    /* Searchable dropdowns */
+    body.light .csdrop-trigger { background: #f8fafc !important; border-color: #cbd5e1 !important; color: #0f172a !important; box-shadow: 0 1px 3px rgba(0,0,0,.05) !important; }
+    body.light .csdrop-trigger:hover { border-color: #2563eb !important; }
+    body.light .csdrop-panel { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 8px 24px rgba(0,0,0,.14) !important; }
+    body.light .csdrop-search { background: #f8fafc !important; border-color: #dde3ed !important; color: #0f172a !important; }
+    body.light .csdrop-search::placeholder { color: #94a3b8 !important; }
     body.light .csdrop-search-row { border-bottom-color: #e2e8f0 !important; }
-    body.light .csdrop-opt { color: #475569 !important; }
-    body.light .csdrop-opt:hover { background: #f1f5f9 !important; color: #1a2236 !important; }
-    body.light .csdrop-opt.selected { color: #3b82f6 !important; }
+    body.light .csdrop-opt { color: #334155 !important; }
+    body.light .csdrop-opt:hover { background: #eff6ff !important; color: #0f172a !important; }
+    body.light .csdrop-opt.selected { color: #2563eb !important; background: #eff6ff !important; font-weight: 700 !important; }
   </style>
 </head>
 <body>
@@ -295,7 +310,7 @@
       <button              data-tab="customer"  onclick="showTab('customer')">Customers</button>
       <button              data-tab="region"    onclick="showTab('region')">Geography</button>
       <button              data-tab="insights"  onclick="showTab('insights')">Insights</button>
-      <button              data-tab="buffer"    onclick="showTab('buffer')">📦 Buffer</button>
+      <button              data-tab="buffer"    onclick="showTab('buffer')">📦 Orders</button>
     </nav>
 
     <div class="filter-bar">
@@ -476,7 +491,7 @@
     <!-- ══ BUFFER ══ -->
     <div class="tab-page" id="tab-buffer">
       <div class="section">
-        <div class="section-title">Buffer &amp; Stock — TB LATAM <span style="font-size:11px;font-weight:400;color:#4a90e2;">Coverage analysis (months of stock)</span></div>
+        <div class="section-title">Orders &amp; Stock — TB LATAM <span style="font-size:11px;font-weight:400;color:#4a90e2;">Coverage analysis (months of stock)</span></div>
         <div id="buf-kpis" class="kpi-row" style="margin-bottom:16px;display:flex;gap:12px;flex-wrap:wrap;"></div>
         <div id="buf-table-wrap" class="tbl-wrap"></div>
       </div>
@@ -1538,9 +1553,8 @@
     document.getElementById('buf-kpis').innerHTML = [
       ['Total SKUs', allSKUs.length, ''],
       ['Stock Qty', fmtN(totStockQty), 'units on hand'],
-      ['Stock Cost', '$'+fmtN(totStockCost), 'current inventory'],
       ['Total CBM', totStockCBM.toFixed(2), 'm³ in warehouse'],
-      ['Buffer Qty', fmtN(totBufQty), 'units incoming'],
+      ['Orders Qty', fmtN(totBufQty), 'units incoming'],
     ].map(([l,v,s])=>`<div class="kpi-card" style="min-width:140px;"><div class="kpi-label">${l}</div><div class="kpi-value" style="font-size:22px;">${v}</div><div class="kpi-delta" style="color:#4a5680;">${s}</div></div>`).join('');
 
     // Coverage colour
@@ -1548,11 +1562,11 @@
     const covFmt = v => v == null ? '—' : v.toFixed(1)+'mo';
 
     // Table
-    const bufMonHdrs = bufMonths.map(ym=>`<th class="r" title="Buffer units arriving ${monLbl(ym)}">Buf ${monLbl(ym)}</th>`).join('');
+    const ordMonHdrs = bufMonths.map(ym=>`<th class="r" title="Orders arriving ${monLbl(ym)}">Orders<br>${monLbl(ym)}</th>`).join('');
     const covHdrs    = bufMonths.map(ym=>`<th class="r" title="Coverage after ${monLbl(ym)} arrivals">+${monLbl(ym)}</th>`).join('');
 
     const tbody = tableRows.map(r => {
-      const bufCells = bufMonths.map(ym=>`<td class="r">${r.bufByMon[ym]?fmtN(r.bufByMon[ym]):''}</td>`).join('');
+      const ordCells = bufMonths.map(ym=>`<td class="r">${r.bufByMon[ym]?fmtN(r.bufByMon[ym]):''}</td>`).join('');
       const covCells = bufMonths.map(ym=>`<td class="r" style="color:${covCol(r.covByMon[ym])};font-weight:600;">${covFmt(r.covByMon[ym])}</td>`).join('');
       return `<tr>
         <td style="font-weight:600;white-space:nowrap;">${r.sku}</td>
@@ -1562,11 +1576,9 @@
         <td>${r.subcat}</td>
         <td class="r">${r.avg25 > 0 ? r.avg25.toFixed(1) : '—'}</td>
         <td class="r" style="font-weight:600;">${fmtN(r.stockQty)}</td>
-        ${bufCells}
+        ${ordCells}
         <td class="r" style="color:${covCol(r.covNow)};font-weight:700;">${covFmt(r.covNow)}</td>
         ${covCells}
-        <td class="r">${r.unitCost > 0 ? '$'+r.unitCost.toFixed(2) : '—'}</td>
-        <td class="r">${r.totalCost > 0 ? '$'+fmtN(r.totalCost) : '—'}</td>
         <td class="r">${r.unitCBM > 0 ? r.unitCBM.toFixed(4) : '—'}</td>
         <td class="r">${r.totalCBM > 0 ? r.totalCBM.toFixed(2) : '—'}</td>
       </tr>`;
@@ -1578,11 +1590,9 @@
           <th>SKU</th><th>Description</th><th>Family</th><th>Category</th><th>Sub-Cat</th>
           <th class="r">Avg Mo.<br>Qty 2025</th>
           <th class="r">Stock<br>Qty</th>
-          ${bufMonHdrs}
+          ${ordMonHdrs}
           <th class="r" style="background:#1a2340;">Coverage<br>Now</th>
           ${covHdrs}
-          <th class="r">Unit<br>Cost</th>
-          <th class="r">Total<br>Cost</th>
           <th class="r">Unit<br>CBM</th>
           <th class="r">Total<br>CBM</th>
         </tr></thead>
