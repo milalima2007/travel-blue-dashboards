@@ -315,17 +315,17 @@
         <select class="filter-select" id="f-country" onchange="applyFilters()"><option value="">All Countries</option></select></div>
       <div class="filter-group"><span class="filter-label">TB Branch</span>
         <select class="filter-select" id="f-branch" onchange="applyFilters()"><option value="">All Branches</option></select></div>
-      <div class="filter-group" id="csdrop-wrap">
+      <div class="filter-group" id="csdrop-wrap-customer">
         <span class="filter-label">Customer</span>
-        <div class="csdrop" id="csdrop">
-          <button class="csdrop-trigger" type="button" onclick="csdropToggle()">
-            <span id="csdrop-label">All Customers</span><span class="csdrop-arrow">▼</span>
+        <div class="csdrop">
+          <button class="csdrop-trigger" type="button" onclick="gsdropToggle('customer')">
+            <span id="csdrop-label-customer">All Customers</span><span class="csdrop-arrow">▼</span>
           </button>
-          <div class="csdrop-panel" id="csdrop-panel" style="display:none;">
+          <div class="csdrop-panel" id="csdrop-panel-customer" style="display:none;">
             <div class="csdrop-search-row">
-              <input class="csdrop-search" id="csdrop-search" type="text" placeholder="🔍 Search customer…" oninput="csdropFilter(this.value)">
+              <input class="csdrop-search" id="csdrop-search-customer" type="text" placeholder="🔍 Search customer…" oninput="gsdropFilter('customer',this.value)">
             </div>
-            <div class="csdrop-list" id="csdrop-list"></div>
+            <div class="csdrop-list" id="csdrop-list-customer"></div>
           </div>
         </div>
       </div>
@@ -752,9 +752,7 @@
       const panel = document.getElementById('csdrop-panel-'+id);
       if (panel) panel.style.display = 'none';
     });
-    // Legacy customer label
-    const custLbl = document.getElementById('csdrop-label');
-    if (custLbl) custLbl.textContent = 'All Customers';
+    // (legacy csdrop-label removed — now uses csdrop-label-customer via _gsdropDefaults loop)
     _filt = F.family === 'ALL' ? [..._all] : _all.filter(r => C.family && norm(r[C.family]) === norm(F.family));
     renderTab();
   }
@@ -769,6 +767,35 @@
   /* ── tabs ── */
   function showTab(tab) {
     _tab = tab;
+    const isBuf = tab === 'buffer';
+
+    // Buffer tab: hide Year, Month, TB Branch, Customer; restrict Country to LATAM only
+    ['f-year','f-month','f-branch'].forEach(id => {
+      const fg = document.getElementById(id)?.closest('.filter-group');
+      if (fg) fg.style.display = isBuf ? 'none' : '';
+    });
+    const custWrap = document.getElementById('csdrop-wrap-customer');
+    if (custWrap) custWrap.style.display = isBuf ? 'none' : '';
+
+    // Adjust Country dropdown
+    const countryEl = document.getElementById('f-country');
+    if (countryEl && _all.length) {
+      if (isBuf) {
+        // Only countries that appear in STOCK/BUFFER LATAM rows
+        const latamC = [...new Set(_all.filter(r => {
+          const t = (r['TYPE']||'').toUpperCase();
+          return (t==='STOCK'||t==='BUFFER') && norm(r['COUNTRY 2']||'') === 'tb latam';
+        }).map(r => r[C.country]).filter(Boolean))].sort();
+        countryEl.innerHTML = `<option value="">All Countries</option>` +
+          latamC.map(c=>`<option value="${c}">${c}</option>`).join('');
+      } else {
+        // Restore full country list
+        const allC = [...new Set(_all.filter(isActual).map(r=>r[C.country]).filter(Boolean))].sort();
+        countryEl.innerHTML = `<option value="">All Countries</option>` +
+          allC.map(c=>`<option value="${c}">${c}</option>`).join('');
+      }
+    }
+
     document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
     document.getElementById('tab-'+tab)?.classList.add('active');
@@ -1428,9 +1455,19 @@
     const LATAM = 'tb latam';
     const isLatam = r => norm(r[C.branch] || r['COUNTRY 2'] || '') === LATAM;
 
-    const stkRows  = _all.filter(r => (r['TYPE']||'').toUpperCase()==='STOCK'  && isLatam(r));
-    const bufRows  = _all.filter(r => (r['TYPE']||'').toUpperCase()==='BUFFER' && isLatam(r));
-    const real25   = _all.filter(r => isActual(r) && rowYear(r)==='2025'       && isLatam(r));
+    // Apply dimensional filters (family, country, category, subcat, sku) — ignore year/month/branch
+    const applyBufFilters = rows => rows.filter(r => {
+      if (F.family !== 'ALL' && C.family && norm(r[C.family]||'') !== norm(F.family)) return false;
+      if (F.country  && C.country  && norm(r[C.country]||'')  !== norm(F.country))  return false;
+      if (F.category && C.category && norm(r[C.category]||'') !== norm(F.category)) return false;
+      if (F.subcat   && C.subcat   && norm(r[C.subcat]||'')   !== norm(F.subcat))   return false;
+      if (F.sku      && C.sku      && norm(r[C.sku]||'')      !== norm(F.sku))       return false;
+      return true;
+    });
+
+    const stkRows  = applyBufFilters(_all.filter(r => (r['TYPE']||'').toUpperCase()==='STOCK'  && isLatam(r)));
+    const bufRows  = applyBufFilters(_all.filter(r => (r['TYPE']||'').toUpperCase()==='BUFFER' && isLatam(r)));
+    const real25   = applyBufFilters(_all.filter(r => isActual(r) && rowYear(r)==='2025'       && isLatam(r)));
 
     // All unique SKUs
     const allSKUs = [...new Set([...stkRows,...bufRows].map(r=>r['SKU 2']).filter(Boolean))].sort();
