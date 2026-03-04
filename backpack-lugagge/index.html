@@ -764,6 +764,12 @@
   function gsdropSelect(id, value) {
     const field = _gsdropFields[id];
     F[field] = value;
+    // Cascade: selecting a sub-category resets the SKU filter
+    if (id === 'subcat') {
+      F.sku = '';
+      const skuLbl = document.getElementById('csdrop-label-sku');
+      if (skuLbl) skuLbl.textContent = _gsdropDefaults.sku || 'All SKUs';
+    }
     const lbl = document.getElementById('csdrop-label-'+id);
     if (lbl) lbl.textContent = value || _gsdropDefaults[id] || 'All';
     const panel = document.getElementById('csdrop-panel-'+id);
@@ -789,7 +795,14 @@
     F.month    = document.getElementById('f-month')?.value    || '';
     F.country  = document.getElementById('f-country')?.value  || '';
     F.branch   = document.getElementById('f-branch')?.value   || '';
+    const prevCat = F.category;
     F.category = document.getElementById('f-category')?.value || '';
+    // Cascade: if category changed, reset sub-cat and SKU
+    if (prevCat !== F.category) {
+      F.subcat = ''; F.sku = '';
+      const scLbl = document.getElementById('csdrop-label-subcat'); if (scLbl) scLbl.textContent = _gsdropDefaults.subcat || 'All Sub-Cat.';
+      const skLbl = document.getElementById('csdrop-label-sku');    if (skLbl) skLbl.textContent = _gsdropDefaults.sku    || 'All SKUs';
+    }
     // F.customer, F.subcat, F.sku are managed by gsdropSelect()
     _filt = _all.filter(r => {
       if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
@@ -803,6 +816,7 @@
       if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))          return false;
       return true;
     });
+    refreshDependentFilters();
     renderTab();
   }
 
@@ -824,6 +838,14 @@
 
   function setFamily(fam) {
     F.family = fam;
+    // Cascade: changing family resets category, sub-cat and SKU (they may not exist in new family)
+    F.category = ''; F.subcat = ''; F.sku = '';
+    const catEl = document.getElementById('f-category'); if (catEl) catEl.value = '';
+    ['subcat','sku'].forEach(id => {
+      F[_gsdropFields[id]] = '';
+      const lbl = document.getElementById('csdrop-label-'+id);
+      if (lbl) lbl.textContent = _gsdropDefaults[id] || 'All';
+    });
     ['btn-all','btn-bp','btn-lg'].forEach(id => document.getElementById(id)?.classList.remove('active'));
     document.getElementById(fam==='ALL'?'btn-all':fam==='BACKPACKS'?'btn-bp':'btn-lg')?.classList.add('active');
     applyFilters();
@@ -1180,6 +1202,8 @@
     if (C.sku && C.country) {
       // Use all 2025 actual rows, respecting active filters EXCEPT country
       // (so we can compare all countries simultaneously in the matrix)
+      // act25xc: applies all active filters EXCEPT country (cross-country view)
+      // and EXCEPT year (hardcoded 2025) — used for numerator values
       const act25xc = _all.filter(r => {
         if (rowYear(r) !== '2025' || !isActual(r)) return false;
         if (F.family !== 'ALL' && C.family   && norm(r[C.family])   !== norm(F.family))   return false;
@@ -1190,7 +1214,19 @@
         if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))       return false;
         return true;
       });
-      const totalGlobal = sum(act25xc, C.value) || 1;
+      // act25base: ONLY family/branch/customer filtered — NO category/subcat/sku
+      // Used as denominator so % always means "share of family revenue in that country"
+      // regardless of which category/subcat/sku filter is currently active
+      const act25base = _all.filter(r => {
+        if (rowYear(r) !== '2025' || !isActual(r)) return false;
+        if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
+        if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))   return false;
+        if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer)) return false;
+        return true;
+      });
+      const ctBaseMap = aggBy(act25base, r => r[C.country]); // family-level country totals
+      const brBaseMap = C.branch ? aggBy(act25base, r => r[C.branch]) : {};  // family-level branch totals
+      const totalGlobal = sum(act25base, C.value) || 1; // family grand total (for Global% col)
       const skuMapG = aggBy(act25xc, r => r[C.sku]);
       const topSKUs = topN(skuMapG, 20);
       const ctMapG  = aggBy(act25xc, r => r[C.country]);
@@ -1233,11 +1269,11 @@
                   <td style="position:sticky;left:0;z-index:1;font-weight:600;font-size:10px;white-space:nowrap;max-width:140px;overflow:hidden;text-overflow:ellipsis;" title="${sku}">${sku}</td>
                   <td class="r" style="font-weight:700;white-space:nowrap;">${gPct.toFixed(1)}%<br><span style="font-size:9px;color:#4a5680;font-weight:400;">${fmtShort(skuMapG[sku]||0)}</span></td>
                   ${topCts.map(ct => {
-                    const v = skuCtVal[sku+'|||'+ct] || 0;
-                    const ctT = ctMapG[ct] || 1;
+                    const v   = skuCtVal[sku+'|||'+ct] || 0;
+                    const ctT = ctBaseMap[ct] || ctMapG[ct] || 1; // family-level denominator
                     const p   = v / ctT * 100;
                     const cls = cellCls(p);
-                    return `<td class="r ${cls}" title="${ct}: ${fmt(v)} = ${p.toFixed(1)}% of market">${p > 0 ? p.toFixed(1)+'%' : '—'}</td>`;
+                    return `<td class="r ${cls}" title="${ct}: ${fmt(v)} = ${p.toFixed(1)}% of ${F.family!=='ALL'?F.family:'family'} revenue">${p > 0 ? p.toFixed(1)+'%' : '—'}</td>`;
                   }).join('')}
                 </tr>`;
               }).join('')}
@@ -1247,17 +1283,20 @@
       document.getElementById('tbl-sku-country').innerHTML = matHtml;
 
       /* ── helper: build profile cards for any grouping dimension ── */
-      function buildProfileCards(groupCol, groupMap, groupList, label) {
+      // baseMap: family-level totals (denominator) — stays fixed regardless of category/subcat/sku filters
+      // groupMap: filtered totals (used only for display of revenue values)
+      function buildProfileCards(groupCol, groupMap, baseMap, groupList, label) {
         let html = '<div class="country-profile-grid">';
         groupList.forEach(grp => {
-          const grpRows = act25xc.filter(r => norm(r[groupCol]) === norm(grp));
-          const grpTot  = groupMap[grp] || 1;
-          const gSkuMap = aggBy(grpRows, r => r[C.sku]);
-          const top5    = topN(gSkuMap, 5);
+          const grpRows  = act25xc.filter(r => norm(r[groupCol]) === norm(grp));
+          const grpBase  = baseMap[grp] || groupMap[grp] || 1; // family-level total (denominator)
+          const grpTot   = groupMap[grp] || grpBase;            // filtered total (shown in subtitle)
+          const gSkuMap  = aggBy(grpRows, r => r[C.sku]);
+          const top5     = topN(gSkuMap, 5);
           let cumPct = 0;
           const rowsH = top5.map((s, i) => {
             const v  = gSkuMap[s] || 0;
-            const p  = v / grpTot * 100;
+            const p  = v / grpBase * 100;  // % of family revenue in this country/branch
             cumPct  += p;
             const bw = Math.min(Math.round(p * 4), 100);
             return `<tr>
@@ -1279,7 +1318,7 @@
           html += `
             <div class="cp-card">
               <div class="cp-card-title">${grp}</div>
-              <div class="cp-card-sub">${fmt(grpTot)} total 2025 · Top 5 cover <strong>${cumPct.toFixed(0)}%</strong> of ${label} revenue</div>
+              <div class="cp-card-sub">${fmt(grpBase)} family revenue 2025${grpTot!==grpBase?' · <em style="font-style:normal;color:#4a90e2;">'+fmt(grpTot)+' filtered</em>':''} · Top 5 cover <strong>${cumPct.toFixed(0)}%</strong> of family</div>
               <table class="tbl" style="margin:0;">
                 <thead><tr><th>SKU</th><th class="r">Revenue</th><th class="r">Mix%</th><th></th></tr></thead>
                 <tbody>${rowsH}</tbody>
@@ -1291,9 +1330,9 @@
         return html;
       }
 
-      // Country profile cards
+      // Country profile cards (ctBaseMap = family-level denominator)
       document.getElementById('div-country-profiles').innerHTML =
-        buildProfileCards(C.country, ctMapG, topCts, 'country');
+        buildProfileCards(C.country, ctMapG, ctBaseMap, topCts, 'country');
 
       // Branch profile cards (if branch column is present and different from country)
       if (C.branch && C.branch !== C.country) {
@@ -1302,7 +1341,7 @@
         if (topBrs.length) {
           document.getElementById('sec-branch-profiles').style.display = '';
           document.getElementById('div-branch-profiles').innerHTML =
-            buildProfileCards(C.branch, brMapG, topBrs, 'branch');
+            buildProfileCards(C.branch, brMapG, brBaseMap, topBrs, 'branch');
         }
       }
     }
@@ -1788,6 +1827,60 @@
   /* ================================================================
      POPULATE FILTER DROPDOWNS
   ================================================================ */
+  /* Rebuilds Category / Sub-Cat / SKU dropdown OPTIONS to match the current
+     Family + Category selection. Called after every applyFilters() so the user
+     only sees relevant choices. Does NOT trigger a re-render. */
+  function refreshDependentFilters() {
+    if (!_all.length) return;
+    // Base: actual rows within the currently selected family (ignore year/month/country/branch)
+    const base = _all.filter(r => isActual(r) &&
+      (F.family === 'ALL' || !C.family || norm(r[C.family]) === norm(F.family)));
+
+    // 1. Category dropdown — show only categories from current family
+    if (C.category) {
+      const cats = [...new Set(base.map(r => r[C.category]).filter(Boolean))].sort();
+      const catEl = document.getElementById('f-category');
+      if (catEl) {
+        catEl.innerHTML = '<option value="">All Categories</option>' +
+          cats.map(c => `<option value="${c}"${norm(c)===norm(F.category)?' selected':''}>${c}</option>`).join('');
+      }
+    }
+
+    // 2. Sub-Cat dropdown — show only subcats valid for current family + category
+    if (C.subcat) {
+      const subcatBase = F.category && C.category
+        ? base.filter(r => norm(r[C.category]) === norm(F.category))
+        : base;
+      const subcats = [...new Set(subcatBase.map(r => r[C.subcat]).filter(Boolean))].sort();
+      // If active sub-cat no longer valid, auto-clear it
+      if (F.subcat && !subcats.some(s => norm(s) === norm(F.subcat))) {
+        F.subcat = ''; F.sku = '';
+        const scl = document.getElementById('csdrop-label-subcat'); if (scl) scl.textContent = _gsdropDefaults.subcat || 'All Sub-Cat.';
+        const skl = document.getElementById('csdrop-label-sku');    if (skl) skl.textContent = _gsdropDefaults.sku    || 'All SKUs';
+      }
+      _gsdropOpts.subcat = subcats;
+      gsdropFilter('subcat', '');
+    }
+
+    // 3. SKU dropdown — show only SKUs valid for current family + category + subcat
+    if (C.sku) {
+      const subcatBase2 = F.category && C.category
+        ? base.filter(r => norm(r[C.category]) === norm(F.category))
+        : base;
+      const skuBase = F.subcat && C.subcat
+        ? subcatBase2.filter(r => norm(r[C.subcat]) === norm(F.subcat))
+        : subcatBase2;
+      const skus = [...new Set(skuBase.map(r => r[C.sku]).filter(Boolean))].sort();
+      // If active SKU no longer valid, auto-clear it
+      if (F.sku && !skus.some(s => norm(s) === norm(F.sku))) {
+        F.sku = '';
+        const skl = document.getElementById('csdrop-label-sku'); if (skl) skl.textContent = _gsdropDefaults.sku || 'All SKUs';
+      }
+      _gsdropOpts.sku = skus;
+      gsdropFilter('sku', '');
+    }
+  }
+
   function populateFilters() {
     const act = _all.filter(isActual);
     const years  = [...new Set(_all.map(rowYear).filter(Boolean))].sort();
