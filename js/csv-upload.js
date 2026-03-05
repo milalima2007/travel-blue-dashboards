@@ -216,29 +216,51 @@ const CSVUpload = (() => {
     return data;
   }
 
+  /* ---- Delete ALL rows for a project (full reset) ---- */
+  async function clearProjectData(projectSlug, onProgress) {
+    onProgress?.('Clearing existing data…', 10);
+    const { error } = await _svc()
+      .from('project_data')
+      .delete()
+      .eq('project_slug', projectSlug);
+    if (error) throw new Error(`Clear failed: ${error.message}`);
+  }
+
   /* ---- STEP 1: Analyse file (no writes yet) ---- */
-  async function analyse(file, projectSlug) {
+  async function analyse(file, projectSlug, { fullRefresh = false } = {}) {
     const records = await parseFile(file);
     if (!records.length) throw new Error('The CSV file is empty.');
 
     const types   = detectColumnTypes(records);
     const keys    = detectCompositeKey(types, records); // pass records to detect dimensional numerics
-    const diff    = await compareWithExisting(projectSlug, records, keys);
     const batchId = 'batch_' + Date.now();
 
-    return { file, projectSlug, records, types, keys, diff, batchId };
+    if (fullRefresh) {
+      // Full refresh: skip the diff — all rows will be (re)inserted after clearing
+      const allRows = records.map(row => ({ row, key: rowKey(row, keys) }));
+      return { file, projectSlug, records, types, keys, batchId, fullRefresh,
+               diff: { newRows: allRows, updateRows: [], unchangedRows: [], existingCount: 0 } };
+    }
+
+    const diff = await compareWithExisting(projectSlug, records, keys);
+    return { file, projectSlug, records, types, keys, diff, batchId, fullRefresh: false };
   }
 
   /* ---- STEP 2: Confirm and execute ---- */
   async function confirm(state, onProgress) {
-    const { file, projectSlug, records, types, keys, diff, batchId } = state;
-    const toWrite = [...diff.newRows, ...diff.updateRows];
+    const { file, projectSlug, records, types, keys, diff, batchId, fullRefresh } = state;
 
-    onProgress?.('Uploading CSV backup…', 30);
+    onProgress?.('Uploading CSV backup…', 20);
     let storagePath = null;
     try { storagePath = await uploadToStorage(file, projectSlug); }
     catch (e) { console.warn('Storage upload skipped:', e.message); }
 
+    // Full refresh: wipe all existing rows first so stale records are removed
+    if (fullRefresh) {
+      await clearProjectData(projectSlug, onProgress);
+    }
+
+    const toWrite = [...diff.newRows, ...diff.updateRows];
     if (toWrite.length > 0) {
       onProgress?.(`Writing ${toWrite.length} rows…`, 60);
       await upsertRows(projectSlug, toWrite, batchId);
@@ -249,14 +271,14 @@ const CSVUpload = (() => {
 
     onProgress?.('Done!', 100);
     return {
-      inserted:    diff.newRows.length,
-      updated:     diff.updateRows.length,
-      unchanged:   diff.unchangedRows.length,
-      storagePath, batchId
+      inserted:    fullRefresh ? toWrite.length : diff.newRows.length,
+      updated:     fullRefresh ? 0              : diff.updateRows.length,
+      unchanged:   fullRefresh ? 0              : diff.unchangedRows.length,
+      storagePath, batchId, fullRefresh
     };
   }
 
   /* ---- Public API ---- */
-  return { analyse, confirm, getMeta, detectColumnTypes, detectCompositeKey, rowKey };
+  return { analyse, confirm, getMeta, clearProjectData, detectColumnTypes, detectCompositeKey, rowKey };
 
 })();

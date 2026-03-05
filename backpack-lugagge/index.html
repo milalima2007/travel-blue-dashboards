@@ -679,8 +679,22 @@
     C.custBP   = find('customer bp','customer_bp','customerbp');
     C.channel  = find('channel','canal');
     C.company  = find('company','empresa');
-    C.value    = find('value','amount','net sales','net_sales','sales','usd','total','net');
+    // Prefer explicit USD column first, then fallback to generic amount/value patterns.
+    // This avoids accidentally picking local-currency columns (e.g. "NET AMOUNT (LcCy)")
+    // when a proper USD column exists (e.g. "NET AMOUNT (USD)").
+    C.value    = find('net amount (usd)','net_amount_usd','amount usd','amount (usd)',
+                      'value usd','sales usd','net sales usd',
+                      'value','net sales','net_sales','sales');
     if (!C.value) {
+      // Second pass: any column whose name includes 'usd' or 'amount' but not 'lc' / 'local'
+      C.value = keys.find(k => {
+        const n = norm(k);
+        if (n.includes('lccy')||n.includes('lc cy')||n.includes('local')) return false;
+        return n.includes('usd')||n.includes('amount')||n.includes('total');
+      });
+    }
+    if (!C.value) {
+      // Last resort: any numeric-looking column that isn't a known dimension
       C.value = keys.find(k => {
         const n = norm(k);
         return !['quantity','qty','units','qtd','country','year','ano','mes','month',
@@ -2027,8 +2041,11 @@
 
     // Exclude INTERCO rows
     _all = C.company ? rows.filter(r => !norm(r[C.company]).includes('interco')) : rows;
-    console.log('[BL] total:', rows.length, '| after filter:', _all.length,
-      '| company sample:', [...new Set(rows.slice(0,200).map(r=>r[C.company]))].slice(0,8));
+    const _dbgTypes = {};
+    rows.forEach(r => { const t = r[C.type] ?? '(blank)'; _dbgTypes[t] = (_dbgTypes[t]||0)+1; });
+    console.log('[BL] fetched', rows.length, 'rows | after INTERCO filter:', _all.length);
+    console.log('[BL] TYPE breakdown:', _dbgTypes);
+    console.log('[BL] columns — value:', C.value, '| qty:', C.qty, '| type:', C.type);
 
     _filt = [..._all];
     document.getElementById('state-loading').style.display = 'none';

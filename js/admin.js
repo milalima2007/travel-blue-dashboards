@@ -731,6 +731,11 @@ async function saveProject() {
 
   errEl.style.display = 'none';
   if (!name || !slug) { showFormError(errEl, 'Name and slug are required.'); return; }
+  // CSV required for new projects
+  if (!editingProjId && !newProjCsvFile) {
+    showFormError(errEl, 'A CSV data source is required — the dashboard reads directly from this data.');
+    return;
+  }
   // Instructions required for new projects
   if (!editingProjId && !instr) {
     showFormError(errEl, 'Dashboard Instructions are required — describe what you want Claude to build.');
@@ -935,8 +940,10 @@ async function runAnalyse() {
   if (!csvFile) { showToast('Please select a CSV file first.'); return; }
   _csvShowStep('analysing');
 
+  const fullRefresh = document.getElementById('csv-full-refresh')?.checked ?? false;
+
   try {
-    csvAnalysisState = await CSVUpload.analyse(csvFile, csvProjectSlug);
+    csvAnalysisState = await CSVUpload.analyse(csvFile, csvProjectSlug, { fullRefresh });
     _renderCsvPreview(csvAnalysisState);
     _csvShowStep('preview');
   } catch (err) {
@@ -965,14 +972,22 @@ function _renderCsvPreview(state) {
 
   const { newRows, updateRows, unchangedRows } = state.diff;
   const noChanges = newRows.length + updateRows.length === 0;
+
+  const diffHtml = state.fullRefresh
+    ? `<div class="diff-summary" style="background:rgba(231,76,60,.07);border:1px solid rgba(231,76,60,.25);border-radius:8px;padding:14px 18px;margin-top:10px;">
+        <div style="color:#c0392b;font-weight:700;font-size:13px;margin-bottom:6px;">⚠ Full Refresh Mode</div>
+        <div style="font-size:12px;color:var(--gray);">All existing data for this project will be <strong>permanently deleted</strong> and replaced with the <strong>${state.records.length} rows</strong> in this file. This cannot be undone.</div>
+       </div>`
+    : `<div class="diff-summary">
+        <div class="diff-card new-rows"><div class="diff-count">${newRows.length}</div><div class="diff-label">New rows</div></div>
+        <div class="diff-card update-rows"><div class="diff-count">${updateRows.length}</div><div class="diff-label">Updated</div></div>
+        <div class="diff-card same-rows"><div class="diff-count">${unchangedRows.length}</div><div class="diff-label">Unchanged</div></div>
+       </div>
+       ${noChanges ? `<p style="font-size:13px;color:var(--gray);margin-top:10px;text-align:center;">⚠️ No new or changed rows detected — nothing will be written.</p>` : ''}`;
+
   document.getElementById('csv-diff').innerHTML = `
     <div class="upload-section-label" style="margin-top:18px;">Data Preview (${state.records.length} rows in file)</div>
-    <div class="diff-summary">
-      <div class="diff-card new-rows"><div class="diff-count">${newRows.length}</div><div class="diff-label">New rows</div></div>
-      <div class="diff-card update-rows"><div class="diff-count">${updateRows.length}</div><div class="diff-label">Updated</div></div>
-      <div class="diff-card same-rows"><div class="diff-count">${unchangedRows.length}</div><div class="diff-label">Unchanged</div></div>
-    </div>
-    ${noChanges ? `<p style="font-size:13px;color:var(--gray);margin-top:10px;text-align:center;">⚠️ No new or changed rows detected — nothing will be written.</p>` : ''}`;
+    ${diffHtml}`;
 }
 
 async function runConfirmUpload() {
@@ -999,9 +1014,9 @@ function _showUploadResult(result) {
       <div class="upload-result-icon">✅</div>
       <div class="upload-result-title">Upload complete!</div>
       <div class="upload-result-stats" style="margin:10px 0 18px;">
-        <span>${result.inserted}</span> new &nbsp;·&nbsp;
-        <span>${result.updated}</span> updated &nbsp;·&nbsp;
-        <span>${result.unchanged}</span> unchanged
+        ${result.fullRefresh
+          ? `<span>${result.inserted}</span> rows loaded (full refresh)`
+          : `<span>${result.inserted}</span> new &nbsp;·&nbsp; <span>${result.updated}</span> updated &nbsp;·&nbsp; <span>${result.unchanged}</span> unchanged`}
       </div>
       <a href="/project/index.html?slug=${csvProjectSlug}"
          style="display:inline-block;padding:10px 28px;background:var(--navy);color:#fff;
