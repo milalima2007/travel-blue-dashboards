@@ -241,6 +241,16 @@
     body.light .csdrop-opt:hover { background: #eff6ff !important; color: #0f172a !important; }
     body.light .csdrop-opt.selected { color: #2563eb !important; background: #eff6ff !important; font-weight: 700 !important; }
 
+    /* ── USD / Units metric toggle ── */
+    .metric-toggle { display:flex; gap:2px; background:rgba(255,255,255,.04); border:1px solid #2a3450; border-radius:7px; padding:2px; }
+    .metric-btn { background:transparent; border:none; color:#6b7a9f; font-size:11px; font-weight:700; padding:4px 11px; border-radius:5px; cursor:pointer; transition:background .15s,color .15s; white-space:nowrap; letter-spacing:.02em; }
+    .metric-btn.active { background:#3b82f6; color:#fff; box-shadow:0 1px 4px rgba(59,130,246,.4); }
+    .metric-btn:not(.active):hover { background:rgba(255,255,255,.07); color:#c8d4e8; }
+    body.light .metric-toggle { background:#f1f5f9; border-color:#dde3ed; }
+    body.light .metric-btn { color:#64748b; }
+    body.light .metric-btn.active { background:#2563eb; color:#fff; }
+    body.light .metric-btn:not(.active):hover { background:#e2e8f0; color:#334155; }
+
     /* ── SKU × Country/Branch matrix ── */
     .sku-ct-zero { color:#2e3a52; }
     .sku-ct-low  { color:#6b7a9f; }
@@ -403,6 +413,10 @@
             <div class="csdrop-list" id="csdrop-list-sku"></div>
           </div>
         </div>
+      </div>
+      <div class="metric-toggle">
+        <button id="btn-m-val" class="metric-btn active" onclick="setMetric('value')" title="View in Revenue (USD)">$ USD</button>
+        <button id="btn-m-qty" class="metric-btn"        onclick="setMetric('qty')"   title="View in Quantity (units)"># Units</button>
       </div>
       <button class="filter-reset" onclick="resetFilters()">✕ Reset</button>
     </div>
@@ -582,7 +596,17 @@
   const PALETTE = [C_2025, C_2024, '#06b6d4', '#f97316', C_2026, C_BP, '#8b5cf6', '#ec4899', '#14b8a6', '#f59e0b', '#a855f7', '#ef4444'];
 
   let _all = [], _filt = [], _charts = {}, _tab = 'overview';
+  let _metric = 'value'; // 'value' = USD revenue | 'qty' = quantity (units)
   let C = {};
+
+  /* ── metric helpers ── */
+  function mCol() { return _metric === 'qty' && C.qty ? C.qty : C.value; }
+  function setMetric(m) {
+    _metric = m;
+    document.getElementById('btn-m-val')?.classList.toggle('active', m === 'value');
+    document.getElementById('btn-m-qty')?.classList.toggle('active', m === 'qty');
+    renderTab();
+  }
 
   /* ── utils ── */
   const norm = v => String(v ?? '').trim().toLowerCase();
@@ -594,6 +618,11 @@
   function fmt(n) {
     if (!isFinite(n)||isNaN(n)) return '—';
     const a = Math.abs(n);
+    if (_metric === 'qty') {
+      if (a >= 1e6) return (n/1e6).toFixed(1)+'M pcs';
+      if (a >= 1e3) return Math.round(n/1e3)+'K pcs';
+      return Math.round(n).toLocaleString()+' pcs';
+    }
     if (a >= 1e6) return '$'+(n/1e6).toFixed(2)+'M';
     if (a >= 1e3) return '$'+(n/1e3).toFixed(1)+'K';
     return '$'+n.toFixed(0);
@@ -601,9 +630,18 @@
   function fmtShort(n) {
     if (!isFinite(n)||isNaN(n)) return '—';
     const a = Math.abs(n);
+    if (_metric === 'qty') {
+      if (a >= 1e6) return (n/1e6).toFixed(1)+'M';
+      if (a >= 1e3) return Math.round(n/1e3)+'K';
+      return Math.round(n).toLocaleString();
+    }
     if (a >= 1e6) return (n/1e6).toFixed(1)+'M';
     if (a >= 1e3) return (n/1e3).toFixed(0)+'K';
     return n.toFixed(0);
+  }
+  function fmtN(n) { // plain integer formatter (Buffer page, always units)
+    if (!isFinite(n)||isNaN(n)) return '—';
+    return Math.round(n).toLocaleString();
   }
   function pct(a, b) { return b ? ((a-b)/Math.abs(b))*100 : NaN; }
   function pctHtml(p) {
@@ -713,8 +751,9 @@
 
   /* ── aggregation ── */
   function aggBy(rows, keyFn) {
+    const col = mCol();
     const m = {};
-    rows.forEach(r => { const k = keyFn(r); if (k) m[k] = (m[k]||0) + num(r[C.value]); });
+    rows.forEach(r => { const k = keyFn(r); if (k) m[k] = (m[k]||0) + num(r[col]); });
     return m;
   }
   function topN(map, n) {
@@ -933,17 +972,17 @@
     // bAll() = BP full year (ignores month filter) · b() = BP filtered by selected month
     const bp26=bAll(2026), bp25=bAll(2025);
     const bp26m=b(2026); // BP for currently selected month (or full year if no month filter)
-    const s24=sum(act24,C.value), s25=sum(act25,C.value), s26=sum(act26,C.value),
-          s26b=sum(bp26,C.value), s26bm=sum(bp26m,C.value), s25b=sum(bp25,C.value);
+    const s24=sum(act24,mCol()), s25=sum(act25,mCol()), s26=sum(act26,mCol()),
+          s26b=sum(bp26,mCol()), s26bm=sum(bp26m,mCol()), s25b=sum(bp25,mCol());
 
     // Detect latest month with actual data
     const latestYr  = [...new Set(_filt.filter(isActual).map(rowYear).filter(Boolean))].sort().pop() || '2026';
     const latestMon = [...new Set(_filt.filter(r => isActual(r) && rowYear(r)===latestYr).map(getMonthNum).filter(Boolean))].sort((a,b)=>b-a)[0] || 1;
     const latestLbl = MN[latestMon-1] + ' ' + latestYr;
-    const lAct  = sum(_filt.filter(r => isActual(r) && rowYear(r)===latestYr && getMonthNum(r)===latestMon), C.value);
+    const lAct  = sum(_filt.filter(r => isActual(r) && rowYear(r)===latestYr && getMonthNum(r)===latestMon), mCol());
     // lBP: actual BP for the detected latest month (from full-year BP rows, filtered to that month)
-    const lBP   = sum(bp26.filter(r => getMonthNum(r) === latestMon), C.value);
-    const lPrev = sum(_filt.filter(r => isActual(r) && rowYear(r)===String(+latestYr-1) && getMonthNum(r)===latestMon), C.value);
+    const lBP   = sum(bp26.filter(r => getMonthNum(r) === latestMon), mCol());
+    const lPrev = sum(_filt.filter(r => isActual(r) && rowYear(r)===String(+latestYr-1) && getMonthNum(r)===latestMon), mCol());
     const achPct = lBP ? (lAct/lBP)*100 : NaN;
 
     /* KPIs */
@@ -1009,7 +1048,7 @@
        BP 2026 is stored as annual totals (Mês=12) → show flat monthly avg line.
        mSumsActual uses _filt (month-filtered), but for all-months view shows full trend. */
     function mSums(rows) {
-      return Array.from({length:12}, (_,i) => sum(rows.filter(r => getMonthNum(r)===i+1), C.value) || null);
+      return Array.from({length:12}, (_,i) => sum(rows.filter(r => getMonthNum(r)===i+1), mCol()) || null);
     }
     function mSumsQty(rows) {
       return Array.from({length:12}, (_,i) => sum(rows.filter(r => getMonthNum(r)===i+1), C.qty) || 0);
@@ -1121,9 +1160,9 @@
     if (C.category) {
       const catMap = aggBy(act25, r => r[C.category]);
       const cats = topN(catMap, 15);
-      const cS24=cats.map(c=>sum(act24.filter(r=>norm(r[C.category])===norm(c)),C.value));
-      const cS25=cats.map(c=>sum(act25.filter(r=>norm(r[C.category])===norm(c)),C.value));
-      const cS26=cats.map(c=>sum(act26.filter(r=>norm(r[C.category])===norm(c)),C.value));
+      const cS24=cats.map(c=>sum(act24.filter(r=>norm(r[C.category])===norm(c)),mCol()));
+      const cS25=cats.map(c=>sum(act25.filter(r=>norm(r[C.category])===norm(c)),mCol()));
+      const cS26=cats.map(c=>sum(act26.filter(r=>norm(r[C.category])===norm(c)),mCol()));
       mkChart('ch-category-bar', { type:'bar',
         data:{ labels:cats, datasets:[
           {label:'2024',     data:cS24, backgroundColor:C_2024+'99', borderRadius:3},
@@ -1145,9 +1184,9 @@
     if (C.subcat) {
       const scMap = aggBy(act25, r => r[C.subcat]);
       const scs = topN(scMap, 20);
-      const scS24=scs.map(s=>sum(act24.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
-      const scS25=scs.map(s=>sum(act25.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
-      const scS26=scs.map(s=>sum(act26.filter(r=>norm(r[C.subcat])===norm(s)),C.value));
+      const scS24=scs.map(s=>sum(act24.filter(r=>norm(r[C.subcat])===norm(s)),mCol()));
+      const scS25=scs.map(s=>sum(act25.filter(r=>norm(r[C.subcat])===norm(s)),mCol()));
+      const scS26=scs.map(s=>sum(act26.filter(r=>norm(r[C.subcat])===norm(s)),mCol()));
       const scQ24=scs.map(s=>sum(act24.filter(r=>norm(r[C.subcat])===norm(s)),C.qty));
       const scQ25=scs.map(s=>sum(act25.filter(r=>norm(r[C.subcat])===norm(s)),C.qty));
       const scQ26=scs.map(s=>sum(act26.filter(r=>norm(r[C.subcat])===norm(s)),C.qty));
@@ -1188,9 +1227,9 @@
     if (C.sku) {
       const skuMap = aggBy(act25, r => r[C.sku]);
       const skus = topN(skuMap, 50);
-      const kS24=skus.map(s=>sum(act24.filter(r=>norm(r[C.sku])===norm(s)),C.value));
-      const kS25=skus.map(s=>sum(act25.filter(r=>norm(r[C.sku])===norm(s)),C.value));
-      const kS26=skus.map(s=>sum(act26.filter(r=>norm(r[C.sku])===norm(s)),C.value));
+      const kS24=skus.map(s=>sum(act24.filter(r=>norm(r[C.sku])===norm(s)),mCol()));
+      const kS25=skus.map(s=>sum(act25.filter(r=>norm(r[C.sku])===norm(s)),mCol()));
+      const kS26=skus.map(s=>sum(act26.filter(r=>norm(r[C.sku])===norm(s)),mCol()));
       document.getElementById('tbl-sku').innerHTML = `
         <div class="tbl-wrap" style="max-height:400px;overflow-y:auto;"><table class="tbl">
           <thead><tr><th>SKU</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th></tr></thead>
@@ -1226,7 +1265,7 @@
       });
       const ctBaseMap = aggBy(act25base, r => r[C.country]); // family-level country totals
       const brBaseMap = C.branch ? aggBy(act25base, r => r[C.branch]) : {};  // family-level branch totals
-      const totalGlobal = sum(act25base, C.value) || 1; // family grand total (for Global% col)
+      const totalGlobal = sum(act25base, mCol()) || 1; // family grand total (for Global% col)
       const skuMapG = aggBy(act25xc, r => r[C.sku]);
       const topSKUs = topN(skuMapG, 20);
       const ctMapG  = aggBy(act25xc, r => r[C.country]);
@@ -1237,7 +1276,7 @@
       topSKUs.forEach(sku => {
         const skuRows = act25xc.filter(r => norm(r[C.sku]) === norm(sku));
         topCts.forEach(ct => {
-          skuCtVal[sku+'|||'+ct] = sum(skuRows.filter(r => norm(r[C.country]) === norm(ct)), C.value);
+          skuCtVal[sku+'|||'+ct] = sum(skuRows.filter(r => norm(r[C.country]) === norm(ct)), mCol());
         });
       });
 
@@ -1358,11 +1397,11 @@
     if (C.customer) {
       const custMap = aggBy(act25, r => r[C.customer]);
       const custs = topN(custMap, 20);
-      const cS24=custs.map(c=>sum(act24.filter(r=>norm(r[C.customer])===norm(c)),C.value));
-      const cS25=custs.map(c=>sum(act25.filter(r=>norm(r[C.customer])===norm(c)),C.value));
-      const cS26=custs.map(c=>sum(act26.filter(r=>norm(r[C.customer])===norm(c)),C.value));
-      const cBP =custs.map(c=>sum(bp26.filter(r=>norm(r[C.customer])===norm(c)),C.value));
-      const tot25 = sum(act25,C.value)||1;
+      const cS24=custs.map(c=>sum(act24.filter(r=>norm(r[C.customer])===norm(c)),mCol()));
+      const cS25=custs.map(c=>sum(act25.filter(r=>norm(r[C.customer])===norm(c)),mCol()));
+      const cS26=custs.map(c=>sum(act26.filter(r=>norm(r[C.customer])===norm(c)),mCol()));
+      const cBP =custs.map(c=>sum(bp26.filter(r=>norm(r[C.customer])===norm(c)),mCol()));
+      const tot25 = sum(act25,mCol())||1;
 
       const cQ24=custs.map(c=>sum(act24.filter(r=>norm(r[C.customer])===norm(c)),C.qty));
       const cQ25=custs.map(c=>sum(act25.filter(r=>norm(r[C.customer])===norm(c)),C.qty));
@@ -1398,10 +1437,10 @@
       document.getElementById('sec-custbp').style.display = '';
       const bpMap = aggBy(act25, r => r[C.custBP]);
       const bpCs  = topN(bpMap, 20);
-      const bcS24=bpCs.map(c=>sum(act24.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
-      const bcS25=bpCs.map(c=>sum(act25.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
-      const bcS26=bpCs.map(c=>sum(act26.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
-      const bcBP =bpCs.map(c=>sum(bp26.filter(r=>norm(r[C.custBP])===norm(c)),C.value));
+      const bcS24=bpCs.map(c=>sum(act24.filter(r=>norm(r[C.custBP])===norm(c)),mCol()));
+      const bcS25=bpCs.map(c=>sum(act25.filter(r=>norm(r[C.custBP])===norm(c)),mCol()));
+      const bcS26=bpCs.map(c=>sum(act26.filter(r=>norm(r[C.custBP])===norm(c)),mCol()));
+      const bcBP =bpCs.map(c=>sum(bp26.filter(r=>norm(r[C.custBP])===norm(c)),mCol()));
       document.getElementById('tbl-customer-bp').innerHTML = `
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Customer BP</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th></tr></thead>
@@ -1416,11 +1455,11 @@
       const chAgg = aggBy(act25, r => norm(r[C.channel]));
       const chs   = topN(chAgg, 12);
       const chLbls = chs.map(nk => chNMap[nk] || nk);
-      const chS24=chs.map(nk=>sum(act24.filter(r=>norm(r[C.channel])===nk),C.value));
-      const chS25=chs.map(nk=>sum(act25.filter(r=>norm(r[C.channel])===nk),C.value));
-      const chS26=chs.map(nk=>sum(act26.filter(r=>norm(r[C.channel])===nk),C.value));
-      const chBP =chs.map(nk=>sum(bp26.filter(r=>norm(r[C.channel])===nk),C.value));
-      const tot25 = sum(act25,C.value)||1;
+      const chS24=chs.map(nk=>sum(act24.filter(r=>norm(r[C.channel])===nk),mCol()));
+      const chS25=chs.map(nk=>sum(act25.filter(r=>norm(r[C.channel])===nk),mCol()));
+      const chS26=chs.map(nk=>sum(act26.filter(r=>norm(r[C.channel])===nk),mCol()));
+      const chBP =chs.map(nk=>sum(bp26.filter(r=>norm(r[C.channel])===nk),mCol()));
+      const tot25 = sum(act25,mCol())||1;
       mkChart('ch-channel-donut', { type:'doughnut',
         data:{ labels:chLbls, datasets:[{ data:chS25, backgroundColor:PALETTE, borderWidth:0 }] },
         options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
@@ -1446,11 +1485,11 @@
     if (C.country) {
       const ctMap = aggBy(act25, r => r[C.country]);
       const cts   = topN(ctMap, 20);
-      const ctS24=cts.map(c=>sum(act24.filter(r=>norm(r[C.country])===norm(c)),C.value));
-      const ctS25=cts.map(c=>sum(act25.filter(r=>norm(r[C.country])===norm(c)),C.value));
-      const ctS26=cts.map(c=>sum(act26.filter(r=>norm(r[C.country])===norm(c)),C.value));
-      const ctBP =cts.map(c=>sum(bp26.filter(r=>norm(r[C.country])===norm(c)),C.value));
-      const tot25 = sum(act25,C.value)||1;
+      const ctS24=cts.map(c=>sum(act24.filter(r=>norm(r[C.country])===norm(c)),mCol()));
+      const ctS25=cts.map(c=>sum(act25.filter(r=>norm(r[C.country])===norm(c)),mCol()));
+      const ctS26=cts.map(c=>sum(act26.filter(r=>norm(r[C.country])===norm(c)),mCol()));
+      const ctBP =cts.map(c=>sum(bp26.filter(r=>norm(r[C.country])===norm(c)),mCol()));
+      const tot25 = sum(act25,mCol())||1;
       mkChart('ch-country-bar', { type:'bar',
         data:{ labels:cts, datasets:[
           {label:'2024',     data:ctS24, backgroundColor:C_2024+'88', borderRadius:2},
@@ -1478,10 +1517,10 @@
       document.getElementById('sec-branch').style.display = '';
       const brMap = aggBy(act25, r => r[C.branch]);
       const brs   = topN(brMap, 15);
-      const brS24=brs.map(b=>sum(act24.filter(r=>norm(r[C.branch])===norm(b)),C.value));
-      const brS25=brs.map(b=>sum(act25.filter(r=>norm(r[C.branch])===norm(b)),C.value));
-      const brS26=brs.map(b=>sum(act26.filter(r=>norm(r[C.branch])===norm(b)),C.value));
-      const brBP =brs.map(b=>sum(bp26.filter(r=>norm(r[C.branch])===norm(b)),C.value));
+      const brS24=brs.map(b=>sum(act24.filter(r=>norm(r[C.branch])===norm(b)),mCol()));
+      const brS25=brs.map(b=>sum(act25.filter(r=>norm(r[C.branch])===norm(b)),mCol()));
+      const brS26=brs.map(b=>sum(act26.filter(r=>norm(r[C.branch])===norm(b)),mCol()));
+      const brBP =brs.map(b=>sum(bp26.filter(r=>norm(r[C.branch])===norm(b)),mCol()));
       mkChart('ch-branch-bar', { type:'bar',
         data:{ labels:brs, datasets:[
           {label:'2024',     data:brS24, backgroundColor:C_2024+'88', borderRadius:2},
@@ -1511,7 +1550,7 @@
   ================================================================ */
   function renderInsights() {
     const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
-    const s24=sum(act24,C.value), s25=sum(act25,C.value), s26=sum(act26,C.value), s26b=sum(bp26,C.value);
+    const s24=sum(act24,mCol()), s25=sum(act25,mCol()), s26=sum(act26,mCol()), s26b=sum(bp26,mCol());
     const insights = [];
 
     /* ── 1. YoY 2025 growth ── */
@@ -1546,8 +1585,8 @@
       const cats = [...new Set([...act24,...act25].map(r=>r[C.category]).filter(Boolean))];
       const catG = cats.map(c => ({
         c,
-        s25: sum(act25.filter(r=>norm(r[C.category])===norm(c)), C.value),
-        s24: sum(act24.filter(r=>norm(r[C.category])===norm(c)), C.value)
+        s25: sum(act25.filter(r=>norm(r[C.category])===norm(c)), mCol()),
+        s24: sum(act24.filter(r=>norm(r[C.category])===norm(c)), mCol())
       })).filter(x => x.s25 > 0).map(x=>({...x, g:pct(x.s25,x.s24||0)}))
         .filter(x=>isFinite(x.g)).sort((a,b)=>b.g-a.g);
       if (catG.length >= 2) {
@@ -1573,11 +1612,11 @@
       let bestOpp = null, bestScore = 0;
       subcats.forEach(sc => {
         const scRows = act25.filter(r=>norm(r[C.subcat])===norm(sc));
-        const scTotal = sum(scRows, C.value);
+        const scTotal = sum(scRows, mCol());
         if (scTotal < 500) return; // ignore tiny subcats
         const brSales = branches.map(br => ({
           br,
-          val: sum(scRows.filter(r=>norm(r[C.branch])===norm(br)), C.value)
+          val: sum(scRows.filter(r=>norm(r[C.branch])===norm(br)), mCol())
         }));
         const nonZero = brSales.filter(x=>x.val>0);
         const zero    = brSales.filter(x=>x.val===0);
@@ -1602,8 +1641,8 @@
       const latestMon3 = [...new Set(act26.map(getMonthNum).filter(Boolean))].sort((a,b)=>b-a)[0] || 1;
       const custs = [...new Set(act25.map(r=>r[C.customer]).filter(Boolean))];
       const atRisk = custs.map(c => {
-        const v25 = sum(act25.filter(r=>norm(r[C.customer])===norm(c)), C.value);
-        const v26 = sum(act26.filter(r=>norm(r[C.customer])===norm(c)), C.value);
+        const v25 = sum(act25.filter(r=>norm(r[C.customer])===norm(c)), mCol());
+        const v26 = sum(act26.filter(r=>norm(r[C.customer])===norm(c)), mCol());
         const v25pace = v25 * (latestMon3/12); // pro-rated 2025
         return { c, v25, v26, v25pace, gap: pct(v26, v25pace) };
       }).filter(x => x.v25 > 1000 && x.gap < -30) // significant 2025 revenue and >30% behind pace
@@ -1620,8 +1659,8 @@
       const newCusts = [...new Set(act25.map(r=>r[C.customer]).filter(Boolean))]
         .map(c => ({
           c,
-          v24: sum(act24.filter(r=>norm(r[C.customer])===norm(c)), C.value),
-          v25: sum(act25.filter(r=>norm(r[C.customer])===norm(c)), C.value)
+          v24: sum(act24.filter(r=>norm(r[C.customer])===norm(c)), mCol()),
+          v25: sum(act25.filter(r=>norm(r[C.customer])===norm(c)), mCol())
         }))
         .filter(x => x.v24 < 200 && x.v25 > 2000) // near-zero in 2024, meaningful in 2025
         .sort((a,b)=>b.v25-a.v25).slice(0,3);
@@ -1634,12 +1673,12 @@
 
     /* ── 7. Family mix ── */
     if (C.family) {
-      const bpS=sum(act25.filter(r=>norm(r[C.family]).includes('backpack')),C.value);
-      const lgS=sum(act25.filter(r=>norm(r[C.family]).includes('luggage')),C.value);
+      const bpS=sum(act25.filter(r=>norm(r[C.family]).includes('backpack')),mCol());
+      const lgS=sum(act25.filter(r=>norm(r[C.family]).includes('luggage')),mCol());
       const tot=bpS+lgS||1;
       const bpPct=((bpS/tot)*100), lgPct=((lgS/tot)*100);
-      const bpS26=sum(act26.filter(r=>norm(r[C.family]).includes('backpack')),C.value);
-      const lgS26=sum(act26.filter(r=>norm(r[C.family]).includes('luggage')),C.value);
+      const bpS26=sum(act26.filter(r=>norm(r[C.family]).includes('backpack')),mCol());
+      const lgS26=sum(act26.filter(r=>norm(r[C.family]).includes('luggage')),mCol());
       const tot26=bpS26+lgS26||1;
       insights.push({ type:'info', icon:'🧳',
         title:`Product Mix: Backpacks ${bpPct.toFixed(0)}% · Luggage ${lgPct.toFixed(0)}% (2025)`,
