@@ -13,8 +13,8 @@ const ThemeToggle = {
   init() {
     const saved      = localStorage.getItem(this.STORAGE_KEY);
     const sysDark    = window.matchMedia('(prefers-color-scheme: dark)');
-    // Use saved manual preference; otherwise follow system
-    this._apply(saved !== null ? saved === 'dark' : sysDark.matches);
+    // Use saved manual preference; otherwise default to dark
+    this._apply(saved !== null ? saved === 'dark' : true);
     // Update automatically when system changes (only if no manual override)
     sysDark.addEventListener('change', e => {
       if (localStorage.getItem(this.STORAGE_KEY) === null) this._apply(e.matches);
