@@ -8,7 +8,7 @@
    ============================================================ */
 
 const ThemeToggle = {
-  STORAGE_KEY: 'tb_theme',
+  STORAGE_KEY: 'tb_theme_v2',
 
   init() {
     const saved      = localStorage.getItem(this.STORAGE_KEY);
