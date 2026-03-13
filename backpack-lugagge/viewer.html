@@ -1,0 +1,3575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+/* ============================================================
+   TRAVEL BLUE DASHBOARDS — Supabase Config
+   Centralised credentials for all projects.
+   ⚠️  This file is in .gitignore — NEVER commit it!
+   ============================================================ */
+
+/* Public key — used by dashboards to read data */
+window.SUPABASE_URL      = 'https://llzwjuqhhmugljtwnlgl.supabase.co';
+window.SUPABASE_KEY      = 'sb_publishable_-O4p66gZWmuMwMxqU9L_xw_gxx8tBMz';
+
+/* Service Role key — used ONLY for admin operations:
+   creating tables, uploading to Storage, managing data.
+   Never expose this in client-side code outside the admin panel. */
+window.SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxsendqdXFoaG11Z2xqdHdubGdsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTYyNTM0NSwiZXhwIjoyMDg3MjAxMzQ1fQ.UvitzSaul79yAD-iTiFjYDdeNrQhx6KfjU0YGEdNPOc';
+
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Travel Blue | Backpack &amp; Luggage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&display=swap" rel="stylesheet">
+  <style>
+/* ============================================
+   TRAVEL BLUE DASHBOARDS — Global Stylesheet
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ---- Variables ---- */
+:root {
+  --navy:        #1B2A6B;
+  --navy-dark:   #14205A;
+  --navy-light:  #253580;
+  --yellow:      #FFC72C;
+  --yellow-dark: #E6B000;
+  --white:       #FFFFFF;
+  --card:        #FFFFFF;
+  --bg:          #F4F6FB;
+  --gray-light:  #ECECEC;
+  --gray:        #888888;
+  --gray-dark:   #444444;
+  --text:        #1A1A2E;
+  --danger:      #E74C3C;
+  --danger-dark: #C0392B;
+  --success:     #27AE60;
+  --shadow:      0 2px 12px rgba(27,42,107,0.10);
+  --shadow-lg:   0 6px 28px rgba(27,42,107,0.16);
+  --radius:      10px;
+  --transition:  0.22s ease;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; line-height: 1.6; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+/* ================================================
+   TOPBAR — Full navigation bar (yellow)
+   ================================================ */
+.topbar {
+  background: var(--yellow);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 58px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+}
+.topbar-logo {
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+  padding-right: 14px; margin-right: 4px;
+  border-right: 1px solid rgba(27,42,107,0.18);
+}
+.logo-icon { width: 38px; height: 38px; flex-shrink: 0; }
+.logo-text-wrap { display: flex; flex-direction: column; line-height: 1.1; }
+.logo-brand { font-size: 15px; font-weight: 800; color: var(--navy); letter-spacing: 0.8px; text-transform: uppercase; }
+.logo-tagline { font-size: 8px; font-weight: 500; color: var(--navy); letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.55; }
+
+/* ---- Nav links (inside topbar) ---- */
+.topbar-nav {
+  display: flex; align-items: center; gap: 2px; flex-shrink: 0;
+}
+.topbar-nav > a {
+  color: var(--navy); font-size: 13px; font-weight: 600;
+  padding: 8px 12px; border-radius: 6px;
+  transition: var(--transition); white-space: nowrap;
+}
+.topbar-nav > a:hover,
+.topbar-nav > a.active { background: rgba(27,42,107,0.12); }
+
+/* ---- Dropdown container ---- */
+.nav-dropdown { position: relative; display: flex; align-items: center; }
+.nav-dropdown-btn {
+  color: var(--navy); font-size: 13px; font-weight: 600;
+  padding: 8px 12px; cursor: pointer;
+  display: flex; align-items: center; gap: 5px;
+  border-radius: 6px; transition: var(--transition);
+  white-space: nowrap; user-select: none;
+}
+.nav-dropdown:hover .nav-dropdown-btn,
+.nav-dropdown-btn.active { background: rgba(27,42,107,0.12); }
+.nav-dropdown-btn .chevron {
+  width: 11px; height: 11px;
+  transition: transform var(--transition); opacity: 0.6; flex-shrink: 0;
+}
+.nav-dropdown:hover .chevron { transform: rotate(180deg); }
+
+/* ---- Dropdown panel ---- */
+.nav-dropdown-menu {
+  position: absolute; top: calc(100% + 8px); left: 0;
+  min-width: 210px; background: var(--navy-dark);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+  padding: 6px 0; opacity: 0; visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+  z-index: 300;
+}
+.nav-dropdown:hover .nav-dropdown-menu {
+  opacity: 1; visibility: visible; transform: translateY(0);
+}
+.nav-dropdown-menu a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; color: rgba(255,255,255,0.85);
+  font-size: 13px; font-weight: 500; transition: var(--transition);
+}
+.nav-dropdown-menu a:hover {
+  background: rgba(255,199,44,0.12); color: var(--yellow); padding-left: 22px;
+}
+.nav-dropdown-menu a.active { color: var(--yellow); background: rgba(255,199,44,0.08); }
+.nav-dropdown-menu .menu-icon { width: 18px; text-align: center; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nav-dropdown-menu .menu-icon svg { width: 14px; height: 14px; flex-shrink: 0; }
+.nav-dropdown-menu .dropdown-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0; }
+.nav-dropdown-menu .dropdown-label {
+  padding: 7px 16px 3px; font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.3);
+}
+
+/* ---- Search bar ---- */
+.topbar-search { flex: 1; max-width: 260px; margin: 0 10px; position: relative; }
+.topbar-search-icon {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  width: 13px; height: 13px; color: rgba(27,42,107,0.4); pointer-events: none;
+}
+.topbar-search-input {
+  width: 100%; padding: 7px 12px 7px 30px;
+  border: 1.5px solid rgba(27,42,107,0.2); border-radius: 20px;
+  background: rgba(255,255,255,0.45);
+  font-family: 'Inter', sans-serif; font-size: 12px; color: var(--navy);
+  outline: none; transition: var(--transition);
+}
+.topbar-search-input::placeholder { color: rgba(27,42,107,0.4); }
+.topbar-search-input:focus {
+  border-color: rgba(27,42,107,0.45); background: rgba(255,255,255,0.72);
+}
+
+/* ---- User info & controls ---- */
+.topbar-user { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-shrink: 0; }
+.user-info { text-align: right; line-height: 1.25; }
+.user-name { color: var(--navy); font-size: 12.5px; font-weight: 700; display: flex; align-items: center; gap: 5px; justify-content: flex-end; }
+.user-email { color: rgba(27,42,107,0.55); font-size: 10.5px; }
+.role-badge {
+  font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.badge-owner { background: var(--navy); color: var(--yellow); }
+.badge-admin { background: rgba(27,42,107,0.25); color: var(--navy); }
+.badge-user  { background: rgba(27,42,107,0.12); color: rgba(27,42,107,0.8); }
+.btn-logout {
+  background: transparent; border: 1.5px solid rgba(27,42,107,0.35);
+  color: var(--navy); padding: 5px 12px; border-radius: 6px;
+  font-size: 11.5px; font-weight: 600; cursor: pointer;
+  transition: var(--transition); font-family: 'Inter', sans-serif; white-space: nowrap;
+}
+.btn-logout:hover { background: var(--navy); color: var(--yellow); border-color: var(--navy); }
+.btn-theme {
+  background: transparent; border: 1.5px solid rgba(27,42,107,0.25);
+  color: var(--navy); width: 32px; height: 32px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 14px; transition: var(--transition); flex-shrink: 0;
+}
+.btn-theme svg { width: 15px; height: 15px; flex-shrink: 0; }
+.btn-theme:hover { background: rgba(27,42,107,0.1); }
+
+/* ================================================
+   DARK MODE — Global (applies to pages using style.css)
+   ================================================ */
+body.dark {
+  --bg:         #0f1623;
+  --white:      #18243a;
+  --card:       #18243a;
+  --text:       #c8d8ec;
+  --gray:       #7a90a8;
+  --gray-light: #253040;
+  --gray-dark:  #a0b4c8;
+  --shadow:     0 2px 12px rgba(0,0,0,0.35);
+  --shadow-lg:  0 6px 28px rgba(0,0,0,0.5);
+}
+
+/* ── Layout ── */
+body.dark .site-footer { background: #0a1020; border-top: 1px solid #1a2a3a; }
+body.dark .page-banner { background: #0d1a2e; }
+body.dark .admin-sidebar { background: var(--white); border-right-color: var(--gray-light); }
+body.dark .table-wrap { background: var(--white); }
+body.dark .data-table thead { background: rgba(255,255,255,0.04); }
+body.dark .data-table td,
+body.dark .data-table th { border-color: var(--gray-light); }
+body.dark .data-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+body.dark .dash-card { background: var(--white); border-color: rgba(255,255,255,0.05); }
+body.dark .modal { background: var(--white); }
+body.dark .login-card { background: var(--white); }
+body.dark .editor-panel { background: #18243a; color: var(--text); }
+
+/* ── Navy text → readable light-blue on dark backgrounds ── */
+/* --navy (#1B2A6B) is dark and invisible on dark backgrounds.         */
+/* All elements using color:navy outside the (yellow) topbar need fix. */
+body.dark .card-title,
+body.dark .section-title,
+body.dark .panel-title,
+body.dark .modal-header h3,
+body.dark .data-stat-val,
+body.dark .status-card-title,
+body.dark .login-card h2,
+body.dark .placeholder-wrap h2,
+body.dark .dropzone-label,
+body.dark .progress-label,
+body.dark .cowork-prompt-header,
+body.dark .upload-result-stats span { color: #b8d4f0; }
+
+body.dark .form-group label        { color: #a0b8d8; }
+body.dark .data-table th           { color: #a0b8d8; }
+body.dark .perm-item-name          { color: #b8d4f0; }
+body.dark .confirm-msg strong      { color: #b8d4f0; }
+body.dark .prompt-tip strong       { color: #b8d4f0; }
+body.dark .data-stat-label         { color: var(--gray); }
+
+/* ── Admin sidebar ── */
+body.dark .admin-sidebar a         { color: var(--gray-dark); }
+body.dark .admin-sidebar a:hover   { color: #b8d4f0; background: rgba(184,212,240,0.06); }
+body.dark .admin-sidebar a.active  {
+  color: #b8d4f0; background: rgba(184,212,240,0.08);
+  border-left-color: var(--yellow);
+}
+
+/* ── Buttons ── */
+body.dark .btn-sm-edit             { background: rgba(184,212,240,0.1); color: #b8d4f0; }
+body.dark .btn-sm-edit:hover       { background: #b8d4f0; color: #0f1623; }
+body.dark .btn-sm-warn             { background: rgba(255,199,44,0.12); color: #fbbf24; }
+body.dark .btn-sm-warn:hover       { background: var(--yellow); color: var(--navy); }
+body.dark .btn-ghost               { border-color: var(--gray-light); color: var(--gray-dark); }
+body.dark .btn-ghost:hover         { border-color: #b8d4f0; color: #b8d4f0; }
+body.dark .btn-sm-upload           { background: rgba(255,199,44,0.12); color: #fbbf24; border-color: rgba(255,199,44,0.3); }
+
+/* ── Form elements ── */
+body.dark .form-group input,
+body.dark .form-group select,
+body.dark .form-group textarea     { background: #1a2a3c; border-color: #2a3a4c; color: var(--text); }
+body.dark .form-group input::placeholder,
+body.dark .form-group textarea::placeholder { color: var(--gray); }
+body.dark .form-group input:focus,
+body.dark .form-group select:focus,
+body.dark .form-group textarea:focus { border-color: #b8d4f0; box-shadow: 0 0 0 3px rgba(184,212,240,0.12); }
+body.dark .method-btn              { background: #1a2a3c; border-color: #2a3a4c; }
+body.dark .method-btn .method-label { color: var(--gray-dark); }
+body.dark .method-btn.selected     { border-color: #b8d4f0; background: rgba(184,212,240,0.06); }
+body.dark .method-btn.selected .method-label { color: #b8d4f0; }
+body.dark .error-msg               { background: rgba(231,76,60,0.1); border-color: rgba(231,76,60,0.25); color: #ff9980; }
+
+/* ── Permission items ── */
+body.dark .perm-item               { border-color: #2a3a4c; }
+body.dark .perm-item:hover         { background: rgba(255,255,255,0.04); border-color: #3a4a5c; }
+body.dark .perm-item.checked       { border-color: #b8d4f0; background: rgba(184,212,240,0.06); }
+body.dark .perm-chip               { background: rgba(184,212,240,0.1); color: #b8d4f0; }
+body.dark .perm-chip-all           { background: rgba(255,199,44,0.12); color: #fbbf24; }
+
+/* ── Status / role badges ── */
+body.dark .badge-active            { background: rgba(16,185,129,0.15); color: #34d399; }
+body.dark .badge-draft             { background: rgba(255,199,44,0.12); color: #fbbf24; }
+body.dark .badge-archived          { background: rgba(100,116,139,0.15); color: #94a3b8; }
+body.dark .badge-role-owner        { background: rgba(255,199,44,0.15); color: var(--yellow); }
+body.dark .badge-role-admin        { background: rgba(184,212,240,0.12); color: #b8d4f0; }
+body.dark .badge-role-user         { background: rgba(100,116,139,0.12); color: #94a3b8; }
+
+/* ── Confirm dialog ── */
+body.dark .confirm-msg             { color: var(--gray-dark); }
+
+/* ── CSV Upload UI ── */
+body.dark .csv-dropzone            { background: #1a2a3c; border-color: #2a3a4c; }
+body.dark .csv-dropzone:hover,
+body.dark .csv-dropzone.drag-over  { background: rgba(184,212,240,0.05); border-color: #b8d4f0; }
+body.dark .col-chip-date           { background: rgba(59,130,246,0.15);  color: #60a5fa; }
+body.dark .col-chip-numeric        { background: rgba(16,185,129,0.15);  color: #34d399; }
+body.dark .col-chip-categorical    { background: rgba(139,92,246,0.15);  color: #a78bfa; }
+body.dark .col-chip-key            { background: rgba(255,199,44,0.15);  color: #fbbf24; border-color: rgba(255,199,44,0.3); }
+body.dark .diff-card.new-rows      { background: rgba(16,185,129,0.10);  color: #34d399; }
+body.dark .diff-card.update-rows   { background: rgba(255,199,44,0.10);  color: #fbbf24; }
+body.dark .diff-card.same-rows     { background: rgba(100,116,139,0.10); color: #94a3b8; }
+body.dark .upload-result.success   { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); }
+body.dark .upload-result.error     { background: rgba(231,76,60,0.08);  border-color: rgba(231,76,60,0.2); }
+body.dark .upload-result-title,
+body.dark .upload-result.success .result-title { color: #34d399; }
+body.dark .upload-result.error .result-title   { color: #ff9980; }
+
+/* ── Cowork / prompt boxes ── */
+body.dark .cowork-prompt-box,
+body.dark .cowork-prompt-text      { background: #111e30; border-color: #2a3a4c; color: var(--text); }
+
+/* ── Upload spinner ── */
+body.dark .upload-spinner          { border-color: #253040; border-top-color: #b8d4f0; }
+
+/* ================================================
+   PAGE HEADER BANNER
+   ================================================ */
+.page-banner {
+  background: var(--navy);
+  padding: 44px 40px 36px;
+  position: relative;
+  overflow: hidden;
+}
+.page-banner::before {
+  content: '';
+  position: absolute; right: -60px; top: -60px;
+  width: 300px; height: 300px;
+  background: rgba(255,199,44,0.07); border-radius: 50%;
+}
+.page-banner h1 { color: #fff; font-size: 28px; font-weight: 700; position: relative; z-index: 1; }
+.page-banner h1 span { color: var(--yellow); }
+.page-banner p { color: rgba(255,255,255,0.65); margin-top: 5px; font-size: 14px; position: relative; z-index: 1; }
+.banner-accent { display: none; }
+
+/* ================================================
+   MAIN CONTENT
+   ================================================ */
+.main-content { padding: 36px 40px; max-width: 1300px; margin: 0 auto; }
+
+/* ================================================
+   DASHBOARD CARDS
+   ================================================ */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+  margin-top: 10px;
+}
+.dash-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: var(--transition);
+  display: flex; flex-direction: column;
+  border: 1px solid rgba(27,42,107,0.07);
+}
+.dash-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+.card-accent { height: 4px; background: var(--yellow); }
+.card-body { padding: 26px; flex: 1; display: flex; flex-direction: column; }
+.card-icon { width: 46px; height: 46px; background: rgba(27,42,107,0.07); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; font-size: 20px; }
+.card-title { color: var(--navy); font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.card-description { color: var(--gray); font-size: 13px; line-height: 1.65; flex: 1; }
+.card-footer { padding: 16px 26px; border-top: 1px solid var(--gray-light); display: flex; align-items: center; justify-content: space-between; }
+.card-tag { font-size: 11px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+.btn-access {
+  background: var(--navy); color: #fff;
+  padding: 8px 18px; border-radius: 6px;
+  font-size: 13px; font-weight: 600;
+  transition: var(--transition);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-access:hover { background: var(--yellow); color: var(--navy); }
+.btn-access svg { width: 13px; height: 13px; }
+
+/* Draft badge on card */
+.card-draft-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255,199,44,0.15); color: var(--yellow-dark);
+  font-size: 10px; font-weight: 700;
+  padding: 3px 8px; border-radius: 4px;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+
+/* Section header */
+.section-header { margin-bottom: 26px; }
+.section-title { color: var(--navy); font-size: 19px; font-weight: 700; }
+.section-subtitle { color: var(--gray); font-size: 13px; margin-top: 4px; }
+
+/* ================================================
+   LOGIN PAGE
+   ================================================ */
+body.login-page {
+  background: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; padding: 20px;
+}
+.login-wrapper { width: 100%; max-width: 420px; display: flex; flex-direction: column; align-items: center; }
+.login-logo-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 28px; gap: 10px; }
+.login-logo-box { display: flex; align-items: center; gap: 14px; }
+.login-logo-icon { width: 54px; height: 54px; }
+.login-brand { display: flex; flex-direction: column; line-height: 1.1; }
+.login-brand .brand-name { font-size: 24px; font-weight: 800; color: var(--yellow); letter-spacing: 2px; text-transform: uppercase; }
+.login-brand .brand-tag  { font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; }
+.login-subtitle-label { color: rgba(255,255,255,0.4); font-size: 11.5px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+.login-card { background: var(--white); border-radius: var(--radius); box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 38px 34px; width: 100%; }
+.login-card h2 { color: var(--navy); font-size: 21px; font-weight: 700; margin-bottom: 5px; }
+.login-card .login-desc { color: var(--gray); font-size: 13px; margin-bottom: 26px; }
+.login-footer-text { color: rgba(255,255,255,0.3); font-size: 12px; margin-top: 22px; text-align: center; }
+
+/* Form elements */
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; color: var(--navy); font-size: 12.5px; font-weight: 600; margin-bottom: 6px; letter-spacing: 0.3px; }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%; padding: 10px 13px;
+  border: 1.5px solid var(--gray-light);
+  border-radius: 7px;
+  font-family: 'Inter', sans-serif; font-size: 13.5px;
+  color: var(--text); outline: none;
+  transition: var(--transition); background: #FAFAFA;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--navy); background: #fff;
+  box-shadow: 0 0 0 3px rgba(27,42,107,0.08);
+}
+.form-group textarea { resize: vertical; min-height: 80px; }
+.form-group select { cursor: pointer; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+
+.btn-primary {
+  width: 100%; padding: 12px;
+  background: var(--navy); color: #fff; border: none;
+  border-radius: 7px; font-family: 'Inter', sans-serif;
+  font-size: 14.5px; font-weight: 700; cursor: pointer;
+  transition: var(--transition); margin-top: 4px;
+}
+.btn-primary:hover { background: var(--yellow); color: var(--navy); }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.error-msg { background: #FFF0F0; border: 1px solid #FFCCCC; color: var(--danger-dark); padding: 10px 13px; border-radius: 7px; font-size: 13px; margin-bottom: 14px; }
+
+/* ================================================
+   PLACEHOLDER PAGES
+   ================================================ */
+.placeholder-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 40px; text-align: center; }
+.placeholder-icon { font-size: 52px; margin-bottom: 22px; opacity: 0.6; }
+.placeholder-wrap h2 { color: var(--navy); font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+.placeholder-wrap p { color: var(--gray); font-size: 14.5px; max-width: 420px; margin-bottom: 26px; }
+.btn-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--navy); color: #fff;
+  padding: 10px 22px; border-radius: 7px;
+  font-size: 13.5px; font-weight: 600; transition: var(--transition);
+}
+.btn-back:hover { background: var(--yellow); color: var(--navy); }
+
+/* ================================================
+   FOOTER
+   ================================================ */
+.site-footer { background: var(--navy); color: rgba(255,255,255,0.35); text-align: center; padding: 18px; font-size: 12px; margin-top: auto; }
+.site-footer span { color: var(--yellow); }
+
+/* ================================================
+   ADMIN PANEL — Layout
+   ================================================ */
+.admin-layout { display: flex; min-height: calc(100vh - 160px); }
+
+.admin-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--white);
+  border-right: 1px solid var(--gray-light);
+  padding: 24px 0;
+}
+.admin-sidebar-title {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--gray); padding: 0 20px 12px;
+}
+.admin-sidebar a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 20px;
+  color: var(--gray-dark); font-size: 13.5px; font-weight: 500;
+  transition: var(--transition);
+  border-left: 3px solid transparent;
+}
+.admin-sidebar a:hover { color: var(--navy); background: rgba(27,42,107,0.04); }
+.admin-sidebar a.active { color: var(--navy); font-weight: 700; border-left-color: var(--yellow); background: rgba(27,42,107,0.04); }
+.admin-sidebar .sidebar-icon { width: 20px; text-align: center; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.admin-sidebar .sidebar-icon svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+.admin-main { flex: 1; padding: 32px 36px; min-width: 0; }
+
+/* ================================================
+   ADMIN PANEL — Tables
+   ================================================ */
+.panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 22px;
+}
+.panel-title { color: var(--navy); font-size: 18px; font-weight: 700; }
+.panel-subtitle { color: var(--gray); font-size: 13px; margin-top: 2px; }
+
+.table-wrap { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table thead { background: rgba(27,42,107,0.04); }
+.data-table th {
+  text-align: left; padding: 12px 16px;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  color: var(--navy); border-bottom: 1px solid var(--gray-light);
+  white-space: nowrap;
+}
+.data-table td { padding: 13px 16px; font-size: 13.5px; border-bottom: 1px solid var(--gray-light); vertical-align: middle; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tbody tr:hover { background: rgba(27,42,107,0.02); }
+
+/* Status / role badges */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.badge-active   { background: #E8F8F0; color: #1E8449; }
+.badge-draft    { background: rgba(255,199,44,0.15); color: #9A7100; }
+.badge-archived { background: #F2F2F2; color: #888; }
+.badge-role-owner { background: rgba(255,199,44,0.2); color: var(--navy); }
+.badge-role-admin { background: rgba(27,42,107,0.1); color: var(--navy); }
+.badge-role-user  { background: #F2F2F2; color: #666; }
+
+/* Permission chips */
+.perm-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.perm-chip {
+  background: rgba(27,42,107,0.08); color: var(--navy);
+  font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 4px;
+}
+.perm-chip-all {
+  background: rgba(255,199,44,0.15); color: #9A7100;
+  font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 4px;
+}
+
+/* Action buttons */
+.actions-cell { display: flex; align-items: center; gap: 6px; }
+.btn-sm {
+  padding: 5px 12px; border-radius: 5px;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer; border: none;
+  font-family: 'Inter', sans-serif;
+  transition: var(--transition);
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.btn-sm-edit    { background: rgba(27,42,107,0.08); color: var(--navy); }
+.btn-sm-edit:hover { background: var(--navy); color: #fff; }
+.btn-sm-danger  { background: rgba(231,76,60,0.08); color: var(--danger-dark); }
+.btn-sm-danger:hover { background: var(--danger); color: #fff; }
+.btn-sm-success { background: rgba(39,174,96,0.10); color: var(--success); }
+.btn-sm-success:hover { background: var(--success); color: #fff; }
+.btn-sm-warn    { background: rgba(255,199,44,0.15); color: #9A7100; }
+.btn-sm-warn:hover { background: var(--yellow); color: var(--navy); }
+
+/* Button variants */
+.btn-yellow {
+  padding: 9px 20px; background: var(--yellow); color: var(--navy);
+  border: none; border-radius: 7px; font-family: 'Inter', sans-serif;
+  font-size: 13.5px; font-weight: 700; cursor: pointer;
+  transition: var(--transition); display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-yellow:hover { background: var(--yellow-dark); }
+
+.btn-navy {
+  padding: 9px 20px; background: var(--navy); color: #fff;
+  border: none; border-radius: 7px; font-family: 'Inter', sans-serif;
+  font-size: 13.5px; font-weight: 700; cursor: pointer;
+  transition: var(--transition); display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-navy:hover { background: var(--navy-dark); }
+
+.btn-ghost {
+  padding: 9px 20px; background: transparent; color: var(--gray);
+  border: 1.5px solid var(--gray-light); border-radius: 7px;
+  font-family: 'Inter', sans-serif; font-size: 13.5px; font-weight: 600;
+  cursor: pointer; transition: var(--transition);
+}
+.btn-ghost:hover { border-color: var(--navy); color: var(--navy); }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 50px 20px; color: var(--gray); }
+.empty-state .empty-icon { font-size: 38px; margin-bottom: 12px; opacity: 0.4; display: flex; align-items: center; justify-content: center; }
+.empty-state .empty-icon svg { width: 38px; height: 38px; }
+.empty-state p { font-size: 14px; }
+
+/* ================================================
+   MODAL
+   ================================================ */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10,18,50,0.55);
+  backdrop-filter: blur(3px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px;
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--transition), visibility var(--transition);
+}
+.modal-overlay.open { opacity: 1; visibility: visible; }
+
+.modal {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.22);
+  width: 100%; max-width: 520px;
+  max-height: 90vh; overflow-y: auto;
+  transform: translateY(-16px);
+  transition: transform var(--transition);
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-lg { max-width: 640px; }
+
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 26px 18px;
+  border-bottom: 1px solid var(--gray-light);
+}
+.modal-header h3 { color: var(--navy); font-size: 17px; font-weight: 700; }
+.modal-close {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--gray-light); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: var(--gray);
+  transition: var(--transition);
+}
+.modal-close:hover { background: var(--navy); color: #fff; }
+
+.modal-body { padding: 22px 26px; }
+.modal-footer {
+  padding: 16px 26px;
+  border-top: 1px solid var(--gray-light);
+  display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+}
+
+/* ================================================
+   PAGE PERMISSIONS CHECKLIST
+   ================================================ */
+.perm-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.perm-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--gray-light); border-radius: 8px;
+  cursor: pointer; transition: var(--transition);
+}
+.perm-item:hover { border-color: var(--navy); background: rgba(27,42,107,0.03); }
+.perm-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--navy); cursor: pointer; flex-shrink: 0; }
+.perm-item.checked { border-color: var(--navy); background: rgba(27,42,107,0.05); }
+.perm-item-icon { font-size: 18px; }
+.perm-item-name { font-size: 13.5px; font-weight: 600; color: var(--navy); }
+.perm-item-desc { font-size: 12px; color: var(--gray); margin-top: 1px; }
+.perm-section-label { font-size: 12px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
+
+/* ================================================
+   METHOD TOGGLE (Invite / Manual)
+   ================================================ */
+.method-toggle { display: flex; gap: 10px; margin-bottom: 16px; }
+.method-btn {
+  flex: 1; padding: 10px 12px;
+  border: 2px solid var(--gray-light); border-radius: 8px;
+  background: #FAFAFA; cursor: pointer; text-align: center;
+  transition: var(--transition); font-family: 'Inter', sans-serif;
+}
+.method-btn .method-icon { font-size: 20px; margin-bottom: 4px; }
+.method-btn .method-label { font-size: 12.5px; font-weight: 600; color: var(--gray-dark); display: block; }
+.method-btn.selected { border-color: var(--navy); background: rgba(27,42,107,0.05); }
+.method-btn.selected .method-label { color: var(--navy); }
+
+/* ================================================
+   CONFIRM DIALOG
+   ================================================ */
+.confirm-icon { font-size: 40px; text-align: center; margin-bottom: 12px; }
+.confirm-msg { font-size: 14px; color: var(--gray-dark); text-align: center; line-height: 1.6; }
+.confirm-msg strong { color: var(--navy); }
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+@media (max-width: 900px) {
+  .admin-layout { flex-direction: column; }
+  .admin-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--gray-light); display: flex; flex-wrap: wrap; padding: 12px 16px; gap: 4px; }
+  .admin-sidebar-title { display: none; }
+  .admin-sidebar a { padding: 8px 12px; border-left: none; border-radius: 6px; }
+  .admin-sidebar a.active { border-left: none; background: rgba(27,42,107,0.08); }
+}
+@media (max-width: 768px) {
+  .topbar { padding: 0 16px; gap: 2px; }
+  .topbar-search { max-width: 130px; }
+  .logo-tagline, .user-email { display: none; }
+  .main-content, .admin-main { padding: 22px 16px; }
+  .page-banner { padding: 28px 20px; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .modal { max-width: 100%; }
+}
+
+/* ================================================
+   CSV UPLOAD UI
+   ================================================ */
+
+/* Drop zone */
+.csv-dropzone {
+  border: 2px dashed var(--gray-light);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  background: #FAFAFA;
+  position: relative;
+}
+.csv-dropzone:hover,
+.csv-dropzone.drag-over {
+  border-color: var(--navy);
+  background: rgba(27,42,107,0.03);
+}
+.csv-dropzone.has-file {
+  border-color: var(--success);
+  background: rgba(39,174,96,0.04);
+}
+.csv-dropzone input[type="file"] {
+  position: absolute; inset: 0;
+  opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.dropzone-icon  { font-size: 32px; margin-bottom: 8px; }
+.dropzone-label { font-size: 13.5px; font-weight: 600; color: var(--navy); }
+.dropzone-hint  { font-size: 12px; color: var(--gray); margin-top: 4px; }
+.dropzone-file  { font-size: 13px; font-weight: 600; color: var(--success); margin-top: 6px; }
+
+/* Column type chips */
+.col-types-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.col-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 20px;
+  font-size: 11.5px; font-weight: 600;
+}
+.col-chip-date        { background: rgba(59,130,246,0.12); color: #1D4ED8; }
+.col-chip-numeric     { background: rgba(16,185,129,0.12); color: #065F46; }
+.col-chip-categorical { background: rgba(139,92,246,0.12); color: #5B21B6; }
+.col-chip-key         { background: rgba(255,199,44,0.2);  color: #92400E; border: 1px solid rgba(255,199,44,0.5); }
+
+/* Diff preview cards */
+.diff-summary {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin: 14px 0;
+}
+.diff-card {
+  border-radius: 8px; padding: 12px 14px; text-align: center;
+}
+.diff-card .diff-count { font-size: 22px; font-weight: 800; line-height: 1; }
+.diff-card .diff-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+.diff-card.new-rows     { background: rgba(16,185,129,0.10); color: #065F46; }
+.diff-card.update-rows  { background: rgba(255,199,44,0.15); color: #92400E; }
+.diff-card.same-rows    { background: rgba(100,116,139,0.10); color: #475569; }
+
+/* Progress bar */
+.upload-progress { margin-top: 14px; }
+.progress-label  { font-size: 12.5px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+.progress-bar-wrap {
+  background: var(--gray-light); border-radius: 20px; overflow: hidden; height: 8px;
+}
+.progress-bar {
+  height: 100%; background: var(--navy);
+  border-radius: 20px; transition: width 0.4s ease;
+  width: 0%;
+}
+.progress-bar.done { background: var(--success); }
+
+/* Upload result */
+.upload-result {
+  border-radius: var(--radius); padding: 16px 18px; margin-top: 14px;
+}
+.upload-result.success { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); }
+.upload-result.error   { background: rgba(231,76,60,0.08);  border: 1px solid rgba(231,76,60,0.2); }
+.upload-result .result-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.upload-result.success .result-title { color: #065F46; }
+.upload-result.error   .result-title { color: var(--danger-dark); }
+
+/* ================================================
+   PROJECT PAGE — Upload Status + Cowork Prompt
+   ================================================ */
+.project-status-wrap {
+  max-width: 680px; margin: 0 auto; padding: 40px 20px;
+}
+
+/* State: no data */
+.status-card {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.status-card-header {
+  padding: 20px 24px; display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--gray-light);
+}
+.status-card-icon  { font-size: 28px; }
+.status-card-title { font-size: 16px; font-weight: 700; color: var(--navy); }
+.status-card-sub   { font-size: 12.5px; color: var(--gray); margin-top: 2px; }
+.status-card-body  { padding: 20px 24px; }
+
+/* Cowork prompt box */
+.cowork-prompt-wrap { margin-top: 16px; }
+.cowork-prompt-label {
+  font-size: 12px; font-weight: 700; color: var(--gray);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+}
+.cowork-prompt-box {
+  background: #F8F9FC; border: 1.5px solid var(--gray-light);
+  border-radius: 8px; padding: 14px 16px;
+  font-family: 'Courier New', monospace; font-size: 12.5px;
+  color: var(--text); line-height: 1.7;
+  white-space: pre-wrap; word-break: break-word;
+  position: relative;
+}
+.btn-copy-prompt {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 10px; padding: 8px 16px;
+  background: var(--navy); color: #fff;
+  border: none; border-radius: 6px;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: var(--transition);
+}
+.btn-copy-prompt:hover { background: var(--yellow); color: var(--navy); }
+.btn-copy-prompt.copied { background: var(--success); }
+
+/* Tooltip for prompt fields */
+.prompt-tip {
+  margin-top: 10px; padding: 10px 14px;
+  background: rgba(255,199,44,0.08);
+  border-left: 3px solid var(--yellow);
+  border-radius: 0 6px 6px 0;
+  font-size: 12px; color: var(--gray-dark); line-height: 1.6;
+}
+.prompt-tip strong { color: var(--navy); }
+
+/* Step timeline */
+.step-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.step-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 13.5px; color: var(--gray-dark);
+}
+.step-num {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  background: var(--navy); color: #fff;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.step-done .step-num { background: var(--success); }
+
+/* Data stats bar */
+.data-stats {
+  display: flex; gap: 20px; flex-wrap: wrap;
+  padding: 12px 16px;
+  background: rgba(27,42,107,0.04); border-radius: 8px;
+  margin-bottom: 16px;
+}
+.data-stat-item { display: flex; flex-direction: column; }
+.data-stat-val   { font-size: 20px; font-weight: 800; color: var(--navy); line-height: 1; }
+.data-stat-label { font-size: 11px; color: var(--gray); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
+
+/* Upload section label */
+.upload-section-label {
+  font-size: 11.5px; font-weight: 700; color: var(--gray);
+  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;
+}
+
+/* Spinner */
+@keyframes tb-spin { to { transform: rotate(360deg); } }
+.upload-spinner {
+  width: 40px; height: 40px; margin: 0 auto;
+  border: 4px solid var(--gray-light);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: tb-spin 0.8s linear infinite;
+}
+
+/* btn-sm upload variant */
+.btn-sm-upload {
+  background: rgba(255,199,44,0.15); color: #7A5100;
+  border: 1px solid rgba(255,199,44,0.5);
+}
+.btn-sm-upload:hover { background: var(--yellow); color: var(--navy); }
+
+/* Cowork prompt header row */
+.cowork-prompt-header {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12.5px; font-weight: 700; color: var(--navy);
+  margin-bottom: 8px;
+}
+.cowork-prompt-text {
+  width: 100%; min-height: 160px; resize: vertical;
+  background: #F8F9FC; border: 1.5px solid var(--gray-light);
+  border-radius: 8px; padding: 12px 14px;
+  font-family: 'Courier New', monospace; font-size: 12px;
+  color: var(--text); line-height: 1.7;
+}
+
+/* Upload result inside modal */
+.upload-result-icon  { font-size: 36px; text-align: center; margin-bottom: 8px; }
+.upload-result-title { font-size: 15px; font-weight: 700; color: #065F46; text-align: center; margin-bottom: 6px; }
+.upload-result-stats { text-align: center; font-size: 13px; color: var(--gray-dark); margin-bottom: 18px; }
+.upload-result-stats span { font-weight: 700; color: var(--navy); }
+
+/* ============================================================
+   NAV — "+ New Project" local-only entry
+   ============================================================ */
+.dropdown-separator {
+  height: 1px;
+  background: var(--gray-light);
+  margin: 5px 8px;
+}
+.nav-new-project-link {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: var(--navy) !important;
+  background: rgba(255,199,44,0.08);
+  border-radius: 0 0 8px 8px;
+  transition: background var(--transition);
+}
+.nav-new-project-link:hover {
+  background: rgba(255,199,44,0.20) !important;
+  color: var(--navy) !important;
+}
+body.dark .dropdown-separator         { background: #2a3a4c; }
+body.dark .nav-new-project-link       { color: #ffd966 !important; background: rgba(255,199,44,0.06); }
+body.dark .nav-new-project-link:hover { background: rgba(255,199,44,0.14) !important; }
+
+/* ============================================================
+   EMOJI PICKER
+   ============================================================ */
+.emoji-picker-wrap {
+  position: relative;
+}
+.emoji-preview-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  background: var(--bg);
+  border: 1.5px solid var(--gray-light);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 22px;
+  min-width: 80px;
+  color: var(--text);
+  transition: border-color var(--transition);
+  width: 100%;
+}
+.emoji-preview-btn:hover,
+.emoji-preview-btn.open { border-color: var(--navy); }
+.emoji-preview-caret {
+  font-size: 11px;
+  opacity: 0.55;
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+.emoji-preview-btn.open .emoji-preview-caret { transform: rotate(180deg); }
+
+.emoji-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 600;
+  background: var(--card);
+  border: 1.5px solid var(--gray-light);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(27,42,107,0.16);
+  padding: 12px;
+  width: 264px;
+  max-height: 276px;
+  overflow-y: auto;
+}
+.emoji-cat-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--gray);
+  margin: 10px 0 5px;
+}
+.emoji-cat-label:first-child { margin-top: 0; }
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3px;
+}
+.emoji-btn {
+  font-size: 20px;
+  background: none;
+  border: 1.5px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 5px 3px;
+  text-align: center;
+  line-height: 1;
+  transition: background 0.1s, border-color 0.1s;
+}
+.emoji-btn:hover { background: var(--bg); border-color: var(--gray-light); }
+.emoji-btn.selected { background: rgba(27,42,107,0.08); border-color: var(--navy); }
+
+/* Dark mode */
+body.dark .emoji-preview-btn  { background: #1a2a3c; border-color: #2a3a4c; color: var(--text); }
+body.dark .emoji-preview-btn:hover,
+body.dark .emoji-preview-btn.open { border-color: #6080b0; }
+body.dark .emoji-dropdown     { background: #18243a; border-color: #2a3a4c; box-shadow: 0 8px 28px rgba(0,0,0,0.4); }
+body.dark .emoji-btn:hover    { background: #1a2a3c; border-color: #3a4a5c; }
+body.dark .emoji-btn.selected { background: rgba(184,212,240,0.12); border-color: #b8d4f0; }
+
+/* ============================================================
+   MODAL — extra size variant
+   ============================================================ */
+.modal-xl { max-width: 680px; }
+
+/* ============================================================
+   WIZARD — 2-step project creation nav
+   ============================================================ */
+.wizard-steps {
+  display: flex;
+  align-items: center;
+  padding: 14px 26px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--gray-light);
+  gap: 0;
+}
+.wizard-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--gray);
+  transition: color var(--transition);
+}
+.wizard-step.active { color: var(--navy); }
+.wizard-step.done   { color: var(--success); }
+.wizard-step-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  background: var(--card);
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+.wizard-step.active .wizard-step-dot {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+.wizard-step.done .wizard-step-dot {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+.wizard-connector {
+  flex: 1;
+  height: 2px;
+  background: var(--gray-light);
+  margin: 0 12px;
+}
+
+/* ============================================================
+   REFERENCE IMAGES — drop zone & thumbnails
+   ============================================================ */
+.ref-images-zone {
+  border: 2px dashed var(--gray-light);
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: var(--bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: border-color var(--transition);
+}
+.ref-images-zone:hover { border-color: var(--navy); }
+.ref-images-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.ref-thumb {
+  position: relative;
+  width: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid var(--gray-light);
+  background: var(--bg);
+}
+.ref-thumb img {
+  width: 80px; height: 60px;
+  object-fit: cover;
+  display: block;
+}
+.ref-thumb-remove {
+  position: absolute;
+  top: 2px; right: 2px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 18px; height: 18px;
+  font-size: 9px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+}
+.ref-thumb-remove:hover { background: var(--danger); }
+.ref-thumb-name {
+  font-size: 9.5px;
+  color: var(--gray);
+  text-align: center;
+  padding: 3px 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================================
+   EMOJI — search input & search results view
+   ============================================================ */
+.emoji-search-wrap {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--gray-light);
+  margin-bottom: 8px;
+}
+.emoji-search-input {
+  width: 100%;
+  padding: 7px 10px;
+  font-size: 12.5px;
+  border: 1px solid var(--gray-light);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  font-family: inherit;
+}
+.emoji-search-input:focus { border-color: var(--navy); }
+.emoji-search-view { min-height: 32px; }
+
+/* ============================================================
+   COLUMN HINT BOX & INSTRUCTIONS TEXTAREA
+   ============================================================ */
+.col-hint-box {
+  background: rgba(27,42,107,0.05);
+  border: 1px solid var(--gray-light);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--gray-dark);
+  margin-top: 8px;
+  line-height: 1.8;
+}
+.col-hint-box code {
+  background: rgba(27,42,107,0.08);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 11.5px;
+  color: var(--navy);
+  font-family: monospace;
+}
+.proj-instructions {
+  width: 100%;
+  min-height: 110px;
+  resize: vertical;
+  font-size: 13px;
+  line-height: 1.6;
+  font-family: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--gray-light);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition);
+  display: block;
+}
+.proj-instructions:focus { border-color: var(--navy); }
+
+/* Dark mode — wizard, ref-images, emoji search, instructions */
+body.dark .wizard-steps              { background: #18243a; border-color: #2a3a4c; }
+body.dark .wizard-step-dot           { background: #1a2a3c; border-color: #2a3a4c; color: var(--text); }
+body.dark .wizard-step.active .wizard-step-dot { background: #4a6fa8; border-color: #4a6fa8; color: #fff; }
+body.dark .wizard-step.done  .wizard-step-dot  { background: #27AE60; border-color: #27AE60; color: #fff; }
+body.dark .wizard-connector          { background: #2a3a4c; }
+body.dark .ref-images-zone           { background: #1a2a3c; border-color: #2a3a4c; }
+body.dark .ref-images-zone:hover     { border-color: #6080b0; }
+body.dark .ref-thumb                 { border-color: #2a3a4c; background: #1a2a3c; }
+body.dark .emoji-search-wrap         { border-color: #2a3a4c; }
+body.dark .emoji-search-input        { background: #1a2a3c; border-color: #2a3a4c; color: var(--text); }
+body.dark .emoji-search-input:focus  { border-color: #6080b0; }
+body.dark .col-hint-box              { background: rgba(255,255,255,0.03); border-color: #2a3a4c; }
+body.dark .col-hint-box code         { background: rgba(100,150,220,0.12); color: #8ab4f8; }
+body.dark .proj-instructions         { background: #1a2a3c; border-color: #2a3a4c; color: var(--text); }
+body.dark .proj-instructions:focus   { border-color: #6080b0; }
+
+/* ── Project Created Success — command box ───────────────────────────────── */
+.proj-cmd-box {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: #f4f6fb;
+  border: 1.5px solid var(--gray-light);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  color: #1a2440;
+  max-height: 280px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+.proj-cmd-copy {
+  display: inline-block;
+  padding: 7px 20px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 4px;
+  transition: background .2s;
+}
+.proj-cmd-copy:hover { background: #253580; }
+body.dark .proj-cmd-box  { background: #1a2a3c; border-color: #2a3a4c; color: #c8d8f0; }
+
+</style>
+  <style>
+    /* ── DARK DASHBOARD THEME ── */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      background: #070b14 !important;
+      color: #e8ecf4 !important;
+      font-family: 'DM Sans', sans-serif !important;
+    }
+
+    /* Topbar dark override */
+    .topbar { background: #0a0f1e !important; border-bottom: 1px solid #1a2236 !important; }
+    .topbar a, .topbar-nav a, .nav-dropdown-btn, .logo-brand { color: #c8d4e8 !important; }
+    .logo-tagline { color: #5b6b8a !important; }
+    .nav-dropdown-menu { background: #0f1523 !important; border-color: #1e2840 !important; }
+    .nav-dropdown-menu a { color: #9aa5bc !important; }
+    .nav-dropdown-menu a:hover { background: #161d30 !important; color: #e8ecf4 !important; }
+    .btn-theme, .btn-logout {
+      background: #161d30 !important; color: #9aa5bc !important; border: 1px solid #1e2840 !important;
+    }
+    .topbar-search-input { background: #161d30 !important; border-color: #1e2840 !important; color: #c8d4e8 !important; }
+    #user-name, .user-email { color: #c8d4e8 !important; }
+    .role-badge { background: #1e2840 !important; color: #9aa5bc !important; }
+
+    /* ── DB HEADER ── */
+    .db-header { padding: 16px 24px 0; }
+    .db-header h1 { font-size: 19px; font-weight: 800; color: #e8ecf4; line-height: 1.2; }
+    .db-header h1 span { color: #3b82f6; }
+    .db-sub { font-size: 10.5px; font-weight: 600; color: #5b6b8a; text-transform: uppercase; letter-spacing: .07em; margin-top: 3px; }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; padding: 10px 24px 0; overflow-x: auto; }
+    .tab-nav button {
+      padding: 7px 16px; font-size: 12.5px; font-weight: 600; border: none; border-radius: 6px;
+      cursor: pointer; background: #161d30; color: #7b8499; transition: .15s; white-space: nowrap;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .tab-nav button:hover { background: #1e2840; color: #e8ecf4; }
+    .tab-nav button.active { background: #3b82f6; color: #fff; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      padding: 9px 24px; background: #0a0f1e; border-bottom: 1px solid #1a2236;
+      border-top: 1px solid #1a2236; margin-top: 8px;
+    }
+    .filter-group { display: flex; align-items: center; gap: 5px; }
+    .filter-label { font-size: 9.5px; font-weight: 700; color: #4a5680; text-transform: uppercase; letter-spacing: .07em; white-space: nowrap; }
+    .filter-select {
+      padding: 4px 9px; border: 1px solid #1e2840; border-radius: 6px; font-size: 11.5px;
+      color: #c8d4e8; background: #161d30; outline: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    }
+    .filter-select:focus { border-color: #3b82f6; }
+    .filter-reset {
+      padding: 4px 11px; background: none; border: 1px solid #1e2840; border-radius: 6px;
+      font-size: 11px; color: #4a5680; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    }
+    .filter-reset:hover { border-color: #3b82f6; color: #3b82f6; }
+
+    /* ── FAMILY TOGGLE ── */
+    .family-toggle { display: flex; gap: 3px; }
+    .family-btn {
+      padding: 4px 13px; font-size: 11.5px; font-weight: 600; border-radius: 6px;
+      border: 1.5px solid #1e2840; cursor: pointer; background: transparent;
+      color: #7b8499; transition: .15s; font-family: 'DM Sans', sans-serif;
+    }
+    .family-btn.active { border-color: #3b82f6; color: #3b82f6; background: rgba(59,130,246,.1); }
+    .family-btn:hover:not(.active) { border-color: #2a3654; color: #c8d4e8; }
+
+    /* ── CONTENT ── */
+    .tab-page { display: none; padding: 16px 24px 56px; }
+    .tab-page.active { display: block; }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 20px; }
+    .section-title { font-size: 10.5px; font-weight: 700; color: #4a5680; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+
+    /* ── KPI GRID ── */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 8px; margin-bottom: 16px; }
+    .kpi-card { background: #0f1523; border-radius: 8px; padding: 13px 15px; border: 1px solid #1a2236; }
+    .kpi-label { font-size: 9px; font-weight: 700; color: #4a5680; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 5px; }
+    .kpi-value { font-size: 21px; font-weight: 800; color: #e8ecf4; line-height: 1.1; }
+    .kpi-delta { font-size: 11px; margin-top: 4px; color: #5b6b8a; }
+    .kpi-delta .pos { color: #22c55e; font-weight: 700; }
+    .kpi-delta .neg { color: #ff4d6d; font-weight: 700; }
+    .kpi-delta .warn { color: #ff4d6d; }
+
+    /* ── CHART CARDS ── */
+    .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 10px; }
+    .charts-grid.col3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .charts-grid.col1 { grid-template-columns: 1fr; }
+    .chart-card { background: #0f1523; border-radius: 8px; padding: 15px 17px; border: 1px solid #1a2236; }
+    .chart-title { font-size: 13px; font-weight: 700; color: #e8ecf4; margin-bottom: 1px; }
+    .chart-sub { font-size: 10px; color: #4a5680; margin-bottom: 11px; }
+    .chart-wrap { position: relative; }
+    .h200 { height: 200px; } .h240 { height: 240px; } .h280 { height: 280px; }
+    .h340 { height: 340px; } .h400 { height: 400px; } .h460 { height: 460px; }
+
+    /* ── DARK TABLE ── */
+    .tbl-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid #1a2236; }
+    .tbl { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+    .tbl th {
+      background: #161d30; color: #5b6b8a; padding: 9px 12px;
+      text-align: left; font-size: 9.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .05em; white-space: nowrap;
+      border-bottom: 1px solid #1e2840;
+    }
+    .tbl th.r, .tbl td.r { text-align: right; }
+    .tbl td { padding: 7px 12px; border-bottom: 1px solid #0d1321; color: #b0bcd0; white-space: nowrap; }
+    .tbl tr:last-child td { border-bottom: none; }
+    .tbl tr:hover td { background: #111827; }
+    .pp { background: rgba(34,197,94,.15) !important; color: #22c55e !important; font-weight: 700; }
+    .pn { background: rgba(255,77,109,.15) !important; color: #ff4d6d !important; font-weight: 700; }
+
+    /* ── INSIGHTS ── */
+    .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+    .insight-card { background: #0f1523; border-radius: 8px; padding: 15px 17px; border: 1px solid #1a2236; border-left: 3px solid #3b82f6; }
+    .insight-card.warn { border-left-color: #ff4d6d; }
+    .insight-card.ok   { border-left-color: #22c55e; }
+    .insight-card.info { border-left-color: #ffc72c; }
+    .insight-icon  { font-size: 19px; margin-bottom: 5px; }
+    .insight-title { font-size: 13px; font-weight: 700; color: #e8ecf4; margin-bottom: 5px; }
+    .insight-body  { font-size: 12px; color: #7b8499; line-height: 1.6; }
+    .insight-action{ font-size: 11px; color: #4a5680; margin-top: 7px; font-style: italic; }
+
+    /* ── HEIGHT HELPERS ── */
+    .h560 { height: 560px; } .h700 { height: 700px; }
+
+    /* ── LOADING STATE ── */
+    #state-loading { display: flex; align-items: center; justify-content: center; min-height: 60vh; }
+    .state-card { text-align: center; }
+    .state-icon  { font-size: 40px; margin-bottom: 12px; }
+    .state-title { font-size: 18px; font-weight: 700; color: #e8ecf4; }
+    .state-sub   { font-size: 13px; color: #5b6b8a; margin-top: 6px; }
+    .state-link  { display: inline-block; margin-top: 14px; padding: 9px 22px; background: #3b82f6; color: #fff; border-radius: 7px; text-decoration: none; font-weight: 700; font-size: 13px; }
+
+    /* ── SEARCHABLE DROPDOWN (Customer) ── */
+    .csdrop { position: relative; }
+    .csdrop-trigger {
+      display: flex; align-items: center; gap: 6px; padding: 4px 9px;
+      border: 1px solid #1e2840; border-radius: 6px; font-size: 11.5px;
+      color: #c8d4e8; background: #161d30; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; white-space: nowrap; min-width: 160px; max-width: 240px;
+    }
+    .csdrop-trigger:hover { border-color: #3b82f6; }
+    .csdrop-trigger span { flex: 1; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+    .csdrop-arrow { opacity: .5; font-size: 8px; flex-shrink: 0; }
+    .csdrop-panel {
+      position: absolute; top: calc(100% + 4px); left: 0; z-index: 999;
+      background: #0f1523; border: 1px solid #1e2840; border-radius: 8px;
+      width: 260px; box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    }
+    .csdrop-search-row { padding: 8px 8px 6px; border-bottom: 1px solid #1a2236; }
+    .csdrop-search {
+      width: 100%; padding: 5px 9px; border: 1px solid #1e2840; border-radius: 5px;
+      background: #161d30; color: #c8d4e8; font-size: 11.5px; outline: none;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .csdrop-search:focus { border-color: #3b82f6; }
+    .csdrop-list { max-height: 240px; overflow-y: auto; }
+    .csdrop-opt {
+      padding: 6px 12px; font-size: 11.5px; color: #9aa5bc; cursor: pointer;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .csdrop-opt:hover { background: #161d30; color: #e8ecf4; }
+    .csdrop-opt.selected { color: #3b82f6; font-weight: 700; }
+
+    /* ── LIGHT MODE OVERRIDES ── */
+    body.light { background: #eef2f7 !important; color: #0f172a !important; }
+    /* Topbar */
+    body.light .topbar { background: #ffffff !important; border-bottom: 1px solid #dde3ed !important; box-shadow: 0 2px 8px rgba(0,0,0,.08) !important; }
+    body.light .topbar a, body.light .topbar-nav a,
+    body.light .nav-dropdown-btn, body.light .logo-brand { color: #0f172a !important; }
+    body.light .logo-tagline { color: #64748b !important; }
+    body.light .nav-dropdown-menu { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 4px 16px rgba(0,0,0,.1) !important; }
+    body.light .nav-dropdown-menu a { color: #334155 !important; }
+    body.light .nav-dropdown-menu a:hover { background: #f1f5f9 !important; color: #0f172a !important; }
+    body.light .btn-theme, body.light .btn-logout { background: #f1f5f9 !important; color: #475569 !important; border-color: #dde3ed !important; }
+    body.light .topbar-search-input { background: #f8fafc !important; border-color: #dde3ed !important; color: #0f172a !important; }
+    body.light #user-name, body.light .user-email { color: #0f172a !important; }
+    body.light .role-badge { background: #dbeafe !important; color: #1d4ed8 !important; }
+    /* Header */
+    body.light .db-header h1 { color: #0f172a !important; }
+    body.light .db-sub { color: #475569 !important; }
+    /* Tab nav */
+    body.light .tab-nav { background: transparent !important; }
+    body.light .tab-nav button { background: #ffffff !important; color: #475569 !important; border: 1px solid #dde3ed !important; box-shadow: 0 1px 3px rgba(0,0,0,.06) !important; }
+    body.light .tab-nav button.active { background: #2563eb !important; color: #fff !important; border-color: #2563eb !important; box-shadow: 0 2px 8px rgba(37,99,235,.35) !important; }
+    body.light .tab-nav button:hover:not(.active) { background: #f1f5f9 !important; color: #0f172a !important; border-color: #cbd5e1 !important; }
+    /* Filter bar */
+    body.light .filter-bar { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 2px 8px rgba(0,0,0,.06) !important; }
+    body.light .filter-label { color: #475569 !important; font-weight: 600 !important; }
+    body.light .filter-select { background: #f8fafc !important; color: #0f172a !important; border-color: #cbd5e1 !important; }
+    body.light .filter-select:focus { border-color: #2563eb !important; outline: none !important; }
+    body.light .filter-reset { border-color: #cbd5e1 !important; color: #64748b !important; background: #f8fafc !important; }
+    body.light .family-btn { border-color: #cbd5e1 !important; color: #475569 !important; background: #f8fafc !important; }
+    body.light .family-btn.active { border-color: #2563eb !important; color: #2563eb !important; background: #eff6ff !important; font-weight: 700 !important; }
+    /* KPI cards */
+    body.light .kpi-card { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 2px 10px rgba(0,0,0,.07) !important; }
+    body.light .kpi-label { color: #64748b !important; font-weight: 600 !important; font-size: 10px !important; letter-spacing: .04em !important; text-transform: uppercase !important; }
+    body.light .kpi-value { color: #0f172a !important; }
+    body.light .kpi-delta { color: #64748b !important; }
+    /* Chart cards */
+    body.light .chart-card { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 2px 12px rgba(0,0,0,.07) !important; }
+    body.light .chart-title { color: #0f172a !important; font-weight: 700 !important; }
+    body.light .chart-sub { color: #64748b !important; }
+    /* Tables */
+    body.light .tbl-wrap { border-color: #dde3ed !important; box-shadow: 0 2px 10px rgba(0,0,0,.06) !important; background: #ffffff !important; border-radius: 10px !important; overflow: hidden !important; }
+    body.light .tbl th { background: #f1f5f9 !important; color: #334155 !important; border-bottom: 2px solid #dde3ed !important; font-weight: 700 !important; }
+    body.light .tbl td { color: #0f172a !important; border-bottom-color: #eef2f7 !important; }
+    body.light .tbl tr:hover td { background: #eff6ff !important; }
+    /* Sections */
+    body.light .section { background: transparent !important; }
+    body.light .section-title { color: #0f172a !important; font-weight: 700 !important; border-bottom-color: #dde3ed !important; }
+    /* Insights */
+    body.light .insight-card { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 2px 10px rgba(0,0,0,.07) !important; }
+    body.light .insight-title { color: #0f172a !important; font-weight: 700 !important; }
+    body.light .insight-body { color: #334155 !important; }
+    body.light .insight-action { color: #2563eb !important; font-weight: 600 !important; }
+    /* State cards */
+    body.light .state-title { color: #0f172a !important; }
+    body.light .state-sub { color: #475569 !important; }
+    /* Searchable dropdowns */
+    body.light .csdrop-trigger { background: #f8fafc !important; border-color: #cbd5e1 !important; color: #0f172a !important; box-shadow: 0 1px 3px rgba(0,0,0,.05) !important; }
+    body.light .csdrop-trigger:hover { border-color: #2563eb !important; }
+    body.light .csdrop-panel { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 8px 24px rgba(0,0,0,.14) !important; }
+    body.light .csdrop-search { background: #f8fafc !important; border-color: #dde3ed !important; color: #0f172a !important; }
+    body.light .csdrop-search::placeholder { color: #94a3b8 !important; }
+    body.light .csdrop-search-row { border-bottom-color: #e2e8f0 !important; }
+    body.light .csdrop-opt { color: #334155 !important; }
+    body.light .csdrop-opt:hover { background: #eff6ff !important; color: #0f172a !important; }
+    body.light .csdrop-opt.selected { color: #2563eb !important; background: #eff6ff !important; font-weight: 700 !important; }
+
+    /* ── USD / Units metric toggle ── */
+    .metric-toggle { display:flex; gap:2px; background:rgba(255,255,255,.04); border:1px solid #2a3450; border-radius:7px; padding:2px; }
+    .metric-btn { background:transparent; border:none; color:#6b7a9f; font-size:11px; font-weight:700; padding:4px 11px; border-radius:5px; cursor:pointer; transition:background .15s,color .15s; white-space:nowrap; letter-spacing:.02em; }
+    .metric-btn.active { background:#3b82f6; color:#fff; box-shadow:0 1px 4px rgba(59,130,246,.4); }
+    .metric-btn:not(.active):hover { background:rgba(255,255,255,.07); color:#c8d4e8; }
+    body.light .metric-toggle { background:#f1f5f9; border-color:#dde3ed; }
+    body.light .metric-btn { color:#64748b; }
+    body.light .metric-btn.active { background:#2563eb; color:#fff; }
+    body.light .metric-btn:not(.active):hover { background:#e2e8f0; color:#334155; }
+
+    /* ── SKU × Country/Branch matrix ── */
+    .sku-ct-zero { color:#2e3a52; }
+    .sku-ct-low  { color:#6b7a9f; }
+    .sku-ct-mid  { background:rgba(245,166,35,.18); color:#f5a623; font-weight:600; }
+    .sku-ct-high { background:rgba(34,197,94,.20); color:#22c55e; font-weight:700; }
+    .sku-ct-dom  { background:rgba(34,197,94,.38); color:#4ade80; font-weight:800; }
+    .sku-matrix-legend { display:flex; gap:14px; font-size:10px; color:#6b7a9f; margin-bottom:8px; flex-wrap:wrap; align-items:center; }
+    .sku-matrix-legend span { display:flex; align-items:center; gap:4px; }
+    .leg-dot { display:inline-block; width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+    /* ── Country / Branch profile cards ── */
+    .country-profile-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+    .cp-card { background:#161e30; border:1px solid #232f45; border-radius:10px; padding:16px; }
+    .cp-card-title { font-size:13px; font-weight:700; color:#e2e8f0; margin-bottom:2px; }
+    .cp-card-sub   { font-size:11px; color:#6b7a9f; margin-bottom:10px; line-height:1.5; }
+    .cp-bar { height:5px; background:#3b82f6; border-radius:3px; margin-top:3px; min-width:2px; }
+    .cp-note { font-size:10px; color:#6b7a9f; margin-top:10px; padding-top:8px; border-top:1px solid #232f45; }
+    .cp-note.warn { color:#f5a623; }
+    body.light .sku-ct-zero { color:#cbd5e1; }
+    body.light .sku-ct-low  { color:#94a3b8; }
+    body.light .sku-ct-mid  { background:rgba(180,83,9,.10); color:#b45309; }
+    body.light .sku-ct-high { background:rgba(21,128,61,.12); color:#166534; }
+    body.light .sku-ct-dom  { background:rgba(21,128,61,.22); color:#14532d; }
+    body.light .sku-matrix-legend { color:#64748b; }
+    body.light .cp-card { background:#ffffff !important; border-color:#dde3ed !important; box-shadow:0 2px 10px rgba(0,0,0,.07) !important; }
+    body.light .cp-card-title { color:#0f172a !important; }
+    body.light .cp-card-sub   { color:#64748b !important; }
+    body.light .cp-note       { color:#64748b !important; border-top-color:#e2e8f0 !important; }
+    body.light .cp-note.warn  { color:#b45309 !important; }
+    body.light .cp-bar { background:#2563eb; }
+
+  #buf-country-nav button {
+    padding: 6px 14px; border-radius: 20px; border: 1px solid #2a3550;
+    background: #141b2d; color: #7b8499; cursor: pointer; font-size: 12px; font-weight: 600;
+    transition: all .15s;
+  }
+  #buf-country-nav button.active {
+    background: #3b82f6; color: #fff; border-color: #3b82f6;
+  }
+  #buf-country-nav button:hover:not(.active) { background: #1e2940; color: #c8d4e8; }
+  .sort-btn { cursor: pointer; user-select: none; }
+  .sort-btn:hover { color: #3b82f6; }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-logo">
+      <svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <rect width="48" height="48" rx="8" fill="#1B2A6B"/>
+        <path d="M10 34 Q16 10 24 24 Q32 38 38 14" stroke="#FFC72C" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <circle cx="38" cy="14" r="2.5" fill="#FFC72C"/>
+      </svg>
+      <div class="logo-text-wrap">
+        <span class="logo-brand">Travel Blue</span>
+        <span class="logo-tagline">London · Since 1987</span>
+      </div>
+    </div>
+    <nav class="topbar-nav"></nav>
+    <div class="topbar-search" style="visibility:hidden;"></div>
+    <div class="topbar-user">
+      <button class="btn-theme" id="btn-theme" title="Toggle dark mode"><i data-lucide="moon"></i></button>
+    </div>
+  </header>
+
+  <!-- LOADING -->
+  <div id="state-loading">
+    <div class="state-card">
+      <div class="state-icon">⏳</div>
+      <div class="state-title">Loading dashboard…</div>
+      <div class="state-sub">Fetching data from Supabase.</div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD (hidden until loaded) -->
+  <div id="dash-wrap" style="display:none;">
+
+    <div class="db-header">
+      <h1>Travel <span>Blue</span> — Backpack &amp; Luggage</h1>
+      <div class="db-sub">CUSTOMERS · Real 2023–2026 vs BP 2026</div>
+    </div>
+
+    <nav class="tab-nav">
+      <button class="active" data-tab="overview"  onclick="showTab('overview')">Overview</button>
+      <button              data-tab="product"   onclick="showTab('product')">Products</button>
+      <button              data-tab="customer"  onclick="showTab('customer')">Customers</button>
+      <button              data-tab="region"    onclick="showTab('region')">Geography</button>
+      <button              data-tab="insights"  onclick="showTab('insights')">Insights</button>
+      <button              data-tab="buffer"    onclick="showTab('buffer')">📦 Stock & Orders</button>
+    </nav>
+
+    <div class="filter-bar">
+      <div class="filter-group">
+        <span class="filter-label">Family</span>
+        <div class="family-toggle">
+          <button class="family-btn active" id="btn-all" onclick="setFamily('ALL')">All</button>
+          <button class="family-btn" id="btn-bp" onclick="setFamily('BACKPACKS')">Backpacks</button>
+          <button class="family-btn" id="btn-lg" onclick="setFamily('LUGGAGE')">Luggage</button>
+        </div>
+      </div>
+      <div class="filter-group"><span class="filter-label">Year</span>
+        <select class="filter-select" id="f-year" onchange="applyFilters()"><option value="">All Years</option></select></div>
+      <div class="filter-group"><span class="filter-label">Month</span>
+        <select class="filter-select" id="f-month" onchange="applyFilters()"><option value="">All Months</option></select></div>
+      <div class="filter-group"><span class="filter-label">Country</span>
+        <select class="filter-select" id="f-country" onchange="applyFilters()"><option value="">All Countries</option></select></div>
+      <div class="filter-group"><span class="filter-label">TB Branch</span>
+        <select class="filter-select" id="f-branch" onchange="applyFilters()"><option value="">All Branches</option></select></div>
+      <div class="filter-group" id="csdrop-wrap-customer">
+        <span class="filter-label">Customer</span>
+        <div class="csdrop">
+          <button class="csdrop-trigger" type="button" onclick="gsdropToggle('customer')">
+            <span id="csdrop-label-customer">All Customers</span><span class="csdrop-arrow">▼</span>
+          </button>
+          <div class="csdrop-panel" id="csdrop-panel-customer" style="display:none;">
+            <div class="csdrop-search-row">
+              <input class="csdrop-search" id="csdrop-search-customer" type="text" placeholder="🔍 Search customer…" oninput="gsdropFilter('customer',this.value)">
+            </div>
+            <div class="csdrop-list" id="csdrop-list-customer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-group"><span class="filter-label">Category</span>
+        <select class="filter-select" id="f-category" onchange="applyFilters()"><option value="">All Categories</option></select></div>
+      <div class="filter-group" id="csdrop-wrap-subcat">
+        <span class="filter-label">Sub-Cat.</span>
+        <div class="csdrop">
+          <button class="csdrop-trigger" type="button" onclick="gsdropToggle('subcat')">
+            <span id="csdrop-label-subcat">All Sub-Cat.</span><span class="csdrop-arrow">▼</span>
+          </button>
+          <div class="csdrop-panel" id="csdrop-panel-subcat" style="display:none;">
+            <div class="csdrop-search-row">
+              <input class="csdrop-search" id="csdrop-search-subcat" type="text" placeholder="🔍 Search sub-category…" oninput="gsdropFilter('subcat',this.value)">
+            </div>
+            <div class="csdrop-list" id="csdrop-list-subcat"></div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-group" id="csdrop-wrap-sku">
+        <span class="filter-label">SKU</span>
+        <div class="csdrop">
+          <button class="csdrop-trigger" type="button" onclick="gsdropToggle('sku')">
+            <span id="csdrop-label-sku">All SKUs</span><span class="csdrop-arrow">▼</span>
+          </button>
+          <div class="csdrop-panel" id="csdrop-panel-sku" style="display:none;">
+            <div class="csdrop-search-row">
+              <input class="csdrop-search" id="csdrop-search-sku" type="text" placeholder="🔍 Search SKU…" oninput="gsdropFilter('sku',this.value)">
+            </div>
+            <div class="csdrop-list" id="csdrop-list-sku"></div>
+          </div>
+        </div>
+      </div>
+      <div class="metric-toggle">
+        <button id="btn-m-val" class="metric-btn active" onclick="setMetric('value')" title="View in Revenue (USD)">$ USD</button>
+        <button id="btn-m-qty" class="metric-btn"        onclick="setMetric('qty')"   title="View in Quantity (units)"># Units</button>
+      </div>
+      <button class="filter-reset" onclick="resetFilters()">✕ Reset</button>
+    </div>
+
+    <!-- ══ OVERVIEW ══ -->
+    <div class="tab-page active" id="tab-overview">
+      <div class="section">
+        <div class="kpi-grid" id="kpi-row"></div>
+      </div>
+      <div class="section">
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-title">Revenue Comparison</div>
+            <div class="chart-sub">Full Year + Current Period vs BP</div>
+            <div class="chart-wrap h280"><canvas id="ch-revenue-cmp"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Monthly Trend</div>
+            <div class="chart-sub">2024 vs 2025 vs 2026</div>
+            <div class="chart-wrap h280"><canvas id="ch-timeline"></canvas></div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">Sales by Country &amp; TB Branch</div>
+        <div id="tbl-ov-country-branch"></div>
+      </div>
+    </div>
+
+    <!-- ══ PRODUCTS ══ -->
+    <div class="tab-page" id="tab-product">
+      <div class="section">
+        <div class="section-title">Category Revenue</div>
+        <div class="chart-card">
+          <div class="chart-sub">2024 vs 2025 vs 2026 YTD</div>
+          <div class="chart-wrap h280"><canvas id="ch-category-bar"></canvas></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">Sub-Categories</div>
+        <div class="chart-card">
+          <div class="chart-sub">2024 vs 2025 · with YoY % change</div>
+          <div class="chart-wrap h460"><canvas id="ch-subcat-bar"></canvas></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">SKU Performance — Top 50 by 2025 Sales</div>
+        <div id="tbl-sku"></div>
+      </div>
+
+      <!-- Branch profile cards (shown only if branch column present) -->
+      <div class="section" id="sec-branch-profiles" style="display:none;">
+        <div class="section-title">TB Branch Profiles — Top SKUs per Branch</div>
+        <div id="div-branch-profiles"></div>
+      </div>
+
+      <!-- Size & Color analysis -->
+      <div class="section">
+        <div class="section-title">Sales by Size</div>
+        <div class="chart-card">
+          <div class="chart-sub">Units sold 2024 · 2025 · 2026 YTD</div>
+          <div class="chart-wrap h300"><canvas id="ch-size-bar"></canvas></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">Sales by Color</div>
+        <div class="chart-card">
+          <div class="chart-sub">Units sold 2024 · 2025 · 2026 YTD</div>
+          <div class="chart-wrap h340"><canvas id="ch-color-bar"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CUSTOMERS ══ -->
+    <div class="tab-page" id="tab-customer">
+      <div class="section">
+        <div class="section-title">Top Customers</div>
+        <div class="chart-card">
+          <div class="chart-sub">2024 · 2025 · 2026 YTD · BP 2026</div>
+          <div class="chart-wrap h700"><canvas id="ch-customer-bar"></canvas></div>
+        </div>
+      </div>
+      <div class="section"><div id="tbl-customer"></div></div>
+      <div class="section" id="sec-custbp" style="display:none;">
+        <div class="section-title">Customer BP Breakdown</div>
+        <div id="tbl-customer-bp"></div>
+      </div>
+      <div class="section" id="sec-channel" style="display:none;">
+        <div class="section-title">Channel Analysis</div>
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-wrap h260"><canvas id="ch-channel-donut"></canvas></div>
+          </div>
+          <div id="tbl-channel"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ GEOGRAPHY ══ -->
+    <div class="tab-page" id="tab-region">
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <div class="section" style="flex:1;min-width:320px;">
+          <div class="section-title">Top Countries</div>
+          <div id="tbl-country"></div>
+        </div>
+        <div class="section" id="sec-branch" style="flex:1;min-width:320px;display:none;">
+          <div class="section-title">TB Branch</div>
+          <div id="tbl-branch"></div>
+        </div>
+      </div>
+      <div class="section" id="sec-branch-top10">
+        <div class="section-title">Top 10 Products por Filial TB</div>
+        <div id="tbl-branch-top10"></div>
+      </div>
+    </div>
+
+    <!-- ══ INSIGHTS ══ -->
+    <div class="tab-page" id="tab-insights">
+      <div class="insight-grid" id="insights-grid"></div>
+    </div>
+
+    <!-- ══ BUFFER ══ -->
+    <div class="tab-page" id="tab-buffer">
+      <div class="section">
+        <div class="section-title">Stock &amp; Orders — LATAM <span style="font-size:11px;font-weight:400;color:#4a90e2;">Coverage = months of stock at 2025 avg sales rate</span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;" id="buf-country-nav">
+          <button class="active" data-country="ALL"       onclick="setBufCountry('ALL')">🌎 All LATAM</button>
+          <button data-country="MEXICO"    onclick="setBufCountry('MEXICO')">🇲🇽 Mexico</button>
+          <button data-country="Brazil"    onclick="setBufCountry('Brazil')">🇧🇷 Brazil</button>
+          <button data-country="ARGENTINA" onclick="setBufCountry('ARGENTINA')">🇦🇷 Argentina</button>
+          <button data-country="Colombia"  onclick="setBufCountry('Colombia')">🇨🇴 Colombia</button>
+          <button data-country="CHILE"     onclick="setBufCountry('CHILE')">🇨🇱 Chile</button>
+        </div>
+        <div id="buf-kpis" class="kpi-row" style="margin-bottom:16px;display:flex;gap:12px;flex-wrap:wrap;"></div>
+        <div id="buf-suggestions" style="margin-bottom:16px;"></div>
+        <div id="buf-table-wrap" class="tbl-wrap"></div>
+      </div>
+    </div>
+
+  </div><!-- /dash-wrap -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+  <script>
+/* ============================================================
+   TRAVEL BLUE DASHBOARDS — Data Layer (Supabase)
+   All methods are async.
+   ============================================================ */
+
+const DataLayer = (() => {
+
+  let _anonClient = null, _svcClient = null;
+
+  function _anon() {
+    if (!_anonClient)
+      _anonClient = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+    return _anonClient;
+  }
+
+  function _svc() {
+    if (!_svcClient)
+      _svcClient = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_SERVICE_KEY, {
+        auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false }
+      });
+    return _svcClient;
+  }
+
+  /* ── PROJECTS ─────────────────────────────────────────────────────── */
+
+  async function getProjects(role = 'user') {
+    let query = _svc().from('projects').select('*').order('created_at', { ascending: true });
+    if (role === 'user')  query = query.eq('status', 'active');
+    if (role === 'admin') query = query.in('status', ['active', 'draft']);
+    // role === 'owner' → no filter, returns all statuses
+    const { data, error } = await query;
+    if (error) { console.error('getProjects:', error.message); return []; }
+    return data || [];
+  }
+
+  async function getProject(id) {
+    const { data } = await _svc().from('projects').select('*').eq('id', id).maybeSingle();
+    return data || null;
+  }
+
+  async function getProjectBySlug(slug) {
+    const { data } = await _svc().from('projects').select('*').eq('slug', slug).maybeSingle();
+    return data || null;
+  }
+
+  async function createProject(data) {
+    const { data: proj, error } = await _svc()
+      .from('projects')
+      .insert({
+        slug:               data.slug,
+        name:               data.name,
+        description:        data.description        || '',
+        icon:               data.icon               || '📊',
+        status:             'draft',
+        build_instructions: data.build_instructions || '',
+        build_status:       'pending',
+        reference_images:   [],
+      })
+      .select().single();
+    if (error)
+      return { error: error.code === '23505' ? 'A project with this slug already exists.' : error.message };
+    return proj;
+  }
+
+  async function uploadReferenceImage(file, projectSlug) {
+    const ts   = Date.now();
+    const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const path = `reference-images/${projectSlug}/${ts}_${safe}`;
+    const { data, error } = await _svc().storage
+      .from('csv-uploads')
+      .upload(path, file, { upsert: false, contentType: file.type || 'image/jpeg' });
+    if (error) throw new Error(`Image upload failed: ${error.message}`);
+    return data.path;
+  }
+
+  async function updateProject(id, data) {
+    const { data: proj, error } = await _svc()
+      .from('projects').update(data).eq('id', id).select().single();
+    if (error) return { error: error.message };
+    return proj;
+  }
+
+  async function publishProject(id) {
+    return updateProject(id, { status: 'active', published_at: new Date().toISOString() });
+  }
+
+  async function archiveProject(id) { return updateProject(id, { status: 'archived' }); }
+
+  async function draftProject(id) {
+    return updateProject(id, { status: 'draft', published_at: null });
+  }
+
+  async function deleteProject(id) {
+    const proj = await getProject(id);
+    if (!proj) return { error: 'Project not found.' };
+    // Clean up related tables
+    await _svc().from('project_data').delete().eq('project_slug', proj.slug);
+    await _svc().from('project_meta').delete().eq('project_slug', proj.slug);
+    const { error } = await _svc().from('projects').delete().eq('id', id);
+    if (error) { console.error('[deleteProject]', error); return { error: error.message }; }
+    const stillExists = await getProject(id);
+    if (stillExists) return { error: 'Delete did not take effect — please check Supabase configuration.' };
+    return { success: true };
+  }
+
+  /* ── USERS (Supabase Auth Admin API) ─────────────────────────────── */
+
+  async function getUsers(includeOwner = true) {
+    const { data: { users }, error } = await _svc().auth.admin.listUsers({ perPage: 1000 });
+    if (error) { console.error('getUsers:', error.message); return []; }
+    return (users || [])
+      .filter(u => includeOwner || (u.user_metadata?.role !== 'owner'))
+      .map(u => ({
+        id:         u.id,
+        email:      u.email,
+        name:       u.user_metadata?.name || u.email,
+        role:       u.user_metadata?.role || 'user',
+        projects:   u.user_metadata?.projects || [],
+        created_at: u.created_at ? u.created_at.split('T')[0] : '—',
+      }));
+  }
+
+  async function getUserById(id) {
+    const { data: { user }, error } = await _svc().auth.admin.getUserById(id);
+    if (error || !user) return null;
+    return {
+      id:         user.id,
+      email:      user.email,
+      name:       user.user_metadata?.name || user.email,
+      role:       user.user_metadata?.role || 'user',
+      projects:   user.user_metadata?.projects || [],
+      created_at: user.created_at ? user.created_at.split('T')[0] : '—',
+    };
+  }
+
+  async function getUserPermissions(userId) {
+    const user = await getUserById(userId);
+    return user?.projects || [];
+  }
+
+  async function setUserPermissions(userId, projectSlugs) {
+    const { data: { user } } = await _svc().auth.admin.getUserById(userId);
+    const meta = { ...(user?.user_metadata || {}), projects: projectSlugs };
+    await _svc().auth.admin.updateUserById(userId, { user_metadata: meta });
+  }
+
+  async function createUser(data) {
+    if (data.invited) {
+      const { error } = await _svc().auth.admin.inviteUserByEmail(data.email, {
+        data: { name: data.name, role: data.role || 'user', projects: data.permissions || [] }
+      });
+      if (error) return { error: error.message };
+    } else {
+      const { error } = await _svc().auth.admin.createUser({
+        email: data.email, password: data.password, email_confirm: true,
+        user_metadata: { name: data.name, role: data.role || 'user', projects: data.permissions || [] }
+      });
+      if (error) return { error: error.message };
+    }
+    return { success: true, email: data.email };
+  }
+
+  async function updateUser(id, data) {
+    const { data: { user } } = await _svc().auth.admin.getUserById(id);
+    const meta = { ...(user?.user_metadata || {}), name: data.name, role: data.role };
+    const { error } = await _svc().auth.admin.updateUserById(id, { user_metadata: meta });
+    if (error) return { error: error.message };
+    return { success: true };
+  }
+
+  async function deleteUser(id) {
+    const { error } = await _svc().auth.admin.deleteUser(id);
+    if (error) return { error: error.message };
+    return { success: true };
+  }
+
+  /* ── PUBLIC API ───────────────────────────────────────────────────── */
+  return {
+    getProjects, getProject, getProjectBySlug,
+    createProject, updateProject, publishProject, archiveProject, draftProject, deleteProject,
+    uploadReferenceImage,
+    getUsers, getUserById, getUserPermissions, setUserPermissions,
+    createUser, updateUser, deleteUser,
+  };
+
+})();
+
+</script>
+  <script>
+/* ============================================================
+   TRAVEL BLUE DASHBOARDS — Auth Module (Supabase Auth)
+   ============================================================ */
+
+const Auth = {
+  _client: null,
+  _cachedUser: null,
+
+  _sb() {
+    if (!this._client)
+      this._client = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+    return this._client;
+  },
+
+  /* ── Async: fetch user from Supabase session ── */
+  async getUser() {
+    if (this._cachedUser !== null) return this._cachedUser;
+    const { data: { user } } = await this._sb().auth.getUser(); // always fresh from server
+    this._cachedUser = user || null;
+    return this._cachedUser;
+  },
+
+  /* ── Sync helpers — call AFTER getUser() resolves ── */
+  role(user)           { return user?.user_metadata?.role || 'user'; },
+  isOwner(user)        { return this.role(user) === 'owner'; },
+  isAdmin(user)        { return this.role(user) === 'admin'; },
+  isAdminOrOwner(user) { return ['owner', 'admin'].includes(this.role(user)); },
+
+  /* Returns true if user can view the project slug */
+  canViewProject(user, slug) {
+    if (this.isAdminOrOwner(user)) return true;
+    const projects = user?.user_metadata?.projects || [];
+    return projects.includes(slug);
+  },
+
+  /* ── Async: redirect to login if not authenticated ── */
+  async requireLogin() {
+    const user = await this.getUser();
+    if (!user) { window.location.href = '/index.html'; return null; }
+    return user;
+  },
+
+  /* ── Async: redirect to home if not admin/owner ── */
+  async requireAdminOrOwner() {
+    const user = await this.requireLogin();
+    if (user && !this.isAdminOrOwner(user)) { window.location.href = '/home.html'; return null; }
+    return user;
+  },
+
+  /* ── Logout ── */
+  async logout() {
+    this._cachedUser = null;
+    await this._sb().auth.signOut();
+    window.location.href = '/index.html';
+  },
+
+  /* ── Render helpers ── */
+  renderUser(user, nameSelector = '#user-name', emailSelector = '#user-email') {
+    const n = document.querySelector(nameSelector);
+    const e = document.querySelector(emailSelector);
+    if (n) n.textContent = user?.user_metadata?.name || user?.email || '—';
+    if (e) e.textContent = user?.email || '—';
+  },
+
+  renderRoleBadge(user, selector = '#role-badge') {
+    const role = this.role(user);
+    const el = document.querySelector(selector);
+    if (!el) return;
+    const colors = { owner: 'badge-owner', admin: 'badge-admin', user: 'badge-user' };
+    el.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+    el.className = 'role-badge ' + (colors[role] || '');
+    el.style.display = 'inline-block';
+  },
+
+  /* ── Login with Supabase Auth ── */
+  async login(email, password) {
+    if (!email || !password)
+      return { success: false, error: 'Please enter your email and password.' };
+
+    const { data, error } = await this._sb().auth.signInWithPassword({ email, password });
+    if (error) return { success: false, error: this._friendlyError(error.message) };
+
+    this._cachedUser = data.user;
+    return { success: true, user: data.user };
+  },
+
+  _friendlyError(msg) {
+    if (/invalid login/i.test(msg))        return 'Incorrect email or password. Please try again.';
+    if (/email not confirmed/i.test(msg))  return 'Please confirm your email address first.';
+    return msg;
+  },
+
+  /* ── Append "+ New Project" to Projects nav dropdown ── */
+  /* Only visible on localhost and only for owners */
+  appendNewProjectLink(menuEl, user) {
+    if (!menuEl || !this.isOwner(user)) return;
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') return;
+    const sep  = document.createElement('div');
+    sep.className = 'dropdown-separator';
+    const link = document.createElement('a');
+    link.href  = '/admin/index.html?tab=projects&action=new';
+    link.className = 'nav-new-project-link';
+    link.innerHTML = '<span class="menu-icon">➕</span> New Project';
+    menuEl.appendChild(sep);
+    menuEl.appendChild(link);
+  }
+};
+
+/* Bind logout to all [data-logout] elements */
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-logout]').forEach(btn =>
+    btn.addEventListener('click', () => Auth.logout())
+  );
+});
+
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+/* ============================================================
+   TRAVEL BLUE DASHBOARDS — Global Theme Toggle
+   Priority: 1) user manual override (localStorage)
+             2) system preference (prefers-color-scheme)
+   - Pages using style.css: body.dark applies dark CSS vars
+   - Avolta page: body.light applies its own light overrides;
+     no class = avolta dark default (its :root is dark)
+   ============================================================ */
+
+const ThemeToggle = {
+  STORAGE_KEY: 'tb_theme',
+
+  init() {
+    const saved      = localStorage.getItem(this.STORAGE_KEY);
+    const sysDark    = window.matchMedia('(prefers-color-scheme: dark)');
+    // Use saved manual preference; otherwise follow system
+    this._apply(saved !== null ? saved === 'dark' : sysDark.matches);
+    // Update automatically when system changes (only if no manual override)
+    sysDark.addEventListener('change', e => {
+      if (localStorage.getItem(this.STORAGE_KEY) === null) this._apply(e.matches);
+    });
+  },
+
+  toggle() {
+    const isDark = document.body.classList.contains('dark');
+    this._apply(!isDark);
+    localStorage.setItem(this.STORAGE_KEY, !isDark ? 'dark' : 'light');
+  },
+
+  _apply(isDark) {
+    document.body.classList.toggle('dark', isDark);
+    document.body.classList.toggle('light', !isDark);
+    const btn = document.getElementById('btn-theme');
+    if (btn) {
+      const iconName = isDark ? 'sun' : 'moon';
+      if (typeof lucide !== 'undefined') {
+        btn.innerHTML = `<i data-lucide="${iconName}"></i>`;
+        lucide.createIcons();
+      } else {
+        btn.textContent = isDark ? '☀️' : '🌙';
+      }
+      btn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+    }
+  }
+};
+
+// Apply theme immediately to minimise flash of unstyled content
+ThemeToggle.init();
+
+</script>
+  <script>
+  /* ================================================================
+     BACKPACK & LUGGAGE DASHBOARD  — dark design
+     project_slug = 'backpack-lugagge'
+  ================================================================ */
+  const PROJECT_SLUG = 'backpack-lugagge';
+
+  /* ── Chart.js defaults (respects light/dark) ── */
+  function isLight() { return document.body.classList.contains('light'); }
+  function chartColors() {
+    return isLight()
+      ? { text:'#64748b', grid:'#e2e8f0' }
+      : { text:'#5b6b8a', grid:'#1a2236' };
+  }
+  Chart.defaults.color       = '#5b6b8a';
+  Chart.defaults.borderColor = '#1a2236';
+  Chart.defaults.font.family = "'DM Sans', sans-serif";
+  Chart.register(ChartDataLabels);
+  Chart.defaults.plugins.datalabels.display = false; // off by default, enable per chart
+
+  /* ── Palette ── */
+  const C_2024 = '#9b6dff', C_2025 = '#3b82f6', C_2026 = '#22c55e',
+        C_BP   = '#ffc72c', C_RED  = '#ff4d6d';
+  const PALETTE = [C_2025, C_2024, '#06b6d4', '#f97316', C_2026, C_BP, '#8b5cf6', '#ec4899', '#14b8a6', '#f59e0b', '#a855f7', '#ef4444'];
+
+  let _all = [], _filt = [], _charts = {}, _tab = 'overview', _bufCountry = 'ALL';
+  let _metric = 'value'; // 'value' = USD revenue | 'qty' = quantity (units)
+  let C = {};
+
+  /* ── metric helpers ── */
+  function mCol() { return _metric === 'qty' && C.qty ? C.qty : C.value; }
+  function setMetric(m) {
+    _metric = m;
+    document.getElementById('btn-m-val')?.classList.toggle('active', m === 'value');
+    document.getElementById('btn-m-qty')?.classList.toggle('active', m === 'qty');
+    renderTab();
+  }
+
+  /* ── utils ── */
+  const norm = v => String(v ?? '').trim().toLowerCase();
+  const num  = v => parseFloat(String(v ?? '').replace(/[$€£,\s]/g,'')) || 0;
+  // numCost: handles European decimal comma (e.g. "15,40" → 15.40)
+  const numCost = v => { const s=String(v??'').trim().replace(/[$€£\s]/g,''); if(!s) return 0; return s.includes(',')&&!s.includes('.') ? parseFloat(s.replace(',','.')) : parseFloat(s.replace(/,/g,'')) || 0; };
+  const sum  = (rows, col) => rows.reduce((s,r) => s + num(r[col]), 0);
+
+  function fmt(n) {
+    if (!isFinite(n)||isNaN(n)) return '—';
+    const a = Math.abs(n);
+    if (_metric === 'qty') {
+      if (a >= 1e6) return (n/1e6).toFixed(1)+'M pcs';
+      if (a >= 1e3) return Math.round(n/1e3)+'K pcs';
+      return Math.round(n).toLocaleString()+' pcs';
+    }
+    if (a >= 1e6) return '$'+(n/1e6).toFixed(2)+'M';
+    if (a >= 1e3) return '$'+(n/1e3).toFixed(1)+'K';
+    return '$'+n.toFixed(0);
+  }
+  function fmtShort(n) {
+    if (!isFinite(n)||isNaN(n)) return '—';
+    const a = Math.abs(n);
+    if (_metric === 'qty') {
+      if (a >= 1e6) return (n/1e6).toFixed(1)+'M';
+      if (a >= 1e3) return Math.round(n/1e3)+'K';
+      return Math.round(n).toLocaleString();
+    }
+    if (a >= 1e6) return (n/1e6).toFixed(1)+'M';
+    if (a >= 1e3) return (n/1e3).toFixed(0)+'K';
+    return n.toFixed(0);
+  }
+  function fmtN(n) { // plain integer formatter (Buffer page, always units)
+    if (!isFinite(n)||isNaN(n)) return '—';
+    return Math.round(n).toLocaleString();
+  }
+  function pct(a, b) { return b ? ((a-b)/Math.abs(b))*100 : NaN; }
+  function pctHtml(p) {
+    if (!isFinite(p)||isNaN(p)) return '<span style="color:#4a5680">—</span>';
+    return `<span class="${p>=0?'pos':'neg'}">${p>=0?'▲':'▼'} ${Math.abs(p).toFixed(1)}%</span>`;
+  }
+  function pctTd(p) {
+    if (!isFinite(p)||isNaN(p)) return '<td class="r" style="color:#4a5680">—</td>';
+    return `<td class="r ${p>=0?'pp':'pn'}">${p>=0?'▲':'▼'} ${Math.abs(p).toFixed(1)}%</td>`;
+  }
+
+  /* ── column resolver ── */
+  function resolveColumns(sample) {
+    const keys = Object.keys(sample);
+    function find(...cands) {
+      for (const c of cands) { const k = keys.find(k => norm(k) === norm(c));   if (k) return k; }
+      for (const c of cands) { const k = keys.find(k => norm(k).includes(norm(c))); if (k) return k; }
+      return null;
+    }
+    C.date     = find('date','data','fecha');
+    C.year     = find('ano','year');
+    C.month    = find('mes','month','mês');
+    C.country  = find('country');
+    C.branch   = find('country 2','country2','filial','branch');
+    C.qty      = find('quantity','qty','units','qtd','quantidade');
+    C.type     = find('type','tipo');
+    C.family   = find('family','familia','família');
+    C.category = find('category','categoria');
+    C.subcat   = find('sub-category','subcategory','sub category','sub-cat','subcat');
+    C.sku      = find('sku 2','sku2','sku');
+    C.customer = find('customer grouped name','customer grouped','customer_grouped');
+    C.cost     = find('cost','custo');
+    C.cbm      = find('cbm','volume','cubic');
+    C.desc     = find('description','descrição','descricao','desc');
+    C.custBP   = find('customer bp','customer_bp','customerbp');
+    C.channel  = find('channel','canal');
+    C.company  = find('company','empresa');
+    // Prefer explicit USD column first, then fallback to generic amount/value patterns.
+    // This avoids accidentally picking local-currency columns (e.g. "NET AMOUNT (LcCy)")
+    // when a proper USD column exists (e.g. "NET AMOUNT (USD)").
+    C.value    = find('net amount (usd)','net_amount_usd','amount usd','amount (usd)',
+                      'value usd','sales usd','net sales usd',
+                      'value','net sales','net_sales','sales');
+    if (!C.value) {
+      // Second pass: any column whose name includes 'usd' or 'amount' but not 'lc' / 'local'
+      C.value = keys.find(k => {
+        const n = norm(k);
+        if (n.includes('lccy')||n.includes('lc cy')||n.includes('local')) return false;
+        return n.includes('usd')||n.includes('amount')||n.includes('total');
+      });
+    }
+    if (!C.value) {
+      // Last resort: any numeric-looking column that isn't a known dimension
+      C.value = keys.find(k => {
+        const n = norm(k);
+        return !['quantity','qty','units','qtd','country','year','ano','mes','month',
+                 'type','family','category','subcat','sku','customer','channel',
+                 'company','date','filial','branch','id'].some(q => n.includes(q));
+      });
+    }
+    console.log('[BL] columns:', JSON.stringify(C));
+  }
+
+  /* ── year/month helpers ── */
+  function rowYear(r) {
+    if (C.year && r[C.year] !== undefined && r[C.year] !== null && r[C.year] !== '') {
+      const y = String(r[C.year]).trim();
+      return y.includes('.') ? String(parseInt(parseFloat(y))) : y;
+    }
+    if (C.date && r[C.date]) return String(r[C.date]).slice(0,4);
+    return '';
+  }
+  // rowMonth returns the month NUMBER as a 2-digit string (e.g. "01".."12")
+  // so the filter dropdown shows month names and filtering is year-independent
+  function rowMonth(r) {
+    if (C.month && r[C.month] !== undefined && r[C.month] !== null && r[C.month] !== '') {
+      const mf = parseFloat(String(r[C.month]).trim());
+      if (!isNaN(mf) && mf >= 1 && mf <= 12) return String(Math.round(mf)).padStart(2,'0');
+    }
+    if (C.date && r[C.date]) return String(r[C.date]).slice(5,7); // "MM" from YYYY-MM-DD
+    return '';
+  }
+  function getMonthNum(r) {
+    if (C.month && r[C.month] !== undefined && r[C.month] !== null && r[C.month] !== '') {
+      const mf = parseFloat(String(r[C.month]).trim());
+      if (!isNaN(mf) && mf >= 1 && mf <= 12) return Math.round(mf);
+    }
+    if (C.date && r[C.date]) return parseInt(String(r[C.date]).slice(5,7)) || 0;
+    return 0;
+  }
+
+  /* ── type helpers ── */
+  const isActual = r => { const t = norm(r[C.type]??''); return t.includes('actual')||t==='real'||t.includes('real'); };
+  const isBP     = r => {
+    const t = norm(r[C.type]??'');
+    return t.includes('business')||t.includes('plan')||t==='bp'||
+           t.includes('budget')||t.includes('forecast')||t.includes('target')||t==='bud';
+  };
+
+  /* ── data slices ── */
+  const byYear = (yr, fn) => _filt.filter(r => rowYear(r) === String(yr) && fn(r));
+  const a = yr => byYear(yr, isActual);
+  const b = yr => byYear(yr, isBP);
+
+  /* bAll: BP data filtered like _filt but IGNORING the month filter.
+     BP in this dataset is stored as annual totals (Mês=12), so applying
+     a month filter would exclude all BP rows incorrectly. */
+  function bAll(yr) {
+    return _all.filter(r => {
+      if (rowYear(r) !== String(yr) || !isBP(r)) return false;
+      if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
+      if (F.country   && C.country   && norm(r[C.country])   !== norm(F.country))   return false;
+      if (F.branch    && C.branch    && norm(r[C.branch])    !== norm(F.branch))     return false;
+      if (F.customer  && C.customer  && norm(r[C.customer])  !== norm(F.customer))   return false;
+      if (F.category  && C.category  && norm(r[C.category])  !== norm(F.category))   return false;
+      if (F.subcat    && C.subcat    && norm(r[C.subcat])    !== norm(F.subcat))      return false;
+      if (F.sku       && C.sku       && norm(r[C.sku])       !== norm(F.sku))         return false;
+      return true;
+    });
+  }
+
+  /* ── aggregation ── */
+  function aggBy(rows, keyFn) {
+    const col = mCol();
+    const m = {};
+    rows.forEach(r => { const k = keyFn(r); if (k) m[k] = (m[k]||0) + num(r[col]); });
+    return m;
+  }
+  function topN(map, n) {
+    return Object.entries(map).sort((a,b) => b[1]-a[1]).slice(0,n).map(e => e[0]);
+  }
+
+  /* ── filter state ── */
+  const F = { family:'ALL', year:'', month:'', country:'', branch:'', customer:'', category:'', subcat:'', sku:'' };
+
+  /* ── Generalized Searchable Dropdowns ── */
+  // _gsdropOpts: { customer: [...], subcat: [...], sku: [...] }
+  const _gsdropOpts = { customer:[], subcat:[], sku:[] };
+  const _gsdropDefaults = { customer:'All Customers', subcat:'All Sub-Cat.', sku:'All SKUs' };
+  const _gsdropFields  = { customer:'customer', subcat:'subcat', sku:'sku' };
+
+  function gsdropToggle(id) {
+    // Close all others first
+    ['customer','subcat','sku'].forEach(k => {
+      const p = document.getElementById('csdrop-panel-'+k);
+      if (p && k !== id) p.style.display = 'none';
+    });
+    const panel = document.getElementById('csdrop-panel-'+id); if (!panel) return;
+    const open  = panel.style.display !== 'none';
+    panel.style.display = open ? 'none' : 'block';
+    if (!open) {
+      const inp = document.getElementById('csdrop-search-'+id);
+      if (inp) { inp.value = ''; inp.focus(); }
+      gsdropFilter(id, '');
+    }
+  }
+  function gsdropFilter(id, q) {
+    const list = document.getElementById('csdrop-list-'+id); if (!list) return;
+    const lower = q.toLowerCase().trim();
+    const opts  = _gsdropOpts[id] || [];
+    const items = lower ? opts.filter(c => c.toLowerCase().includes(lower)) : opts;
+    const field = _gsdropFields[id];
+    const cur   = F[field] || '';
+    const def   = _gsdropDefaults[id] || 'All';
+    const esc   = v => String(v).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    list.innerHTML = [
+      `<div class="csdrop-opt${!cur?' selected':''}" data-gid="${id}" data-gval="" onclick="gsdropSelect(this.dataset.gid,this.dataset.gval)">${def}</div>`,
+      ...items.map(c =>
+        `<div class="csdrop-opt${norm(c)===norm(cur)?' selected':''}" data-gid="${id}" data-gval="${esc(c)}" onclick="gsdropSelect(this.dataset.gid,this.dataset.gval)">${esc(c)}</div>`
+      )
+    ].join('');
+  }
+  function gsdropSelect(id, value) {
+    const field = _gsdropFields[id];
+    F[field] = value;
+    // Cascade: selecting a sub-category resets the SKU filter
+    if (id === 'subcat') {
+      F.sku = '';
+      const skuLbl = document.getElementById('csdrop-label-sku');
+      if (skuLbl) skuLbl.textContent = _gsdropDefaults.sku || 'All SKUs';
+    }
+    const lbl = document.getElementById('csdrop-label-'+id);
+    if (lbl) lbl.textContent = value || _gsdropDefaults[id] || 'All';
+    const panel = document.getElementById('csdrop-panel-'+id);
+    if (panel) panel.style.display = 'none';
+    applyFilters();
+  }
+  // Backward compatibility aliases for customer dropdown
+  function csdropToggle()           { gsdropToggle('customer'); }
+  function csdropFilter(q)          { gsdropFilter('customer', q); }
+  function csdropSelect(value)      { gsdropSelect('customer', value); }
+
+  // Close all dropdowns on outside click
+  document.addEventListener('click', e => {
+    ['customer','subcat','sku'].forEach(id => {
+      const wrap  = document.getElementById('csdrop-wrap-'+id) || document.getElementById('csdrop-wrap');
+      const panel = document.getElementById('csdrop-panel-'+id) || document.getElementById('csdrop-panel');
+      if (panel && wrap && !wrap.contains(e.target)) panel.style.display = 'none';
+    });
+  });
+
+  function applyFilters() {
+    F.year     = document.getElementById('f-year')?.value     || '';
+    F.month    = document.getElementById('f-month')?.value    || '';
+    F.country  = document.getElementById('f-country')?.value  || '';
+    F.branch   = document.getElementById('f-branch')?.value   || '';
+    const prevCat = F.category;
+    F.category = document.getElementById('f-category')?.value || '';
+    // Cascade: if category changed, reset sub-cat and SKU
+    if (prevCat !== F.category) {
+      F.subcat = ''; F.sku = '';
+      const scLbl = document.getElementById('csdrop-label-subcat'); if (scLbl) scLbl.textContent = _gsdropDefaults.subcat || 'All Sub-Cat.';
+      const skLbl = document.getElementById('csdrop-label-sku');    if (skLbl) skLbl.textContent = _gsdropDefaults.sku    || 'All SKUs';
+    }
+    // F.customer, F.subcat, F.sku are managed by gsdropSelect()
+    _filt = _all.filter(r => {
+      if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
+      if (F.year     && rowYear(r)          !== F.year)                              return false;
+      if (F.month    && rowMonth(r)         !== F.month)                             return false;
+      if (F.country  && C.country  && norm(r[C.country])  !== norm(F.country))      return false;
+      if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))       return false;
+      if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer))     return false;
+      if (F.category && C.category && norm(r[C.category]) !== norm(F.category))     return false;
+      if (F.subcat   && C.subcat   && norm(r[C.subcat])   !== norm(F.subcat))       return false;
+      if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))          return false;
+      return true;
+    });
+    refreshDependentFilters();
+    renderTab();
+  }
+
+  function resetFilters() {
+    ['f-year','f-month','f-country','f-branch','f-category']
+      .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    Object.assign(F, { year:'', month:'', country:'', branch:'', customer:'', category:'', subcat:'', sku:'' });
+    // Reset all searchable dropdowns
+    Object.entries(_gsdropDefaults).forEach(([id, def]) => {
+      const lbl = document.getElementById('csdrop-label-'+id);
+      if (lbl) lbl.textContent = def;
+      const panel = document.getElementById('csdrop-panel-'+id);
+      if (panel) panel.style.display = 'none';
+    });
+    // (legacy csdrop-label removed — now uses csdrop-label-customer via _gsdropDefaults loop)
+    _filt = F.family === 'ALL' ? [..._all] : _all.filter(r => C.family && norm(r[C.family]) === norm(F.family));
+    renderTab();
+  }
+
+  function setFamily(fam) {
+    F.family = fam;
+    // Cascade: changing family resets category, sub-cat and SKU (they may not exist in new family)
+    F.category = ''; F.subcat = ''; F.sku = '';
+    const catEl = document.getElementById('f-category'); if (catEl) catEl.value = '';
+    ['subcat','sku'].forEach(id => {
+      F[_gsdropFields[id]] = '';
+      const lbl = document.getElementById('csdrop-label-'+id);
+      if (lbl) lbl.textContent = _gsdropDefaults[id] || 'All';
+    });
+    ['btn-all','btn-bp','btn-lg'].forEach(id => document.getElementById(id)?.classList.remove('active'));
+    document.getElementById(fam==='ALL'?'btn-all':fam==='BACKPACKS'?'btn-bp':'btn-lg')?.classList.add('active');
+    applyFilters();
+  }
+
+  /* ── tabs ── */
+  function setBufCountry(c) {
+    _bufCountry = c;
+    document.querySelectorAll('#buf-country-nav button').forEach(b =>
+      b.classList.toggle('active', b.dataset.country === c));
+    renderBuffer();
+  }
+
+  function showTab(tab) {
+    _tab = tab;
+    const isBuf = tab === 'buffer';
+    const isIns = tab === 'insights';
+
+    // Define which filter IDs to hide per tab mode
+    const hideSelects = isIns
+      ? ['f-year','f-month','f-country','f-branch','f-category']
+      : isBuf
+        ? ['f-year','f-month','f-branch']
+        : [];
+    const hideWraps = isIns
+      ? ['csdrop-wrap-customer','csdrop-wrap-subcat','csdrop-wrap-sku']
+      : isBuf
+        ? ['csdrop-wrap-customer']
+        : [];
+
+    // Apply visibility to select-based filters
+    ['f-year','f-month','f-country','f-branch','f-category'].forEach(id => {
+      const fg = document.getElementById(id)?.closest('.filter-group');
+      if (fg) fg.style.display = hideSelects.includes(id) ? 'none' : '';
+    });
+    // Apply visibility to custom-dropdown wrappers
+    ['csdrop-wrap-customer','csdrop-wrap-subcat','csdrop-wrap-sku'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = hideWraps.includes(id) ? 'none' : '';
+    });
+
+    // Adjust Country dropdown
+    const countryEl = document.getElementById('f-country');
+    if (countryEl && _all.length) {
+      if (isBuf) {
+        // Fixed LATAM-5 countries for stock/buffer analysis
+        const LATAM5_DISPLAY = ['ARGENTINA','Brazil','CHILE','Colombia','MEXICO'];
+        countryEl.innerHTML = `<option value="">All Countries</option>` +
+          LATAM5_DISPLAY.map(c=>`<option value="${c}">${c}</option>`).join('');
+      } else {
+        // Restore full country list
+        const allC = [...new Set(_all.filter(isActual).map(r=>r[C.country]).filter(Boolean))].sort();
+        countryEl.innerHTML = `<option value="">All Countries</option>` +
+          allC.map(c=>`<option value="${c}">${c}</option>`).join('');
+      }
+    }
+
+    document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.getElementById('tab-'+tab)?.classList.add('active');
+    renderTab();
+  }
+  function renderTab() {
+    Object.values(_charts).forEach(c => c?.destroy());
+    _charts = {};
+    switch(_tab) {
+      case 'overview':  renderOverview();  break;
+      case 'product':   renderProduct();   break;
+      case 'customer':  renderCustomer();  break;
+      case 'region':    renderRegion();    break;
+      case 'insights':  renderInsights();  break;
+      case 'buffer':    renderBuffer();    break;
+    }
+  }
+  function mkChart(id, cfg) {
+    const el = document.getElementById(id); if (!el) return;
+    _charts[id] = new Chart(el, cfg);
+  }
+
+  const MN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  /* ── shared chart config helpers (light/dark aware) ── */
+  function dScalesY() {
+    const cc = chartColors();
+    return {
+      x: { grid:{ color:cc.grid }, ticks:{ color:cc.text, font:{size:10} } },
+      y: { grid:{ color:cc.grid }, ticks:{ color:cc.text, font:{size:10}, callback: v => fmt(v) } }
+    };
+  }
+  function dScalesH() {
+    const cc = chartColors();
+    return {
+      x: { grid:{ color:cc.grid }, ticks:{ color:cc.text, font:{size:9}, callback: v => fmt(v) } },
+      y: { grid:{ display:false }, ticks:{ color: isLight()?'#374151':'#c8d4e8', font:{size:9} } }
+    };
+  }
+  function dLegend() { return { labels:{ color: isLight()?'#475569':'#7b8499', boxWidth:10, font:{size:10} } }; }
+  function dTip(fn)  { return { callbacks:{ label: fn } }; }
+
+  /* ================================================================
+     OVERVIEW
+  ================================================================ */
+  function renderOverview() {
+    const act24=a(2024), act25=a(2025), act26=a(2026);
+    // bAll() = BP full year (ignores month filter) · b() = BP filtered by selected month
+    const bp26=bAll(2026), bp25=bAll(2025);
+    const bp26m=b(2026); // BP for currently selected month (or full year if no month filter)
+    const s24=sum(act24,mCol()), s25=sum(act25,mCol()), s26=sum(act26,mCol()),
+          s26b=sum(bp26,mCol()), s26bm=sum(bp26m,mCol()), s25b=sum(bp25,mCol());
+
+    // Detect latest month with actual data
+    const latestYr  = [...new Set(_filt.filter(isActual).map(rowYear).filter(Boolean))].sort().pop() || '2026';
+    const latestMon = [...new Set(_filt.filter(r => isActual(r) && rowYear(r)===latestYr).map(getMonthNum).filter(Boolean))].sort((a,b)=>b-a)[0] || 1;
+    const latestLbl = MN[latestMon-1] + ' ' + latestYr;
+    const lAct  = sum(_filt.filter(r => isActual(r) && rowYear(r)===latestYr && getMonthNum(r)===latestMon), mCol());
+    // lBP: actual BP for the detected latest month (from full-year BP rows, filtered to that month)
+    const lBP   = sum(bp26.filter(r => getMonthNum(r) === latestMon), mCol());
+    const lPrev = sum(_filt.filter(r => isActual(r) && rowYear(r)===String(+latestYr-1) && getMonthNum(r)===latestMon), mCol());
+    const achPct = lBP ? (lAct/lBP)*100 : NaN;
+
+    /* KPIs */
+    document.getElementById('kpi-row').innerHTML = `
+      <div class="kpi-card">
+        <div class="kpi-label">Real ${latestLbl}</div>
+        <div class="kpi-value">${fmt(lAct)}</div>
+        <div class="kpi-delta">${pctHtml(pct(lAct,lPrev))} vs ${MN[latestMon-1]} ${+latestYr-1}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">BP ${latestLbl}</div>
+        <div class="kpi-value">${fmt(lBP)}</div>
+        <div class="kpi-delta" style="color:#4a5680;">Target</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">% Ach ${latestLbl}</div>
+        <div class="kpi-value" style="color:${achPct>=100?C_2026:achPct>=80?C_BP:C_RED}">${isFinite(achPct)?achPct.toFixed(0)+'%':'—'}</div>
+        <div class="kpi-delta"><span class="warn">Gap ${fmt(lAct-lBP)}</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Rev 2025</div>
+        <div class="kpi-value">${fmt(s25)}</div>
+        <div class="kpi-delta">${pctHtml(pct(s25,s24))} vs 2024</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">BP 2026 Full</div>
+        <div class="kpi-value">${fmt(s26b)}</div>
+        <div class="kpi-delta">${pctHtml(pct(s26b,s25))} vs Real 2025</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg Monthly 2025</div>
+        <div class="kpi-value">${fmt(s25/12)}</div>
+        <div class="kpi-delta" style="color:#4a5680;">${latestLbl}: ${fmt(lAct)}</div>
+      </div>`;
+
+    /* Revenue Comparison — 4 bars: Full 2024 | Full 2025 | Current Period Real | BP (month-filtered or full year) */
+    const revBP    = F.month ? s26bm : s26b;
+    const revBPLbl = F.month ? latestLbl+' BP' : 'BP 2026 Full';
+    const qtyArr   = [sum(act24,C.qty), sum(act25,C.qty), sum(act26,C.qty), F.month ? sum(bp26m,C.qty) : sum(bp26,C.qty)];
+    mkChart('ch-revenue-cmp', {
+      type:'bar',
+      data:{
+        labels:['Full 2024','Full 2025', latestLbl+' Real', revBPLbl],
+        datasets:[{ data:[s24, s25, lAct, revBP],
+          backgroundColor:[C_2024+'cc',C_2025+'cc',C_2026+'cc',C_BP+'cc'],
+          borderRadius:4, borderSkipped:false }]
+      },
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{ display:false },
+          datalabels:{ display:true, anchor:'end', align:'top',
+            color: isLight()?'#374151':'#c8d4e8', font:{size:10,weight:'700'}, formatter: v => fmt(v) },
+          tooltip:{ callbacks:{ label: ctx => {
+            const q = qtyArr[ctx.dataIndex];
+            return `${fmt(ctx.parsed.y)}` + (q ? ` | Qty: ${Math.round(q).toLocaleString()}` : '');
+          }}}
+        },
+        scales: dScalesY()
+      }
+    });
+
+    /* Monthly Trend — line chart.
+       BP 2026 is stored as annual totals (Mês=12) → show flat monthly avg line.
+       mSumsActual uses _filt (month-filtered), but for all-months view shows full trend. */
+    function mSums(rows) {
+      return Array.from({length:12}, (_,i) => sum(rows.filter(r => getMonthNum(r)===i+1), mCol()) || null);
+    }
+    function mSumsQty(rows) {
+      return Array.from({length:12}, (_,i) => sum(rows.filter(r => getMonthNum(r)===i+1), C.qty) || 0);
+    }
+    // For monthly trend, use all actual data (not month-filtered) so the trend is always complete
+    const allAct24=_all.filter(r=>isActual(r)&&rowYear(r)==='2024');
+    const allAct25=_all.filter(r=>isActual(r)&&rowYear(r)==='2025');
+    const allAct26=_all.filter(r=>isActual(r)&&rowYear(r)==='2026');
+    // Apply family/country/branch/customer/category/subcat/sku filters but NOT year/month
+    function applyNonTemporalFilters(rows) {
+      return rows.filter(r => {
+        if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
+        if (F.country  && C.country  && norm(r[C.country])  !== norm(F.country))  return false;
+        if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))   return false;
+        if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer)) return false;
+        if (F.category && C.category && norm(r[C.category]) !== norm(F.category)) return false;
+        if (F.subcat   && C.subcat   && norm(r[C.subcat])   !== norm(F.subcat))   return false;
+        if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))       return false;
+        return true;
+      });
+    }
+    const tAct24=applyNonTemporalFilters(allAct24);
+    const tAct25=applyNonTemporalFilters(allAct25);
+    const tAct26=applyNonTemporalFilters(allAct26);
+    // Monthly BP — use _all (bypass month filter), apply non-temporal filters
+    const allBP26 = _all.filter(r => isBP(r) && rowYear(r)==='2026');
+    const tBP26   = applyNonTemporalFilters(allBP26);
+    mkChart('ch-timeline', {
+      type:'line',
+      data:{
+        labels: MN,
+        datasets:[
+          { label:'2024',     data:mSums(tAct24), borderColor:C_2024, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
+          { label:'2025',     data:mSums(tAct25), borderColor:C_2025, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
+          { label:'2026 YTD', data:mSums(tAct26), borderColor:C_2026, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3 },
+          { label:'BP 2026',  data:mSums(tBP26),  borderColor:C_BP,   backgroundColor:'transparent', borderWidth:1.5, borderDash:[4,3], pointRadius:2, tension:.3 },
+        ]
+      },
+      options:{ responsive:true, maintainAspectRatio:false,
+        plugins:{ legend: dLegend(), datalabels:{display:false},
+          tooltip:{ callbacks:{ label: ctx => {
+            const v = ctx.parsed.y;
+            if (!isFinite(v)) return '';
+            const qData = ctx.datasetIndex===0 ? mSumsQty(tAct24) : ctx.datasetIndex===1 ? mSumsQty(tAct25) : ctx.datasetIndex===2 ? mSumsQty(tAct26) : ctx.datasetIndex===3 ? mSumsQty(tBP26) : null;
+            const q = qData ? qData[ctx.dataIndex] : null;
+            return `${ctx.dataset.label}: ${fmt(v)}` + (q ? ` | Qty: ${Math.round(q).toLocaleString()}` : '');
+          }}}
+        },
+        scales: dScalesY()
+      }
+    });
+
+    /* Sales by Country & TB Branch table */
+    const act24all = _all.filter(r => isActual(r) && rowYear(r)==='2024');
+    const act25all = _all.filter(r => isActual(r) && rowYear(r)==='2025');
+    const act26all = _all.filter(r => isActual(r) && rowYear(r)==='2026');
+    const bp26all  = _all.filter(r => isBP(r)     && rowYear(r)==='2026');
+
+    if (C.country) {
+      const countries = [...new Set([...act24all,...act25all,...act26all].map(r=>r[C.country]).filter(Boolean))].sort();
+      const pct2 = (a,b) => b ? ((a-b)/Math.abs(b)*100).toFixed(0)+'%' : '—';
+      const pctTd2 = (a,b) => { const v=b?(a-b)/Math.abs(b)*100:NaN; return `<td class="r" style="color:${isFinite(v)?(v>=0?'#22c55e':'#ef4444'):'#4a5680'}">${isFinite(v)?(v>=0?'+':'')+v.toFixed(0)+'%':'—'}</td>`; };
+      const rows = countries.map(ct => {
+        const f = r => norm(r[C.country])===norm(ct);
+        const s24=sum(act24all.filter(f),mCol()), s25=sum(act25all.filter(f),mCol()),
+              s26=sum(act26all.filter(f),mCol()), sbp=sum(bp26all.filter(f),mCol());
+        if(!s24&&!s25&&!s26) return '';
+        return `<tr><td style="white-space:nowrap;">${ct}</td>
+          <td class="r">${fmt(s24)}</td><td class="r">${fmt(s25)}</td>${pctTd2(s25,s24)}
+          <td class="r">${fmt(s26)}</td>${pctTd2(s26,s25)}
+          <td class="r">${fmt(sbp)}</td>${pctTd2(s26,sbp)}</tr>`;
+      }).filter(Boolean);
+      document.getElementById('tbl-ov-country-branch').innerHTML = `
+        <div class="tbl-wrap" style="max-height:360px;overflow-y:auto;"><table class="tbl">
+          <thead><tr><th>Country</th><th class="r">2024</th><th class="r">2025</th><th class="r">YoY%</th>
+            <th class="r">2026 YTD</th><th class="r">YoY%</th><th class="r">BP 2026</th><th class="r">%vs BP</th></tr></thead>
+          <tbody>${rows.join('')}</tbody></table></div>`;
+    }
+  }
+
+  /* ================================================================
+     PRODUCTS
+  ================================================================ */
+  function renderProduct() {
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
+
+    /* Category — vertical grouped bars */
+    if (C.category) {
+      const catMap = aggBy(act25, r => r[C.category]);
+      const cats = topN(catMap, 15);
+      const cS24=cats.map(c=>sum(act24.filter(r=>norm(r[C.category])===norm(c)),mCol()));
+      const cS25=cats.map(c=>sum(act25.filter(r=>norm(r[C.category])===norm(c)),mCol()));
+      const cS26=cats.map(c=>sum(act26.filter(r=>norm(r[C.category])===norm(c)),mCol()));
+      mkChart('ch-category-bar', { type:'bar',
+        data:{ labels:cats, datasets:[
+          {label:'2024',     data:cS24, backgroundColor:C_2024+'99', borderRadius:3},
+          {label:'2025',     data:cS25, backgroundColor:C_2025+'cc', borderRadius:3},
+          {label:'2026 YTD', data:cS26, backgroundColor:C_2026+'cc', borderRadius:3},
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false,
+          plugins:{
+            legend: dLegend(),
+            datalabels:{ display:true, anchor:'end', align:'top', color:'#9aa5bc', font:{size:8,weight:'600'}, formatter: v => v>0 ? fmtShort(v) : '' },
+            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.y)}` } }
+          },
+          scales: dScalesY()
+        }
+      });
+    }
+
+    /* Sub-category — horizontal bars with value + YoY labels (top 20) */
+    if (C.subcat) {
+      const scMap = aggBy(act25, r => r[C.subcat]);
+      const scs = topN(scMap, 20);
+      const scS24=scs.map(s=>sum(act24.filter(r=>norm(r[C.subcat])===norm(s)),mCol()));
+      const scS25=scs.map(s=>sum(act25.filter(r=>norm(r[C.subcat])===norm(s)),mCol()));
+      const scS26=scs.map(s=>sum(act26.filter(r=>norm(r[C.subcat])===norm(s)),mCol()));
+      const scQ24=scs.map(s=>sum(act24.filter(r=>norm(r[C.subcat])===norm(s)),C.qty));
+      const scQ25=scs.map(s=>sum(act25.filter(r=>norm(r[C.subcat])===norm(s)),C.qty));
+      const scQ26=scs.map(s=>sum(act26.filter(r=>norm(r[C.subcat])===norm(s)),C.qty));
+      const scQtyByDs = [scQ24, scQ25, scQ26];
+      mkChart('ch-subcat-bar', { type:'bar',
+        data:{ labels:scs, datasets:[
+          {label:'2024',     data:scS24, backgroundColor:C_2024+'88', borderRadius:2},
+          {label:'2025',     data:scS25, backgroundColor:C_2025+'cc', borderRadius:2},
+          {label:'2026 YTD', data:scS26, backgroundColor:C_2026+'cc', borderRadius:2},
+        ]},
+        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          plugins:{
+            legend: dLegend(),
+            datalabels:{
+              display: true, anchor:'end', align:'right',
+              color: isLight()?'#475569':'#9aa5bc', font:{size:8,weight:'600'},
+              formatter:(v, ctx) => {
+                if (ctx.datasetIndex === 1) {
+                  const v24 = ctx.chart.data.datasets[0].data[ctx.dataIndex] || 0;
+                  const g   = v24 ? ((v-v24)/Math.abs(v24)*100) : NaN;
+                  return fmtShort(v) + (isFinite(g) ? ' '+(g>=0?'+':'')+g.toFixed(0)+'%' : '');
+                }
+                if (ctx.datasetIndex === 2) return v > 0 ? fmtShort(v) : '';
+                return '';
+              }
+            },
+            tooltip:{ callbacks:{ label: ctx => {
+              const q = scQtyByDs[ctx.datasetIndex]?.[ctx.dataIndex];
+              return `${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` + (q ? ` | Qty: ${Math.round(q).toLocaleString()}` : '');
+            }}}
+          },
+          scales: dScalesH()
+        }
+      });
+    }
+
+    /* SKU table */
+    if (C.sku) {
+      const skuMap = aggBy(act25, r => r[C.sku]);
+      const skus = topN(skuMap, 50);
+      const kS24=skus.map(s=>sum(act24.filter(r=>norm(r[C.sku])===norm(s)),mCol()));
+      const kS25=skus.map(s=>sum(act25.filter(r=>norm(r[C.sku])===norm(s)),mCol()));
+      const kS26=skus.map(s=>sum(act26.filter(r=>norm(r[C.sku])===norm(s)),mCol()));
+      // Build a lookup: SKU → { desc, color, size } from 2025 actual rows
+      const skuMeta = {};
+      act25.forEach(r => {
+        const s = r[C.sku]; if(!s || skuMeta[s]) return;
+        skuMeta[s] = { desc: r['DESCRIPTION']||'', color: (r['COLOR']||'').toUpperCase(), size: (r['SIZE']||'').toUpperCase() };
+      });
+      document.getElementById('tbl-sku').innerHTML = `
+        <div class="tbl-wrap" style="max-height:400px;overflow-y:auto;"><table class="tbl">
+          <thead><tr><th>SKU</th><th>Description</th><th>Color</th><th>Size</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th></tr></thead>
+          <tbody>${skus.map((s,i)=>{const m=skuMeta[s]||{};return`<tr><td style="font-weight:600">${s}</td><td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.desc||''}</td><td style="font-size:10px;">${m.color||''}</td><td style="font-size:10px;">${m.size||''}</td><td class="r">${fmt(kS24[i])}</td><td class="r">${fmt(kS25[i])}</td>${pctTd(pct(kS25[i],kS24[i]))}<td class="r">${fmt(kS26[i])}</td>${pctTd(pct(kS26[i],kS25[i]))}</tr>`;}).join('')}
+          </tbody></table></div>`;
+    }
+
+    // Branch profile cards (if branch column is present and different from country)
+    if (C.branch && C.branch !== C.country && C.sku) {
+      const act25xc = _all.filter(r => {
+        if (rowYear(r) !== '2025' || !isActual(r)) return false;
+        if (F.family !== 'ALL' && C.family   && norm(r[C.family])   !== norm(F.family))   return false;
+        if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))    return false;
+        if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer))  return false;
+        if (F.category && C.category && norm(r[C.category]) !== norm(F.category))  return false;
+        if (F.subcat   && C.subcat   && norm(r[C.subcat])   !== norm(F.subcat))    return false;
+        if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))       return false;
+        return true;
+      });
+      const act25base = _all.filter(r => {
+        if (rowYear(r) !== '2025' || !isActual(r)) return false;
+        if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
+        if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))   return false;
+        if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer)) return false;
+        return true;
+      });
+      const brBaseMap = aggBy(act25base, r => r[C.branch]);
+      const skuMapG = aggBy(act25xc, r => r[C.sku]);
+      const topSKUs = topN(skuMapG, 20);
+      const brMapG = aggBy(act25xc, r => r[C.branch]);
+      const topBrs = topN(brMapG, 8);
+      if (topBrs.length) {
+        document.getElementById('sec-branch-profiles').style.display = '';
+        let html = '<div class="country-profile-grid">';
+        topBrs.forEach(grp => {
+          const grpRows  = act25xc.filter(r => norm(r[C.branch]) === norm(grp));
+          const grpBase  = brBaseMap[grp] || brMapG[grp] || 1;
+          const grpTot   = brMapG[grp] || grpBase;
+          const gSkuMap  = aggBy(grpRows, r => r[C.sku]);
+          const top5     = topN(gSkuMap, 5);
+          let cumPct = 0;
+          const rowsH = top5.map((s, i) => {
+            const v  = gSkuMap[s] || 0;
+            const p  = v / grpBase * 100;
+            cumPct  += p;
+            const bw = Math.min(Math.round(p * 4), 100);
+            return `<tr>
+              <td style="padding:3px 8px;font-size:10px;font-weight:600;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis;" title="${s}">${i+1}. ${s}</td>
+              <td class="r" style="padding:3px 8px;font-size:10px;white-space:nowrap;">${fmtShort(v)}</td>
+              <td class="r" style="padding:3px 8px;font-size:10px;font-weight:700;white-space:nowrap;">${p.toFixed(1)}%</td>
+              <td style="padding:3px 8px;width:80px;"><div class="cp-bar" style="width:${bw}px;"></div></td>
+            </tr>`;
+          }).join('');
+          const zeroG = topSKUs.filter(s => (gSkuMap[s]||0) === 0).length;
+          const noteCls  = zeroG >= 6 ? 'cp-note warn' : 'cp-note';
+          const noteText = zeroG > 0
+            ? `⚠️ ${zeroG} of top-20 global SKUs have <strong>0 sales</strong> here.`
+            : `✅ All top-20 global SKUs sell here.`;
+          html += `
+            <div class="cp-card">
+              <div class="cp-card-title">${grp}</div>
+              <div class="cp-card-sub">${fmt(grpBase)} family revenue 2025${grpTot!==grpBase?' · <em style="font-style:normal;color:#4a90e2;">'+fmt(grpTot)+' filtered</em>':''} · Top 5 cover <strong>${cumPct.toFixed(0)}%</strong> of family</div>
+              <table class="tbl" style="margin:0;">
+                <thead><tr><th>SKU</th><th class="r">Revenue</th><th class="r">Mix%</th><th></th></tr></thead>
+                <tbody>${rowsH}</tbody>
+              </table>
+              <div class="${noteCls}">${noteText}</div>
+            </div>`;
+        });
+        html += '</div>';
+        document.getElementById('div-branch-profiles').innerHTML = html;
+      }
+    }
+  }
+
+  /* ================================================================
+     CUSTOMERS
+  ================================================================ */
+  function renderCustomer() {
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
+    const _MN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const bpLbl = F.month ? (_MN[+F.month-1]||F.month)+' BP 26' : 'BP 2026';
+
+    if (C.customer) {
+      const custMap = aggBy(act25, r => r[C.customer]);
+      const custs = topN(custMap, 20);
+      const cS24=custs.map(c=>sum(act24.filter(r=>norm(r[C.customer])===norm(c)),mCol()));
+      const cS25=custs.map(c=>sum(act25.filter(r=>norm(r[C.customer])===norm(c)),mCol()));
+      const cS26=custs.map(c=>sum(act26.filter(r=>norm(r[C.customer])===norm(c)),mCol()));
+      const cBP =custs.map(c=>sum(bp26.filter(r=>norm(r[C.customer])===norm(c)),mCol()));
+      const tot25 = sum(act25,mCol())||1;
+
+      const cQ24=custs.map(c=>sum(act24.filter(r=>norm(r[C.customer])===norm(c)),C.qty));
+      const cQ25=custs.map(c=>sum(act25.filter(r=>norm(r[C.customer])===norm(c)),C.qty));
+      const cQ26=custs.map(c=>sum(act26.filter(r=>norm(r[C.customer])===norm(c)),C.qty));
+      const custQtyByDs = [cQ24, cQ25, cQ26, null];
+      mkChart('ch-customer-bar', { type:'bar',
+        data:{ labels:custs, datasets:[
+          {label:'2024',     data:cS24, backgroundColor:C_2024+'88', borderRadius:2},
+          {label:'2025',     data:cS25, backgroundColor:C_2025+'cc', borderRadius:2},
+          {label:'2026 YTD', data:cS26, backgroundColor:C_2026+'cc', borderRadius:2},
+          {label:bpLbl,      data:cBP,  backgroundColor:C_BP+'88',   borderRadius:2},
+        ]},
+        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          plugins:{ legend: dLegend(), datalabels:{display:false},
+            tooltip:{ callbacks:{ label: ctx => {
+              const qArr = custQtyByDs[ctx.datasetIndex];
+              const q = qArr ? qArr[ctx.dataIndex] : null;
+              return `${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` + (q ? ` | Qty: ${Math.round(q).toLocaleString()}` : '');
+            }}}
+          },
+          scales: dScalesH()
+        }
+      });
+
+      document.getElementById('tbl-customer').innerHTML = `
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Customer</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
+          <tbody>${custs.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(cS24[i])}</td><td class="r">${fmt(cS25[i])}</td>${pctTd(pct(cS25[i],cS24[i]))}<td class="r">${fmt(cS26[i])}</td>${pctTd(pct(cS26[i],cS25[i]))}<td class="r">${fmt(cBP[i])}</td>${pctTd(pct(cS26[i],cBP[i]))}<td class="r">${((cS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
+          </tbody></table></div>`;
+    }
+
+    if (C.custBP) {
+      document.getElementById('sec-custbp').style.display = '';
+      const bpMap = aggBy(act25, r => r[C.custBP]);
+      const bpCs  = topN(bpMap, 20);
+      const bcS24=bpCs.map(c=>sum(act24.filter(r=>norm(r[C.custBP])===norm(c)),mCol()));
+      const bcS25=bpCs.map(c=>sum(act25.filter(r=>norm(r[C.custBP])===norm(c)),mCol()));
+      const bcS26=bpCs.map(c=>sum(act26.filter(r=>norm(r[C.custBP])===norm(c)),mCol()));
+      const bcBP =bpCs.map(c=>sum(bp26.filter(r=>norm(r[C.custBP])===norm(c)),mCol()));
+      document.getElementById('tbl-customer-bp').innerHTML = `
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Customer BP</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th></tr></thead>
+          <tbody>${bpCs.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(bcS24[i])}</td><td class="r">${fmt(bcS25[i])}</td>${pctTd(pct(bcS25[i],bcS24[i]))}<td class="r">${fmt(bcS26[i])}</td>${pctTd(pct(bcS26[i],bcS25[i]))}<td class="r">${fmt(bcBP[i])}</td>${pctTd(pct(bcS26[i],bcBP[i]))}</tr>`).join('')}
+          </tbody></table></div>`;
+    }
+
+    if (C.channel) {
+      document.getElementById('sec-channel').style.display = '';
+      const chNMap = {};
+      act25.forEach(r => { const nk=norm(r[C.channel]); if (!chNMap[nk]) chNMap[nk]=r[C.channel]; });
+      const chAgg = aggBy(act25, r => norm(r[C.channel]));
+      const chs   = topN(chAgg, 12);
+      const chLbls = chs.map(nk => chNMap[nk] || nk);
+      const chS24=chs.map(nk=>sum(act24.filter(r=>norm(r[C.channel])===nk),mCol()));
+      const chS25=chs.map(nk=>sum(act25.filter(r=>norm(r[C.channel])===nk),mCol()));
+      const chS26=chs.map(nk=>sum(act26.filter(r=>norm(r[C.channel])===nk),mCol()));
+      const chBP =chs.map(nk=>sum(bp26.filter(r=>norm(r[C.channel])===nk),mCol()));
+      const tot25 = sum(act25,mCol())||1;
+      mkChart('ch-channel-donut', { type:'doughnut',
+        data:{ labels:chLbls, datasets:[{ data:chS25, backgroundColor:PALETTE, borderWidth:0 }] },
+        options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
+          plugins:{ legend:{ position:'right', labels:{ color:'#7b8499', boxWidth:9, font:{size:10} } },
+            datalabels:{display:false}, tooltip:{ callbacks:{ label: ctx=>`${ctx.label}: ${fmt(ctx.parsed)} (${((ctx.parsed/tot25)*100).toFixed(1)}%)` } } } }
+      });
+      document.getElementById('tbl-channel').innerHTML = `
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Channel</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
+          <tbody>${chLbls.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(chS24[i])}</td><td class="r">${fmt(chS25[i])}</td>${pctTd(pct(chS25[i],chS24[i]))}<td class="r">${fmt(chS26[i])}</td>${pctTd(pct(chS26[i],chS25[i]))}<td class="r">${fmt(chBP[i])}</td>${pctTd(pct(chS26[i],chBP[i]))}<td class="r">${((chS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
+          </tbody></table></div>`;
+    }
+  }
+
+  /* ================================================================
+     GEOGRAPHY
+  ================================================================ */
+  function renderRegion() {
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
+    const _MN2 = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const bpLbl = F.month ? (_MN2[+F.month-1]||F.month)+' BP 26' : 'BP 2026';
+
+    if (C.country) {
+      const ctMap = aggBy(act25, r => r[C.country]);
+      const cts   = topN(ctMap, 20);
+      const ctS24=cts.map(c=>sum(act24.filter(r=>norm(r[C.country])===norm(c)),mCol()));
+      const ctS25=cts.map(c=>sum(act25.filter(r=>norm(r[C.country])===norm(c)),mCol()));
+      const ctS26=cts.map(c=>sum(act26.filter(r=>norm(r[C.country])===norm(c)),mCol()));
+      const ctBP =cts.map(c=>sum(bp26.filter(r=>norm(r[C.country])===norm(c)),mCol()));
+      const tot25 = sum(act25,mCol())||1;
+      document.getElementById('tbl-country').innerHTML = `
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Country</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
+          <tbody>${cts.map((c,i)=>`<tr><td>${c}</td><td class="r">${fmt(ctS24[i])}</td><td class="r">${fmt(ctS25[i])}</td>${pctTd(pct(ctS25[i],ctS24[i]))}<td class="r">${fmt(ctS26[i])}</td>${pctTd(pct(ctS26[i],ctS25[i]))}<td class="r">${fmt(ctBP[i])}</td>${pctTd(pct(ctS26[i],ctBP[i]))}<td class="r">${((ctS25[i]/tot25)*100).toFixed(1)}%</td></tr>`).join('')}
+          </tbody></table></div>`;
+    }
+
+    if (C.branch) {
+      document.getElementById('sec-branch').style.display = '';
+      const brMap = aggBy(act25, r => r[C.branch]);
+      const brs   = topN(brMap, 15);
+      const brS24=brs.map(b=>sum(act24.filter(r=>norm(r[C.branch])===norm(b)),mCol()));
+      const brS25=brs.map(b=>sum(act25.filter(r=>norm(r[C.branch])===norm(b)),mCol()));
+      const brS26=brs.map(b=>sum(act26.filter(r=>norm(r[C.branch])===norm(b)),mCol()));
+      const brBP =brs.map(b=>sum(bp26.filter(r=>norm(r[C.branch])===norm(b)),mCol()));
+      document.getElementById('tbl-branch').innerHTML = `
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>TB Branch</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th></tr></thead>
+          <tbody>${brs.map((b,i)=>`<tr><td>${b}</td><td class="r">${fmt(brS24[i])}</td><td class="r">${fmt(brS25[i])}</td>${pctTd(pct(brS25[i],brS24[i]))}<td class="r">${fmt(brS26[i])}</td>${pctTd(pct(brS26[i],brS25[i]))}<td class="r">${fmt(brBP[i])}</td>${pctTd(pct(brS26[i],brBP[i]))}</tr>`).join('')}
+          </tbody></table></div>`;
+
+      /* ── Top 10 products per TB Branch ── */
+      if (C.sku && C.desc) {
+        const secTop = document.getElementById('sec-branch-top10');
+        const tblTop = document.getElementById('tbl-branch-top10');
+        if (secTop && tblTop) {
+          secTop.style.display = '';
+          // Build: for each branch, top-10 SKUs by 2025 revenue
+          const branchesTop = brs.slice(0, 8); // show up to 8 branches
+          let html = '';
+          for (const br of branchesTop) {
+            const brRows25 = act25.filter(r => norm(r[C.branch]) === norm(br));
+            const skuMap = aggBy(brRows25, r => r[C.sku]);
+            const topSkus = topN(skuMap, 10);
+            if (!topSkus.length) continue;
+            html += `<div style="margin-bottom:20px;">
+              <div style="font-size:13px;font-weight:700;color:#7b9cff;margin-bottom:6px;padding:4px 8px;background:rgba(74,90,218,.12);border-radius:6px;">${br}</div>
+              <div class="tbl-wrap"><table class="tbl">
+                <thead><tr><th>SKU</th><th>Description</th><th class="r">2025 Rev</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">Units 25</th></tr></thead>
+                <tbody>${topSkus.map(sk => {
+                  const r25 = sum(brRows25.filter(r=>norm(r[C.sku])===norm(sk)), mCol());
+                  const r26 = sum(act26.filter(r=>norm(r[C.branch])===norm(br)&&norm(r[C.sku])===norm(sk)), mCol());
+                  const q25 = sum(brRows25.filter(r=>norm(r[C.sku])===norm(sk)), C.qty);
+                  const dsc = brRows25.find(r=>norm(r[C.sku])===norm(sk))?.[C.desc] || '';
+                  return `<tr><td>${sk}</td><td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${dsc}">${dsc}</td><td class="r">${fmt(r25)}</td><td class="r">${fmt(r26)}</td>${pctTd(pct(r26,r25))}<td class="r">${Math.round(q25).toLocaleString()}</td></tr>`;
+                }).join('')}</tbody>
+              </table></div>
+            </div>`;
+          }
+          tblTop.innerHTML = html || '<p style="color:#4a5680;">No branch data available.</p>';
+        }
+      }
+    } else {
+      const secTop = document.getElementById('sec-branch-top10');
+      if (secTop) secTop.style.display = 'none';
+    }
+
+    /* ── Size analysis ── */
+    {
+      const sizeQty25 = {};
+      act25.forEach(r => { const s=(r['SIZE']||'').trim().toUpperCase(); if(s) sizeQty25[s]=(sizeQty25[s]||0)+num(r[C.qty]); });
+      const sizes = Object.entries(sizeQty25).sort((a,b)=>b[1]-a[1]).slice(0,20).map(e=>e[0]);
+      const szQ24 = sizes.map(s => sum(act24.filter(r => (r['SIZE']||'').trim().toUpperCase() === s), C.qty));
+      const szQ25 = sizes.map(s => sum(act25.filter(r => (r['SIZE']||'').trim().toUpperCase() === s), C.qty));
+      const szQ26 = sizes.map(s => sum(act26.filter(r => (r['SIZE']||'').trim().toUpperCase() === s), C.qty));
+      mkChart('ch-size-bar', { type:'bar',
+        data:{ labels:sizes, datasets:[
+          {label:'2024', data:szQ24, backgroundColor:C_2024+'99', borderRadius:3},
+          {label:'2025', data:szQ25, backgroundColor:C_2025+'cc', borderRadius:3},
+          {label:'2026 YTD', data:szQ26, backgroundColor:C_2026+'cc', borderRadius:3},
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false,
+          plugins:{
+            legend: dLegend(),
+            datalabels:{ display:true, anchor:'end', align:'top', color:'#9aa5bc', font:{size:8,weight:'600'}, formatter: v => v>0 ? Math.round(v).toLocaleString() : '' },
+            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${Math.round(ctx.parsed.y).toLocaleString()} units` } }
+          },
+          scales: { x:{grid:{color:chartColors().grid},ticks:{color:chartColors().text,font:{size:10}}},
+                    y:{grid:{color:chartColors().grid},ticks:{color:chartColors().text,font:{size:10},callback:v=>v>=1000?(v/1000).toFixed(1)+'K':v}} }
+        }
+      });
+    }
+
+    /* ── Color analysis ── */
+    {
+      const colorQty25 = {};
+      act25.forEach(r => { const c=(r['COLOR']||'').trim().toUpperCase(); if(c) colorQty25[c]=(colorQty25[c]||0)+num(r[C.qty]); });
+      const colors = Object.entries(colorQty25).sort((a,b)=>b[1]-a[1]).slice(0,20).map(e=>e[0]);
+      const colQ24 = colors.map(c => sum(act24.filter(r => (r['COLOR']||'').trim().toUpperCase() === c), C.qty));
+      const colQ25 = colors.map(c => sum(act25.filter(r => (r['COLOR']||'').trim().toUpperCase() === c), C.qty));
+      const colQ26 = colors.map(c => sum(act26.filter(r => (r['COLOR']||'').trim().toUpperCase() === c), C.qty));
+      mkChart('ch-color-bar', { type:'bar',
+        data:{ labels:colors, datasets:[
+          {label:'2024', data:colQ24, backgroundColor:C_2024+'99', borderRadius:3},
+          {label:'2025', data:colQ25, backgroundColor:C_2025+'cc', borderRadius:3},
+          {label:'2026 YTD', data:colQ26, backgroundColor:C_2026+'cc', borderRadius:3},
+        ]},
+        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          plugins:{
+            legend: dLegend(),
+            datalabels:{ display:true, anchor:'end', align:'right', color:'#9aa5bc', font:{size:8,weight:'600'}, formatter:(v,ctx)=>ctx.datasetIndex===1&&v>0?Math.round(v).toLocaleString():'' },
+            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${Math.round(ctx.parsed.x).toLocaleString()} units` } }
+          },
+          scales: dScalesH()
+        }
+      });
+    }
+  }
+
+  /* ================================================================
+     INSIGHTS — rich, data-driven analysis
+  ================================================================ */
+  function renderInsights() {
+    const LATAM_COUNTRIES = ['MEXICO','Brazil','ARGENTINA','Colombia','CHILE'];
+    const LATAM_NORM = ['mexico','brazil','brasil','argentina','colombia','chile'];
+    const isLatam = r => LATAM_NORM.includes(norm(r[C.country]||''));
+    const isGlobal = r => !isLatam(r);
+
+    const act25 = _all.filter(r => isActual(r) && rowYear(r)==='2025');
+    const act26 = _all.filter(r => isActual(r) && rowYear(r)==='2026');
+
+    // Global top SKUs by qty (non-LATAM)
+    const globalSkuQty = {};
+    act25.filter(isGlobal).forEach(r => {
+      const s = r[C.sku]; if(s) globalSkuQty[s] = (globalSkuQty[s]||0) + num(r[C.qty]);
+    });
+    const top30Global = Object.entries(globalSkuQty).sort((a,b)=>b[1]-a[1]).slice(0,30).map(e=>e[0]);
+
+    // SKU metadata
+    const skuMeta2 = {};
+    act25.forEach(r => {
+      const s=r[C.sku]; if(!s||skuMeta2[s]) return;
+      skuMeta2[s] = { desc:r['DESCRIPTION']||s, family:r['FAMILY']||'', cat:r[C.category]||'' };
+    });
+
+    const fmtQ = v => v >= 1000 ? (v/1000).toFixed(1)+'K' : Math.round(v).toString();
+
+    const countryCards = LATAM_COUNTRIES.map(ct => {
+      const ctNorm = norm(ct);
+      const ctRows25 = act25.filter(r => norm(r[C.country]||'')=== ctNorm || (ctNorm==='brazil'&&norm(r[C.country]||'')==='brasil'));
+      const ctRows26 = act26.filter(r => norm(r[C.country]||'')=== ctNorm || (ctNorm==='brazil'&&norm(r[C.country]||'')==='brasil'));
+
+      // SKU qty for this country
+      const ctSkuQty = {};
+      ctRows25.forEach(r => { const s=r[C.sku]; if(s) ctSkuQty[s]=(ctSkuQty[s]||0)+num(r[C.qty]); });
+      const ctTotal25 = Object.values(ctSkuQty).reduce((a,b)=>a+b,0)||1;
+
+      // Insight 1: Global top sellers with 0 or low sales here
+      const globalOpps = top30Global
+        .filter(s => !ctSkuQty[s] || ctSkuQty[s] < (globalSkuQty[s]||1) * 0.05)
+        .slice(0, 5)
+        .map(s => `<li><strong>${s}</strong> — ${skuMeta2[s]?.desc||''} <span style="color:#4a90e2">(global ${fmtQ(globalSkuQty[s]||0)} units/yr)</span></li>`);
+
+      // Insight 2: Slow movers in this country (low qty, present in 2025 but declining)
+      const ctSkuQty26 = {};
+      ctRows26.forEach(r => { const s=r[C.sku]; if(s) ctSkuQty26[s]=(ctSkuQty26[s]||0)+num(r[C.qty]); });
+      const slowMovers = Object.entries(ctSkuQty)
+        .filter(([s,q]) => q < ctTotal25 * 0.005 && q < 20) // less than 0.5% of country sales AND < 20 units
+        .sort((a,b)=>a[1]-b[1]).slice(0,5)
+        .map(([s,q]) => `<li><strong>${s}</strong> — ${skuMeta2[s]?.desc||''} <span style="color:#ef4444">(${fmtQ(q)} units in 2025)</span></li>`);
+
+      // Insight 3: Strong sellers here vs other LATAM
+      const otherLatamQty = {};
+      act25.filter(r => isLatam(r) && norm(r[C.country]||'')!==ctNorm && !(ctNorm==='brazil'&&norm(r[C.country]||'')==='brasil')).forEach(r => {
+        const s=r[C.sku]; if(s) otherLatamQty[s]=(otherLatamQty[s]||0)+num(r[C.qty]);
+      });
+      const uniqueHere = Object.entries(ctSkuQty)
+        .filter(([s,q]) => q > 30 && (!otherLatamQty[s] || otherLatamQty[s] < q * 0.3))
+        .sort((a,b)=>b[1]-a[1]).slice(0,4)
+        .map(([s,q]) => `<li><strong>${s}</strong> — ${skuMeta2[s]?.desc||''} <span style="color:#22c55e">(${fmtQ(q)} units here vs ${fmtQ(otherLatamQty[s]||0)} other LATAM)</span></li>`);
+
+      const cc = chartColors();
+      return `<div style="background:${cc.card||'#141b2d'};border:1px solid ${cc.border||'#1e2940'};border-radius:12px;padding:18px;min-width:280px;flex:1;">
+        <div style="font-weight:700;font-size:15px;margin-bottom:12px;color:${cc.text||'#c8d4e8'}">${ct}</div>
+        ${globalOpps.length?`<div style="margin-bottom:12px;"><div style="font-size:11px;font-weight:700;color:#4a90e2;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">🌍 Global hits — low LATAM penetration</div><ul style="margin:0;padding-left:16px;font-size:11px;line-height:1.8;color:${cc.text||'#c8d4e8'}">${globalOpps.join('')}</ul></div>`:''}
+        ${uniqueHere.length?`<div style="margin-bottom:12px;"><div style="font-size:11px;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">🚀 Strong here — push to other LATAM</div><ul style="margin:0;padding-left:16px;font-size:11px;line-height:1.8;color:${cc.text||'#c8d4e8'}">${uniqueHere.join('')}</ul></div>`:''}
+        ${slowMovers.length?`<div><div style="font-size:11px;font-weight:700;color:#ef4444;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">⚠️ Slow movers — consider discontinuing</div><ul style="margin:0;padding-left:16px;font-size:11px;line-height:1.8;color:${cc.text||'#c8d4e8'}">${slowMovers.join('')}</ul></div>`:''}
+        ${!globalOpps.length&&!slowMovers.length&&!uniqueHere.length?'<div style="color:#4a5680;font-size:12px;">No significant insights for current filter.</div>':''}
+      </div>`;
+    });
+
+    document.getElementById('insights-grid').style.cssText = 'display:flex;flex-wrap:wrap;gap:16px;padding:8px 0;';
+    document.getElementById('insights-grid').innerHTML = countryCards.join('');
+  }
+
+  /* ================================================================
+     BUFFER & STOCK — TB LATAM coverage analysis
+  ================================================================ */
+  function renderBuffer() {
+    const LATAM5_NORM = ['mexico','brazil','brasil','argentina','colombia','chile'];
+    const isLatam5 = r => LATAM5_NORM.includes(norm(r[C.country]||''));
+    const isBonded = r => norm(r['COUNTRY 2']||'') === 'bonded';
+    const isLatamStk = r => isBonded(r) || (norm(r['COUNTRY 2']||'')==='tb latam' && isLatam5(r));
+    const isLatamBuf = r => norm(r['COUNTRY 2']||'')==='tb latam' && isLatam5(r);
+    const isLatamReal = r => isLatam5(r);
+
+    const ctFilter = _bufCountry !== 'ALL' ? norm(_bufCountry) : null;
+
+    const applyBufFilters = rows => rows.filter(r => {
+      if (F.family !== 'ALL' && C.family && norm(r[C.family]||'') !== norm(F.family)) return false;
+      if (ctFilter && C.country && !isBonded(r)) {
+        if (norm(r[C.country]||'') !== ctFilter) return false;
+      }
+      if (F.category && C.category && norm(r[C.category]||'') !== norm(F.category)) return false;
+      if (F.subcat && C.subcat && norm(r[C.subcat]||'') !== norm(F.subcat)) return false;
+      if (F.sku && C.sku && norm(r[C.sku]||'') !== norm(F.sku)) return false;
+      return true;
+    });
+
+    const stkRows = applyBufFilters(_all.filter(r => (r['TYPE']||'').toUpperCase()==='STOCK' && isLatamStk(r)));
+    const bufRows = applyBufFilters(_all.filter(r => (r['TYPE']||'').toUpperCase()==='BUFFER' && isLatamBuf(r)));
+    // Real sales: for country filter use country; for ALL use all LATAM
+    const realFilter = r => {
+      if (!isActual(r) || rowYear(r)!=='2025' || !isLatamReal(r)) return false;
+      if (ctFilter) return norm(r[C.country]||'')=== ctFilter;
+      return true;
+    };
+    const real25 = applyBufFilters(_all.filter(realFilter));
+
+    const allSKUs = [...new Set([...stkRows,...bufRows].map(r=>r['SKU 2']).filter(Boolean))].sort();
+
+    // Find the Mês key (handles encoding variations)
+    const mesKey = stkRows.length ? Object.keys(stkRows[0]).find(k => k.startsWith('M') && k.toLowerCase().endsWith('s')) || 'Mês' : 'Mês';
+
+    const bufMonths = [...new Set(bufRows.map(r=>{
+      const y=String(r['Ano']||''), m=String(r[mesKey]||'').padStart(2,'0');
+      return y&&m!=='00'?y+'-'+m:null;
+    }).filter(Boolean))].sort();
+
+    const MN2=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const monLbl=ym=>{const[y,m]=ym.split('-');return(MN2[+m-1]||m)+' '+y;};
+
+    let totStockQty=0, totStockValue=0, totStockCBM=0, totBufQty=0;
+    const fmtN=v=>v==null?'—':v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0);
+
+    const tableData = allSKUs.map(sku => {
+      const sRows=stkRows.filter(r=>r['SKU 2']===sku);
+      const bRows=bufRows.filter(r=>r['SKU 2']===sku);
+      const rRows=real25.filter(r=>(r[C.sku]||r['SKU 2'])===sku);
+
+      const desc   = sRows[0]?.['DESCRIPTION'] || bRows[0]?.['DESCRIPTION'] || '';
+      const cat    = sRows[0]?.[C.category]    || bRows[0]?.[C.category]    || '';
+      const subcat = sRows[0]?.[C.subcat]      || bRows[0]?.[C.subcat]      || '';
+      const family = sRows[0]?.['FAMILY']      || bRows[0]?.['FAMILY']      || '';
+
+      const stockQty = sRows.reduce((s,r)=>s+num(r['QUANTITY']),0);
+      const stockValue = sRows.reduce((s,r)=>{
+        const c=(numCost(r['COST USD']||'')||numCost(r['COST']||''));
+        return s+num(r['QUANTITY'])*c;
+      },0);
+      const unitCBM = sRows.length?num(sRows[0]['CBM']||'0'):(bRows.length?num(bRows[0]['CBM']||'0'):0);
+      const totalCBM = stockQty*unitCBM;
+
+      const avg25 = rRows.reduce((s,r)=>s+num(r[C.qty]),0)/12;
+
+      const bufByMon={};
+      bRows.forEach(r=>{
+        const y=String(r['Ano']||''),m=String(r[mesKey]||'').padStart(2,'0');
+        const key=y&&m!=='00'?y+'-'+m:'unknown';
+        bufByMon[key]=(bufByMon[key]||0)+num(r['QUANTITY']);
+      });
+      const totalBuf=Object.values(bufByMon).reduce((s,v)=>s+v,0);
+
+      const cov=(qty,avg)=>avg>0?+(qty/avg).toFixed(1):null;
+      const covNow=cov(stockQty,avg25);
+      let cumQty=stockQty;
+      const covByMon={};
+      bufMonths.forEach(ym=>{cumQty+=(bufByMon[ym]||0);covByMon[ym]=cov(cumQty,avg25);});
+
+      totStockQty+=stockQty; totStockValue+=stockValue; totStockCBM+=totalCBM; totBufQty+=totalBuf;
+
+      let suggestion=null;
+      if(avg25>0){
+        const c=covNow||0;
+        if(c<1.5) suggestion={type:'push',text:'High velocity, low coverage → push now'};
+        else if(c>6&&avg25<5) suggestion={type:'disc',text:'Slow mover + excess stock → discontinue candidate'};
+        else if(c>4&&avg25>=10) suggestion={type:'push',text:'High stock + strong sales → marketing push'};
+      } else if(stockQty>50) {
+        suggestion={type:'disc',text:'No 2025 LATAM sales + stock → discontinue candidate'};
+      }
+
+      return {sku,desc,cat,subcat,family,avg25,stockQty,stockValue,totalBuf,bufByMon,totalCBM,covNow,covByMon,suggestion};
+    });
+
+    // KPI cards — split Local LATAM vs BONDED
+    const localStkRows  = stkRows.filter(r => !isBonded(r));
+    const bondedStkRows = stkRows.filter(r =>  isBonded(r));
+    const calcStockTotals = rows => {
+      let qty=0, value=0, cbm=0;
+      rows.forEach(r => {
+        const q = num(r['QUANTITY']);
+        const c = numCost(r['COST USD']||'') || numCost(r['COST']||'');
+        const u = num(r['CBM']||'0');
+        qty += q; value += q*c; cbm += q*u;
+      });
+      return { qty, value, cbm, skus: new Set(rows.map(r=>r['SKU 2']).filter(Boolean)).size };
+    };
+    const lt = calcStockTotals(localStkRows);
+    const bt = calcStockTotals(bondedStkRows);
+    const fmtVal = v => '$'+(v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0));
+    const mkCard = (l,v,s,accent) => `<div class="kpi-card" style="min-width:130px;${accent?'border-color:'+accent+';':''}"><div class="kpi-label">${l}</div><div class="kpi-value" style="font-size:20px;">${v}</div><div class="kpi-delta" style="color:#4a5680;">${s}</div></div>`;
+    const localLabel = ctFilter ? (_bufCountry+' Local') : 'Local LATAM';
+    document.getElementById('buf-kpis').innerHTML =
+      `<div style="display:flex;gap:20px;flex-wrap:wrap;width:100%;">` +
+      `<div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:10px;font-weight:700;color:#4a90e2;text-transform:uppercase;letter-spacing:.07em;">📦 ${localLabel}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          ${mkCard('SKUs',lt.skus,'local stock','#4a90e2')}
+          ${mkCard('Stock Qty',fmtN(lt.qty),'units on hand','#4a90e2')}
+          ${mkCard('Stock Value',fmtVal(lt.value),'USD cost','#4a90e2')}
+          ${mkCard('CBM',lt.cbm.toFixed(1),'m³','#4a90e2')}
+        </div>
+      </div>` +
+      `<div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:10px;font-weight:700;color:#f59e0b;text-transform:uppercase;letter-spacing:.07em;">🏭 BONDED</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          ${mkCard('SKUs',bt.skus,'bonded stock','#f59e0b')}
+          ${mkCard('Stock Qty',fmtN(bt.qty),'units on hand','#f59e0b')}
+          ${mkCard('Stock Value',fmtVal(bt.value),'USD cost','#f59e0b')}
+          ${mkCard('CBM',bt.cbm.toFixed(1),'m³','#f59e0b')}
+        </div>
+      </div>` +
+      `<div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:10px;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:.07em;">🚚 Orders</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          ${mkCard('Orders Qty',fmtN(totBufQty),'units incoming','#22c55e')}
+        </div>
+      </div>` +
+      `</div>`;
+
+    // Suggestions
+    const pushItems=tableData.filter(r=>r.suggestion?.type==='push').slice(0,5);
+    const discItems=tableData.filter(r=>r.suggestion?.type==='disc').slice(0,5);
+    let sugHtml='';
+    if(pushItems.length||discItems.length){
+      sugHtml=`<div style="display:flex;gap:12px;flex-wrap:wrap;">`;
+      if(pushItems.length) sugHtml+=`<div style="flex:1;min-width:240px;background:#0f2217;border:1px solid #22c55e33;border-radius:10px;padding:14px;">
+        <div style="font-weight:700;font-size:12px;color:#22c55e;margin-bottom:8px;">🚀 Push Candidates</div>
+        ${pushItems.map(r=>`<div style="font-size:11px;padding:4px 0;border-bottom:1px solid #1a2940;"><strong>${r.sku}</strong> — ${r.desc.slice(0,40)} <span style="color:#22c55e">${r.suggestion.text}</span></div>`).join('')}</div>`;
+      if(discItems.length) sugHtml+=`<div style="flex:1;min-width:240px;background:#1f0f0f;border:1px solid #ef444433;border-radius:10px;padding:14px;">
+        <div style="font-weight:700;font-size:12px;color:#ef4444;margin-bottom:8px;">⚠️ Discontinue Candidates</div>
+        ${discItems.map(r=>`<div style="font-size:11px;padding:4px 0;border-bottom:1px solid #1a2940;"><strong>${r.sku}</strong> — ${r.desc.slice(0,40)} <span style="color:#ef4444">${r.suggestion.text}</span></div>`).join('')}</div>`;
+      sugHtml+=`</div>`;
+    }
+    document.getElementById('buf-suggestions').innerHTML=sugHtml;
+
+    // Sortable table
+    const covCol=v=>v==null?'#4a5680':v>=3?'#22c55e':v>=1.5?'#f59e0b':'#ef4444';
+    const covFmt=v=>v==null?'—':v.toFixed(1)+'mo';
+    const ordMonHdrs=bufMonths.map(ym=>`<th class="r sort-btn" data-col="buf_${ym}" title="Orders ${monLbl(ym)}">Orders<br>${monLbl(ym)}</th>`).join('');
+    const covHdrs=bufMonths.map(ym=>`<th class="r sort-btn" data-col="cov_${ym}">+${monLbl(ym)}</th>`).join('');
+
+    // Sort state stored on element
+    const wrap=document.getElementById('buf-table-wrap');
+    let sortCol=wrap._sortCol||'sku', sortDir=wrap._sortDir||1;
+
+    const sorted=[...tableData].sort((a,b)=>{
+      let va,vb;
+      if(sortCol==='sku'){va=a.sku;vb=b.sku;}
+      else if(sortCol==='desc'){va=a.desc;vb=b.desc;}
+      else if(sortCol==='avg25'){va=a.avg25;vb=b.avg25;}
+      else if(sortCol==='stock'){va=a.stockQty;vb=b.stockQty;}
+      else if(sortCol==='covNow'){va=a.covNow??-1;vb=b.covNow??-1;}
+      else if(sortCol==='value'){va=a.stockValue;vb=b.stockValue;}
+      else if(sortCol.startsWith('buf_')){const ym=sortCol.slice(4);va=a.bufByMon[ym]||0;vb=b.bufByMon[ym]||0;}
+      else if(sortCol.startsWith('cov_')){const ym=sortCol.slice(4);va=a.covByMon[ym]??-1;vb=b.covByMon[ym]??-1;}
+      else {va=a[sortCol]||0;vb=b[sortCol]||0;}
+      if(typeof va==='string') return sortDir*va.localeCompare(vb);
+      return sortDir*(va-vb);
+    });
+
+    const tbody=sorted.map(r=>{
+      const ordCells=bufMonths.map(ym=>`<td class="r">${r.bufByMon[ym]?fmtN(r.bufByMon[ym]):''}</td>`).join('');
+      const covCells=bufMonths.map(ym=>`<td class="r" style="color:${covCol(r.covByMon[ym])};font-weight:600;">${covFmt(r.covByMon[ym])}</td>`).join('');
+      const sugBadge=r.suggestion?`<span style="font-size:9px;padding:2px 6px;border-radius:8px;margin-left:4px;background:${r.suggestion.type==='push'?'#0f2217':'#1f0f0f'};color:${r.suggestion.type==='push'?'#22c55e':'#ef4444'}">${r.suggestion.type==='push'?'PUSH':'DISC'}</span>`:'';
+      return `<tr>
+        <td style="font-weight:600;white-space:nowrap;">${r.sku}${sugBadge}</td>
+        <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;" title="${r.desc}">${r.desc}</td>
+        <td style="font-size:10px;">${r.family}</td>
+        <td style="font-size:10px;">${r.cat}</td>
+        <td class="r">${r.avg25>0?r.avg25.toFixed(1):'—'}</td>
+        <td class="r" style="font-weight:600;">${fmtN(r.stockQty)}</td>
+        <td class="r">${r.stockValue>0?'$'+(r.stockValue>=1000?(r.stockValue/1000).toFixed(1)+'K':r.stockValue.toFixed(0)):''}</td>
+        ${ordCells}
+        <td class="r" style="color:${covCol(r.covNow)};font-weight:700;">${covFmt(r.covNow)}</td>
+        ${covCells}
+        <td class="r">${r.totalCBM>0?r.totalCBM.toFixed(1):''}</td>
+      </tr>`;
+    }).join('');
+
+    const arrowFor=col=>{if(col!==sortCol)return'↕';return sortDir===1?'↑':'↓';};
+    wrap.innerHTML=`<table class="tbl" id="buf-tbl" style="font-size:11px;min-width:900px;">
+      <thead><tr>
+        <th class="sort-btn" data-col="sku">SKU ${arrowFor('sku')}</th>
+        <th class="sort-btn" data-col="desc">Description ${arrowFor('desc')}</th>
+        <th>Family</th><th>Category</th>
+        <th class="r sort-btn" data-col="avg25">Avg Mo.<br>2025 ${arrowFor('avg25')}</th>
+        <th class="r sort-btn" data-col="stock">Stock<br>Qty ${arrowFor('stock')}</th>
+        <th class="r sort-btn" data-col="value">Stock<br>Value ${arrowFor('value')}</th>
+        ${ordMonHdrs}
+        <th class="r sort-btn" data-col="covNow" style="background:#1a2340;">Coverage<br>Now ${arrowFor('covNow')}</th>
+        ${covHdrs}
+        <th class="r">Total<br>CBM</th>
+      </tr></thead>
+      <tbody>${tbody}</tbody>
+    </table>`;
+
+    // Attach sort click handlers
+    wrap.querySelectorAll('th.sort-btn').forEach(th=>{
+      th.style.cursor='pointer';
+      th.addEventListener('click',()=>{
+        const col=th.dataset.col;
+        if(wrap._sortCol===col) wrap._sortDir=(wrap._sortDir||1)*-1;
+        else{wrap._sortCol=col;wrap._sortDir=-1;}
+        renderBuffer();
+      });
+    });
+    wrap._sortCol=sortCol; wrap._sortDir=sortDir;
+  }
+
+  /* ================================================================
+     POPULATE FILTER DROPDOWNS
+  ================================================================ */
+  /* Rebuilds Category / Sub-Cat / SKU dropdown OPTIONS to match the current
+     Family + Category selection. Called after every applyFilters() so the user
+     only sees relevant choices. Does NOT trigger a re-render. */
+  function refreshDependentFilters() {
+    if (!_all.length) return;
+    // Base: actual rows within the currently selected family (ignore year/month/country/branch)
+    const base = _all.filter(r => isActual(r) &&
+      (F.family === 'ALL' || !C.family || norm(r[C.family]) === norm(F.family)));
+
+    // 1. Category dropdown — show only categories from current family
+    if (C.category) {
+      const cats = [...new Set(base.map(r => r[C.category]).filter(Boolean))].sort();
+      const catEl = document.getElementById('f-category');
+      if (catEl) {
+        catEl.innerHTML = '<option value="">All Categories</option>' +
+          cats.map(c => `<option value="${c}"${norm(c)===norm(F.category)?' selected':''}>${c}</option>`).join('');
+      }
+    }
+
+    // 2. Sub-Cat dropdown — show only subcats valid for current family + category
+    if (C.subcat) {
+      const subcatBase = F.category && C.category
+        ? base.filter(r => norm(r[C.category]) === norm(F.category))
+        : base;
+      const subcats = [...new Set(subcatBase.map(r => r[C.subcat]).filter(Boolean))].sort();
+      // If active sub-cat no longer valid, auto-clear it
+      if (F.subcat && !subcats.some(s => norm(s) === norm(F.subcat))) {
+        F.subcat = ''; F.sku = '';
+        const scl = document.getElementById('csdrop-label-subcat'); if (scl) scl.textContent = _gsdropDefaults.subcat || 'All Sub-Cat.';
+        const skl = document.getElementById('csdrop-label-sku');    if (skl) skl.textContent = _gsdropDefaults.sku    || 'All SKUs';
+      }
+      _gsdropOpts.subcat = subcats;
+      gsdropFilter('subcat', '');
+    }
+
+    // 3. SKU dropdown — show only SKUs valid for current family + category + subcat
+    if (C.sku) {
+      const subcatBase2 = F.category && C.category
+        ? base.filter(r => norm(r[C.category]) === norm(F.category))
+        : base;
+      const skuBase = F.subcat && C.subcat
+        ? subcatBase2.filter(r => norm(r[C.subcat]) === norm(F.subcat))
+        : subcatBase2;
+      const skus = [...new Set(skuBase.map(r => r[C.sku]).filter(Boolean))].sort();
+      // If active SKU no longer valid, auto-clear it
+      if (F.sku && !skus.some(s => norm(s) === norm(F.sku))) {
+        F.sku = '';
+        const skl = document.getElementById('csdrop-label-sku'); if (skl) skl.textContent = _gsdropDefaults.sku || 'All SKUs';
+      }
+      _gsdropOpts.sku = skus;
+      gsdropFilter('sku', '');
+    }
+  }
+
+  function populateFilters() {
+    const act = _all.filter(isActual);
+    const years  = [...new Set(_all.map(rowYear).filter(Boolean))].sort();
+    const months = [...new Set(_all.map(rowMonth).filter(Boolean))].sort();
+    const countries = [...new Set(act.map(r=>r[C.country]).filter(Boolean))].sort();
+    const branches  = [...new Set(act.map(r=>r[C.branch]).filter(Boolean))].sort();
+    const customers = [...new Set(act.map(r=>r[C.customer]).filter(Boolean))].sort();
+    const cats      = [...new Set(act.map(r=>r[C.category]).filter(Boolean))].sort();
+    const subcats   = [...new Set(act.map(r=>r[C.subcat]).filter(Boolean))].sort();
+    const skus      = [...new Set(act.map(r=>r[C.sku]).filter(Boolean))].sort();
+    // Month dropdown: show full name (January … December), value = "01".."12"
+    const MONTH_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    function monthLabel(m) {
+      const n = parseInt(m, 10);
+      return (!isNaN(n) && n >= 1 && n <= 12) ? MONTH_FULL[n-1] : m;
+    }
+    function fill(id, vals, labelFn=v=>v) {
+      const el = document.getElementById(id); if (!el) return;
+      el.innerHTML = el.options[0].outerHTML + vals.map(v=>`<option value="${v}">${labelFn(v)}</option>`).join('');
+    }
+    fill('f-year',     years);
+    fill('f-month',    months, monthLabel);
+    fill('f-country',  countries);
+    fill('f-branch',   branches);
+    fill('f-category', cats);
+    // Populate searchable dropdowns
+    _gsdropOpts.customer = customers;
+    _gsdropOpts.subcat   = subcats;
+    _gsdropOpts.sku      = skus;
+    gsdropFilter('customer', '');
+    gsdropFilter('subcat',   '');
+    gsdropFilter('sku',      '');
+  }
+
+  /* ================================================================
+     INIT
+  ================================================================ */
+  (async () => {
+    // ── Viewer mode: no authentication required ──
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    document.getElementById('btn-theme')?.addEventListener('click', () => ThemeToggle.toggle());
+
+    const sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_SERVICE_KEY,
+      { auth: { persistSession: false, autoRefreshToken: false } });
+
+    const PAGE = 1000, PARALLEL = 5;
+    let allRaw = [], page = 0, fetchError = null;
+    const loadingSub = document.querySelector('#state-loading .state-sub');
+    outer: while (true) {
+      const batch = await Promise.all(
+        Array.from({length: PARALLEL}, (_, i) =>
+          sb.from('project_data').select('row_data')
+            .eq('project_slug', PROJECT_SLUG)
+            .range((page+i)*PAGE, (page+i+1)*PAGE-1)
+        )
+      );
+      for (const {data: chunk, error: err} of batch) {
+        if (err) { fetchError = err; break outer; }
+        if (chunk?.length) allRaw.push(...chunk);
+        if (!chunk?.length || chunk.length < PAGE) break outer;
+      }
+      page += PARALLEL;
+      if (loadingSub) loadingSub.textContent = `Fetching… ${allRaw.length.toLocaleString()} rows loaded`;
+    }
+    const raw = allRaw, error = fetchError;
+
+    if (error || !raw?.length) {
+      const errMsg = error ? `Error: ${error.message || JSON.stringify(error)}` : 'Fetch returned 0 rows.';
+      document.getElementById('state-loading').innerHTML = `
+        <div class="state-card">
+          <div class="state-icon">📭</div>
+          <div class="state-title">No data available</div>
+          <div class="state-sub" style="color:#ef4444;font-size:11px;margin-top:8px;">${errMsg}</div>
+        </div>`;
+      return;
+    }
+
+    const rows = raw.map(r => r.row_data);
+    resolveColumns(rows[0]);
+    _all = C.company ? rows.filter(r => !norm(r[C.company]).includes('interco')) : rows;
+    _filt = [..._all];
+    document.getElementById('state-loading').style.display = 'none';
+    document.getElementById('dash-wrap').style.display     = 'block';
+    populateFilters();
+    showTab('overview');
+  })();
+  </script>
+</body>
+</html>
