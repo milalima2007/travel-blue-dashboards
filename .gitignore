@@ -1,6 +1,9 @@
 # Supabase credentials — NEVER commit this
 js/config.js
 
+# Generated viewer (built at deploy time with injected keys)
+backpack-lugagge/viewer.html
+
 # Environment files
 .env
 .env.local

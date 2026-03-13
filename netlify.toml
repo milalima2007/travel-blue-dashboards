@@ -1,5 +1,5 @@
 [build]
-  command = "python3 generate-config.py"
+  command = "python3 generate-config.py && python3 backpack-lugagge/build_viewer.py"
   publish = "."
 
 [build.environment]
@@ -24,4 +24,4 @@
     # Tell search engines not to index anything (belt-and-suspenders with robots.txt)
     X-Robots-Tag = "noindex, nofollow"
     # Content Security Policy: restrict what can load on these pages
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self' https://*.supabase.co; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none';"

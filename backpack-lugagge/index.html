@@ -280,6 +280,18 @@
     body.light .cp-note       { color:#64748b !important; border-top-color:#e2e8f0 !important; }
     body.light .cp-note.warn  { color:#b45309 !important; }
     body.light .cp-bar { background:#2563eb; }
+
+  #buf-country-nav button {
+    padding: 6px 14px; border-radius: 20px; border: 1px solid #2a3550;
+    background: #141b2d; color: #7b8499; cursor: pointer; font-size: 12px; font-weight: 600;
+    transition: all .15s;
+  }
+  #buf-country-nav button.active {
+    background: #3b82f6; color: #fff; border-color: #3b82f6;
+  }
+  #buf-country-nav button:hover:not(.active) { background: #1e2940; color: #c8d4e8; }
+  .sort-btn { cursor: pointer; user-select: none; }
+  .sort-btn:hover { color: #3b82f6; }
   </style>
 </head>
 <body>
@@ -350,7 +362,7 @@
       <button              data-tab="customer"  onclick="showTab('customer')">Customers</button>
       <button              data-tab="region"    onclick="showTab('region')">Geography</button>
       <button              data-tab="insights"  onclick="showTab('insights')">Insights</button>
-      <button              data-tab="buffer"    onclick="showTab('buffer')">📦 Orders</button>
+      <button              data-tab="buffer"    onclick="showTab('buffer')">📦 Stock & Orders</button>
     </nav>
 
     <div class="filter-bar">
@@ -441,23 +453,8 @@
         </div>
       </div>
       <div class="section">
-        <div class="charts-grid col3">
-          <div class="chart-card">
-            <div class="chart-title">Channel</div>
-            <div class="chart-sub" id="ch-channel-ov-sub">2025</div>
-            <div class="chart-wrap h200"><canvas id="ch-channel-ov"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-title">Region (TB Branch)</div>
-            <div class="chart-sub" id="ch-region-ov-sub">2025</div>
-            <div class="chart-wrap h200"><canvas id="ch-region-ov"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-title">Family Split</div>
-            <div class="chart-sub" id="ch-family-ov-sub">2025</div>
-            <div class="chart-wrap h200"><canvas id="ch-family-ov"></canvas></div>
-          </div>
-        </div>
+        <div class="section-title">Sales by Country &amp; TB Branch</div>
+        <div id="tbl-ov-country-branch"></div>
       </div>
     </div>
 
@@ -482,24 +479,26 @@
         <div id="tbl-sku"></div>
       </div>
 
-      <!-- SKU × Country matrix -->
-      <div class="section">
-        <div class="section-title">SKU × Country — Distribution Matrix
-          <span style="font-size:11px;font-weight:400;color:#4a90e2;margin-left:8px;">% of each country's 2025 revenue · top 20 SKUs × top 12 countries</span>
-        </div>
-        <div id="tbl-sku-country"></div>
-      </div>
-
-      <!-- Country profile cards -->
-      <div class="section">
-        <div class="section-title">Country Profiles — Top SKUs per Market</div>
-        <div id="div-country-profiles"></div>
-      </div>
-
       <!-- Branch profile cards (shown only if branch column present) -->
       <div class="section" id="sec-branch-profiles" style="display:none;">
         <div class="section-title">TB Branch Profiles — Top SKUs per Branch</div>
         <div id="div-branch-profiles"></div>
+      </div>
+
+      <!-- Size & Color analysis -->
+      <div class="section">
+        <div class="section-title">Sales by Size</div>
+        <div class="chart-card">
+          <div class="chart-sub">Units sold 2024 · 2025 · 2026 YTD</div>
+          <div class="chart-wrap h300"><canvas id="ch-size-bar"></canvas></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">Sales by Color</div>
+        <div class="chart-card">
+          <div class="chart-sub">Units sold 2024 · 2025 · 2026 YTD</div>
+          <div class="chart-wrap h340"><canvas id="ch-color-bar"></canvas></div>
+        </div>
       </div>
     </div>
 
@@ -530,20 +529,19 @@
 
     <!-- ══ GEOGRAPHY ══ -->
     <div class="tab-page" id="tab-region">
-      <div class="section">
-        <div class="section-title">Top Countries</div>
-        <div class="chart-card">
-          <div class="chart-sub">2024 · 2025 · 2026 YTD</div>
-          <div class="chart-wrap h460"><canvas id="ch-country-bar"></canvas></div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <div class="section" style="flex:1;min-width:320px;">
+          <div class="section-title">Top Countries</div>
+          <div id="tbl-country"></div>
+        </div>
+        <div class="section" id="sec-branch" style="flex:1;min-width:320px;display:none;">
+          <div class="section-title">TB Branch</div>
+          <div id="tbl-branch"></div>
         </div>
       </div>
-      <div class="section"><div id="tbl-country"></div></div>
-      <div class="section" id="sec-branch" style="display:none;">
-        <div class="section-title">TB Branch</div>
-        <div class="chart-card">
-          <div class="chart-wrap h340"><canvas id="ch-branch-bar"></canvas></div>
-        </div>
-        <div style="margin-top:10px;" id="tbl-branch"></div>
+      <div class="section" id="sec-branch-top10">
+        <div class="section-title">Top 10 Products por Filial TB</div>
+        <div id="tbl-branch-top10"></div>
       </div>
     </div>
 
@@ -555,8 +553,17 @@
     <!-- ══ BUFFER ══ -->
     <div class="tab-page" id="tab-buffer">
       <div class="section">
-        <div class="section-title">Orders &amp; Stock — TB LATAM <span style="font-size:11px;font-weight:400;color:#4a90e2;">Coverage analysis (months of stock)</span></div>
+        <div class="section-title">Stock &amp; Orders — LATAM <span style="font-size:11px;font-weight:400;color:#4a90e2;">Coverage = months of stock at 2025 avg sales rate</span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;" id="buf-country-nav">
+          <button class="active" data-country="ALL"       onclick="setBufCountry('ALL')">🌎 All LATAM</button>
+          <button data-country="MEXICO"    onclick="setBufCountry('MEXICO')">🇲🇽 Mexico</button>
+          <button data-country="Brazil"    onclick="setBufCountry('Brazil')">🇧🇷 Brazil</button>
+          <button data-country="ARGENTINA" onclick="setBufCountry('ARGENTINA')">🇦🇷 Argentina</button>
+          <button data-country="Colombia"  onclick="setBufCountry('Colombia')">🇨🇴 Colombia</button>
+          <button data-country="CHILE"     onclick="setBufCountry('CHILE')">🇨🇱 Chile</button>
+        </div>
         <div id="buf-kpis" class="kpi-row" style="margin-bottom:16px;display:flex;gap:12px;flex-wrap:wrap;"></div>
+        <div id="buf-suggestions" style="margin-bottom:16px;"></div>
         <div id="buf-table-wrap" class="tbl-wrap"></div>
       </div>
     </div>
@@ -595,7 +602,7 @@
         C_BP   = '#ffc72c', C_RED  = '#ff4d6d';
   const PALETTE = [C_2025, C_2024, '#06b6d4', '#f97316', C_2026, C_BP, '#8b5cf6', '#ec4899', '#14b8a6', '#f59e0b', '#a855f7', '#ef4444'];
 
-  let _all = [], _filt = [], _charts = {}, _tab = 'overview';
+  let _all = [], _filt = [], _charts = {}, _tab = 'overview', _bufCountry = 'ALL';
   let _metric = 'value'; // 'value' = USD revenue | 'qty' = quantity (units)
   let C = {};
 
@@ -905,29 +912,49 @@
   }
 
   /* ── tabs ── */
+  function setBufCountry(c) {
+    _bufCountry = c;
+    document.querySelectorAll('#buf-country-nav button').forEach(b =>
+      b.classList.toggle('active', b.dataset.country === c));
+    renderBuffer();
+  }
+
   function showTab(tab) {
     _tab = tab;
     const isBuf = tab === 'buffer';
+    const isIns = tab === 'insights';
 
-    // Buffer tab: hide Year, Month, TB Branch, Customer; restrict Country to LATAM only
-    ['f-year','f-month','f-branch'].forEach(id => {
+    // Define which filter IDs to hide per tab mode
+    const hideSelects = isIns
+      ? ['f-year','f-month','f-country','f-branch','f-category']
+      : isBuf
+        ? ['f-year','f-month','f-branch']
+        : [];
+    const hideWraps = isIns
+      ? ['csdrop-wrap-customer','csdrop-wrap-subcat','csdrop-wrap-sku']
+      : isBuf
+        ? ['csdrop-wrap-customer']
+        : [];
+
+    // Apply visibility to select-based filters
+    ['f-year','f-month','f-country','f-branch','f-category'].forEach(id => {
       const fg = document.getElementById(id)?.closest('.filter-group');
-      if (fg) fg.style.display = isBuf ? 'none' : '';
+      if (fg) fg.style.display = hideSelects.includes(id) ? 'none' : '';
     });
-    const custWrap = document.getElementById('csdrop-wrap-customer');
-    if (custWrap) custWrap.style.display = isBuf ? 'none' : '';
+    // Apply visibility to custom-dropdown wrappers
+    ['csdrop-wrap-customer','csdrop-wrap-subcat','csdrop-wrap-sku'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = hideWraps.includes(id) ? 'none' : '';
+    });
 
     // Adjust Country dropdown
     const countryEl = document.getElementById('f-country');
     if (countryEl && _all.length) {
       if (isBuf) {
-        // Only countries that appear in STOCK/BUFFER LATAM rows
-        const latamC = [...new Set(_all.filter(r => {
-          const t = (r['TYPE']||'').toUpperCase();
-          return (t==='STOCK'||t==='BUFFER') && norm(r['COUNTRY 2']||'') === 'tb latam';
-        }).map(r => r[C.country]).filter(Boolean))].sort();
+        // Fixed LATAM-5 countries for stock/buffer analysis
+        const LATAM5_DISPLAY = ['ARGENTINA','Brazil','CHILE','Colombia','MEXICO'];
         countryEl.innerHTML = `<option value="">All Countries</option>` +
-          latamC.map(c=>`<option value="${c}">${c}</option>`).join('');
+          LATAM5_DISPLAY.map(c=>`<option value="${c}">${c}</option>`).join('');
       } else {
         // Restore full country list
         const allC = [...new Set(_all.filter(isActual).map(r=>r[C.country]).filter(Boolean))].sort();
@@ -1115,52 +1142,31 @@
       }
     });
 
-    /* Donut charts — follow the Year filter (default: latest year with actual data).
-       Use _all + non-temporal filters so month filter doesn't affect distribution. */
-    const _donutYr   = F.year || (applyNonTemporalFilters(_all.filter(r=>isActual(r)&&rowYear(r)==='2026')).length ? '2026' : '2025');
-    const _donutRows = applyNonTemporalFilters(_all.filter(r => isActual(r) && rowYear(r) === _donutYr));
-    ['ch-channel-ov-sub','ch-region-ov-sub','ch-family-ov-sub'].forEach(id => {
-      const el=document.getElementById(id); if(el) el.textContent=_donutYr;
-    });
+    /* Sales by Country & TB Branch table */
+    const act24all = _all.filter(r => isActual(r) && rowYear(r)==='2024');
+    const act25all = _all.filter(r => isActual(r) && rowYear(r)==='2025');
+    const act26all = _all.filter(r => isActual(r) && rowYear(r)==='2026');
+    const bp26all  = _all.filter(r => isBP(r)     && rowYear(r)==='2026');
 
-    /* Channel donut */
-    if (C.channel) {
-      const chMap = aggBy(_donutRows, r => r[C.channel]);
-      const chs = topN(chMap, 8);
-      const chLabels = chs.map(k => _donutRows.find(r => norm(r[C.channel])===norm(k))?.[C.channel] || k);
-      const tot = chs.reduce((s,k) => s+chMap[k], 0)||1;
-      mkChart('ch-channel-ov', { type:'doughnut',
-        data:{ labels:chLabels, datasets:[{ data:chs.map(k=>chMap[k]), backgroundColor:PALETTE, borderWidth:0 }] },
-        options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
-          plugins:{ legend:{ position:'bottom', labels:{ color:'#7b8499', boxWidth:9, font:{size:9}, padding:5 } },
-            datalabels:{display:false}, tooltip:{ callbacks:{ label: ctx=>`${ctx.label}: ${fmt(ctx.parsed)} (${((ctx.parsed/tot)*100).toFixed(0)}%)` } } } }
-      });
-    }
-
-    /* Region donut */
-    if (C.branch) {
-      const brMap = aggBy(_donutRows, r => r[C.branch]);
-      const brs = topN(brMap, 8);
-      const brLabels = brs.map(k => _donutRows.find(r => norm(r[C.branch])===norm(k))?.[C.branch] || k);
-      const tot = brs.reduce((s,k) => s+brMap[k], 0)||1;
-      mkChart('ch-region-ov', { type:'doughnut',
-        data:{ labels:brLabels, datasets:[{ data:brs.map(k=>brMap[k]), backgroundColor:PALETTE.slice(2), borderWidth:0 }] },
-        options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
-          plugins:{ legend:{ position:'bottom', labels:{ color:'#7b8499', boxWidth:9, font:{size:9}, padding:5 } },
-            datalabels:{display:false}, tooltip:{ callbacks:{ label: ctx=>`${ctx.label}: ${fmt(ctx.parsed)} (${((ctx.parsed/tot)*100).toFixed(0)}%)` } } } }
-      });
-    }
-
-    /* Family donut */
-    if (C.family) {
-      const famMap = aggBy(_donutRows, r => r[C.family]);
-      const fams = topN(famMap, 6);
-      mkChart('ch-family-ov', { type:'doughnut',
-        data:{ labels:fams, datasets:[{ data:fams.map(k=>famMap[k]), backgroundColor:[C_2025,C_2024,C_2026,C_BP], borderWidth:0 }] },
-        options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
-          plugins:{ legend:{ position:'bottom', labels:{ color:'#7b8499', boxWidth:9, font:{size:9}, padding:5 } },
-            datalabels:{display:false}, tooltip:{ callbacks:{ label: ctx=>`${ctx.label}: ${fmt(ctx.parsed)}` } } } }
-      });
+    if (C.country) {
+      const countries = [...new Set([...act24all,...act25all,...act26all].map(r=>r[C.country]).filter(Boolean))].sort();
+      const pct2 = (a,b) => b ? ((a-b)/Math.abs(b)*100).toFixed(0)+'%' : '—';
+      const pctTd2 = (a,b) => { const v=b?(a-b)/Math.abs(b)*100:NaN; return `<td class="r" style="color:${isFinite(v)?(v>=0?'#22c55e':'#ef4444'):'#4a5680'}">${isFinite(v)?(v>=0?'+':'')+v.toFixed(0)+'%':'—'}</td>`; };
+      const rows = countries.map(ct => {
+        const f = r => norm(r[C.country])===norm(ct);
+        const s24=sum(act24all.filter(f),mCol()), s25=sum(act25all.filter(f),mCol()),
+              s26=sum(act26all.filter(f),mCol()), sbp=sum(bp26all.filter(f),mCol());
+        if(!s24&&!s25&&!s26) return '';
+        return `<tr><td style="white-space:nowrap;">${ct}</td>
+          <td class="r">${fmt(s24)}</td><td class="r">${fmt(s25)}</td>${pctTd2(s25,s24)}
+          <td class="r">${fmt(s26)}</td>${pctTd2(s26,s25)}
+          <td class="r">${fmt(sbp)}</td>${pctTd2(s26,sbp)}</tr>`;
+      }).filter(Boolean);
+      document.getElementById('tbl-ov-country-branch').innerHTML = `
+        <div class="tbl-wrap" style="max-height:360px;overflow-y:auto;"><table class="tbl">
+          <thead><tr><th>Country</th><th class="r">2024</th><th class="r">2025</th><th class="r">YoY%</th>
+            <th class="r">2026 YTD</th><th class="r">YoY%</th><th class="r">BP 2026</th><th class="r">%vs BP</th></tr></thead>
+          <tbody>${rows.join('')}</tbody></table></div>`;
     }
   }
 
@@ -1244,19 +1250,21 @@
       const kS24=skus.map(s=>sum(act24.filter(r=>norm(r[C.sku])===norm(s)),mCol()));
       const kS25=skus.map(s=>sum(act25.filter(r=>norm(r[C.sku])===norm(s)),mCol()));
       const kS26=skus.map(s=>sum(act26.filter(r=>norm(r[C.sku])===norm(s)),mCol()));
+      // Build a lookup: SKU → { desc, color, size } from 2025 actual rows
+      const skuMeta = {};
+      act25.forEach(r => {
+        const s = r[C.sku]; if(!s || skuMeta[s]) return;
+        skuMeta[s] = { desc: r['DESCRIPTION']||'', color: (r['COLOR']||'').toUpperCase(), size: (r['SIZE']||'').toUpperCase() };
+      });
       document.getElementById('tbl-sku').innerHTML = `
         <div class="tbl-wrap" style="max-height:400px;overflow-y:auto;"><table class="tbl">
-          <thead><tr><th>SKU</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th></tr></thead>
-          <tbody>${skus.map((s,i)=>`<tr><td>${s}</td><td class="r">${fmt(kS24[i])}</td><td class="r">${fmt(kS25[i])}</td>${pctTd(pct(kS25[i],kS24[i]))}<td class="r">${fmt(kS26[i])}</td>${pctTd(pct(kS26[i],kS25[i]))}</tr>`).join('')}
+          <thead><tr><th>SKU</th><th>Description</th><th>Color</th><th>Size</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th></tr></thead>
+          <tbody>${skus.map((s,i)=>{const m=skuMeta[s]||{};return`<tr><td style="font-weight:600">${s}</td><td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.desc||''}</td><td style="font-size:10px;">${m.color||''}</td><td style="font-size:10px;">${m.size||''}</td><td class="r">${fmt(kS24[i])}</td><td class="r">${fmt(kS25[i])}</td>${pctTd(pct(kS25[i],kS24[i]))}<td class="r">${fmt(kS26[i])}</td>${pctTd(pct(kS26[i],kS25[i]))}</tr>`;}).join('')}
           </tbody></table></div>`;
     }
 
-    /* ── SKU × Country/Branch distribution matrix + profile cards ── */
-    if (C.sku && C.country) {
-      // Use all 2025 actual rows, respecting active filters EXCEPT country
-      // (so we can compare all countries simultaneously in the matrix)
-      // act25xc: applies all active filters EXCEPT country (cross-country view)
-      // and EXCEPT year (hardcoded 2025) — used for numerator values
+    // Branch profile cards (if branch column is present and different from country)
+    if (C.branch && C.branch !== C.country && C.sku) {
       const act25xc = _all.filter(r => {
         if (rowYear(r) !== '2025' || !isActual(r)) return false;
         if (F.family !== 'ALL' && C.family   && norm(r[C.family])   !== norm(F.family))   return false;
@@ -1267,9 +1275,6 @@
         if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))       return false;
         return true;
       });
-      // act25base: ONLY family/branch/customer filtered — NO category/subcat/sku
-      // Used as denominator so % always means "share of family revenue in that country"
-      // regardless of which category/subcat/sku filter is currently active
       const act25base = _all.filter(r => {
         if (rowYear(r) !== '2025' || !isActual(r)) return false;
         if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
@@ -1277,79 +1282,24 @@
         if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer)) return false;
         return true;
       });
-      const ctBaseMap = aggBy(act25base, r => r[C.country]); // family-level country totals
-      const brBaseMap = C.branch ? aggBy(act25base, r => r[C.branch]) : {};  // family-level branch totals
-      const totalGlobal = sum(act25base, mCol()) || 1; // family grand total (for Global% col)
+      const brBaseMap = aggBy(act25base, r => r[C.branch]);
       const skuMapG = aggBy(act25xc, r => r[C.sku]);
       const topSKUs = topN(skuMapG, 20);
-      const ctMapG  = aggBy(act25xc, r => r[C.country]);
-      const topCts  = topN(ctMapG, 12);
-
-      // Precompute SKU×Country values in one efficient pass
-      const skuCtVal = {};
-      topSKUs.forEach(sku => {
-        const skuRows = act25xc.filter(r => norm(r[C.sku]) === norm(sku));
-        topCts.forEach(ct => {
-          skuCtVal[sku+'|||'+ct] = sum(skuRows.filter(r => norm(r[C.country]) === norm(ct)), mCol());
-        });
-      });
-
-      // Cell colour by % of country revenue
-      const cellCls = p => p === 0 ? 'sku-ct-zero' : p < 3 ? 'sku-ct-low' : p < 10 ? 'sku-ct-mid' : p < 20 ? 'sku-ct-high' : 'sku-ct-dom';
-      const abbr    = s => s.length > 10 ? s.slice(0,9)+'…' : s;
-
-      const matHtml = `
-        <div class="sku-matrix-legend">
-          <span><span class="leg-dot" style="background:#4ade80;"></span> ≥20% dominant</span>
-          <span><span class="leg-dot" style="background:#22c55e;opacity:.55;"></span> 10–20% high</span>
-          <span><span class="leg-dot" style="background:#f5a623;opacity:.6;"></span> 3–10% medium</span>
-          <span><span class="leg-dot" style="background:#6b7a9f;"></span> &lt;3% low</span>
-          <span><span class="leg-dot" style="background:#161e30;border:1px solid #2a3450;"></span> — zero</span>
-        </div>
-        <div class="tbl-wrap" style="overflow-x:auto;max-height:560px;overflow-y:auto;">
-          <table class="tbl" style="font-size:11px;border-collapse:collapse;min-width:820px;">
-            <thead>
-              <tr>
-                <th style="position:sticky;left:0;z-index:3;min-width:130px;white-space:nowrap;">SKU</th>
-                <th class="r" style="min-width:68px;white-space:nowrap;">Global%</th>
-                ${topCts.map(ct=>`<th class="r" style="min-width:72px;font-size:10px;" title="${ct}">${abbr(ct)}</th>`).join('')}
-              </tr>
-            </thead>
-            <tbody>
-              ${topSKUs.map(sku => {
-                const gPct = (skuMapG[sku]||0) / totalGlobal * 100;
-                return `<tr>
-                  <td style="position:sticky;left:0;z-index:1;font-weight:600;font-size:10px;white-space:nowrap;max-width:140px;overflow:hidden;text-overflow:ellipsis;" title="${sku}">${sku}</td>
-                  <td class="r" style="font-weight:700;white-space:nowrap;">${gPct.toFixed(1)}%<br><span style="font-size:9px;color:#4a5680;font-weight:400;">${fmtShort(skuMapG[sku]||0)}</span></td>
-                  ${topCts.map(ct => {
-                    const v   = skuCtVal[sku+'|||'+ct] || 0;
-                    const ctT = ctBaseMap[ct] || ctMapG[ct] || 1; // family-level denominator
-                    const p   = v / ctT * 100;
-                    const cls = cellCls(p);
-                    return `<td class="r ${cls}" title="${ct}: ${fmt(v)} = ${p.toFixed(1)}% of ${F.family!=='ALL'?F.family:'family'} revenue">${p > 0 ? p.toFixed(1)+'%' : '—'}</td>`;
-                  }).join('')}
-                </tr>`;
-              }).join('')}
-            </tbody>
-          </table>
-        </div>`;
-      document.getElementById('tbl-sku-country').innerHTML = matHtml;
-
-      /* ── helper: build profile cards for any grouping dimension ── */
-      // baseMap: family-level totals (denominator) — stays fixed regardless of category/subcat/sku filters
-      // groupMap: filtered totals (used only for display of revenue values)
-      function buildProfileCards(groupCol, groupMap, baseMap, groupList, label) {
+      const brMapG = aggBy(act25xc, r => r[C.branch]);
+      const topBrs = topN(brMapG, 8);
+      if (topBrs.length) {
+        document.getElementById('sec-branch-profiles').style.display = '';
         let html = '<div class="country-profile-grid">';
-        groupList.forEach(grp => {
-          const grpRows  = act25xc.filter(r => norm(r[groupCol]) === norm(grp));
-          const grpBase  = baseMap[grp] || groupMap[grp] || 1; // family-level total (denominator)
-          const grpTot   = groupMap[grp] || grpBase;            // filtered total (shown in subtitle)
+        topBrs.forEach(grp => {
+          const grpRows  = act25xc.filter(r => norm(r[C.branch]) === norm(grp));
+          const grpBase  = brBaseMap[grp] || brMapG[grp] || 1;
+          const grpTot   = brMapG[grp] || grpBase;
           const gSkuMap  = aggBy(grpRows, r => r[C.sku]);
           const top5     = topN(gSkuMap, 5);
           let cumPct = 0;
           const rowsH = top5.map((s, i) => {
             const v  = gSkuMap[s] || 0;
-            const p  = v / grpBase * 100;  // % of family revenue in this country/branch
+            const p  = v / grpBase * 100;
             cumPct  += p;
             const bw = Math.min(Math.round(p * 4), 100);
             return `<tr>
@@ -1359,11 +1309,7 @@
               <td style="padding:3px 8px;width:80px;"><div class="cp-bar" style="width:${bw}px;"></div></td>
             </tr>`;
           }).join('');
-          // Count how many of the global top-20 have 0 sales in this group
-          const zeroG = topSKUs.filter(s => {
-            if (groupCol === C.country) return (skuCtVal[s+'|||'+grp]||0) === 0;
-            return (gSkuMap[s]||0) === 0;
-          }).length;
+          const zeroG = topSKUs.filter(s => (gSkuMap[s]||0) === 0).length;
           const noteCls  = zeroG >= 6 ? 'cp-note warn' : 'cp-note';
           const noteText = zeroG > 0
             ? `⚠️ ${zeroG} of top-20 global SKUs have <strong>0 sales</strong> here.`
@@ -1380,22 +1326,7 @@
             </div>`;
         });
         html += '</div>';
-        return html;
-      }
-
-      // Country profile cards (ctBaseMap = family-level denominator)
-      document.getElementById('div-country-profiles').innerHTML =
-        buildProfileCards(C.country, ctMapG, ctBaseMap, topCts, 'country');
-
-      // Branch profile cards (if branch column is present and different from country)
-      if (C.branch && C.branch !== C.country) {
-        const brMapG = aggBy(act25xc, r => r[C.branch]);
-        const topBrs = topN(brMapG, 8);
-        if (topBrs.length) {
-          document.getElementById('sec-branch-profiles').style.display = '';
-          document.getElementById('div-branch-profiles').innerHTML =
-            buildProfileCards(C.branch, brMapG, brBaseMap, topBrs, 'branch');
-        }
+        document.getElementById('div-branch-profiles').innerHTML = html;
       }
     }
   }
@@ -1504,22 +1435,6 @@
       const ctS26=cts.map(c=>sum(act26.filter(r=>norm(r[C.country])===norm(c)),mCol()));
       const ctBP =cts.map(c=>sum(bp26.filter(r=>norm(r[C.country])===norm(c)),mCol()));
       const tot25 = sum(act25,mCol())||1;
-      mkChart('ch-country-bar', { type:'bar',
-        data:{ labels:cts, datasets:[
-          {label:'2024',     data:ctS24, backgroundColor:C_2024+'88', borderRadius:2},
-          {label:'2025',     data:ctS25, backgroundColor:C_2025+'cc', borderRadius:2},
-          {label:'2026 YTD', data:ctS26, backgroundColor:C_2026+'cc', borderRadius:2},
-        ]},
-        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-          plugins:{
-            legend: dLegend(),
-            datalabels:{ display:true, anchor:'end', align:'right', color:'#9aa5bc', font:{size:8,weight:'600'},
-              formatter:(v,ctx) => ctx.datasetIndex===1 && v>0 ? fmtShort(v) : '' },
-            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` } }
-          },
-          scales: dScalesH()
-        }
-      });
       document.getElementById('tbl-country').innerHTML = `
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>Country</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th><th class="r">Mix 25</th></tr></thead>
@@ -1535,27 +1450,97 @@
       const brS25=brs.map(b=>sum(act25.filter(r=>norm(r[C.branch])===norm(b)),mCol()));
       const brS26=brs.map(b=>sum(act26.filter(r=>norm(r[C.branch])===norm(b)),mCol()));
       const brBP =brs.map(b=>sum(bp26.filter(r=>norm(r[C.branch])===norm(b)),mCol()));
-      mkChart('ch-branch-bar', { type:'bar',
-        data:{ labels:brs, datasets:[
-          {label:'2024',     data:brS24, backgroundColor:C_2024+'88', borderRadius:2},
-          {label:'2025',     data:brS25, backgroundColor:C_2025+'cc', borderRadius:2},
-          {label:'2026 YTD', data:brS26, backgroundColor:C_2026+'cc', borderRadius:2},
-        ]},
-        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-          plugins:{
-            legend: dLegend(),
-            datalabels:{ display:true, anchor:'end', align:'right', color:'#9aa5bc', font:{size:8,weight:'600'},
-              formatter:(v,ctx) => ctx.datasetIndex===1 && v>0 ? fmtShort(v) : '' },
-            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` } }
-          },
-          scales: dScalesH()
-        }
-      });
       document.getElementById('tbl-branch').innerHTML = `
         <div class="tbl-wrap"><table class="tbl">
           <thead><tr><th>TB Branch</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">${bpLbl}</th><th class="r">%vs BP</th></tr></thead>
           <tbody>${brs.map((b,i)=>`<tr><td>${b}</td><td class="r">${fmt(brS24[i])}</td><td class="r">${fmt(brS25[i])}</td>${pctTd(pct(brS25[i],brS24[i]))}<td class="r">${fmt(brS26[i])}</td>${pctTd(pct(brS26[i],brS25[i]))}<td class="r">${fmt(brBP[i])}</td>${pctTd(pct(brS26[i],brBP[i]))}</tr>`).join('')}
           </tbody></table></div>`;
+
+      /* ── Top 10 products per TB Branch ── */
+      if (C.sku && C.desc) {
+        const secTop = document.getElementById('sec-branch-top10');
+        const tblTop = document.getElementById('tbl-branch-top10');
+        if (secTop && tblTop) {
+          secTop.style.display = '';
+          // Build: for each branch, top-10 SKUs by 2025 revenue
+          const branchesTop = brs.slice(0, 8); // show up to 8 branches
+          let html = '';
+          for (const br of branchesTop) {
+            const brRows25 = act25.filter(r => norm(r[C.branch]) === norm(br));
+            const skuMap = aggBy(brRows25, r => r[C.sku]);
+            const topSkus = topN(skuMap, 10);
+            if (!topSkus.length) continue;
+            html += `<div style="margin-bottom:20px;">
+              <div style="font-size:13px;font-weight:700;color:#7b9cff;margin-bottom:6px;padding:4px 8px;background:rgba(74,90,218,.12);border-radius:6px;">${br}</div>
+              <div class="tbl-wrap"><table class="tbl">
+                <thead><tr><th>SKU</th><th>Description</th><th class="r">2025 Rev</th><th class="r">2026 YTD</th><th class="r">%26v25</th><th class="r">Units 25</th></tr></thead>
+                <tbody>${topSkus.map(sk => {
+                  const r25 = sum(brRows25.filter(r=>norm(r[C.sku])===norm(sk)), mCol());
+                  const r26 = sum(act26.filter(r=>norm(r[C.branch])===norm(br)&&norm(r[C.sku])===norm(sk)), mCol());
+                  const q25 = sum(brRows25.filter(r=>norm(r[C.sku])===norm(sk)), C.qty);
+                  const dsc = brRows25.find(r=>norm(r[C.sku])===norm(sk))?.[C.desc] || '';
+                  return `<tr><td>${sk}</td><td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${dsc}">${dsc}</td><td class="r">${fmt(r25)}</td><td class="r">${fmt(r26)}</td>${pctTd(pct(r26,r25))}<td class="r">${Math.round(q25).toLocaleString()}</td></tr>`;
+                }).join('')}</tbody>
+              </table></div>
+            </div>`;
+          }
+          tblTop.innerHTML = html || '<p style="color:#4a5680;">No branch data available.</p>';
+        }
+      }
+    } else {
+      const secTop = document.getElementById('sec-branch-top10');
+      if (secTop) secTop.style.display = 'none';
+    }
+
+    /* ── Size analysis ── */
+    {
+      const sizeQty25 = {};
+      act25.forEach(r => { const s=(r['SIZE']||'').trim().toUpperCase(); if(s) sizeQty25[s]=(sizeQty25[s]||0)+num(r[C.qty]); });
+      const sizes = Object.entries(sizeQty25).sort((a,b)=>b[1]-a[1]).slice(0,20).map(e=>e[0]);
+      const szQ24 = sizes.map(s => sum(act24.filter(r => (r['SIZE']||'').trim().toUpperCase() === s), C.qty));
+      const szQ25 = sizes.map(s => sum(act25.filter(r => (r['SIZE']||'').trim().toUpperCase() === s), C.qty));
+      const szQ26 = sizes.map(s => sum(act26.filter(r => (r['SIZE']||'').trim().toUpperCase() === s), C.qty));
+      mkChart('ch-size-bar', { type:'bar',
+        data:{ labels:sizes, datasets:[
+          {label:'2024', data:szQ24, backgroundColor:C_2024+'99', borderRadius:3},
+          {label:'2025', data:szQ25, backgroundColor:C_2025+'cc', borderRadius:3},
+          {label:'2026 YTD', data:szQ26, backgroundColor:C_2026+'cc', borderRadius:3},
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false,
+          plugins:{
+            legend: dLegend(),
+            datalabels:{ display:true, anchor:'end', align:'top', color:'#9aa5bc', font:{size:8,weight:'600'}, formatter: v => v>0 ? Math.round(v).toLocaleString() : '' },
+            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${Math.round(ctx.parsed.y).toLocaleString()} units` } }
+          },
+          scales: { x:{grid:{color:chartColors().grid},ticks:{color:chartColors().text,font:{size:10}}},
+                    y:{grid:{color:chartColors().grid},ticks:{color:chartColors().text,font:{size:10},callback:v=>v>=1000?(v/1000).toFixed(1)+'K':v}} }
+        }
+      });
+    }
+
+    /* ── Color analysis ── */
+    {
+      const colorQty25 = {};
+      act25.forEach(r => { const c=(r['COLOR']||'').trim().toUpperCase(); if(c) colorQty25[c]=(colorQty25[c]||0)+num(r[C.qty]); });
+      const colors = Object.entries(colorQty25).sort((a,b)=>b[1]-a[1]).slice(0,20).map(e=>e[0]);
+      const colQ24 = colors.map(c => sum(act24.filter(r => (r['COLOR']||'').trim().toUpperCase() === c), C.qty));
+      const colQ25 = colors.map(c => sum(act25.filter(r => (r['COLOR']||'').trim().toUpperCase() === c), C.qty));
+      const colQ26 = colors.map(c => sum(act26.filter(r => (r['COLOR']||'').trim().toUpperCase() === c), C.qty));
+      mkChart('ch-color-bar', { type:'bar',
+        data:{ labels:colors, datasets:[
+          {label:'2024', data:colQ24, backgroundColor:C_2024+'99', borderRadius:3},
+          {label:'2025', data:colQ25, backgroundColor:C_2025+'cc', borderRadius:3},
+          {label:'2026 YTD', data:colQ26, backgroundColor:C_2026+'cc', borderRadius:3},
+        ]},
+        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          plugins:{
+            legend: dLegend(),
+            datalabels:{ display:true, anchor:'end', align:'right', color:'#9aa5bc', font:{size:8,weight:'600'}, formatter:(v,ctx)=>ctx.datasetIndex===1&&v>0?Math.round(v).toLocaleString():'' },
+            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${Math.round(ctx.parsed.x).toLocaleString()} units` } }
+          },
+          scales: dScalesH()
+        }
+      });
     }
   }
 
@@ -1563,318 +1548,311 @@
      INSIGHTS — rich, data-driven analysis
   ================================================================ */
   function renderInsights() {
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
-    const s24=sum(act24,mCol()), s25=sum(act25,mCol()), s26=sum(act26,mCol()), s26b=sum(bp26,mCol());
-    const insights = [];
+    const LATAM_COUNTRIES = ['MEXICO','Brazil','ARGENTINA','Colombia','CHILE'];
+    const LATAM_NORM = ['mexico','brazil','brasil','argentina','colombia','chile'];
+    const isLatam = r => LATAM_NORM.includes(norm(r[C.country]||''));
+    const isGlobal = r => !isLatam(r);
 
-    /* ── 1. YoY 2025 growth ── */
-    const yoy25 = pct(s25,s24);
-    insights.push({ type:yoy25>=0?'ok':'warn', icon:yoy25>=0?'📈':'📉',
-      title:`2025 Revenue: ${yoy25>=0?'+':''}${yoy25.toFixed(1)}% vs 2024`,
-      body:`Full-year 2025 actual: <strong>${fmt(s25)}</strong> vs ${fmt(s24)} in 2024 — ${fmt(Math.abs(s25-s24))} ${s25>=s24?'added':'lost'}.`,
-      action: yoy25<0
-        ? `Critical: identify top declining SKUs and customers. Compare Q3-Q4 performance specifically.`
-        : `Identify the top 5 customers and SKUs driving this growth and ensure they are in the 2026 BP targets.`
+    const act25 = _all.filter(r => isActual(r) && rowYear(r)==='2025');
+    const act26 = _all.filter(r => isActual(r) && rowYear(r)==='2026');
+
+    // Global top SKUs by qty (non-LATAM)
+    const globalSkuQty = {};
+    act25.filter(isGlobal).forEach(r => {
+      const s = r[C.sku]; if(s) globalSkuQty[s] = (globalSkuQty[s]||0) + num(r[C.qty]);
+    });
+    const top30Global = Object.entries(globalSkuQty).sort((a,b)=>b[1]-a[1]).slice(0,30).map(e=>e[0]);
+
+    // SKU metadata
+    const skuMeta2 = {};
+    act25.forEach(r => {
+      const s=r[C.sku]; if(!s||skuMeta2[s]) return;
+      skuMeta2[s] = { desc:r['DESCRIPTION']||s, family:r['FAMILY']||'', cat:r[C.category]||'' };
     });
 
-    /* ── 2. 2026 YTD vs BP ── */
-    if (s26b > 0) {
-      const gapBP = pct(s26, s26b);
-      const gapAbs = s26 - s26b;
-      // Pro-rated BP: how much of the full year BP should have been achieved by now?
-      const latestMon2 = [...new Set(act26.map(getMonthNum).filter(Boolean))].sort((a,b)=>b-a)[0] || 1;
-      const proratedBP = s26b * (latestMon2 / 12);
-      const gapProrated = pct(s26, proratedBP);
-      insights.push({ type:gapProrated>=0?'ok':(gapProrated>-20?'info':'warn'), icon:'🎯',
-        title:`2026 YTD (${MN[latestMon2-1]}): ${gapProrated>=0?'✅ On Track':Math.abs(gapProrated).toFixed(1)+'% Below Pro-Rated Target'}`,
-        body:`Actual: <strong>${fmt(s26)}</strong> · Pro-rated BP: ${fmt(proratedBP)} · Full-Year BP: ${fmt(s26b)}. Gap vs pro-rated: ${fmt(gapAbs)}.`,
-        action: gapProrated < -10
-          ? `Urgent: ${Math.abs(gapProrated).toFixed(0)}% behind pace. Focus on your top 5 BP customers not yet active in 2026 and push Q2 orders forward.`
-          : `Ahead of pace. Forecast Q2-Q4 acceleration and update full-year estimate upward.`
+    const fmtQ = v => v >= 1000 ? (v/1000).toFixed(1)+'K' : Math.round(v).toString();
+
+    const countryCards = LATAM_COUNTRIES.map(ct => {
+      const ctNorm = norm(ct);
+      const ctRows25 = act25.filter(r => norm(r[C.country]||'')=== ctNorm || (ctNorm==='brazil'&&norm(r[C.country]||'')==='brasil'));
+      const ctRows26 = act26.filter(r => norm(r[C.country]||'')=== ctNorm || (ctNorm==='brazil'&&norm(r[C.country]||'')==='brasil'));
+
+      // SKU qty for this country
+      const ctSkuQty = {};
+      ctRows25.forEach(r => { const s=r[C.sku]; if(s) ctSkuQty[s]=(ctSkuQty[s]||0)+num(r[C.qty]); });
+      const ctTotal25 = Object.values(ctSkuQty).reduce((a,b)=>a+b,0)||1;
+
+      // Insight 1: Global top sellers with 0 or low sales here
+      const globalOpps = top30Global
+        .filter(s => !ctSkuQty[s] || ctSkuQty[s] < (globalSkuQty[s]||1) * 0.05)
+        .slice(0, 5)
+        .map(s => `<li><strong>${s}</strong> — ${skuMeta2[s]?.desc||''} <span style="color:#4a90e2">(global ${fmtQ(globalSkuQty[s]||0)} units/yr)</span></li>`);
+
+      // Insight 2: Slow movers in this country (low qty, present in 2025 but declining)
+      const ctSkuQty26 = {};
+      ctRows26.forEach(r => { const s=r[C.sku]; if(s) ctSkuQty26[s]=(ctSkuQty26[s]||0)+num(r[C.qty]); });
+      const slowMovers = Object.entries(ctSkuQty)
+        .filter(([s,q]) => q < ctTotal25 * 0.005 && q < 20) // less than 0.5% of country sales AND < 20 units
+        .sort((a,b)=>a[1]-b[1]).slice(0,5)
+        .map(([s,q]) => `<li><strong>${s}</strong> — ${skuMeta2[s]?.desc||''} <span style="color:#ef4444">(${fmtQ(q)} units in 2025)</span></li>`);
+
+      // Insight 3: Strong sellers here vs other LATAM
+      const otherLatamQty = {};
+      act25.filter(r => isLatam(r) && norm(r[C.country]||'')!==ctNorm && !(ctNorm==='brazil'&&norm(r[C.country]||'')==='brasil')).forEach(r => {
+        const s=r[C.sku]; if(s) otherLatamQty[s]=(otherLatamQty[s]||0)+num(r[C.qty]);
       });
-    }
+      const uniqueHere = Object.entries(ctSkuQty)
+        .filter(([s,q]) => q > 30 && (!otherLatamQty[s] || otherLatamQty[s] < q * 0.3))
+        .sort((a,b)=>b[1]-a[1]).slice(0,4)
+        .map(([s,q]) => `<li><strong>${s}</strong> — ${skuMeta2[s]?.desc||''} <span style="color:#22c55e">(${fmtQ(q)} units here vs ${fmtQ(otherLatamQty[s]||0)} other LATAM)</span></li>`);
 
-    /* ── 3. Best & worst category 2025 ── */
-    if (C.category) {
-      const cats = [...new Set([...act24,...act25].map(r=>r[C.category]).filter(Boolean))];
-      const catG = cats.map(c => ({
-        c,
-        s25: sum(act25.filter(r=>norm(r[C.category])===norm(c)), mCol()),
-        s24: sum(act24.filter(r=>norm(r[C.category])===norm(c)), mCol())
-      })).filter(x => x.s25 > 0).map(x=>({...x, g:pct(x.s25,x.s24||0)}))
-        .filter(x=>isFinite(x.g)).sort((a,b)=>b.g-a.g);
-      if (catG.length >= 2) {
-        const best=catG[0], worst=catG[catG.length-1];
-        insights.push({ type:'ok', icon:'🏆',
-          title:`Best Category 2025: ${best.c} (+${best.g.toFixed(0)}%)`,
-          body:`${best.c}: <strong>${fmt(best.s25)}</strong> in 2025 vs ${fmt(best.s24)} in 2024. Represents ${((best.s25/s25)*100).toFixed(0)}% of total 2025 revenue.`,
-          action:`Prioritise this category in 2026 range planning. Ensure top-performing SKUs have sufficient stock and distribution coverage.`
-        });
-        if (worst.g < -5) insights.push({ type:'warn', icon:'⚠️',
-          title:`Declining Category: ${worst.c} (${worst.g.toFixed(0)}% vs 2024)`,
-          body:`${worst.c}: <strong>${fmt(worst.s25)}</strong> in 2025 vs ${fmt(worst.s24)} in 2024. Lost ${fmt(Math.abs(worst.s25-worst.s24))}.`,
-          action:`Investigate: price competitiveness, channel fit, and product relevance. Consider if this category should be included in 2026 BP or if resources should be reallocated.`
-        });
-      }
-    }
+      const cc = chartColors();
+      return `<div style="background:${cc.card||'#141b2d'};border:1px solid ${cc.border||'#1e2940'};border-radius:12px;padding:18px;min-width:280px;flex:1;">
+        <div style="font-weight:700;font-size:15px;margin-bottom:12px;color:${cc.text||'#c8d4e8'}">${ct}</div>
+        ${globalOpps.length?`<div style="margin-bottom:12px;"><div style="font-size:11px;font-weight:700;color:#4a90e2;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">🌍 Global hits — low LATAM penetration</div><ul style="margin:0;padding-left:16px;font-size:11px;line-height:1.8;color:${cc.text||'#c8d4e8'}">${globalOpps.join('')}</ul></div>`:''}
+        ${uniqueHere.length?`<div style="margin-bottom:12px;"><div style="font-size:11px;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">🚀 Strong here — push to other LATAM</div><ul style="margin:0;padding-left:16px;font-size:11px;line-height:1.8;color:${cc.text||'#c8d4e8'}">${uniqueHere.join('')}</ul></div>`:''}
+        ${slowMovers.length?`<div><div style="font-size:11px;font-weight:700;color:#ef4444;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">⚠️ Slow movers — consider discontinuing</div><ul style="margin:0;padding-left:16px;font-size:11px;line-height:1.8;color:${cc.text||'#c8d4e8'}">${slowMovers.join('')}</ul></div>`:''}
+        ${!globalOpps.length&&!slowMovers.length&&!uniqueHere.length?'<div style="color:#4a5680;font-size:12px;">No significant insights for current filter.</div>':''}
+      </div>`;
+    });
 
-    /* ── 4. Product × Region opportunity ── */
-    if (C.subcat && C.branch) {
-      const branches = [...new Set(act25.map(r=>r[C.branch]).filter(Boolean))];
-      const subcats  = [...new Set(act25.map(r=>r[C.subcat]).filter(Boolean))];
-      // For each subcat, find branches where it's present vs absent
-      let bestOpp = null, bestScore = 0;
-      subcats.forEach(sc => {
-        const scRows = act25.filter(r=>norm(r[C.subcat])===norm(sc));
-        const scTotal = sum(scRows, mCol());
-        if (scTotal < 500) return; // ignore tiny subcats
-        const brSales = branches.map(br => ({
-          br,
-          val: sum(scRows.filter(r=>norm(r[C.branch])===norm(br)), mCol())
-        }));
-        const nonZero = brSales.filter(x=>x.val>0);
-        const zero    = brSales.filter(x=>x.val===0);
-        if (nonZero.length >= 1 && zero.length >= 1) {
-          const topBr = nonZero.sort((a,b)=>b.val-a.val)[0];
-          const score = topBr.val * zero.length;
-          if (score > bestScore) {
-            bestScore = score;
-            bestOpp = { sc, topBr: topBr.br, topVal: topBr.val, missing: zero.map(x=>x.br).slice(0,3) };
-          }
-        }
-      });
-      if (bestOpp) insights.push({ type:'info', icon:'🌐',
-        title:`Regional Opportunity: ${bestOpp.sc}`,
-        body:`${bestOpp.sc} sells <strong>${fmt(bestOpp.topVal)}</strong> in ${bestOpp.topBr}, but has <strong>$0 or negligible sales</strong> in: ${bestOpp.missing.join(', ')}.`,
-        action:`Explore why ${bestOpp.sc} doesn't reach these branches. Share the ${bestOpp.topBr} playbook with regional managers and target these branches in 2026 with a launch plan.`
-      });
-    }
-
-    /* ── 5. Customers at risk (declining in 2026 vs pace) ── */
-    if (C.customer && act26.length > 0) {
-      const latestMon3 = [...new Set(act26.map(getMonthNum).filter(Boolean))].sort((a,b)=>b-a)[0] || 1;
-      const custs = [...new Set(act25.map(r=>r[C.customer]).filter(Boolean))];
-      const atRisk = custs.map(c => {
-        const v25 = sum(act25.filter(r=>norm(r[C.customer])===norm(c)), mCol());
-        const v26 = sum(act26.filter(r=>norm(r[C.customer])===norm(c)), mCol());
-        const v25pace = v25 * (latestMon3/12); // pro-rated 2025
-        return { c, v25, v26, v25pace, gap: pct(v26, v25pace) };
-      }).filter(x => x.v25 > 1000 && x.gap < -30) // significant 2025 revenue and >30% behind pace
-        .sort((a,b) => a.gap - b.gap).slice(0,3);
-      if (atRisk.length > 0) insights.push({ type:'warn', icon:'🚨',
-        title:`${atRisk.length} Key Customer${atRisk.length>1?'s':''} Falling Behind 2026 Pace`,
-        body:`Customers significantly below their 2025 pro-rated pace: <strong>${atRisk.map(x=>`${x.c} (${x.gap.toFixed(0)}%)`).join(' · ')}</strong>.`,
-        action:`Schedule calls with these accounts in the next 30 days. Understand blockers (order timing, product availability, competition) and offer support to accelerate 2026 activity.`
-      });
-    }
-
-    /* ── 6. New customer momentum ── */
-    if (C.customer) {
-      const newCusts = [...new Set(act25.map(r=>r[C.customer]).filter(Boolean))]
-        .map(c => ({
-          c,
-          v24: sum(act24.filter(r=>norm(r[C.customer])===norm(c)), mCol()),
-          v25: sum(act25.filter(r=>norm(r[C.customer])===norm(c)), mCol())
-        }))
-        .filter(x => x.v24 < 200 && x.v25 > 2000) // near-zero in 2024, meaningful in 2025
-        .sort((a,b)=>b.v25-a.v25).slice(0,3);
-      if (newCusts.length > 0) insights.push({ type:'ok', icon:'⭐',
-        title:`${newCusts.length} Emerging Customer${newCusts.length>1?'s':''} to Watch`,
-        body:`New or reactivated accounts with strong 2025 entry: <strong>${newCusts.map(x=>`${x.c} (${fmt(x.v25)})`).join(' · ')}</strong>.`,
-        action:`Nurture these accounts in 2026 with dedicated account plans and BP targets. Fast-growing new customers often become top 10 accounts within 2 years if proactively managed.`
-      });
-    }
-
-    /* ── 7. Family mix ── */
-    if (C.family) {
-      const bpS=sum(act25.filter(r=>norm(r[C.family]).includes('backpack')),mCol());
-      const lgS=sum(act25.filter(r=>norm(r[C.family]).includes('luggage')),mCol());
-      const tot=bpS+lgS||1;
-      const bpPct=((bpS/tot)*100), lgPct=((lgS/tot)*100);
-      const bpS26=sum(act26.filter(r=>norm(r[C.family]).includes('backpack')),mCol());
-      const lgS26=sum(act26.filter(r=>norm(r[C.family]).includes('luggage')),mCol());
-      const tot26=bpS26+lgS26||1;
-      insights.push({ type:'info', icon:'🧳',
-        title:`Product Mix: Backpacks ${bpPct.toFixed(0)}% · Luggage ${lgPct.toFixed(0)}% (2025)`,
-        body:`2025: Backpacks ${fmt(bpS)} · Luggage ${fmt(lgS)}. In 2026 YTD: Backpacks ${((bpS26/tot26)*100).toFixed(0)}% · Luggage ${((lgS26/tot26)*100).toFixed(0)}%.`,
-        action: bpPct > 75
-          ? `Heavy backpack dependency. Diversify by running luggage-specific promotions in 2026 to balance the portfolio and reduce category risk.`
-          : lgPct > 75
-            ? `Luggage dominates. Evaluate backpack SKU assortment and whether the range meets customer needs.`
-            : `Healthy mix. Maintain investment proportional to margin contribution — check which family has higher gross margin and favour it in BP growth targets.`
-      });
-    }
-
-    /* ── 8. Top market & fastest-growing market ── */
-    if (C.country) {
-      const ctAgg25 = aggBy(act25, r=>r[C.country]);
-      const ctAgg24 = aggBy(act24, r=>r[C.country]);
-      const sorted = Object.entries(ctAgg25).sort((a,b)=>b[1]-a[1]);
-      if (sorted.length > 0) {
-        const [topCt, topVal] = sorted[0];
-        const share = (topVal/(s25||1))*100;
-        const topYoY = pct(topVal, ctAgg24[topCt]||0);
-        // Fastest growing market (min $500 in 2024 to avoid base-effect distortion)
-        const growing = sorted.filter(([c]) => (ctAgg24[c]||0) > 500)
-          .map(([c,v]) => ({ c, v, g: pct(v, ctAgg24[c]) }))
-          .filter(x=>isFinite(x.g)).sort((a,b)=>b.g-a.g);
-        const fastest = growing.find(x => x.c !== topCt);
-        insights.push({ type:'info', icon:'🌍',
-          title:`Top Market: ${topCt} (${share.toFixed(0)}% of 2025 Revenue)`,
-          body:`${topCt}: <strong>${fmt(topVal)}</strong> in 2025${isFinite(topYoY)?' ('+Math.abs(topYoY).toFixed(0)+'% '+(topYoY>=0?'▲':'▼')+' vs 2024)':''}. ${fastest?`Fastest growing (non-#1): ${fastest.c} (+${fastest.g.toFixed(0)}%, ${fmt(fastest.v)}).`:''}`,
-          action: share > 50
-            ? `High concentration risk: ${topCt} is over 50% of revenue. Build BP targets in 2nd and 3rd markets (${sorted.slice(1,3).map(([c])=>c).join(', ')}) to reduce dependency.`
-            : `Protect ${topCt} and replicate its success model${fastest?` in ${fastest.c}`:''}. Create a structured market entry plan for untapped regions.`
-        });
-      }
-    }
-
-    document.getElementById('insights-grid').innerHTML = insights.length
-      ? insights.map(ins=>`
-          <div class="insight-card ${ins.type}">
-            <div class="insight-icon">${ins.icon}</div>
-            <div class="insight-title">${ins.title}</div>
-            <div class="insight-body">${ins.body}</div>
-            <div class="insight-action">→ ${ins.action}</div>
-          </div>`).join('')
-      : '<div style="color:#4a5680;padding:40px;text-align:center;">No data available.</div>';
+    document.getElementById('insights-grid').style.cssText = 'display:flex;flex-wrap:wrap;gap:16px;padding:8px 0;';
+    document.getElementById('insights-grid').innerHTML = countryCards.join('');
   }
 
   /* ================================================================
      BUFFER & STOCK — TB LATAM coverage analysis
   ================================================================ */
   function renderBuffer() {
-    const LATAM = 'tb latam';
-    const isLatam = r => norm(r[C.branch] || r['COUNTRY 2'] || '') === LATAM;
+    const LATAM5_NORM = ['mexico','brazil','brasil','argentina','colombia','chile'];
+    const isLatam5 = r => LATAM5_NORM.includes(norm(r[C.country]||''));
+    const isBonded = r => norm(r['COUNTRY 2']||'') === 'bonded';
+    const isLatamStk = r => isBonded(r) || (norm(r['COUNTRY 2']||'')==='tb latam' && isLatam5(r));
+    const isLatamBuf = r => norm(r['COUNTRY 2']||'')==='tb latam' && isLatam5(r);
+    const isLatamReal = r => isLatam5(r);
 
-    // Apply dimensional filters (family, country, category, subcat, sku) — ignore year/month/branch
+    const ctFilter = _bufCountry !== 'ALL' ? norm(_bufCountry) : null;
+
     const applyBufFilters = rows => rows.filter(r => {
       if (F.family !== 'ALL' && C.family && norm(r[C.family]||'') !== norm(F.family)) return false;
-      if (F.country  && C.country  && norm(r[C.country]||'')  !== norm(F.country))  return false;
+      if (ctFilter && C.country && !isBonded(r)) {
+        if (norm(r[C.country]||'') !== ctFilter) return false;
+      }
       if (F.category && C.category && norm(r[C.category]||'') !== norm(F.category)) return false;
-      if (F.subcat   && C.subcat   && norm(r[C.subcat]||'')   !== norm(F.subcat))   return false;
-      if (F.sku      && C.sku      && norm(r[C.sku]||'')      !== norm(F.sku))       return false;
+      if (F.subcat && C.subcat && norm(r[C.subcat]||'') !== norm(F.subcat)) return false;
+      if (F.sku && C.sku && norm(r[C.sku]||'') !== norm(F.sku)) return false;
       return true;
     });
 
-    const stkRows  = applyBufFilters(_all.filter(r => (r['TYPE']||'').toUpperCase()==='STOCK'  && isLatam(r)));
-    const bufRows  = applyBufFilters(_all.filter(r => (r['TYPE']||'').toUpperCase()==='BUFFER' && isLatam(r)));
-    const real25   = applyBufFilters(_all.filter(r => isActual(r) && rowYear(r)==='2025'       && isLatam(r)));
+    const stkRows = applyBufFilters(_all.filter(r => (r['TYPE']||'').toUpperCase()==='STOCK' && isLatamStk(r)));
+    const bufRows = applyBufFilters(_all.filter(r => (r['TYPE']||'').toUpperCase()==='BUFFER' && isLatamBuf(r)));
+    // Real sales: for country filter use country; for ALL use all LATAM
+    const realFilter = r => {
+      if (!isActual(r) || rowYear(r)!=='2025' || !isLatamReal(r)) return false;
+      if (ctFilter) return norm(r[C.country]||'')=== ctFilter;
+      return true;
+    };
+    const real25 = applyBufFilters(_all.filter(realFilter));
 
-    // All unique SKUs
     const allSKUs = [...new Set([...stkRows,...bufRows].map(r=>r['SKU 2']).filter(Boolean))].sort();
 
-    // Buffer delivery months (sorted)
+    // Find the Mês key (handles encoding variations)
+    const mesKey = stkRows.length ? Object.keys(stkRows[0]).find(k => k.startsWith('M') && k.toLowerCase().endsWith('s')) || 'Mês' : 'Mês';
+
     const bufMonths = [...new Set(bufRows.map(r=>{
-      const y=String(r['Ano']||''), m=String(r['Mês']||'').padStart(2,'0');
-      return y && m !== '00' ? y+'-'+m : null;
+      const y=String(r['Ano']||''), m=String(r[mesKey]||'').padStart(2,'0');
+      return y&&m!=='00'?y+'-'+m:null;
     }).filter(Boolean))].sort();
 
-    // Month label helper
-    const MN2 = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const monLbl = ym => { const [y,m]=ym.split('-'); return (MN2[+m-1]||m)+' '+y; };
+    const MN2=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const monLbl=ym=>{const[y,m]=ym.split('-');return(MN2[+m-1]||m)+' '+y;};
 
-    // KPI totals
-    let totStockQty=0, totStockCost=0, totStockCBM=0, totBufQty=0;
+    let totStockQty=0, totStockValue=0, totStockCBM=0, totBufQty=0;
+    const fmtN=v=>v==null?'—':v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0);
 
-    const tableRows = allSKUs.map(sku => {
-      const sRows = stkRows.filter(r=>r['SKU 2']===sku);
-      const bRows = bufRows.filter(r=>r['SKU 2']===sku);
-      const rRows = real25.filter(r=>(r[C.sku]||r['SKU 2'])===sku);
+    const tableData = allSKUs.map(sku => {
+      const sRows=stkRows.filter(r=>r['SKU 2']===sku);
+      const bRows=bufRows.filter(r=>r['SKU 2']===sku);
+      const rRows=real25.filter(r=>(r[C.sku]||r['SKU 2'])===sku);
 
-      const desc    = sRows[0]?.['DESCRIPTION'] || bRows[0]?.['DESCRIPTION'] || '';
-      const cat     = sRows[0]?.[C.category]    || bRows[0]?.[C.category]    || '';
-      const subcat  = sRows[0]?.[C.subcat]      || bRows[0]?.[C.subcat]      || '';
-      const family  = sRows[0]?.['FAMILY']       || bRows[0]?.['FAMILY']      || '';
+      const desc   = sRows[0]?.['DESCRIPTION'] || bRows[0]?.['DESCRIPTION'] || '';
+      const cat    = sRows[0]?.[C.category]    || bRows[0]?.[C.category]    || '';
+      const subcat = sRows[0]?.[C.subcat]      || bRows[0]?.[C.subcat]      || '';
+      const family = sRows[0]?.['FAMILY']      || bRows[0]?.['FAMILY']      || '';
 
-      const stockQty  = sRows.reduce((s,r)=>s+num(r['QUANTITY']),0);
-      const unitCost  = sRows.length ? numCost(sRows[0]['COST']||'0') : 0;
-      const unitCBM   = sRows.length ? num(sRows[0]['CBM']||'0') : (bRows.length ? num(bRows[0]['CBM']||'0') : 0);
-      const totalCost = stockQty * unitCost;
-      const totalCBM  = stockQty * unitCBM;
+      const stockQty = sRows.reduce((s,r)=>s+num(r['QUANTITY']),0);
+      const stockValue = sRows.reduce((s,r)=>{
+        const c=(numCost(r['COST USD']||'')||numCost(r['COST']||''));
+        return s+num(r['QUANTITY'])*c;
+      },0);
+      const unitCBM = sRows.length?num(sRows[0]['CBM']||'0'):(bRows.length?num(bRows[0]['CBM']||'0'):0);
+      const totalCBM = stockQty*unitCBM;
 
-      // Avg monthly qty 2025 (TB LATAM real sales)
-      const avg25 = rRows.reduce((s,r)=>s+num(r[C.qty]),0) / 12;
+      const avg25 = rRows.reduce((s,r)=>s+num(r[C.qty]),0)/12;
 
-      // Buffer by delivery month
-      const bufByMon = {};
-      bRows.forEach(r => {
-        const y=String(r['Ano']||''), m=String(r['Mês']||'').padStart(2,'0');
-        const key = y && m!=='00' ? y+'-'+m : 'unknown';
-        bufByMon[key] = (bufByMon[key]||0) + num(r['QUANTITY']);
+      const bufByMon={};
+      bRows.forEach(r=>{
+        const y=String(r['Ano']||''),m=String(r[mesKey]||'').padStart(2,'0');
+        const key=y&&m!=='00'?y+'-'+m:'unknown';
+        bufByMon[key]=(bufByMon[key]||0)+num(r['QUANTITY']);
       });
-      const totalBuf = Object.values(bufByMon).reduce((s,v)=>s+v,0);
+      const totalBuf=Object.values(bufByMon).reduce((s,v)=>s+v,0);
 
-      // Coverage calculation (in months)
-      const cov = (qty, avg) => avg > 0 ? +(qty/avg).toFixed(1) : null;
-      const covNow = cov(stockQty, avg25);
+      const cov=(qty,avg)=>avg>0?+(qty/avg).toFixed(1):null;
+      const covNow=cov(stockQty,avg25);
+      let cumQty=stockQty;
+      const covByMon={};
+      bufMonths.forEach(ym=>{cumQty+=(bufByMon[ym]||0);covByMon[ym]=cov(cumQty,avg25);});
 
-      // Cumulative coverage per delivery month
-      let cumQty = stockQty;
-      const covByMon = {};
-      bufMonths.forEach(ym => {
-        cumQty += (bufByMon[ym] || 0);
-        covByMon[ym] = cov(cumQty, avg25);
-      });
+      totStockQty+=stockQty; totStockValue+=stockValue; totStockCBM+=totalCBM; totBufQty+=totalBuf;
 
-      totStockQty  += stockQty;
-      totStockCost += totalCost;
-      totStockCBM  += totalCBM;
-      totBufQty    += totalBuf;
+      let suggestion=null;
+      if(avg25>0){
+        const c=covNow||0;
+        if(c<1.5) suggestion={type:'push',text:'High velocity, low coverage → push now'};
+        else if(c>6&&avg25<5) suggestion={type:'disc',text:'Slow mover + excess stock → discontinue candidate'};
+        else if(c>4&&avg25>=10) suggestion={type:'push',text:'High stock + strong sales → marketing push'};
+      } else if(stockQty>50) {
+        suggestion={type:'disc',text:'No 2025 LATAM sales + stock → discontinue candidate'};
+      }
 
-      return { sku, desc, cat, subcat, family, avg25, stockQty, totalBuf, bufByMon, unitCost, totalCost, unitCBM, totalCBM, covNow, covByMon };
+      return {sku,desc,cat,subcat,family,avg25,stockQty,stockValue,totalBuf,bufByMon,totalCBM,covNow,covByMon,suggestion};
     });
 
-    // KPI cards
-    const fmtN = v => v == null ? '—' : v >= 1000 ? (v/1000).toFixed(1)+'K' : v.toFixed(0);
-    document.getElementById('buf-kpis').innerHTML = [
-      ['Total SKUs', allSKUs.length, ''],
-      ['Stock Qty', fmtN(totStockQty), 'units on hand'],
-      ['Total CBM', totStockCBM.toFixed(2), 'm³ in warehouse'],
-      ['Orders Qty', fmtN(totBufQty), 'units incoming'],
-    ].map(([l,v,s])=>`<div class="kpi-card" style="min-width:140px;"><div class="kpi-label">${l}</div><div class="kpi-value" style="font-size:22px;">${v}</div><div class="kpi-delta" style="color:#4a5680;">${s}</div></div>`).join('');
+    // KPI cards — split Local LATAM vs BONDED
+    const localStkRows  = stkRows.filter(r => !isBonded(r));
+    const bondedStkRows = stkRows.filter(r =>  isBonded(r));
+    const calcStockTotals = rows => {
+      let qty=0, value=0, cbm=0;
+      rows.forEach(r => {
+        const q = num(r['QUANTITY']);
+        const c = numCost(r['COST USD']||'') || numCost(r['COST']||'');
+        const u = num(r['CBM']||'0');
+        qty += q; value += q*c; cbm += q*u;
+      });
+      return { qty, value, cbm, skus: new Set(rows.map(r=>r['SKU 2']).filter(Boolean)).size };
+    };
+    const lt = calcStockTotals(localStkRows);
+    const bt = calcStockTotals(bondedStkRows);
+    const fmtVal = v => '$'+(v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0));
+    const mkCard = (l,v,s,accent) => `<div class="kpi-card" style="min-width:130px;${accent?'border-color:'+accent+';':''}"><div class="kpi-label">${l}</div><div class="kpi-value" style="font-size:20px;">${v}</div><div class="kpi-delta" style="color:#4a5680;">${s}</div></div>`;
+    const localLabel = ctFilter ? (_bufCountry+' Local') : 'Local LATAM';
+    document.getElementById('buf-kpis').innerHTML =
+      `<div style="display:flex;gap:20px;flex-wrap:wrap;width:100%;">` +
+      `<div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:10px;font-weight:700;color:#4a90e2;text-transform:uppercase;letter-spacing:.07em;">📦 ${localLabel}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          ${mkCard('SKUs',lt.skus,'local stock','#4a90e2')}
+          ${mkCard('Stock Qty',fmtN(lt.qty),'units on hand','#4a90e2')}
+          ${mkCard('Stock Value',fmtVal(lt.value),'USD cost','#4a90e2')}
+          ${mkCard('CBM',lt.cbm.toFixed(1),'m³','#4a90e2')}
+        </div>
+      </div>` +
+      `<div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:10px;font-weight:700;color:#f59e0b;text-transform:uppercase;letter-spacing:.07em;">🏭 BONDED</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          ${mkCard('SKUs',bt.skus,'bonded stock','#f59e0b')}
+          ${mkCard('Stock Qty',fmtN(bt.qty),'units on hand','#f59e0b')}
+          ${mkCard('Stock Value',fmtVal(bt.value),'USD cost','#f59e0b')}
+          ${mkCard('CBM',bt.cbm.toFixed(1),'m³','#f59e0b')}
+        </div>
+      </div>` +
+      `<div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:10px;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:.07em;">🚚 Orders</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          ${mkCard('Orders Qty',fmtN(totBufQty),'units incoming','#22c55e')}
+        </div>
+      </div>` +
+      `</div>`;
 
-    // Coverage colour
-    const covCol = v => v == null ? '#4a5680' : v >= 3 ? '#22c55e' : v >= 1.5 ? '#f59e0b' : '#ef4444';
-    const covFmt = v => v == null ? '—' : v.toFixed(1)+'mo';
+    // Suggestions
+    const pushItems=tableData.filter(r=>r.suggestion?.type==='push').slice(0,5);
+    const discItems=tableData.filter(r=>r.suggestion?.type==='disc').slice(0,5);
+    let sugHtml='';
+    if(pushItems.length||discItems.length){
+      sugHtml=`<div style="display:flex;gap:12px;flex-wrap:wrap;">`;
+      if(pushItems.length) sugHtml+=`<div style="flex:1;min-width:240px;background:#0f2217;border:1px solid #22c55e33;border-radius:10px;padding:14px;">
+        <div style="font-weight:700;font-size:12px;color:#22c55e;margin-bottom:8px;">🚀 Push Candidates</div>
+        ${pushItems.map(r=>`<div style="font-size:11px;padding:4px 0;border-bottom:1px solid #1a2940;"><strong>${r.sku}</strong> — ${r.desc.slice(0,40)} <span style="color:#22c55e">${r.suggestion.text}</span></div>`).join('')}</div>`;
+      if(discItems.length) sugHtml+=`<div style="flex:1;min-width:240px;background:#1f0f0f;border:1px solid #ef444433;border-radius:10px;padding:14px;">
+        <div style="font-weight:700;font-size:12px;color:#ef4444;margin-bottom:8px;">⚠️ Discontinue Candidates</div>
+        ${discItems.map(r=>`<div style="font-size:11px;padding:4px 0;border-bottom:1px solid #1a2940;"><strong>${r.sku}</strong> — ${r.desc.slice(0,40)} <span style="color:#ef4444">${r.suggestion.text}</span></div>`).join('')}</div>`;
+      sugHtml+=`</div>`;
+    }
+    document.getElementById('buf-suggestions').innerHTML=sugHtml;
 
-    // Table
-    const ordMonHdrs = bufMonths.map(ym=>`<th class="r" title="Orders arriving ${monLbl(ym)}">Orders<br>${monLbl(ym)}</th>`).join('');
-    const covHdrs    = bufMonths.map(ym=>`<th class="r" title="Coverage after ${monLbl(ym)} arrivals">+${monLbl(ym)}</th>`).join('');
+    // Sortable table
+    const covCol=v=>v==null?'#4a5680':v>=3?'#22c55e':v>=1.5?'#f59e0b':'#ef4444';
+    const covFmt=v=>v==null?'—':v.toFixed(1)+'mo';
+    const ordMonHdrs=bufMonths.map(ym=>`<th class="r sort-btn" data-col="buf_${ym}" title="Orders ${monLbl(ym)}">Orders<br>${monLbl(ym)}</th>`).join('');
+    const covHdrs=bufMonths.map(ym=>`<th class="r sort-btn" data-col="cov_${ym}">+${monLbl(ym)}</th>`).join('');
 
-    const tbody = tableRows.map(r => {
-      const ordCells = bufMonths.map(ym=>`<td class="r">${r.bufByMon[ym]?fmtN(r.bufByMon[ym]):''}</td>`).join('');
-      const covCells = bufMonths.map(ym=>`<td class="r" style="color:${covCol(r.covByMon[ym])};font-weight:600;">${covFmt(r.covByMon[ym])}</td>`).join('');
+    // Sort state stored on element
+    const wrap=document.getElementById('buf-table-wrap');
+    let sortCol=wrap._sortCol||'sku', sortDir=wrap._sortDir||1;
+
+    const sorted=[...tableData].sort((a,b)=>{
+      let va,vb;
+      if(sortCol==='sku'){va=a.sku;vb=b.sku;}
+      else if(sortCol==='desc'){va=a.desc;vb=b.desc;}
+      else if(sortCol==='avg25'){va=a.avg25;vb=b.avg25;}
+      else if(sortCol==='stock'){va=a.stockQty;vb=b.stockQty;}
+      else if(sortCol==='covNow'){va=a.covNow??-1;vb=b.covNow??-1;}
+      else if(sortCol==='value'){va=a.stockValue;vb=b.stockValue;}
+      else if(sortCol.startsWith('buf_')){const ym=sortCol.slice(4);va=a.bufByMon[ym]||0;vb=b.bufByMon[ym]||0;}
+      else if(sortCol.startsWith('cov_')){const ym=sortCol.slice(4);va=a.covByMon[ym]??-1;vb=b.covByMon[ym]??-1;}
+      else {va=a[sortCol]||0;vb=b[sortCol]||0;}
+      if(typeof va==='string') return sortDir*va.localeCompare(vb);
+      return sortDir*(va-vb);
+    });
+
+    const tbody=sorted.map(r=>{
+      const ordCells=bufMonths.map(ym=>`<td class="r">${r.bufByMon[ym]?fmtN(r.bufByMon[ym]):''}</td>`).join('');
+      const covCells=bufMonths.map(ym=>`<td class="r" style="color:${covCol(r.covByMon[ym])};font-weight:600;">${covFmt(r.covByMon[ym])}</td>`).join('');
+      const sugBadge=r.suggestion?`<span style="font-size:9px;padding:2px 6px;border-radius:8px;margin-left:4px;background:${r.suggestion.type==='push'?'#0f2217':'#1f0f0f'};color:${r.suggestion.type==='push'?'#22c55e':'#ef4444'}">${r.suggestion.type==='push'?'PUSH':'DISC'}</span>`:'';
       return `<tr>
-        <td style="font-weight:600;white-space:nowrap;">${r.sku}</td>
-        <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.desc}">${r.desc}</td>
-        <td>${r.family}</td>
-        <td>${r.cat}</td>
-        <td>${r.subcat}</td>
-        <td class="r">${r.avg25 > 0 ? r.avg25.toFixed(1) : '—'}</td>
+        <td style="font-weight:600;white-space:nowrap;">${r.sku}${sugBadge}</td>
+        <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;" title="${r.desc}">${r.desc}</td>
+        <td style="font-size:10px;">${r.family}</td>
+        <td style="font-size:10px;">${r.cat}</td>
+        <td class="r">${r.avg25>0?r.avg25.toFixed(1):'—'}</td>
         <td class="r" style="font-weight:600;">${fmtN(r.stockQty)}</td>
+        <td class="r">${r.stockValue>0?'$'+(r.stockValue>=1000?(r.stockValue/1000).toFixed(1)+'K':r.stockValue.toFixed(0)):''}</td>
         ${ordCells}
         <td class="r" style="color:${covCol(r.covNow)};font-weight:700;">${covFmt(r.covNow)}</td>
         ${covCells}
-        <td class="r">${r.unitCBM > 0 ? r.unitCBM.toFixed(4) : '—'}</td>
-        <td class="r">${r.totalCBM > 0 ? r.totalCBM.toFixed(2) : '—'}</td>
+        <td class="r">${r.totalCBM>0?r.totalCBM.toFixed(1):''}</td>
       </tr>`;
     }).join('');
 
-    document.getElementById('buf-table-wrap').innerHTML = `
-      <table class="tbl" style="font-size:11px;min-width:900px;">
-        <thead><tr>
-          <th>SKU</th><th>Description</th><th>Family</th><th>Category</th><th>Sub-Cat</th>
-          <th class="r">Avg Mo.<br>Qty 2025</th>
-          <th class="r">Stock<br>Qty</th>
-          ${ordMonHdrs}
-          <th class="r" style="background:#1a2340;">Coverage<br>Now</th>
-          ${covHdrs}
-          <th class="r">Unit<br>CBM</th>
-          <th class="r">Total<br>CBM</th>
-        </tr></thead>
-        <tbody>${tbody}</tbody>
-      </table>`;
+    const arrowFor=col=>{if(col!==sortCol)return'↕';return sortDir===1?'↑':'↓';};
+    wrap.innerHTML=`<table class="tbl" id="buf-tbl" style="font-size:11px;min-width:900px;">
+      <thead><tr>
+        <th class="sort-btn" data-col="sku">SKU ${arrowFor('sku')}</th>
+        <th class="sort-btn" data-col="desc">Description ${arrowFor('desc')}</th>
+        <th>Family</th><th>Category</th>
+        <th class="r sort-btn" data-col="avg25">Avg Mo.<br>2025 ${arrowFor('avg25')}</th>
+        <th class="r sort-btn" data-col="stock">Stock<br>Qty ${arrowFor('stock')}</th>
+        <th class="r sort-btn" data-col="value">Stock<br>Value ${arrowFor('value')}</th>
+        ${ordMonHdrs}
+        <th class="r sort-btn" data-col="covNow" style="background:#1a2340;">Coverage<br>Now ${arrowFor('covNow')}</th>
+        ${covHdrs}
+        <th class="r">Total<br>CBM</th>
+      </tr></thead>
+      <tbody>${tbody}</tbody>
+    </table>`;
+
+    // Attach sort click handlers
+    wrap.querySelectorAll('th.sort-btn').forEach(th=>{
+      th.style.cursor='pointer';
+      th.addEventListener('click',()=>{
+        const col=th.dataset.col;
+        if(wrap._sortCol===col) wrap._sortDir=(wrap._sortDir||1)*-1;
+        else{wrap._sortCol=col;wrap._sortDir=-1;}
+        renderBuffer();
+      });
+    });
+    wrap._sortCol=sortCol; wrap._sortDir=sortDir;
   }
 
   /* ================================================================
@@ -2000,7 +1978,8 @@
       document.body.appendChild(btn);
     }
 
-    const sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+    const sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_SERVICE_KEY,
+      { auth: { persistSession: false, autoRefreshToken: false } });
 
     // Parallel paginated fetch — 5 pages at a time → ~5× faster than sequential
     const PAGE = 1000, PARALLEL = 5;
@@ -2026,11 +2005,14 @@
     console.log('[BL] fetched', raw.length, 'rows, parallel pages');
 
     if (error || !raw?.length) {
+      const errMsg = error ? `Error: ${error.message || JSON.stringify(error)}` : 'Fetch returned 0 rows.';
+      console.error('[BL] data load failed:', errMsg);
       document.getElementById('state-loading').innerHTML = `
         <div class="state-card">
           <div class="state-icon">📭</div>
           <div class="state-title">No data yet</div>
           <div class="state-sub">${Auth.isAdminOrOwner(user) ? 'Upload a CSV in the Admin panel.' : 'Data is being prepared.'}</div>
+          <div class="state-sub" style="color:#ef4444;font-size:11px;margin-top:8px;">${errMsg}</div>
           ${Auth.isAdminOrOwner(user) ? `<a href="/admin/index.html?upload=${PROJECT_SLUG}" class="state-link">⬆ Upload CSV</a>` : ''}
         </div>`;
       return;
