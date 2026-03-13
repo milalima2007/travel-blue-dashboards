@@ -686,6 +686,8 @@
     C.custBP   = find('customer bp','customer_bp','customerbp');
     C.channel  = find('channel','canal');
     C.company  = find('company','empresa');
+    C.size     = find('size','tamanho','taille','talla');
+    C.color    = find('color','colour','cor','couleur','color family');
     // Prefer explicit USD column first, then fallback to generic amount/value patterns.
     // This avoids accidentally picking local-currency columns (e.g. "NET AMOUNT (LcCy)")
     // when a proper USD column exists (e.g. "NET AMOUNT (USD)").
@@ -1254,7 +1256,7 @@
       const skuMeta = {};
       act25.forEach(r => {
         const s = r[C.sku]; if(!s || skuMeta[s]) return;
-        skuMeta[s] = { desc: r['DESCRIPTION']||'', color: (r['COLOR']||'').toUpperCase(), size: (r['SIZE']||'').toUpperCase() };
+        skuMeta[s] = { desc: r[C.desc]||'', color: (C.color ? r[C.color]||'' : '').toUpperCase(), size: (C.size ? r[C.size]||'' : '').toUpperCase() };
       });
       document.getElementById('tbl-sku').innerHTML = `
         <div class="tbl-wrap" style="max-height:400px;overflow-y:auto;"><table class="tbl">
@@ -1495,11 +1497,11 @@
     /* ── Size analysis ── */
     {
       const sizeQty25 = {};
-      act25.forEach(r => { const s=(r['SIZE']||'').trim().toUpperCase(); if(s) sizeQty25[s]=(sizeQty25[s]||0)+num(r[C.qty]); });
+      act25.forEach(r => { const s=(C.size ? r[C.size]||'' : '').trim().toUpperCase(); if(s) sizeQty25[s]=(sizeQty25[s]||0)+num(r[C.qty]); });
       const sizes = Object.entries(sizeQty25).sort((a,b)=>b[1]-a[1]).slice(0,20).map(e=>e[0]);
-      const szQ24 = sizes.map(s => sum(act24.filter(r => (r['SIZE']||'').trim().toUpperCase() === s), C.qty));
-      const szQ25 = sizes.map(s => sum(act25.filter(r => (r['SIZE']||'').trim().toUpperCase() === s), C.qty));
-      const szQ26 = sizes.map(s => sum(act26.filter(r => (r['SIZE']||'').trim().toUpperCase() === s), C.qty));
+      const szQ24 = sizes.map(s => sum(act24.filter(r => (C.size ? r[C.size]||'' : '').trim().toUpperCase() === s), C.qty));
+      const szQ25 = sizes.map(s => sum(act25.filter(r => (C.size ? r[C.size]||'' : '').trim().toUpperCase() === s), C.qty));
+      const szQ26 = sizes.map(s => sum(act26.filter(r => (C.size ? r[C.size]||'' : '').trim().toUpperCase() === s), C.qty));
       mkChart('ch-size-bar', { type:'bar',
         data:{ labels:sizes, datasets:[
           {label:'2024', data:szQ24, backgroundColor:C_2024+'99', borderRadius:3},
@@ -1521,11 +1523,11 @@
     /* ── Color analysis ── */
     {
       const colorQty25 = {};
-      act25.forEach(r => { const c=(r['COLOR']||'').trim().toUpperCase(); if(c) colorQty25[c]=(colorQty25[c]||0)+num(r[C.qty]); });
+      act25.forEach(r => { const c=(C.color ? r[C.color]||'' : '').trim().toUpperCase(); if(c) colorQty25[c]=(colorQty25[c]||0)+num(r[C.qty]); });
       const colors = Object.entries(colorQty25).sort((a,b)=>b[1]-a[1]).slice(0,20).map(e=>e[0]);
-      const colQ24 = colors.map(c => sum(act24.filter(r => (r['COLOR']||'').trim().toUpperCase() === c), C.qty));
-      const colQ25 = colors.map(c => sum(act25.filter(r => (r['COLOR']||'').trim().toUpperCase() === c), C.qty));
-      const colQ26 = colors.map(c => sum(act26.filter(r => (r['COLOR']||'').trim().toUpperCase() === c), C.qty));
+      const colQ24 = colors.map(c => sum(act24.filter(r => (C.color ? r[C.color]||'' : '').trim().toUpperCase() === c), C.qty));
+      const colQ25 = colors.map(c => sum(act25.filter(r => (C.color ? r[C.color]||'' : '').trim().toUpperCase() === c), C.qty));
+      const colQ26 = colors.map(c => sum(act26.filter(r => (C.color ? r[C.color]||'' : '').trim().toUpperCase() === c), C.qty));
       mkChart('ch-color-bar', { type:'bar',
         data:{ labels:colors, datasets:[
           {label:'2024', data:colQ24, backgroundColor:C_2024+'99', borderRadius:3},
@@ -2027,7 +2029,7 @@
     rows.forEach(r => { const t = r[C.type] ?? '(blank)'; _dbgTypes[t] = (_dbgTypes[t]||0)+1; });
     console.log('[BL] fetched', rows.length, 'rows | after INTERCO filter:', _all.length);
     console.log('[BL] TYPE breakdown:', _dbgTypes);
-    console.log('[BL] columns — value:', C.value, '| qty:', C.qty, '| type:', C.type);
+    console.log('[BL] columns — value:', C.value, '| qty:', C.qty, '| type:', C.type, '| size:', C.size, '| color:', C.color);
 
     _filt = [..._all];
     document.getElementById('state-loading').style.display = 'none';
