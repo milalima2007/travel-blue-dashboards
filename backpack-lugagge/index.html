@@ -488,6 +488,13 @@
           </div>
         </div>
       </div>
+      <div class="section" id="sec-ov-branch" style="display:none;">
+        <div class="section-title">Sales by TB Branch</div>
+        <div class="chart-card">
+          <div class="chart-sub">2024 vs 2025 vs 2026 YTD</div>
+          <div id="ch-branch-bar-wrap" style="position:relative;height:320px;"><canvas id="ch-branch-bar"></canvas></div>
+        </div>
+      </div>
       <div class="section">
         <div class="section-title">Sales by Country &amp; TB Branch</div>
         <div id="tbl-ov-country-branch"></div>
@@ -1187,11 +1194,13 @@
       }
     });
 
-    /* Sales by Country & TB Branch table */
-    const act24all = _all.filter(r => isActual(r) && rowYear(r)==='2024');
-    const act25all = _all.filter(r => isActual(r) && rowYear(r)==='2025');
-    const act26all = _all.filter(r => isActual(r) && rowYear(r)==='2026');
-    const bp26all  = _all.filter(r => isBP(r)     && rowYear(r)==='2026');
+    /* Sales by Country & TB Branch table + Branch bar chart
+       applyNonTemporalFilters already defined above — applies branch/country/family etc.
+       but NOT year/month (so all 3 year columns always show) */
+    const act24all = applyNonTemporalFilters(_all.filter(r => isActual(r) && rowYear(r)==='2024'));
+    const act25all = applyNonTemporalFilters(_all.filter(r => isActual(r) && rowYear(r)==='2025'));
+    const act26all = applyNonTemporalFilters(_all.filter(r => isActual(r) && rowYear(r)==='2026'));
+    const bp26all  = applyNonTemporalFilters(_all.filter(r => isBP(r)     && rowYear(r)==='2026'));
 
     if (C.country) {
       const countries = [...new Set([...act24all,...act25all,...act26all].map(r=>r[C.country]).filter(Boolean))].sort();
@@ -1212,6 +1221,57 @@
           <thead><tr><th>Country</th><th class="r">2024</th><th class="r">2025</th><th class="r">YoY%</th>
             <th class="r">2026 YTD</th><th class="r">YoY%</th><th class="r">BP 2026</th><th class="r">%vs BP</th></tr></thead>
           <tbody>${rows.join('')}</tbody></table></div>`;
+    }
+
+    /* ── TB Branch horizontal bar chart ── */
+    const secOvBr = document.getElementById('sec-ov-branch');
+    if (C.branch) {
+      if (secOvBr) secOvBr.style.display = '';
+      const brMap2 = aggBy(act25all, r => r[C.branch]);
+      const brs2   = topN(brMap2, 15).reverse(); // largest at top for horizontal bars
+      const bS24   = brs2.map(b => sum(act24all.filter(r => norm(r[C.branch]) === norm(b)), mCol()));
+      const bS25   = brs2.map(b => sum(act25all.filter(r => norm(r[C.branch]) === norm(b)), mCol()));
+      const bS26   = brs2.map(b => sum(act26all.filter(r => norm(r[C.branch]) === norm(b)), mCol()));
+      const h2     = Math.max(260, brs2.length * 30 + 40);
+      const wrap2  = document.getElementById('ch-branch-bar-wrap');
+      if (wrap2) wrap2.style.height = h2 + 'px';
+      mkChart('ch-branch-bar', {
+        type: 'bar',
+        data: {
+          labels: brs2,
+          datasets: [
+            { label:'2024',     data:bS24, backgroundColor:C_2024+'88', borderRadius:2 },
+            { label:'2025',     data:bS25, backgroundColor:C_2025+'cc', borderRadius:2 },
+            { label:'2026 YTD', data:bS26, backgroundColor:C_2026+'cc', borderRadius:2 },
+          ]
+        },
+        options: {
+          indexAxis: 'y', responsive:true, maintainAspectRatio:false,
+          plugins: {
+            legend: dLegend(),
+            datalabels: {
+              display: true, anchor:'end', align:'right',
+              color: isLight()?'#374151':'#c8d4e8', font:{size:9, weight:'700'},
+              formatter: (v, ctx) => {
+                if (!v) return '';
+                if (ctx.datasetIndex === 1) {
+                  const v24 = ctx.chart.data.datasets[0].data[ctx.dataIndex] || 0;
+                  const yoy = v24 ? ((v - v24) / Math.abs(v24) * 100) : NaN;
+                  return fmtShort(v) + (isFinite(yoy) ? ' ('+(yoy>=0?'+':'')+yoy.toFixed(0)+'%)' : '');
+                }
+                return fmtShort(v);
+              }
+            },
+            tooltip: { callbacks:{ label: ctx => `${ctx.dataset.label}: ${fmt(ctx.parsed.x)}` } }
+          },
+          scales: {
+            x: { grid:{display:false}, ticks:{color: isLight()?'#374151':'#c8d4e8', font:{size:9}} },
+            y: { grid:{display:false}, ticks:{color: isLight()?'#374151':'#c8d4e8', font:{size:10}} }
+          }
+        }
+      });
+    } else {
+      if (secOvBr) secOvBr.style.display = 'none';
     }
   }
 
@@ -1323,10 +1383,10 @@
 
       const cc0 = chartColors();
       const brHdrs = branches.map(br =>
-        `<th class="r" colspan="4" style="background:${cc0.brHd};border-left:2px solid ${cc0.sep};">${br}</th>`
+        `<th class="r" colspan="5" style="background:${cc0.brHd};border-left:2px solid ${cc0.sep};">${br}</th>`
       ).join('');
       const brSubHdrs = branches.map(() =>
-        `<th class="r" style="border-left:2px solid ${cc0.sep};">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th>`
+        `<th class="r" style="border-left:2px solid ${cc0.sep};">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th><th class="r">%26v25</th>`
       ).join('');
 
       const statusBadge = s => {
@@ -1349,7 +1409,7 @@
           <tbody>${skus.map((s,i)=>{
             const m=skuMeta[s]||{};
             const brCells = brData.map(b =>
-              `<td class="r" style="border-left:2px solid ${cc0.sep};">${fmt(b.s24[i])}</td><td class="r">${fmt(b.s25[i])}</td>${pctTd(pct(b.s25[i],b.s24[i]))}<td class="r">${fmt(b.s26[i])}</td>`
+              `<td class="r" style="border-left:2px solid ${cc0.sep};">${fmt(b.s24[i])}</td><td class="r">${fmt(b.s25[i])}</td>${pctTd(pct(b.s25[i],b.s24[i]))}<td class="r">${fmt(b.s26[i])}</td>${pctTd(pct(b.s26[i],b.s25[i]))}`
             ).join('');
             return `<tr>
               <td class="sk1" style="font-weight:600">${s}</td>
