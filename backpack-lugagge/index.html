@@ -109,6 +109,10 @@
 
     /* ── DARK TABLE ── */
     .tbl-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid #1a2236; }
+    .tbl-wrap::-webkit-scrollbar { width: 7px; height: 7px; }
+    .tbl-wrap::-webkit-scrollbar-track { background: #0d1321; }
+    .tbl-wrap::-webkit-scrollbar-thumb { background: #2a3454; border-radius: 4px; }
+    .tbl-wrap::-webkit-scrollbar-thumb:hover { background: #3d5180; }
     .tbl { width: 100%; border-collapse: collapse; font-size: 11.5px; }
     .tbl th {
       background: #161d30; color: #5b6b8a; padding: 9px 12px;
@@ -228,6 +232,45 @@
     body.light .insight-title { color: #0f172a !important; font-weight: 700 !important; }
     body.light .insight-body { color: #334155 !important; }
     body.light .insight-action { color: #2563eb !important; font-weight: 600 !important; }
+    /* ── MULTI-SELECT DROPDOWN (MSD) ── */
+    .msdrop { position: relative; display: inline-block; }
+    .msdrop-btn {
+      display: flex; align-items: center; gap: 6px; padding: 4px 9px;
+      border: 1px solid #1e2840; border-radius: 6px; font-size: 11.5px;
+      color: #c8d4e8; background: #161d30; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; white-space: nowrap; min-width: 110px; max-width: 200px;
+    }
+    .msdrop-btn:hover { border-color: #3b82f6; }
+    .msdrop-lbl { flex: 1; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+    .msdrop-arr { opacity: .5; font-size: 8px; flex-shrink: 0; }
+    .msdrop-panel {
+      position: absolute; top: calc(100% + 4px); left: 0; z-index: 1000;
+      background: #0f1523; border: 1px solid #1e2840; border-radius: 8px;
+      min-width: 190px; max-width: 280px; box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    }
+    .msd-search-row { padding: 7px 8px 5px; border-bottom: 1px solid #1a2236; }
+    .msd-search {
+      width: 100%; box-sizing: border-box; padding: 5px 9px;
+      border: 1px solid #1e2840; border-radius: 5px;
+      background: #161d30; color: #c8d4e8; font-size: 11px; outline: none;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .msd-search:focus { border-color: #3b82f6; }
+    .msd-list { max-height: 210px; overflow-y: auto; padding: 4px 0; }
+    .msd-opt {
+      display: flex; align-items: center; gap: 8px; padding: 5px 12px;
+      font-size: 11.5px; color: #9aa5bc; cursor: pointer; user-select: none;
+    }
+    .msd-opt:hover { background: #161d30; color: #e8ecf4; }
+    .msd-opt input[type=checkbox] { width: 13px; height: 13px; accent-color: #3b82f6; cursor: pointer; flex-shrink: 0; }
+    .msd-opt.msd-all { border-bottom: 1px solid #1a2236; margin-bottom: 2px; color: #c8d4e8; font-weight: 600; font-style: italic; }
+    body.light .msdrop-btn { background: #f8fafc !important; color: #0f172a !important; border-color: #cbd5e1 !important; }
+    body.light .msdrop-btn:hover { border-color: #2563eb !important; }
+    body.light .msdrop-panel { background: #ffffff !important; border-color: #dde3ed !important; box-shadow: 0 4px 16px rgba(0,0,0,.1) !important; }
+    body.light .msd-search { background: #f8fafc !important; color: #0f172a !important; border-color: #cbd5e1 !important; }
+    body.light .msd-opt { color: #334155 !important; }
+    body.light .msd-opt:hover { background: #f1f5f9 !important; color: #0f172a !important; }
+    body.light .msd-opt.msd-all { color: #0f172a !important; border-bottom-color: #dde3ed !important; }
     /* State cards */
     body.light .state-title { color: #0f172a !important; }
     body.light .state-sub { color: #475569 !important; }
@@ -410,56 +453,52 @@
           <button class="family-btn" id="btn-lg" onclick="setFamily('LUGGAGE')">Luggage</button>
         </div>
       </div>
-      <div class="filter-group"><span class="filter-label">Year</span>
-        <select class="filter-select" id="f-year" onchange="applyFilters()"><option value="">All Years</option></select></div>
-      <div class="filter-group"><span class="filter-label">Month</span>
-        <select class="filter-select" id="f-month" onchange="applyFilters()"><option value="">All Months</option></select></div>
-      <div class="filter-group"><span class="filter-label">Country</span>
-        <select class="filter-select" id="f-country" onchange="applyFilters()"><option value="">All Countries</option></select></div>
-      <div class="filter-group"><span class="filter-label">TB Branch</span>
-        <select class="filter-select" id="f-branch" onchange="applyFilters()"><option value="">All Branches</option></select></div>
-      <div class="filter-group" id="csdrop-wrap-customer">
-        <span class="filter-label">Customer</span>
-        <div class="csdrop">
-          <button class="csdrop-trigger" type="button" onclick="gsdropToggle('customer')">
-            <span id="csdrop-label-customer">All Customers</span><span class="csdrop-arrow">▼</span>
-          </button>
-          <div class="csdrop-panel" id="csdrop-panel-customer" style="display:none;">
-            <div class="csdrop-search-row">
-              <input class="csdrop-search" id="csdrop-search-customer" type="text" placeholder="🔍 Search customer…" oninput="gsdropFilter('customer',this.value)">
-            </div>
-            <div class="csdrop-list" id="csdrop-list-customer"></div>
-          </div>
+      <div class="filter-group" id="msd-wrap-year"><span class="filter-label">Year</span>
+        <div class="msdrop" id="msd-year">
+          <button class="msdrop-btn" type="button" onclick="msdToggle('year')"><span class="msdrop-lbl" id="msd-lbl-year">All Years</span><span class="msdrop-arr">▾</span></button>
+          <div class="msdrop-panel" id="msd-panel-year" style="display:none;"></div>
         </div>
       </div>
-      <div class="filter-group"><span class="filter-label">Category</span>
-        <select class="filter-select" id="f-category" onchange="applyFilters()"><option value="">All Categories</option></select></div>
-      <div class="filter-group" id="csdrop-wrap-subcat">
-        <span class="filter-label">Sub-Cat.</span>
-        <div class="csdrop">
-          <button class="csdrop-trigger" type="button" onclick="gsdropToggle('subcat')">
-            <span id="csdrop-label-subcat">All Sub-Cat.</span><span class="csdrop-arrow">▼</span>
-          </button>
-          <div class="csdrop-panel" id="csdrop-panel-subcat" style="display:none;">
-            <div class="csdrop-search-row">
-              <input class="csdrop-search" id="csdrop-search-subcat" type="text" placeholder="🔍 Search sub-category…" oninput="gsdropFilter('subcat',this.value)">
-            </div>
-            <div class="csdrop-list" id="csdrop-list-subcat"></div>
-          </div>
+      <div class="filter-group" id="msd-wrap-month"><span class="filter-label">Month</span>
+        <div class="msdrop" id="msd-month">
+          <button class="msdrop-btn" type="button" onclick="msdToggle('month')"><span class="msdrop-lbl" id="msd-lbl-month">All Months</span><span class="msdrop-arr">▾</span></button>
+          <div class="msdrop-panel" id="msd-panel-month" style="display:none;"></div>
         </div>
       </div>
-      <div class="filter-group" id="csdrop-wrap-sku">
-        <span class="filter-label">SKU</span>
-        <div class="csdrop">
-          <button class="csdrop-trigger" type="button" onclick="gsdropToggle('sku')">
-            <span id="csdrop-label-sku">All SKUs</span><span class="csdrop-arrow">▼</span>
-          </button>
-          <div class="csdrop-panel" id="csdrop-panel-sku" style="display:none;">
-            <div class="csdrop-search-row">
-              <input class="csdrop-search" id="csdrop-search-sku" type="text" placeholder="🔍 Search SKU…" oninput="gsdropFilter('sku',this.value)">
-            </div>
-            <div class="csdrop-list" id="csdrop-list-sku"></div>
-          </div>
+      <div class="filter-group" id="msd-wrap-country"><span class="filter-label">Country</span>
+        <div class="msdrop" id="msd-country">
+          <button class="msdrop-btn" type="button" onclick="msdToggle('country')"><span class="msdrop-lbl" id="msd-lbl-country">All Countries</span><span class="msdrop-arr">▾</span></button>
+          <div class="msdrop-panel" id="msd-panel-country" style="display:none;"></div>
+        </div>
+      </div>
+      <div class="filter-group" id="msd-wrap-branch"><span class="filter-label">TB Branch</span>
+        <div class="msdrop" id="msd-branch">
+          <button class="msdrop-btn" type="button" onclick="msdToggle('branch')"><span class="msdrop-lbl" id="msd-lbl-branch">All Branches</span><span class="msdrop-arr">▾</span></button>
+          <div class="msdrop-panel" id="msd-panel-branch" style="display:none;"></div>
+        </div>
+      </div>
+      <div class="filter-group" id="msd-wrap-customer"><span class="filter-label">Customer</span>
+        <div class="msdrop" id="msd-customer">
+          <button class="msdrop-btn" type="button" onclick="msdToggle('customer')"><span class="msdrop-lbl" id="msd-lbl-customer">All Customers</span><span class="msdrop-arr">▾</span></button>
+          <div class="msdrop-panel" id="msd-panel-customer" style="display:none;"></div>
+        </div>
+      </div>
+      <div class="filter-group" id="msd-wrap-category"><span class="filter-label">Category</span>
+        <div class="msdrop" id="msd-category">
+          <button class="msdrop-btn" type="button" onclick="msdToggle('category')"><span class="msdrop-lbl" id="msd-lbl-category">All Categories</span><span class="msdrop-arr">▾</span></button>
+          <div class="msdrop-panel" id="msd-panel-category" style="display:none;"></div>
+        </div>
+      </div>
+      <div class="filter-group" id="msd-wrap-subcat"><span class="filter-label">Sub-Cat.</span>
+        <div class="msdrop" id="msd-subcat">
+          <button class="msdrop-btn" type="button" onclick="msdToggle('subcat')"><span class="msdrop-lbl" id="msd-lbl-subcat">All Sub-Cat.</span><span class="msdrop-arr">▾</span></button>
+          <div class="msdrop-panel" id="msd-panel-subcat" style="display:none;"></div>
+        </div>
+      </div>
+      <div class="filter-group" id="msd-wrap-sku"><span class="filter-label">SKU</span>
+        <div class="msdrop" id="msd-sku">
+          <button class="msdrop-btn" type="button" onclick="msdToggle('sku')"><span class="msdrop-lbl" id="msd-lbl-sku">All SKUs</span><span class="msdrop-arr">▾</span></button>
+          <div class="msdrop-panel" id="msd-panel-sku" style="display:none;"></div>
         </div>
       </div>
       <div class="metric-toggle">
@@ -797,12 +836,12 @@
     return _all.filter(r => {
       if (rowYear(r) !== String(yr) || !isBP(r)) return false;
       if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
-      if (F.country   && C.country   && norm(r[C.country])   !== norm(F.country))   return false;
-      if (F.branch    && C.branch    && norm(r[C.branch])    !== norm(F.branch))     return false;
-      if (F.customer  && C.customer  && norm(r[C.customer])  !== norm(F.customer))   return false;
-      if (F.category  && C.category  && norm(r[C.category])  !== norm(F.category))   return false;
-      if (F.subcat    && C.subcat    && norm(r[C.subcat])    !== norm(F.subcat))      return false;
-      if (F.sku       && C.sku       && norm(r[C.sku])       !== norm(F.sku))         return false;
+      if (F.country.length  && C.country  && !F.country.some(v => norm(v) === norm(r[C.country])))   return false;
+      if (F.branch.length   && C.branch   && !F.branch.some(v => norm(v) === norm(r[C.branch])))     return false;
+      if (F.customer.length && C.customer && !F.customer.some(v => norm(v) === norm(r[C.customer]))) return false;
+      if (F.category.length && C.category && !F.category.some(v => norm(v) === norm(r[C.category]))) return false;
+      if (F.subcat.length   && C.subcat   && !F.subcat.some(v => norm(v) === norm(r[C.subcat])))     return false;
+      if (F.sku.length      && C.sku      && !F.sku.some(v => norm(v) === norm(r[C.sku])))           return false;
       return true;
     });
   }
@@ -819,98 +858,136 @@
   }
 
   /* ── filter state ── */
-  const F = { family:'ALL', year:'', month:'', country:'', branch:'', customer:'', category:'', subcat:'', sku:'' };
+  const F = { family:'ALL', year:[], month:[], country:[], branch:[], customer:[], category:[], subcat:[], sku:[] };
 
-  /* ── Generalized Searchable Dropdowns ── */
-  // _gsdropOpts: { customer: [...], subcat: [...], sku: [...] }
-  const _gsdropOpts = { customer:[], subcat:[], sku:[] };
-  const _gsdropDefaults = { customer:'All Customers', subcat:'All Sub-Cat.', sku:'All SKUs' };
-  const _gsdropFields  = { customer:'customer', subcat:'subcat', sku:'sku' };
+  /* ── Multi-Select Dropdown (MSD) module ── */
+  const MSD = {
+    _defaults: { year:'All Years', month:'All Months', country:'All Countries', branch:'All Branches',
+                 customer:'All Customers', category:'All Categories', subcat:'All Sub-Cat.', sku:'All SKUs' },
+    _search: {},  // current search text per key
 
-  function gsdropToggle(id) {
-    // Close all others first
-    ['customer','subcat','sku'].forEach(k => {
-      const p = document.getElementById('csdrop-panel-'+k);
-      if (p && k !== id) p.style.display = 'none';
-    });
-    const panel = document.getElementById('csdrop-panel-'+id); if (!panel) return;
-    const open  = panel.style.display !== 'none';
-    panel.style.display = open ? 'none' : 'block';
-    if (!open) {
-      const inp = document.getElementById('csdrop-search-'+id);
-      if (inp) { inp.value = ''; inp.focus(); }
-      gsdropFilter(id, '');
+    build(key, opts, labelFn = v => v, hasSearch = false) {
+      const panel = document.getElementById('msd-panel-'+key); if (!panel) return;
+      this._search[key] = this._search[key] || '';
+      const q = this._search[key].toLowerCase();
+      const items = q ? opts.filter(v => String(v).toLowerCase().includes(q)) : opts;
+      const sel = F[key];
+      const searchHtml = hasSearch
+        ? `<div class="msd-search-row"><input class="msd-search" id="msd-search-${key}" type="text" placeholder="🔍 Search…" value="${this._search[key]}" oninput="MSD._onSearch('${key}',this.value)"></div>`
+        : '';
+      panel.innerHTML = searchHtml + `<div class="msd-list" id="msd-list-${key}">
+        <label class="msd-opt msd-all"><input type="checkbox" ${sel.length===0?'checked':''} onchange="MSD._clearAll('${key}',this)"><span>All</span></label>
+        ${items.map(v => {
+          const lbl = labelFn(v);
+          const esc = String(v).replace(/"/g,'&quot;').replace(/</g,'&lt;');
+          const checked = sel.some(s => norm(s)===norm(v));
+          return `<label class="msd-opt"><input type="checkbox" value="${esc}" ${checked?'checked':''} onchange="MSD._toggle('${key}',this,'${esc}')"><span>${lbl}</span></label>`;
+        }).join('')}
+      </div>`;
+      if (hasSearch) setTimeout(() => document.getElementById('msd-search-'+key)?.focus(), 30);
+    },
+
+    _onSearch(key, q) {
+      this._search[key] = q;
+      const sel = F[key];
+      const list = document.getElementById('msd-list-'+key); if (!list) return;
+      const opts = this._allOpts[key] || [];
+      const items = q ? opts.filter(v => String(v).toLowerCase().includes(q.toLowerCase())) : opts;
+      const def = this._defaults[key] || 'All';
+      list.innerHTML = `<label class="msd-opt msd-all"><input type="checkbox" ${sel.length===0?'checked':''} onchange="MSD._clearAll('${key}',this)"><span>All</span></label>
+        ${items.map(v => {
+          const lbl = this._labelFns[key] ? this._labelFns[key](v) : v;
+          const esc = String(v).replace(/"/g,'&quot;').replace(/</g,'&lt;');
+          const checked = sel.some(s => norm(s)===norm(v));
+          return `<label class="msd-opt"><input type="checkbox" value="${esc}" ${checked?'checked':''} onchange="MSD._toggle('${key}',this,'${esc}')"><span>${lbl}</span></label>`;
+        }).join('')}`;
+    },
+
+    _allOpts: {},
+    _labelFns: {},
+
+    populate(key, opts, labelFn = v => v, hasSearch = false) {
+      this._allOpts[key] = opts;
+      this._labelFns[key] = labelFn;
+      this._search[key] = '';
+      this.build(key, opts, labelFn, hasSearch);
+      this._updateLabel(key, labelFn);
+    },
+
+    _toggle(key, cb, rawVal) {
+      const v = rawVal;
+      if (cb.checked) { if (!F[key].some(s => norm(s)===norm(v))) F[key].push(v); }
+      else { F[key] = F[key].filter(s => norm(s)!==norm(v)); }
+      const allCb = document.querySelector(`#msd-panel-${key} .msd-all input`);
+      if (allCb) allCb.checked = F[key].length === 0;
+      this._updateLabel(key, this._labelFns[key]);
+      if (key === 'category') { F.subcat = []; F.sku = []; this._updateLabel('subcat'); this._updateLabel('sku'); }
+      if (key === 'subcat') { F.sku = []; this._updateLabel('sku'); }
+      applyFilters();
+    },
+
+    _clearAll(key, cb) {
+      if (!cb.checked) { cb.checked = true; return; }
+      F[key] = [];
+      const panel = document.getElementById('msd-panel-'+key);
+      if (panel) panel.querySelectorAll('.msd-opt:not(.msd-all) input').forEach(i => i.checked = false);
+      this._updateLabel(key, this._labelFns[key]);
+      if (key === 'category') { F.subcat = []; F.sku = []; this._updateLabel('subcat'); this._updateLabel('sku'); }
+      if (key === 'subcat') { F.sku = []; this._updateLabel('sku'); }
+      applyFilters();
+    },
+
+    _updateLabel(key, labelFn) {
+      const lbl = document.getElementById('msd-lbl-'+key); if (!lbl) return;
+      const def = this._defaults[key] || 'All';
+      const sel = F[key] || [];
+      if (sel.length === 0) lbl.textContent = def;
+      else if (sel.length === 1) lbl.textContent = labelFn ? labelFn(sel[0]) : sel[0];
+      else lbl.textContent = sel.length + ' selected';
+    },
+
+    reset() {
+      Object.keys(this._defaults).forEach(k => {
+        F[k] = [];
+        this._search[k] = '';
+        this._updateLabel(k, this._labelFns[k]);
+        const panel = document.getElementById('msd-panel-'+k);
+        if (panel) { panel.style.display = 'none'; this.build(k, this._allOpts[k]||[], this._labelFns[k]||null, k in {customer:1,subcat:1,sku:1}); }
+      });
     }
-  }
-  function gsdropFilter(id, q) {
-    const list = document.getElementById('csdrop-list-'+id); if (!list) return;
-    const lower = q.toLowerCase().trim();
-    const opts  = _gsdropOpts[id] || [];
-    const items = lower ? opts.filter(c => c.toLowerCase().includes(lower)) : opts;
-    const field = _gsdropFields[id];
-    const cur   = F[field] || '';
-    const def   = _gsdropDefaults[id] || 'All';
-    const esc   = v => String(v).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
-    list.innerHTML = [
-      `<div class="csdrop-opt${!cur?' selected':''}" data-gid="${id}" data-gval="" onclick="gsdropSelect(this.dataset.gid,this.dataset.gval)">${def}</div>`,
-      ...items.map(c =>
-        `<div class="csdrop-opt${norm(c)===norm(cur)?' selected':''}" data-gid="${id}" data-gval="${esc(c)}" onclick="gsdropSelect(this.dataset.gid,this.dataset.gval)">${esc(c)}</div>`
-      )
-    ].join('');
-  }
-  function gsdropSelect(id, value) {
-    const field = _gsdropFields[id];
-    F[field] = value;
-    // Cascade: selecting a sub-category resets the SKU filter
-    if (id === 'subcat') {
-      F.sku = '';
-      const skuLbl = document.getElementById('csdrop-label-sku');
-      if (skuLbl) skuLbl.textContent = _gsdropDefaults.sku || 'All SKUs';
-    }
-    const lbl = document.getElementById('csdrop-label-'+id);
-    if (lbl) lbl.textContent = value || _gsdropDefaults[id] || 'All';
-    const panel = document.getElementById('csdrop-panel-'+id);
-    if (panel) panel.style.display = 'none';
-    applyFilters();
-  }
-  // Backward compatibility aliases for customer dropdown
-  function csdropToggle()           { gsdropToggle('customer'); }
-  function csdropFilter(q)          { gsdropFilter('customer', q); }
-  function csdropSelect(value)      { gsdropSelect('customer', value); }
+  };
 
-  // Close all dropdowns on outside click
+  function msdToggle(key) {
+    const allKeys = ['year','month','country','branch','customer','category','subcat','sku'];
+    allKeys.forEach(k => { if (k !== key) { const p = document.getElementById('msd-panel-'+k); if (p) p.style.display = 'none'; } });
+    const panel = document.getElementById('msd-panel-'+key); if (!panel) return;
+    const isOpen = panel.style.display !== 'none';
+    if (isOpen) { panel.style.display = 'none'; return; }
+    MSD.build(key, MSD._allOpts[key]||[], MSD._labelFns[key]||null, key in {customer:1,subcat:1,sku:1});
+    panel.style.display = 'block';
+  }
+
+  // Close all MSD panels on outside click
   document.addEventListener('click', e => {
-    ['customer','subcat','sku'].forEach(id => {
-      const wrap  = document.getElementById('csdrop-wrap-'+id) || document.getElementById('csdrop-wrap');
-      const panel = document.getElementById('csdrop-panel-'+id) || document.getElementById('csdrop-panel');
+    ['year','month','country','branch','customer','category','subcat','sku'].forEach(key => {
+      const wrap = document.getElementById('msd-'+key);
+      const panel = document.getElementById('msd-panel-'+key);
       if (panel && wrap && !wrap.contains(e.target)) panel.style.display = 'none';
     });
   });
 
   function applyFilters() {
-    F.year     = document.getElementById('f-year')?.value     || '';
-    F.month    = document.getElementById('f-month')?.value    || '';
-    F.country  = document.getElementById('f-country')?.value  || '';
-    F.branch   = document.getElementById('f-branch')?.value   || '';
-    const prevCat = F.category;
-    F.category = document.getElementById('f-category')?.value || '';
-    // Cascade: if category changed, reset sub-cat and SKU
-    if (prevCat !== F.category) {
-      F.subcat = ''; F.sku = '';
-      const scLbl = document.getElementById('csdrop-label-subcat'); if (scLbl) scLbl.textContent = _gsdropDefaults.subcat || 'All Sub-Cat.';
-      const skLbl = document.getElementById('csdrop-label-sku');    if (skLbl) skLbl.textContent = _gsdropDefaults.sku    || 'All SKUs';
-    }
-    // F.customer, F.subcat, F.sku are managed by gsdropSelect()
+    // F.year/month/country/branch/customer/category/subcat/sku are arrays (managed by MSD)
     _filt = _all.filter(r => {
       if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
-      if (F.year     && rowYear(r)          !== F.year)                              return false;
-      if (F.month    && rowMonth(r)         !== F.month)                             return false;
-      if (F.country  && C.country  && norm(r[C.country])  !== norm(F.country))      return false;
-      if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))       return false;
-      if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer))     return false;
-      if (F.category && C.category && norm(r[C.category]) !== norm(F.category))     return false;
-      if (F.subcat   && C.subcat   && norm(r[C.subcat])   !== norm(F.subcat))       return false;
-      if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))          return false;
+      if (F.year.length     && !F.year.includes(rowYear(r)))                                                       return false;
+      if (F.month.length    && !F.month.includes(rowMonth(r)))                                                     return false;
+      if (F.country.length  && C.country  && !F.country.some(v => norm(v) === norm(r[C.country])))                 return false;
+      if (F.branch.length   && C.branch   && !F.branch.some(v => norm(v) === norm(r[C.branch])))                   return false;
+      if (F.customer.length && C.customer && !F.customer.some(v => norm(v) === norm(r[C.customer])))               return false;
+      if (F.category.length && C.category && !F.category.some(v => norm(v) === norm(r[C.category])))              return false;
+      if (F.subcat.length   && C.subcat   && !F.subcat.some(v => norm(v) === norm(r[C.subcat])))                   return false;
+      if (F.sku.length      && C.sku      && !F.sku.some(v => norm(v) === norm(r[C.sku])))                         return false;
       return true;
     });
     refreshDependentFilters();
@@ -918,31 +995,18 @@
   }
 
   function resetFilters() {
-    ['f-year','f-month','f-country','f-branch','f-category']
-      .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-    Object.assign(F, { year:'', month:'', country:'', branch:'', customer:'', category:'', subcat:'', sku:'' });
-    // Reset all searchable dropdowns
-    Object.entries(_gsdropDefaults).forEach(([id, def]) => {
-      const lbl = document.getElementById('csdrop-label-'+id);
-      if (lbl) lbl.textContent = def;
-      const panel = document.getElementById('csdrop-panel-'+id);
-      if (panel) panel.style.display = 'none';
-    });
-    // (legacy csdrop-label removed — now uses csdrop-label-customer via _gsdropDefaults loop)
+    Object.assign(F, { year:[], month:[], country:[], branch:[], customer:[], category:[], subcat:[], sku:[] });
+    MSD.reset();
     _filt = F.family === 'ALL' ? [..._all] : _all.filter(r => C.family && norm(r[C.family]) === norm(F.family));
     renderTab();
   }
 
   function setFamily(fam) {
     F.family = fam;
-    // Cascade: changing family resets category, sub-cat and SKU (they may not exist in new family)
-    F.category = ''; F.subcat = ''; F.sku = '';
-    const catEl = document.getElementById('f-category'); if (catEl) catEl.value = '';
-    ['subcat','sku'].forEach(id => {
-      F[_gsdropFields[id]] = '';
-      const lbl = document.getElementById('csdrop-label-'+id);
-      if (lbl) lbl.textContent = _gsdropDefaults[id] || 'All';
-    });
+    F.category = []; F.subcat = []; F.sku = [];
+    MSD._updateLabel('category', MSD._labelFns['category']);
+    MSD._updateLabel('subcat',   MSD._labelFns['subcat']);
+    MSD._updateLabel('sku',      MSD._labelFns['sku']);
     ['btn-all','btn-bp','btn-lg'].forEach(id => document.getElementById(id)?.classList.remove('active'));
     document.getElementById(fam==='ALL'?'btn-all':fam==='BACKPACKS'?'btn-bp':'btn-lg')?.classList.add('active');
     applyFilters();
@@ -961,42 +1025,26 @@
     const isBuf = tab === 'buffer';
     const isIns = tab === 'insights';
 
-    // Define which filter IDs to hide per tab mode
-    const hideSelects = isIns
-      ? ['f-year','f-month','f-country','f-branch','f-category']
+    const hideMsd = isIns
+      ? ['msd-wrap-year','msd-wrap-month','msd-wrap-country','msd-wrap-branch','msd-wrap-category','msd-wrap-customer','msd-wrap-subcat','msd-wrap-sku']
       : isBuf
-        ? ['f-year','f-month','f-branch']
+        ? ['msd-wrap-year','msd-wrap-month','msd-wrap-branch','msd-wrap-customer']
         : [];
-    const hideWraps = isIns
-      ? ['csdrop-wrap-customer','csdrop-wrap-subcat','csdrop-wrap-sku']
-      : isBuf
-        ? ['csdrop-wrap-customer']
-        : [];
-
-    // Apply visibility to select-based filters
-    ['f-year','f-month','f-country','f-branch','f-category'].forEach(id => {
-      const fg = document.getElementById(id)?.closest('.filter-group');
-      if (fg) fg.style.display = hideSelects.includes(id) ? 'none' : '';
-    });
-    // Apply visibility to custom-dropdown wrappers
-    ['csdrop-wrap-customer','csdrop-wrap-subcat','csdrop-wrap-sku'].forEach(id => {
+    ['msd-wrap-year','msd-wrap-month','msd-wrap-country','msd-wrap-branch','msd-wrap-category','msd-wrap-customer','msd-wrap-subcat','msd-wrap-sku'].forEach(id => {
       const el = document.getElementById(id);
-      if (el) el.style.display = hideWraps.includes(id) ? 'none' : '';
+      if (el) el.style.display = hideMsd.includes(id) ? 'none' : '';
     });
 
-    // Adjust Country dropdown
-    const countryEl = document.getElementById('f-country');
-    if (countryEl && _all.length) {
+    // Adjust Country dropdown for buffer tab (restricted to LATAM-5)
+    if (_all.length) {
       if (isBuf) {
-        // Fixed LATAM-5 countries for stock/buffer analysis
-        const LATAM5_DISPLAY = ['ARGENTINA','Brazil','CHILE','Colombia','MEXICO'];
-        countryEl.innerHTML = `<option value="">All Countries</option>` +
-          LATAM5_DISPLAY.map(c=>`<option value="${c}">${toTC(c)}</option>`).join('');
+        const LATAM5 = ['ARGENTINA','Brazil','CHILE','Colombia','MEXICO'];
+        MSD.populate('country', LATAM5, toTC);
+        F.country = [];
+        MSD._updateLabel('country', toTC);
       } else {
-        // Restore full country list
         const allC = [...new Set(_all.filter(isActual).map(r=>r[C.country]).filter(Boolean))].sort();
-        countryEl.innerHTML = `<option value="">All Countries</option>` +
-          allC.map(c=>`<option value="${c}">${toTC(c)}</option>`).join('');
+        MSD.populate('country', allC, toTC);
       }
     }
 
@@ -1098,9 +1146,9 @@
       </div>`;
 
     /* Revenue Comparison — 4 bars: Full 2024 | Full 2025 | Current Period Real | BP (month-filtered or full year) */
-    const revBP    = F.month ? s26bm : s26b;
-    const revBPLbl = F.month ? latestLbl+' BP' : 'BP 2026 Full';
-    const qtyArr   = [sum(act24,C.qty), sum(act25,C.qty), sum(act26,C.qty), F.month ? sum(bp26m,C.qty) : sum(bp26,C.qty)];
+    const revBP    = F.month.length ? s26bm : s26b;
+    const revBPLbl = F.month.length ? latestLbl+' BP' : 'BP 2026 Full';
+    const qtyArr   = [sum(act24,C.qty), sum(act25,C.qty), sum(act26,C.qty), F.month.length ? sum(bp26m,C.qty) : sum(bp26,C.qty)];
     mkChart('ch-revenue-cmp', {
       type:'bar',
       data:{
@@ -1140,12 +1188,12 @@
     function applyNonTemporalFilters(rows) {
       return rows.filter(r => {
         if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
-        if (F.country  && C.country  && norm(r[C.country])  !== norm(F.country))  return false;
-        if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))   return false;
-        if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer)) return false;
-        if (F.category && C.category && norm(r[C.category]) !== norm(F.category)) return false;
-        if (F.subcat   && C.subcat   && norm(r[C.subcat])   !== norm(F.subcat))   return false;
-        if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))       return false;
+        if (F.country.length  && C.country  && !F.country.some(v => norm(v) === norm(r[C.country])))   return false;
+        if (F.branch.length   && C.branch   && !F.branch.some(v => norm(v) === norm(r[C.branch])))     return false;
+        if (F.customer.length && C.customer && !F.customer.some(v => norm(v) === norm(r[C.customer]))) return false;
+        if (F.category.length && C.category && !F.category.some(v => norm(v) === norm(r[C.category]))) return false;
+        if (F.subcat.length   && C.subcat   && !F.subcat.some(v => norm(v) === norm(r[C.subcat])))     return false;
+        if (F.sku.length      && C.sku      && !F.sku.some(v => norm(v) === norm(r[C.sku])))           return false;
         return true;
       });
     }
@@ -1266,7 +1314,7 @@
   ================================================================ */
   function renderProduct() {
     applyChartDefaults();
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month.length ? b(2026) : bAll(2026);
 
     /* Category — vertical grouped bars */
     if (C.category) {
@@ -1382,7 +1430,7 @@
       };
 
       document.getElementById('tbl-sku').innerHTML = `
-        <div class="tbl-wrap" style="max-height:500px;overflow:auto;"><table class="tbl">
+        <div class="tbl-wrap" style="max-height:500px;overflow-y:auto;overflow-x:scroll;"><table class="tbl">
           <thead>
             <tr>
               <th class="sk1" rowspan="2">SKU</th><th class="sk2" rowspan="2">Description</th><th class="sk3" rowspan="2">Color</th><th class="sk4" rowspan="2">Size</th>
@@ -1415,18 +1463,18 @@
       const act25xc = _all.filter(r => {
         if (rowYear(r) !== '2025' || !isActual(r)) return false;
         if (F.family !== 'ALL' && C.family   && norm(r[C.family])   !== norm(F.family))   return false;
-        if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))    return false;
-        if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer))  return false;
-        if (F.category && C.category && norm(r[C.category]) !== norm(F.category))  return false;
-        if (F.subcat   && C.subcat   && norm(r[C.subcat])   !== norm(F.subcat))    return false;
-        if (F.sku      && C.sku      && norm(r[C.sku])      !== norm(F.sku))       return false;
+        if (F.branch.length   && C.branch   && !F.branch.some(v => norm(v) === norm(r[C.branch])))     return false;
+        if (F.customer.length && C.customer && !F.customer.some(v => norm(v) === norm(r[C.customer]))) return false;
+        if (F.category.length && C.category && !F.category.some(v => norm(v) === norm(r[C.category]))) return false;
+        if (F.subcat.length   && C.subcat   && !F.subcat.some(v => norm(v) === norm(r[C.subcat])))     return false;
+        if (F.sku.length      && C.sku      && !F.sku.some(v => norm(v) === norm(r[C.sku])))           return false;
         return true;
       });
       const act25base = _all.filter(r => {
         if (rowYear(r) !== '2025' || !isActual(r)) return false;
         if (F.family !== 'ALL' && C.family && norm(r[C.family]) !== norm(F.family)) return false;
-        if (F.branch   && C.branch   && norm(r[C.branch])   !== norm(F.branch))   return false;
-        if (F.customer && C.customer && norm(r[C.customer]) !== norm(F.customer)) return false;
+        if (F.branch.length   && C.branch   && !F.branch.some(v => norm(v) === norm(r[C.branch])))     return false;
+        if (F.customer.length && C.customer && !F.customer.some(v => norm(v) === norm(r[C.customer]))) return false;
         return true;
       });
       const brBaseMap = aggBy(act25base, r => r[C.branch]);
@@ -1533,9 +1581,9 @@
      CUSTOMERS
   ================================================================ */
   function renderCustomer() {
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month.length ? b(2026) : bAll(2026);
     const _MN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const bpLbl = F.month ? (_MN[+F.month-1]||F.month)+' BP 26' : 'BP 2026';
+    const bpLbl = F.month.length ? (F.month.length===1?(_MN[+F.month[0]-1]||F.month[0]):F.month.length+' mo')+' BP 26' : 'BP 2026';
 
     if (C.customer) {
       const custMap = aggBy(act25, r => r[C.customer]);
@@ -1622,9 +1670,9 @@
   ================================================================ */
   function renderRegion() {
     applyChartDefaults();
-    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
+    const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month.length ? b(2026) : bAll(2026);
     const _MN2 = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const bpLbl = F.month ? (_MN2[+F.month-1]||F.month)+' BP 26' : 'BP 2026';
+    const bpLbl = F.month.length ? (F.month.length===1?(_MN2[+F.month[0]-1]||F.month[0]):F.month.length+' mo')+' BP 26' : 'BP 2026';
 
     if (C.country) {
       const ctMap = aggBy(act25, r => r[C.country]);
@@ -1788,9 +1836,9 @@
       if (ctFilter && C.country && !isBonded(r)) {
         if (norm(r[C.country]||'') !== ctFilter) return false;
       }
-      if (F.category && C.category && norm(r[C.category]||'') !== norm(F.category)) return false;
-      if (F.subcat && C.subcat && norm(r[C.subcat]||'') !== norm(F.subcat)) return false;
-      if (F.sku && C.sku && norm(r[C.sku]||'') !== norm(F.sku)) return false;
+      if (F.category.length && C.category && !F.category.some(v => norm(v) === norm(r[C.category]||''))) return false;
+      if (F.subcat.length && C.subcat && !F.subcat.some(v => norm(v) === norm(r[C.subcat]||''))) return false;
+      if (F.sku.length && C.sku && !F.sku.some(v => norm(v) === norm(r[C.sku]||''))) return false;
       return true;
     });
 
@@ -2032,45 +2080,39 @@
     // 1. Category dropdown — show only categories from current family
     if (C.category) {
       const cats = [...new Set(base.map(r => r[C.category]).filter(Boolean))].sort();
-      const catEl = document.getElementById('f-category');
-      if (catEl) {
-        catEl.innerHTML = '<option value="">All Categories</option>' +
-          cats.map(c => `<option value="${c}"${norm(c)===norm(F.category)?' selected':''}>${c}</option>`).join('');
-      }
+      MSD.populate('category', cats);
     }
 
     // 2. Sub-Cat dropdown — show only subcats valid for current family + category
     if (C.subcat) {
-      const subcatBase = F.category && C.category
-        ? base.filter(r => norm(r[C.category]) === norm(F.category))
+      const subcatBase = F.category.length && C.category
+        ? base.filter(r => F.category.some(v => norm(v) === norm(r[C.category])))
         : base;
       const subcats = [...new Set(subcatBase.map(r => r[C.subcat]).filter(Boolean))].sort();
       // If active sub-cat no longer valid, auto-clear it
-      if (F.subcat && !subcats.some(s => norm(s) === norm(F.subcat))) {
-        F.subcat = ''; F.sku = '';
-        const scl = document.getElementById('csdrop-label-subcat'); if (scl) scl.textContent = _gsdropDefaults.subcat || 'All Sub-Cat.';
-        const skl = document.getElementById('csdrop-label-sku');    if (skl) skl.textContent = _gsdropDefaults.sku    || 'All SKUs';
+      if (F.subcat.length && !F.subcat.some(s => subcats.some(sc => norm(sc) === norm(s)))) {
+        F.subcat = []; F.sku = [];
+        MSD._updateLabel('subcat', MSD._labelFns['subcat']);
+        MSD._updateLabel('sku', MSD._labelFns['sku']);
       }
-      _gsdropOpts.subcat = subcats;
-      gsdropFilter('subcat', '');
+      MSD.populate('subcat', subcats, v=>v, true);
     }
 
     // 3. SKU dropdown — show only SKUs valid for current family + category + subcat
     if (C.sku) {
-      const subcatBase2 = F.category && C.category
-        ? base.filter(r => norm(r[C.category]) === norm(F.category))
+      const subcatBase2 = F.category.length && C.category
+        ? base.filter(r => F.category.some(v => norm(v) === norm(r[C.category])))
         : base;
-      const skuBase = F.subcat && C.subcat
-        ? subcatBase2.filter(r => norm(r[C.subcat]) === norm(F.subcat))
+      const skuBase = F.subcat.length && C.subcat
+        ? subcatBase2.filter(r => F.subcat.some(v => norm(v) === norm(r[C.subcat])))
         : subcatBase2;
       const skus = [...new Set(skuBase.map(r => r[C.sku]).filter(Boolean))].sort();
       // If active SKU no longer valid, auto-clear it
-      if (F.sku && !skus.some(s => norm(s) === norm(F.sku))) {
-        F.sku = '';
-        const skl = document.getElementById('csdrop-label-sku'); if (skl) skl.textContent = _gsdropDefaults.sku || 'All SKUs';
+      if (F.sku.length && !F.sku.some(s => skus.some(sk => norm(sk) === norm(s)))) {
+        F.sku = [];
+        MSD._updateLabel('sku', MSD._labelFns['sku']);
       }
-      _gsdropOpts.sku = skus;
-      gsdropFilter('sku', '');
+      MSD.populate('sku', skus, v=>v, true);
     }
   }
 
@@ -2084,28 +2126,16 @@
     const cats      = [...new Set(act.map(r=>r[C.category]).filter(Boolean))].sort();
     const subcats   = [...new Set(act.map(r=>r[C.subcat]).filter(Boolean))].sort();
     const skus      = [...new Set(act.map(r=>r[C.sku]).filter(Boolean))].sort();
-    // Month dropdown: show full name (January … December), value = "01".."12"
     const MONTH_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    function monthLabel(m) {
-      const n = parseInt(m, 10);
-      return (!isNaN(n) && n >= 1 && n <= 12) ? MONTH_FULL[n-1] : m;
-    }
-    function fill(id, vals, labelFn=v=>v) {
-      const el = document.getElementById(id); if (!el) return;
-      el.innerHTML = el.options[0].outerHTML + vals.map(v=>`<option value="${v}">${labelFn(v)}</option>`).join('');
-    }
-    fill('f-year',     years);
-    fill('f-month',    months, monthLabel);
-    fill('f-country',  countries, toTC);
-    fill('f-branch',   branches);
-    fill('f-category', cats);
-    // Populate searchable dropdowns
-    _gsdropOpts.customer = customers;
-    _gsdropOpts.subcat   = subcats;
-    _gsdropOpts.sku      = skus;
-    gsdropFilter('customer', '');
-    gsdropFilter('subcat',   '');
-    gsdropFilter('sku',      '');
+    const monthLabel = m => { const n=parseInt(m,10); return (!isNaN(n)&&n>=1&&n<=12)?MONTH_FULL[n-1]:m; };
+    MSD.populate('year',     years);
+    MSD.populate('month',    months, monthLabel);
+    MSD.populate('country',  countries, toTC);
+    MSD.populate('branch',   branches);
+    MSD.populate('customer', customers, v=>v, true);
+    MSD.populate('category', cats);
+    MSD.populate('subcat',   subcats, v=>v, true);
+    MSD.populate('sku',      skus, v=>v, true);
   }
 
   /* ================================================================
