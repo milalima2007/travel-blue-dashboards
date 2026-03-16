@@ -1880,15 +1880,17 @@
       const statusGlob = (sRows[0]?.['Status Global'] || bRows[0]?.['Status Global'] || '').toUpperCase();
       const statusLoc  = (sRows[0]?.['Status Local']  || bRows[0]?.['Status Local']  || '').toUpperCase();
 
-      const localQty  = sRows.filter(r=>!isBonded(r)).reduce((s,r)=>s+num(r['QUANTITY']),0);
+      const localRows = sRows.filter(r=>!isBonded(r));
+      const localQty  = localRows.reduce((s,r)=>s+num(r['QUANTITY']),0);
       const bondedQty = sRows.filter(r=> isBonded(r)).reduce((s,r)=>s+num(r['QUANTITY']),0);
       const stockQty  = localQty + bondedQty;
-      const stockValue = sRows.reduce((s,r)=>{
-        const c=(numCost(r['COST USD']||'')||numCost(r['COST']||''));
-        return s+num(r['QUANTITY'])*c;
-      },0);
+      // Unit cost: search local rows first, then all stock rows, then buffer rows (cost field varies)
+      const getUnitCost = r => numCost(r['COST USD']||'')||numCost(r['COST']||'');
+      const unitCost = [...localRows,...sRows,...bRows].reduce((best,r)=>{const c=getUnitCost(r);return c>0?c:best;},0);
+      // Stock Value = local qty × unit cost only (not bonded)
+      const stockValue = localQty * unitCost;
       const unitCBM = sRows.length?num(sRows[0]['CBM']||'0'):(bRows.length?num(bRows[0]['CBM']||'0'):0);
-      const totalCBM = stockQty*unitCBM;
+      const totalCBM = localQty * unitCBM;
 
       const avg25 = rRows.reduce((s,r)=>s+num(r[C.qty]),0)/12;
 
