@@ -1884,8 +1884,8 @@
       const localQty  = localRows.reduce((s,r)=>s+num(r['QUANTITY']),0);
       const bondedQty = sRows.filter(r=> isBonded(r)).reduce((s,r)=>s+num(r['QUANTITY']),0);
       const stockQty  = localQty + bondedQty;
-      // Unit cost: search local rows first, then all stock rows, then buffer rows (cost field varies)
-      const getUnitCost = r => numCost(r['COST USD']||'')||numCost(r['COST']||'');
+      // Unit cost: USD only — search local rows first, then all stock rows, then buffer rows
+      const getUnitCost = r => numCost(r['COST USD']||'');
       const unitCost = [...localRows,...sRows,...bRows].reduce((best,r)=>{const c=getUnitCost(r);return c>0?c:best;},0);
       // Stock Value = local qty × unit cost only (not bonded)
       const stockValue = localQty * unitCost;
@@ -1930,7 +1930,7 @@
       let qty=0, value=0, cbm=0;
       rows.forEach(r => {
         const q = num(r['QUANTITY']);
-        const c = numCost(r['COST USD']||'') || numCost(r['COST']||'');
+        const c = numCost(r['COST USD']||''); // USD only
         const u = num(r['CBM']||'0');
         qty += q; value += q*c; cbm += q*u;
       });
