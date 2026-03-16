@@ -216,7 +216,7 @@
     body.light .chart-title { color: #0f172a !important; font-weight: 700 !important; }
     body.light .chart-sub { color: #64748b !important; }
     /* Tables */
-    body.light .tbl-wrap { border-color: #dde3ed !important; box-shadow: 0 2px 10px rgba(0,0,0,.06) !important; background: #ffffff !important; border-radius: 10px !important; overflow: hidden !important; }
+    body.light .tbl-wrap { border-color: #dde3ed !important; box-shadow: 0 2px 10px rgba(0,0,0,.06) !important; background: #ffffff !important; border-radius: 10px !important; overflow-x: auto !important; }
     body.light .tbl th { background: #f1f5f9 !important; color: #334155 !important; border-bottom: 2px solid #dde3ed !important; font-weight: 700 !important; }
     body.light .tbl td { color: #0f172a !important; border-bottom-color: #eef2f7 !important; }
     body.light .tbl tr:hover td { background: #eff6ff !important; }
@@ -671,27 +671,12 @@
 
   function fmt(n) {
     if (!isFinite(n)||isNaN(n)) return '—';
-    const a = Math.abs(n);
-    if (_metric === 'qty') {
-      if (a >= 1e6) return (n/1e6).toFixed(1)+'M pcs';
-      if (a >= 1e3) return Math.round(n/1e3)+'K pcs';
-      return Math.round(n).toLocaleString()+' pcs';
-    }
-    if (a >= 1e6) return '$'+(n/1e6).toFixed(2)+'M';
-    if (a >= 1e3) return '$'+(n/1e3).toFixed(1)+'K';
-    return '$'+n.toFixed(0);
+    if (_metric === 'qty') return Math.round(n).toLocaleString()+' pcs';
+    return '$'+Math.round(n).toLocaleString();
   }
   function fmtShort(n) {
     if (!isFinite(n)||isNaN(n)) return '—';
-    const a = Math.abs(n);
-    if (_metric === 'qty') {
-      if (a >= 1e6) return (n/1e6).toFixed(1)+'M';
-      if (a >= 1e3) return Math.round(n/1e3)+'K';
-      return Math.round(n).toLocaleString();
-    }
-    if (a >= 1e6) return (n/1e6).toFixed(1)+'M';
-    if (a >= 1e3) return (n/1e3).toFixed(0)+'K';
-    return n.toFixed(0);
+    return Math.round(n).toLocaleString();
   }
   function fmtN(n) { // plain integer formatter (Buffer page, always units)
     if (!isFinite(n)||isNaN(n)) return '—';
@@ -1396,7 +1381,7 @@
       };
 
       document.getElementById('tbl-sku').innerHTML = `
-        <div class="tbl-wrap" style="max-height:500px;overflow:auto;"><table class="tbl">
+        <div style="max-height:500px;overflow-y:auto;border-radius:8px;"><div class="tbl-wrap" style="overflow-x:auto;border-radius:0;"><table class="tbl">
           <thead>
             <tr>
               <th class="sk1" rowspan="2">SKU</th><th class="sk2" rowspan="2">Description</th><th class="sk3" rowspan="2">Color</th><th class="sk4" rowspan="2">Size</th>
@@ -1421,7 +1406,7 @@
               ${brCells}
             </tr>`;
           }).join('')}
-          </tbody></table></div>`;
+          </tbody></table></div></div>`;
     }
 
     // Branch profile cards (if branch column is present and different from country)
@@ -1512,7 +1497,7 @@
             tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${Math.round(ctx.parsed.y).toLocaleString()} units` } }
           },
           scales: { x:{grid:{color:chartColors().grid},ticks:{color:chartColors().text,font:{size:10}}},
-                    y:{grid:{color:chartColors().grid},ticks:{color:chartColors().text,font:{size:10},callback:v=>v>=1000?(v/1000).toFixed(1)+'K':v}} }
+                    y:{grid:{color:chartColors().grid},ticks:{color:chartColors().text,font:{size:10},callback:v=>Math.round(v).toLocaleString()}} }
         }
       });
     }
@@ -1733,7 +1718,7 @@
       skuMeta2[s] = { desc:r['DESCRIPTION']||s, family:r['FAMILY']||'', cat:r[C.category]||'' };
     });
 
-    const fmtQ = v => v >= 1000 ? (v/1000).toFixed(1)+'K' : Math.round(v).toString();
+    const fmtQ = v => Math.round(v).toLocaleString();
 
     const countryCards = LATAM_COUNTRIES.map(ct => {
       const ctNorm = norm(ct);
@@ -1832,7 +1817,7 @@
     const monLbl=ym=>{const[y,m]=ym.split('-');return(MN2[+m-1]||m)+' '+y;};
 
     let totStockQty=0, totStockValue=0, totStockCBM=0, totBufQty=0;
-    const fmtN=v=>v==null?'—':v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0);
+    const fmtN=v=>v==null?'—':Math.round(v).toLocaleString();
 
     const tableData = allSKUs.map(sku => {
       const sRows=stkRows.filter(r=>r['SKU 2']===sku);
@@ -1900,7 +1885,7 @@
     };
     const lt = calcStockTotals(localStkRows);
     const bt = calcStockTotals(bondedStkRows);
-    const fmtVal = v => '$'+(v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0));
+    const fmtVal = v => '$'+Math.round(v).toLocaleString();
     const mkCard = (l,v,s,accent) => `<div class="kpi-card" style="min-width:130px;${accent?'border-color:'+accent+';':''}"><div class="kpi-label">${l}</div><div class="kpi-value" style="font-size:20px;">${v}</div><div class="kpi-delta">${s}</div></div>`;
     const localLabel = ctFilter ? (_bufCountry+' Local') : 'Local LATAM';
     document.getElementById('buf-kpis').innerHTML =
@@ -1991,7 +1976,7 @@
         <td class="r" style="white-space:nowrap;">${stBadge(r.statusLoc,'#3b82f6','#9ca3af')}</td>
         <td class="r">${r.avg25>0?r.avg25.toFixed(1):'—'}</td>
         <td class="r" style="font-weight:600;">${fmtN(r.stockQty)}</td>
-        <td class="r">${r.stockValue>0?'$'+(r.stockValue>=1000?(r.stockValue/1000).toFixed(1)+'K':r.stockValue.toFixed(0)):''}</td>
+        <td class="r">${r.stockValue>0?'$'+Math.round(r.stockValue).toLocaleString():''}</td>
         ${ordCells}
         <td class="r" style="color:${covCol(r.covNow)};font-weight:700;">${covFmt(r.covNow)}</td>
         ${covCells}
