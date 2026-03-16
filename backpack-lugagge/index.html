@@ -292,6 +292,31 @@
   #buf-country-nav button:hover:not(.active) { background: #1e2940; color: #c8d4e8; }
   .sort-btn { cursor: pointer; user-select: none; }
   .sort-btn:hover { color: #3b82f6; }
+
+  /* ── Light mode: buffer country nav ── */
+  body.light #buf-country-nav button { background:#f1f5f9 !important; border-color:#dde3ed !important; color:#475569 !important; }
+  body.light #buf-country-nav button.active { background:#2563eb !important; color:#fff !important; border-color:#2563eb !important; }
+  body.light #buf-country-nav button:hover:not(.active) { background:#e2e8f0 !important; color:#0f172a !important; }
+  /* ── Muted text helper ── */
+  .dash-muted { color:#5b6b8a; }
+  body.light .dash-muted { color:#94a3b8 !important; }
+  /* ── SKU Performance table: sticky left columns ── */
+  .tbl .sk1 { position:sticky; left:0;    z-index:2; min-width:100px; max-width:100px; }
+  .tbl .sk2 { position:sticky; left:100px;z-index:2; min-width:160px; max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tbl .sk3 { position:sticky; left:260px;z-index:2; min-width:76px; max-width:76px; }
+  .tbl .sk4 { position:sticky; left:336px;z-index:2; min-width:66px; max-width:66px; }
+  .tbl .sk5 { position:sticky; left:402px;z-index:2; min-width:70px; max-width:70px; }
+  .tbl thead .sk1,.tbl thead .sk2,.tbl thead .sk3,.tbl thead .sk4,.tbl thead .sk5 { background:#161d30; }
+  .tbl tbody .sk1,.tbl tbody .sk2,.tbl tbody .sk3,.tbl tbody .sk4,.tbl tbody .sk5 { background:#070b14; }
+  .tbl tbody tr:hover .sk1,.tbl tbody tr:hover .sk2,.tbl tbody tr:hover .sk3,
+  .tbl tbody tr:hover .sk4,.tbl tbody tr:hover .sk5 { background:#111827; }
+  body.light .tbl thead .sk1,body.light .tbl thead .sk2,body.light .tbl thead .sk3,
+  body.light .tbl thead .sk4,body.light .tbl thead .sk5 { background:#f1f5f9 !important; }
+  body.light .tbl tbody .sk1,body.light .tbl tbody .sk2,body.light .tbl tbody .sk3,
+  body.light .tbl tbody .sk4,body.light .tbl tbody .sk5 { background:#ffffff !important; }
+  body.light .tbl tbody tr:hover .sk1,body.light .tbl tbody tr:hover .sk2,
+  body.light .tbl tbody tr:hover .sk3,body.light .tbl tbody tr:hover .sk4,
+  body.light .tbl tbody tr:hover .sk5 { background:#eff6ff !important; }
   </style>
 </head>
 <body>
@@ -588,11 +613,15 @@
   function isLight() { return document.body.classList.contains('light'); }
   function chartColors() {
     return isLight()
-      ? { text:'#64748b', grid:'#e2e8f0' }
-      : { text:'#5b6b8a', grid:'#1a2236' };
+      ? { text:'#64748b', grid:'#e2e8f0', card:'#ffffff', border:'#dde3ed', muted:'#94a3b8', sep:'#bfdbfe', brHd:'#eff6ff', dimText:'#334155' }
+      : { text:'#5b6b8a', grid:'#1a2236', card:'#141b2d', border:'#1e2940', muted:'#4a5680', sep:'#2a3654', brHd:'#1a2340', dimText:'#9aa5bc' };
   }
-  Chart.defaults.color       = '#5b6b8a';
-  Chart.defaults.borderColor = '#1a2236';
+  function applyChartDefaults() {
+    const cc = chartColors();
+    Chart.defaults.color       = cc.text;
+    Chart.defaults.borderColor = cc.grid;
+  }
+  applyChartDefaults();
   Chart.defaults.font.family = "'DM Sans', sans-serif";
   Chart.register(ChartDataLabels);
   Chart.defaults.plugins.datalabels.display = false; // off by default, enable per chart
@@ -652,11 +681,11 @@
   }
   function pct(a, b) { return b ? ((a-b)/Math.abs(b))*100 : NaN; }
   function pctHtml(p) {
-    if (!isFinite(p)||isNaN(p)) return '<span style="color:#4a5680">—</span>';
+    if (!isFinite(p)||isNaN(p)) return '<span class="dash-muted">—</span>';
     return `<span class="${p>=0?'pos':'neg'}">${p>=0?'▲':'▼'} ${Math.abs(p).toFixed(1)}%</span>`;
   }
   function pctTd(p) {
-    if (!isFinite(p)||isNaN(p)) return '<td class="r" style="color:#4a5680">—</td>';
+    if (!isFinite(p)||isNaN(p)) return '<td class="r dash-muted">—</td>';
     return `<td class="r ${p>=0?'pp':'pn'}">${p>=0?'▲':'▼'} ${Math.abs(p).toFixed(1)}%</td>`;
   }
 
@@ -686,8 +715,10 @@
     C.custBP   = find('customer bp','customer_bp','customerbp');
     C.channel  = find('channel','canal');
     C.company  = find('company','empresa');
-    C.size     = find('size','tamanho','taille','talla');
-    C.color    = find('color','colour','cor','couleur','color family');
+    C.size       = find('size','tamanho','taille','talla');
+    C.color      = find('color','colour','cor','couleur','color family');
+    C.statusGlob = find('status global','status_global','global status','statusglobal');
+    C.statusLoc  = find('status local', 'status_local', 'local status', 'statuslocal');
     // Prefer explicit USD column first, then fallback to generic amount/value patterns.
     // This avoids accidentally picking local-currency columns (e.g. "NET AMOUNT (LcCy)")
     // when a proper USD column exists (e.g. "NET AMOUNT (USD)").
@@ -1011,6 +1042,7 @@
      OVERVIEW
   ================================================================ */
   function renderOverview() {
+    applyChartDefaults();
     const act24=a(2024), act25=a(2025), act26=a(2026);
     // bAll() = BP full year (ignores month filter) · b() = BP filtered by selected month
     const bp26=bAll(2026), bp25=bAll(2025);
@@ -1038,7 +1070,7 @@
       <div class="kpi-card">
         <div class="kpi-label">BP ${latestLbl}</div>
         <div class="kpi-value">${fmt(lBP)}</div>
-        <div class="kpi-delta" style="color:#4a5680;">Target</div>
+        <div class="kpi-delta">Target</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">% Ach ${latestLbl}</div>
@@ -1058,7 +1090,7 @@
       <div class="kpi-card">
         <div class="kpi-label">Avg Monthly 2025</div>
         <div class="kpi-value">${fmt(s25/12)}</div>
-        <div class="kpi-delta" style="color:#4a5680;">${latestLbl}: ${fmt(lAct)}</div>
+        <div class="kpi-delta">${latestLbl}: ${fmt(lAct)}</div>
       </div>`;
 
     /* Revenue Comparison — 4 bars: Full 2024 | Full 2025 | Current Period Real | BP (month-filtered or full year) */
@@ -1176,6 +1208,7 @@
      PRODUCTS
   ================================================================ */
   function renderProduct() {
+    applyChartDefaults();
     const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
 
     /* Category — vertical grouped bars */
@@ -1252,16 +1285,71 @@
       const kS24=skus.map(s=>sum(act24.filter(r=>norm(r[C.sku])===norm(s)),mCol()));
       const kS25=skus.map(s=>sum(act25.filter(r=>norm(r[C.sku])===norm(s)),mCol()));
       const kS26=skus.map(s=>sum(act26.filter(r=>norm(r[C.sku])===norm(s)),mCol()));
-      // Build a lookup: SKU → { desc, color, size } from 2025 actual rows
+
+      // Build a lookup: SKU → { desc, color, size, statusGlob } from 2025 actual rows
       const skuMeta = {};
-      act25.forEach(r => {
-        const s = r[C.sku]; if(!s || skuMeta[s]) return;
-        skuMeta[s] = { desc: r[C.desc]||'', color: (C.color ? r[C.color]||'' : '').toUpperCase(), size: (C.size ? r[C.size]||'' : '').toUpperCase() };
+      [...act24, ...act25, ...act26].forEach(r => {
+        const s = r[C.sku]; if(!s) return;
+        if (!skuMeta[s]) skuMeta[s] = { desc:'', color:'', size:'', statusGlob:'' };
+        if (!skuMeta[s].desc  && r[C.desc])        skuMeta[s].desc  = r[C.desc];
+        if (!skuMeta[s].color && C.color && r[C.color]) skuMeta[s].color = r[C.color].toUpperCase();
+        if (!skuMeta[s].size  && C.size  && r[C.size])  skuMeta[s].size  = r[C.size].toUpperCase();
+        if (!skuMeta[s].statusGlob && C.statusGlob && r[C.statusGlob]) skuMeta[s].statusGlob = r[C.statusGlob].toUpperCase();
       });
+
+      // Branches — dynamic top branches by 2025 revenue (max 6)
+      const brMap = C.branch ? aggBy(act25, r => r[C.branch]) : {};
+      const branches = C.branch ? topN(brMap, 6) : [];
+      const brData = branches.map(br => {
+        const f = rows => rows.filter(r => norm(r[C.branch]||'') === norm(br));
+        return {
+          br,
+          s24: skus.map(s => sum(f(act24).filter(r=>norm(r[C.sku])===norm(s)), mCol())),
+          s25: skus.map(s => sum(f(act25).filter(r=>norm(r[C.sku])===norm(s)), mCol())),
+          s26: skus.map(s => sum(f(act26).filter(r=>norm(r[C.sku])===norm(s)), mCol())),
+        };
+      });
+
+      const cc0 = chartColors();
+      const brHdrs = branches.map(br =>
+        `<th class="r" colspan="4" style="background:${cc0.brHd};border-left:2px solid ${cc0.sep};">${br}</th>`
+      ).join('');
+      const brSubHdrs = branches.map(() =>
+        `<th class="r" style="border-left:2px solid ${cc0.sep};">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026 YTD</th>`
+      ).join('');
+
+      const statusBadge = s => {
+        if (!s) return '';
+        const col = s === 'A' ? '#22c55e' : s === 'N' ? '#ef4444' : '#f59e0b';
+        return `<span style="display:inline-block;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:700;background:${col}22;color:${col};border:1px solid ${col}44;">${s}</span>`;
+      };
+
       document.getElementById('tbl-sku').innerHTML = `
-        <div class="tbl-wrap" style="max-height:400px;overflow-y:auto;"><table class="tbl">
-          <thead><tr><th>SKU</th><th>Description</th><th>Color</th><th>Size</th><th class="r">2024</th><th class="r">2025</th><th class="r">%25v24</th><th class="r">2026</th><th class="r">%26v25</th></tr></thead>
-          <tbody>${skus.map((s,i)=>{const m=skuMeta[s]||{};return`<tr><td style="font-weight:600">${s}</td><td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.desc||''}</td><td style="font-size:10px;">${m.color||''}</td><td style="font-size:10px;">${m.size||''}</td><td class="r">${fmt(kS24[i])}</td><td class="r">${fmt(kS25[i])}</td>${pctTd(pct(kS25[i],kS24[i]))}<td class="r">${fmt(kS26[i])}</td>${pctTd(pct(kS26[i],kS25[i]))}</tr>`;}).join('')}
+        <div class="tbl-wrap" style="max-height:500px;overflow:auto;"><table class="tbl">
+          <thead>
+            <tr>
+              <th class="sk1" rowspan="2">SKU</th><th class="sk2" rowspan="2">Description</th><th class="sk3" rowspan="2">Color</th><th class="sk4" rowspan="2">Size</th>
+              ${C.statusGlob ? '<th class="sk5 r" rowspan="2">Status</th>' : ''}
+              <th class="r" rowspan="2">2024</th><th class="r" rowspan="2">2025</th><th class="r" rowspan="2">%25v24</th><th class="r" rowspan="2">2026 YTD</th><th class="r" rowspan="2">%26v25</th>
+              ${brHdrs}
+            </tr>
+            <tr>${brSubHdrs}</tr>
+          </thead>
+          <tbody>${skus.map((s,i)=>{
+            const m=skuMeta[s]||{};
+            const brCells = brData.map(b =>
+              `<td class="r" style="border-left:2px solid ${cc0.sep};">${fmt(b.s24[i])}</td><td class="r">${fmt(b.s25[i])}</td>${pctTd(pct(b.s25[i],b.s24[i]))}<td class="r">${fmt(b.s26[i])}</td>`
+            ).join('');
+            return `<tr>
+              <td class="sk1" style="font-weight:600">${s}</td>
+              <td class="sk2" style="font-size:10px;" title="${m.desc||''}">${m.desc||''}</td>
+              <td class="sk3" style="font-size:10px;">${m.color||''}</td>
+              <td class="sk4" style="font-size:10px;">${m.size||''}</td>
+              ${C.statusGlob ? `<td class="sk5 r">${statusBadge(m.statusGlob)}</td>` : ''}
+              <td class="r">${fmt(kS24[i])}</td><td class="r">${fmt(kS25[i])}</td>${pctTd(pct(kS25[i],kS24[i]))}<td class="r">${fmt(kS26[i])}</td>${pctTd(pct(kS26[i],kS25[i]))}
+              ${brCells}
+            </tr>`;
+          }).join('')}
           </tbody></table></div>`;
     }
 
@@ -1330,6 +1418,57 @@
         html += '</div>';
         document.getElementById('div-branch-profiles').innerHTML = html;
       }
+    }
+
+    /* ── Size analysis ── */
+    {
+      const sizeQty25 = {};
+      act25.forEach(r => { const s=(C.size ? r[C.size]||'' : '').trim().toUpperCase(); if(s) sizeQty25[s]=(sizeQty25[s]||0)+num(r[C.qty]); });
+      const sizes = Object.entries(sizeQty25).sort((a,b)=>b[1]-a[1]).slice(0,20).map(e=>e[0]);
+      const szQ24 = sizes.map(s => sum(act24.filter(r => (C.size ? r[C.size]||'' : '').trim().toUpperCase() === s), C.qty));
+      const szQ25 = sizes.map(s => sum(act25.filter(r => (C.size ? r[C.size]||'' : '').trim().toUpperCase() === s), C.qty));
+      const szQ26 = sizes.map(s => sum(act26.filter(r => (C.size ? r[C.size]||'' : '').trim().toUpperCase() === s), C.qty));
+      mkChart('ch-size-bar', { type:'bar',
+        data:{ labels:sizes, datasets:[
+          {label:'2024', data:szQ24, backgroundColor:C_2024+'99', borderRadius:3},
+          {label:'2025', data:szQ25, backgroundColor:C_2025+'cc', borderRadius:3},
+          {label:'2026 YTD', data:szQ26, backgroundColor:C_2026+'cc', borderRadius:3},
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false,
+          plugins:{
+            legend: dLegend(),
+            datalabels:{ display:true, anchor:'end', align:'top', color:'#9aa5bc', font:{size:8,weight:'600'}, formatter: v => v>0 ? Math.round(v).toLocaleString() : '' },
+            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${Math.round(ctx.parsed.y).toLocaleString()} units` } }
+          },
+          scales: { x:{grid:{color:chartColors().grid},ticks:{color:chartColors().text,font:{size:10}}},
+                    y:{grid:{color:chartColors().grid},ticks:{color:chartColors().text,font:{size:10},callback:v=>v>=1000?(v/1000).toFixed(1)+'K':v}} }
+        }
+      });
+    }
+
+    /* ── Color analysis ── */
+    {
+      const colorQty25 = {};
+      act25.forEach(r => { const c=(C.color ? r[C.color]||'' : '').trim().toUpperCase(); if(c) colorQty25[c]=(colorQty25[c]||0)+num(r[C.qty]); });
+      const colors = Object.entries(colorQty25).sort((a,b)=>b[1]-a[1]).slice(0,20).map(e=>e[0]);
+      const colQ24 = colors.map(c => sum(act24.filter(r => (C.color ? r[C.color]||'' : '').trim().toUpperCase() === c), C.qty));
+      const colQ25 = colors.map(c => sum(act25.filter(r => (C.color ? r[C.color]||'' : '').trim().toUpperCase() === c), C.qty));
+      const colQ26 = colors.map(c => sum(act26.filter(r => (C.color ? r[C.color]||'' : '').trim().toUpperCase() === c), C.qty));
+      mkChart('ch-color-bar', { type:'bar',
+        data:{ labels:colors, datasets:[
+          {label:'2024', data:colQ24, backgroundColor:C_2024+'99', borderRadius:3},
+          {label:'2025', data:colQ25, backgroundColor:C_2025+'cc', borderRadius:3},
+          {label:'2026 YTD', data:colQ26, backgroundColor:C_2026+'cc', borderRadius:3},
+        ]},
+        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          plugins:{
+            legend: dLegend(),
+            datalabels:{ display:true, anchor:'end', align:'right', color:'#9aa5bc', font:{size:8,weight:'600'}, formatter:(v,ctx)=>ctx.datasetIndex===1&&v>0?Math.round(v).toLocaleString():'' },
+            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${Math.round(ctx.parsed.x).toLocaleString()} units` } }
+          },
+          scales: dScalesH()
+        }
+      });
     }
   }
 
@@ -1425,6 +1564,7 @@
      GEOGRAPHY
   ================================================================ */
   function renderRegion() {
+    applyChartDefaults();
     const act24=a(2024), act25=a(2025), act26=a(2026), bp26 = F.month ? b(2026) : bAll(2026);
     const _MN2 = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     const bpLbl = F.month ? (_MN2[+F.month-1]||F.month)+' BP 26' : 'BP 2026';
@@ -1486,7 +1626,7 @@
               </table></div>
             </div>`;
           }
-          tblTop.innerHTML = html || '<p style="color:#4a5680;">No branch data available.</p>';
+          tblTop.innerHTML = html || '<p class="dash-muted">No branch data available.</p>';
         }
       }
     } else {
@@ -1494,56 +1634,6 @@
       if (secTop) secTop.style.display = 'none';
     }
 
-    /* ── Size analysis ── */
-    {
-      const sizeQty25 = {};
-      act25.forEach(r => { const s=(C.size ? r[C.size]||'' : '').trim().toUpperCase(); if(s) sizeQty25[s]=(sizeQty25[s]||0)+num(r[C.qty]); });
-      const sizes = Object.entries(sizeQty25).sort((a,b)=>b[1]-a[1]).slice(0,20).map(e=>e[0]);
-      const szQ24 = sizes.map(s => sum(act24.filter(r => (C.size ? r[C.size]||'' : '').trim().toUpperCase() === s), C.qty));
-      const szQ25 = sizes.map(s => sum(act25.filter(r => (C.size ? r[C.size]||'' : '').trim().toUpperCase() === s), C.qty));
-      const szQ26 = sizes.map(s => sum(act26.filter(r => (C.size ? r[C.size]||'' : '').trim().toUpperCase() === s), C.qty));
-      mkChart('ch-size-bar', { type:'bar',
-        data:{ labels:sizes, datasets:[
-          {label:'2024', data:szQ24, backgroundColor:C_2024+'99', borderRadius:3},
-          {label:'2025', data:szQ25, backgroundColor:C_2025+'cc', borderRadius:3},
-          {label:'2026 YTD', data:szQ26, backgroundColor:C_2026+'cc', borderRadius:3},
-        ]},
-        options:{ responsive:true, maintainAspectRatio:false,
-          plugins:{
-            legend: dLegend(),
-            datalabels:{ display:true, anchor:'end', align:'top', color:'#9aa5bc', font:{size:8,weight:'600'}, formatter: v => v>0 ? Math.round(v).toLocaleString() : '' },
-            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${Math.round(ctx.parsed.y).toLocaleString()} units` } }
-          },
-          scales: { x:{grid:{color:chartColors().grid},ticks:{color:chartColors().text,font:{size:10}}},
-                    y:{grid:{color:chartColors().grid},ticks:{color:chartColors().text,font:{size:10},callback:v=>v>=1000?(v/1000).toFixed(1)+'K':v}} }
-        }
-      });
-    }
-
-    /* ── Color analysis ── */
-    {
-      const colorQty25 = {};
-      act25.forEach(r => { const c=(C.color ? r[C.color]||'' : '').trim().toUpperCase(); if(c) colorQty25[c]=(colorQty25[c]||0)+num(r[C.qty]); });
-      const colors = Object.entries(colorQty25).sort((a,b)=>b[1]-a[1]).slice(0,20).map(e=>e[0]);
-      const colQ24 = colors.map(c => sum(act24.filter(r => (C.color ? r[C.color]||'' : '').trim().toUpperCase() === c), C.qty));
-      const colQ25 = colors.map(c => sum(act25.filter(r => (C.color ? r[C.color]||'' : '').trim().toUpperCase() === c), C.qty));
-      const colQ26 = colors.map(c => sum(act26.filter(r => (C.color ? r[C.color]||'' : '').trim().toUpperCase() === c), C.qty));
-      mkChart('ch-color-bar', { type:'bar',
-        data:{ labels:colors, datasets:[
-          {label:'2024', data:colQ24, backgroundColor:C_2024+'99', borderRadius:3},
-          {label:'2025', data:colQ25, backgroundColor:C_2025+'cc', borderRadius:3},
-          {label:'2026 YTD', data:colQ26, backgroundColor:C_2026+'cc', borderRadius:3},
-        ]},
-        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-          plugins:{
-            legend: dLegend(),
-            datalabels:{ display:true, anchor:'end', align:'right', color:'#9aa5bc', font:{size:8,weight:'600'}, formatter:(v,ctx)=>ctx.datasetIndex===1&&v>0?Math.round(v).toLocaleString():'' },
-            tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${Math.round(ctx.parsed.x).toLocaleString()} units` } }
-          },
-          scales: dScalesH()
-        }
-      });
-    }
   }
 
   /* ================================================================
@@ -1614,7 +1704,7 @@
         ${globalOpps.length?`<div style="margin-bottom:12px;"><div style="font-size:11px;font-weight:700;color:#4a90e2;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">🌍 Global hits — low LATAM penetration</div><ul style="margin:0;padding-left:16px;font-size:11px;line-height:1.8;color:${cc.text||'#c8d4e8'}">${globalOpps.join('')}</ul></div>`:''}
         ${uniqueHere.length?`<div style="margin-bottom:12px;"><div style="font-size:11px;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">🚀 Strong here — push to other LATAM</div><ul style="margin:0;padding-left:16px;font-size:11px;line-height:1.8;color:${cc.text||'#c8d4e8'}">${uniqueHere.join('')}</ul></div>`:''}
         ${slowMovers.length?`<div><div style="font-size:11px;font-weight:700;color:#ef4444;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">⚠️ Slow movers — consider discontinuing</div><ul style="margin:0;padding-left:16px;font-size:11px;line-height:1.8;color:${cc.text||'#c8d4e8'}">${slowMovers.join('')}</ul></div>`:''}
-        ${!globalOpps.length&&!slowMovers.length&&!uniqueHere.length?'<div style="color:#4a5680;font-size:12px;">No significant insights for current filter.</div>':''}
+        ${!globalOpps.length&&!slowMovers.length&&!uniqueHere.length?`<div class="dash-muted" style="font-size:12px;">No significant insights for current filter.</div>`:''}
       </div>`;
     });
 
@@ -1626,6 +1716,7 @@
      BUFFER & STOCK — TB LATAM coverage analysis
   ================================================================ */
   function renderBuffer() {
+    applyChartDefaults();
     const LATAM5_NORM = ['mexico','brazil','brasil','argentina','colombia','chile'];
     const isLatam5 = r => LATAM5_NORM.includes(norm(r[C.country]||''));
     const isBonded = r => norm(r['COUNTRY 2']||'') === 'bonded';
@@ -1677,10 +1768,12 @@
       const bRows=bufRows.filter(r=>r['SKU 2']===sku);
       const rRows=real25.filter(r=>(r[C.sku]||r['SKU 2'])===sku);
 
-      const desc   = sRows[0]?.['DESCRIPTION'] || bRows[0]?.['DESCRIPTION'] || '';
-      const cat    = sRows[0]?.[C.category]    || bRows[0]?.[C.category]    || '';
-      const subcat = sRows[0]?.[C.subcat]      || bRows[0]?.[C.subcat]      || '';
-      const family = sRows[0]?.['FAMILY']      || bRows[0]?.['FAMILY']      || '';
+      const desc       = sRows[0]?.['DESCRIPTION'] || bRows[0]?.['DESCRIPTION'] || '';
+      const cat        = sRows[0]?.[C.category]    || bRows[0]?.[C.category]    || '';
+      const subcat     = sRows[0]?.[C.subcat]      || bRows[0]?.[C.subcat]      || '';
+      const family     = sRows[0]?.['FAMILY']      || bRows[0]?.['FAMILY']      || '';
+      const statusGlob = (sRows[0]?.['Status Global'] || bRows[0]?.['Status Global'] || '').toUpperCase();
+      const statusLoc  = (sRows[0]?.['Status Local']  || bRows[0]?.['Status Local']  || '').toUpperCase();
 
       const stockQty = sRows.reduce((s,r)=>s+num(r['QUANTITY']),0);
       const stockValue = sRows.reduce((s,r)=>{
@@ -1718,7 +1811,7 @@
         suggestion={type:'disc',text:'No 2025 LATAM sales + stock → discontinue candidate'};
       }
 
-      return {sku,desc,cat,subcat,family,avg25,stockQty,stockValue,totalBuf,bufByMon,totalCBM,covNow,covByMon,suggestion};
+      return {sku,desc,cat,subcat,family,statusGlob,statusLoc,avg25,stockQty,stockValue,totalBuf,bufByMon,totalCBM,covNow,covByMon,suggestion};
     });
 
     // KPI cards — split Local LATAM vs BONDED
@@ -1737,7 +1830,7 @@
     const lt = calcStockTotals(localStkRows);
     const bt = calcStockTotals(bondedStkRows);
     const fmtVal = v => '$'+(v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0));
-    const mkCard = (l,v,s,accent) => `<div class="kpi-card" style="min-width:130px;${accent?'border-color:'+accent+';':''}"><div class="kpi-label">${l}</div><div class="kpi-value" style="font-size:20px;">${v}</div><div class="kpi-delta" style="color:#4a5680;">${s}</div></div>`;
+    const mkCard = (l,v,s,accent) => `<div class="kpi-card" style="min-width:130px;${accent?'border-color:'+accent+';':''}"><div class="kpi-label">${l}</div><div class="kpi-value" style="font-size:20px;">${v}</div><div class="kpi-delta">${s}</div></div>`;
     const localLabel = ctFilter ? (_bufCountry+' Local') : 'Local LATAM';
     document.getElementById('buf-kpis').innerHTML =
       `<div style="display:flex;gap:20px;flex-wrap:wrap;width:100%;">` +
@@ -1773,18 +1866,19 @@
     let sugHtml='';
     if(pushItems.length||discItems.length){
       sugHtml=`<div style="display:flex;gap:12px;flex-wrap:wrap;">`;
-      if(pushItems.length) sugHtml+=`<div style="flex:1;min-width:240px;background:#0f2217;border:1px solid #22c55e33;border-radius:10px;padding:14px;">
+      const _lgt = isLight();
+      if(pushItems.length) sugHtml+=`<div style="flex:1;min-width:240px;background:${_lgt?'#f0fdf4':'#0f2217'};border:1px solid ${_lgt?'#bbf7d0':'#22c55e33'};border-radius:10px;padding:14px;">
         <div style="font-weight:700;font-size:12px;color:#22c55e;margin-bottom:8px;">🚀 Push Candidates</div>
-        ${pushItems.map(r=>`<div style="font-size:11px;padding:4px 0;border-bottom:1px solid #1a2940;"><strong>${r.sku}</strong> — ${r.desc.slice(0,40)} <span style="color:#22c55e">${r.suggestion.text}</span></div>`).join('')}</div>`;
-      if(discItems.length) sugHtml+=`<div style="flex:1;min-width:240px;background:#1f0f0f;border:1px solid #ef444433;border-radius:10px;padding:14px;">
+        ${pushItems.map(r=>`<div style="font-size:11px;padding:4px 0;border-bottom:1px solid ${_lgt?'#d1fae5':'#1a2940'};"><strong>${r.sku}</strong> — ${r.desc.slice(0,40)} <span style="color:#22c55e">${r.suggestion.text}</span></div>`).join('')}</div>`;
+      if(discItems.length) sugHtml+=`<div style="flex:1;min-width:240px;background:${_lgt?'#fff5f5':'#1f0f0f'};border:1px solid ${_lgt?'#fecaca':'#ef444433'};border-radius:10px;padding:14px;">
         <div style="font-weight:700;font-size:12px;color:#ef4444;margin-bottom:8px;">⚠️ Discontinue Candidates</div>
-        ${discItems.map(r=>`<div style="font-size:11px;padding:4px 0;border-bottom:1px solid #1a2940;"><strong>${r.sku}</strong> — ${r.desc.slice(0,40)} <span style="color:#ef4444">${r.suggestion.text}</span></div>`).join('')}</div>`;
+        ${discItems.map(r=>`<div style="font-size:11px;padding:4px 0;border-bottom:1px solid ${_lgt?'#fee2e2':'#1a2940'};"><strong>${r.sku}</strong> — ${r.desc.slice(0,40)} <span style="color:#ef4444">${r.suggestion.text}</span></div>`).join('')}</div>`;
       sugHtml+=`</div>`;
     }
     document.getElementById('buf-suggestions').innerHTML=sugHtml;
 
     // Sortable table
-    const covCol=v=>v==null?'#4a5680':v>=3?'#22c55e':v>=1.5?'#f59e0b':'#ef4444';
+    const covCol=v=>v==null?isLight()?'#94a3b8':'#4a5680':v>=3?'#22c55e':v>=1.5?'#f59e0b':'#ef4444';
     const covFmt=v=>v==null?'—':v.toFixed(1)+'mo';
     const ordMonHdrs=bufMonths.map(ym=>`<th class="r sort-btn" data-col="buf_${ym}" title="Orders ${monLbl(ym)}">Orders<br>${monLbl(ym)}</th>`).join('');
     const covHdrs=bufMonths.map(ym=>`<th class="r sort-btn" data-col="cov_${ym}">+${monLbl(ym)}</th>`).join('');
@@ -1808,6 +1902,12 @@
       return sortDir*(va-vb);
     });
 
+    const stBadge = (s, colA, colN) => {
+      if (!s) return '—';
+      const col = s === 'A' ? colA : s === 'N' ? colN : '#f59e0b';
+      return `<span style="display:inline-block;padding:1px 5px;border-radius:6px;font-size:9px;font-weight:700;background:${col}22;color:${col};border:1px solid ${col}44;">${s}</span>`;
+    };
+
     const tbody=sorted.map(r=>{
       const ordCells=bufMonths.map(ym=>`<td class="r">${r.bufByMon[ym]?fmtN(r.bufByMon[ym]):''}</td>`).join('');
       const covCells=bufMonths.map(ym=>`<td class="r" style="color:${covCol(r.covByMon[ym])};font-weight:600;">${covFmt(r.covByMon[ym])}</td>`).join('');
@@ -1817,6 +1917,8 @@
         <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;" title="${r.desc}">${r.desc}</td>
         <td style="font-size:10px;">${r.family}</td>
         <td style="font-size:10px;">${r.cat}</td>
+        <td class="r" style="white-space:nowrap;">${stBadge(r.statusGlob,'#22c55e','#ef4444')}</td>
+        <td class="r" style="white-space:nowrap;">${stBadge(r.statusLoc,'#3b82f6','#9ca3af')}</td>
         <td class="r">${r.avg25>0?r.avg25.toFixed(1):'—'}</td>
         <td class="r" style="font-weight:600;">${fmtN(r.stockQty)}</td>
         <td class="r">${r.stockValue>0?'$'+(r.stockValue>=1000?(r.stockValue/1000).toFixed(1)+'K':r.stockValue.toFixed(0)):''}</td>
@@ -1833,11 +1935,13 @@
         <th class="sort-btn" data-col="sku">SKU ${arrowFor('sku')}</th>
         <th class="sort-btn" data-col="desc">Description ${arrowFor('desc')}</th>
         <th>Family</th><th>Category</th>
+        <th class="r">Status<br>Global</th>
+        <th class="r">Status<br>Local</th>
         <th class="r sort-btn" data-col="avg25">Avg Mo.<br>2025 ${arrowFor('avg25')}</th>
         <th class="r sort-btn" data-col="stock">Stock<br>Qty ${arrowFor('stock')}</th>
         <th class="r sort-btn" data-col="value">Stock<br>Value ${arrowFor('value')}</th>
         ${ordMonHdrs}
-        <th class="r sort-btn" data-col="covNow" style="background:#1a2340;">Coverage<br>Now ${arrowFor('covNow')}</th>
+        <th class="r sort-btn" data-col="covNow" style="background:${isLight()?'#eff6ff':'#1a2340'};">Coverage<br>Now ${arrowFor('covNow')}</th>
         ${covHdrs}
         <th class="r">Total<br>CBM</th>
       </tr></thead>
