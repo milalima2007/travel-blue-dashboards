@@ -1880,7 +1880,9 @@
       const statusGlob = (sRows[0]?.['Status Global'] || bRows[0]?.['Status Global'] || '').toUpperCase();
       const statusLoc  = (sRows[0]?.['Status Local']  || bRows[0]?.['Status Local']  || '').toUpperCase();
 
-      const stockQty = sRows.reduce((s,r)=>s+num(r['QUANTITY']),0);
+      const localQty  = sRows.filter(r=>!isBonded(r)).reduce((s,r)=>s+num(r['QUANTITY']),0);
+      const bondedQty = sRows.filter(r=> isBonded(r)).reduce((s,r)=>s+num(r['QUANTITY']),0);
+      const stockQty  = localQty + bondedQty;
       const stockValue = sRows.reduce((s,r)=>{
         const c=(numCost(r['COST USD']||'')||numCost(r['COST']||''));
         return s+num(r['QUANTITY'])*c;
@@ -1916,7 +1918,7 @@
         suggestion={type:'disc',text:'No 2025 LATAM sales + stock → discontinue candidate'};
       }
 
-      return {sku,desc,cat,subcat,family,statusGlob,statusLoc,avg25,stockQty,stockValue,totalBuf,bufByMon,totalCBM,covNow,covByMon,suggestion};
+      return {sku,desc,cat,subcat,family,statusGlob,statusLoc,avg25,localQty,bondedQty,stockQty,stockValue,totalBuf,bufByMon,totalCBM,covNow,covByMon,suggestion};
     });
 
     // KPI cards — split Local LATAM vs BONDED
@@ -1997,6 +1999,8 @@
       else if(sortCol==='desc'){va=a.desc;vb=b.desc;}
       else if(sortCol==='avg25'){va=a.avg25;vb=b.avg25;}
       else if(sortCol==='stock'){va=a.stockQty;vb=b.stockQty;}
+      else if(sortCol==='local'){va=a.localQty;vb=b.localQty;}
+      else if(sortCol==='bonded'){va=a.bondedQty;vb=b.bondedQty;}
       else if(sortCol==='covNow'){va=a.covNow??-1;vb=b.covNow??-1;}
       else if(sortCol==='value'){va=a.stockValue;vb=b.stockValue;}
       else if(sortCol.startsWith('buf_')){const ym=sortCol.slice(4);va=a.bufByMon[ym]||0;vb=b.bufByMon[ym]||0;}
@@ -2024,7 +2028,8 @@
         <td class="r" style="white-space:nowrap;">${stBadge(r.statusGlob,'#22c55e','#ef4444')}</td>
         <td class="r" style="white-space:nowrap;">${stBadge(r.statusLoc,'#3b82f6','#9ca3af')}</td>
         <td class="r">${r.avg25>0?r.avg25.toFixed(1):'—'}</td>
-        <td class="r" style="font-weight:600;">${fmtN(r.stockQty)}</td>
+        <td class="r" style="font-weight:600;color:#4a90e2;">${r.localQty>0?fmtN(r.localQty):'—'}</td>
+        <td class="r" style="font-weight:600;color:#f59e0b;">${r.bondedQty>0?fmtN(r.bondedQty):'—'}</td>
         <td class="r">${r.stockValue>0?'$'+Math.round(r.stockValue).toLocaleString():''}</td>
         ${ordCells}
         <td class="r" style="color:${covCol(r.covNow)};font-weight:700;">${covFmt(r.covNow)}</td>
@@ -2042,7 +2047,8 @@
         <th class="r">Status<br>Global</th>
         <th class="r">Status<br>Local</th>
         <th class="r sort-btn" data-col="avg25">Avg Mo.<br>2025 ${arrowFor('avg25')}</th>
-        <th class="r sort-btn" data-col="stock">Stock<br>Qty ${arrowFor('stock')}</th>
+        <th class="r sort-btn" data-col="local" style="color:#4a90e2;">Local<br>Qty ${arrowFor('local')}</th>
+        <th class="r sort-btn" data-col="bonded" style="color:#f59e0b;">Bonded<br>Qty ${arrowFor('bonded')}</th>
         <th class="r sort-btn" data-col="value">Stock<br>Value ${arrowFor('value')}</th>
         ${ordMonHdrs}
         <th class="r sort-btn th-coverage" data-col="covNow">Coverage<br>Now ${arrowFor('covNow')}</th>
