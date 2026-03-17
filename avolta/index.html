@@ -239,8 +239,8 @@ var skuStore={};
 // ============================================================
 // UTILITY FUNCTIONS
 // ============================================================
-function fmt(n){if(n>=1e6)return 'CHF '+(n/1e6).toFixed(2)+'M';if(n>=1e3)return 'CHF '+(n/1e3).toFixed(1)+'K';return 'CHF '+Math.round(n);}
-function fN(n){return n.toLocaleString('en');}
+function fmt(n){return 'CHF '+Math.round(n).toLocaleString('pt-BR');}
+function fN(n){return Math.round(n).toLocaleString('pt-BR');}
 function fP(v){return (v>0?'+':'')+((typeof v==='number'&&Math.abs(v)<10)?v.toFixed(1):Math.round(v))+'%';}
 function bg(v){var n=typeof v==='number'?v:parseFloat(v);return n>2?'up':n<-2?'dn':'flat';}
 var charts={};
