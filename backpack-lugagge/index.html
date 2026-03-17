@@ -1996,6 +1996,17 @@
           ${mkCard('Orders Qty',fmtN(totBufQty),'units incoming','#22c55e')}
         </div>
       </div>` +
+      (()=>{
+        const w25=tableData.reduce((s,r)=>s+r.worldQty25,0);
+        const w26=tableData.reduce((s,r)=>s+r.worldQty26,0);
+        return `<div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="font-size:10px;font-weight:700;color:#a78bfa;text-transform:uppercase;letter-spacing:.07em;">🌍 World Sales (units)</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            ${mkCard('2025',fmtN(w25),'units sold worldwide','#a78bfa')}
+            ${mkCard('2026 YTD',fmtN(w26),'units sold worldwide','#818cf8')}
+          </div>
+        </div>`;
+      })() +
       `</div>`;
 
     document.getElementById('buf-suggestions').innerHTML='';
