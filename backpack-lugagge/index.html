@@ -1868,6 +1868,15 @@
     let totStockQty=0, totStockValue=0, totStockCBM=0, totBufQty=0;
     const fmtN=v=>v==null?'—':Math.round(v).toLocaleString();
 
+    // World-wide sales per SKU (all branches, no country filter)
+    const worldSales25={}, worldSales26={};
+    _all.filter(r=>isActual(r)).forEach(r=>{
+      const s=r['SKU 2']||(C.sku?r[C.sku]:''); if(!s)return;
+      const yr=rowYear(r); const q=num(C.qty?r[C.qty]:0);
+      if(yr==='2025') worldSales25[s]=(worldSales25[s]||0)+q;
+      if(yr==='2026') worldSales26[s]=(worldSales26[s]||0)+q;
+    });
+
     const tableData = allSKUs.map(sku => {
       const sRows=stkRows.filter(r=>r['SKU 2']===sku);
       const bRows=bufRows.filter(r=>r['SKU 2']===sku);
@@ -1921,7 +1930,9 @@
         suggestion={type:'disc',text:'No 2025 LATAM sales + stock → discontinue candidate'};
       }
 
-      return {sku,desc,cat,subcat,family,statusGlob,statusLoc,avg25,localQty,bondedQty,stockQty,stockValue,totalBuf,bufByMon,totalCBM,covNow,covByMon,suggestion};
+      const worldQty25=worldSales25[sku]||0;
+      const worldQty26=worldSales26[sku]||0;
+      return {sku,desc,cat,subcat,family,statusGlob,statusLoc,avg25,localQty,bondedQty,stockQty,stockValue,totalBuf,bufByMon,totalCBM,covNow,covByMon,suggestion,worldQty25,worldQty26};
     });
 
     // KPI cards — split Local LATAM vs BONDED
@@ -1990,6 +2001,8 @@
       else if(sortCol==='stock'){va=a.stockQty;vb=b.stockQty;}
       else if(sortCol==='local'){va=a.localQty;vb=b.localQty;}
       else if(sortCol==='bonded'){va=a.bondedQty;vb=b.bondedQty;}
+      else if(sortCol==='w25'){va=a.worldQty25;vb=b.worldQty25;}
+      else if(sortCol==='w26'){va=a.worldQty26;vb=b.worldQty26;}
       else if(sortCol==='covNow'){va=a.covNow??-1;vb=b.covNow??-1;}
       else if(sortCol==='value'){va=a.stockValue;vb=b.stockValue;}
       else if(sortCol.startsWith('buf_')){const ym=sortCol.slice(4);va=a.bufByMon[ym]||0;vb=b.bufByMon[ym]||0;}
@@ -2017,12 +2030,14 @@
         <td class="r" style="white-space:nowrap;">${stBadge(r.statusLoc,'#3b82f6','#9ca3af')}</td>
         <td class="r">${r.avg25>0?r.avg25.toFixed(1):'—'}</td>
         <td class="r" style="font-weight:600;color:#4a90e2;">${r.localQty>0?fmtN(r.localQty):'—'}</td>
-        <td class="r" style="font-weight:600;color:#f59e0b;">${r.bondedQty>0?fmtN(r.bondedQty):'—'}</td>
         <td class="r">${r.stockValue>0?'$'+Math.round(r.stockValue).toLocaleString():''}</td>
         ${ordCells}
         <td class="r" style="color:${covCol(r.covNow)};font-weight:700;">${covFmt(r.covNow)}</td>
         ${covCells}
         <td class="r">${r.totalCBM>0?r.totalCBM.toFixed(1):''}</td>
+        <td class="r" style="font-weight:600;color:#a78bfa;">${r.worldQty25>0?fmtN(r.worldQty25):'—'}</td>
+        <td class="r" style="font-weight:600;color:#818cf8;">${r.worldQty26>0?fmtN(r.worldQty26):'—'}</td>
+        <td class="r" style="font-weight:600;color:#f59e0b;">${r.bondedQty>0?fmtN(r.bondedQty):'—'}</td>
       </tr>`;
     }).join('');
 
@@ -2036,12 +2051,14 @@
         <th class="r">Status<br>Local</th>
         <th class="r sort-btn" data-col="avg25">Avg Mo.<br>2025 ${arrowFor('avg25')}</th>
         <th class="r sort-btn" data-col="local" style="color:#4a90e2;">Local<br>Qty ${arrowFor('local')}</th>
-        <th class="r sort-btn" data-col="bonded" style="color:#f59e0b;">Bonded<br>Qty ${arrowFor('bonded')}</th>
         <th class="r sort-btn" data-col="value">Stock<br>Value ${arrowFor('value')}</th>
         ${ordMonHdrs}
         <th class="r sort-btn th-coverage" data-col="covNow">Coverage<br>Now ${arrowFor('covNow')}</th>
         ${covHdrs}
         <th class="r">Total<br>CBM</th>
+        <th class="r sort-btn" data-col="w25" style="color:#a78bfa;">World Sales<br>2025 (units) ${arrowFor('w25')}</th>
+        <th class="r sort-btn" data-col="w26" style="color:#818cf8;">World Sales<br>2026 (units) ${arrowFor('w26')}</th>
+        <th class="r sort-btn" data-col="bonded" style="color:#f59e0b;">Bonded<br>Qty ${arrowFor('bonded')}</th>
       </tr></thead>
       <tbody>${tbody}</tbody>
     </table>`;
