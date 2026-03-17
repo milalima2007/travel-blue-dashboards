@@ -726,6 +726,24 @@
   const numCost = v => { const s=String(v??'').trim().replace(/[$€£\s]/g,''); if(!s) return 0; return s.includes(',')&&!s.includes('.') ? parseFloat(s.replace(',','.')) : parseFloat(s.replace(/,/g,'')) || 0; };
   const sum  = (rows, col) => rows.reduce((s,r) => s + num(r[col]), 0);
 
+  // Dual scrollbar: adds a synced top scrollbar above a horizontally-scrollable element
+  function addTopScrollbar(refEl, syncEl) {
+    const prev = refEl.parentNode.querySelector('.top-scrollbar');
+    if (prev) prev.remove();
+    const bar = document.createElement('div');
+    bar.className = 'top-scrollbar';
+    bar.style.cssText = 'overflow-x:auto;overflow-y:hidden;height:10px;margin-bottom:2px;border-radius:4px;';
+    const spacer = document.createElement('div');
+    spacer.style.cssText = 'height:1px;';
+    bar.appendChild(spacer);
+    refEl.parentNode.insertBefore(bar, refEl);
+    const updateW = () => { spacer.style.width = syncEl.scrollWidth + 'px'; };
+    requestAnimationFrame(updateW); setTimeout(updateW, 500);
+    let lock = false;
+    bar.addEventListener('scroll', () => { if (!lock){lock=true;syncEl.scrollLeft=bar.scrollLeft;requestAnimationFrame(()=>lock=false);} });
+    syncEl.addEventListener('scroll', () => { if (!lock){lock=true;bar.scrollLeft=syncEl.scrollLeft;requestAnimationFrame(()=>lock=false);} });
+  }
+
   function fmt(n) {
     if (!isFinite(n)||isNaN(n)) return '—';
     if (_metric === 'qty') return Math.round(n).toLocaleString()+' pcs';
@@ -1473,6 +1491,9 @@
             </tr>`;
           }).join('')}
           </tbody></table></div>`;
+      // Add top scrollbar mirroring the bottom one
+      const skuWrap = document.querySelector('#tbl-sku .tbl-wrap');
+      if (skuWrap) addTopScrollbar(skuWrap, skuWrap);
     }
 
     // Branch profile cards (if branch column is present and different from country)
@@ -2105,6 +2126,8 @@
       });
     });
     wrap._sortCol=sortCol; wrap._sortDir=sortDir;
+    // Add top scrollbar mirroring the bottom one
+    addTopScrollbar(wrap, wrap);
   }
 
   /* ================================================================
