@@ -108,7 +108,7 @@ const _supa = supabase.createClient(
 
 async function loadAllData() {
   // Tables that exceed Supabase's 1000-row default limit — must be paginated
-  const largeTables = new Set(["skuCountryFlat","skuStoreFlat","skuStoreADF","skuStoreADP"]);
+  const largeTables = new Set(["cubeData","famCubeData","skuCountryFlat","skuStoreFlat","skuStoreADF","skuStoreADP"]);
 
   const datasets = ["zoneData","mAll","famG","catG","tEMEA","mEMEA","dEMEA","famEMEA",
     "tAME","mAME","dAME","famAME","tUK","mUK","dUK","famUK","tASIA","mASIA","dASIA",
