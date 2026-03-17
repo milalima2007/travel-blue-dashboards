@@ -1903,8 +1903,9 @@
       const totalBuf=Object.values(bufByMon).reduce((s,v)=>s+v,0);
 
       const cov=(qty,avg)=>avg>0?+(qty/avg).toFixed(1):null;
-      const covNow=cov(stockQty,avg25);
-      let cumQty=stockQty;
+      // Coverage = LOCAL stock only; bonded shown as info but excluded from coverage math
+      const covNow=cov(localQty,avg25);
+      let cumQty=localQty; // future months: local stock + incoming orders (bonded excluded)
       const covByMon={};
       bufMonths.forEach(ym=>{cumQty+=(bufByMon[ym]||0);covByMon[ym]=cov(cumQty,avg25);});
 
