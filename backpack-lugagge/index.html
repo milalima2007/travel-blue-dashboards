@@ -371,6 +371,23 @@
   body.light .tbl tbody tr:hover .sk1,body.light .tbl tbody tr:hover .sk2,
   body.light .tbl tbody tr:hover .sk3,body.light .tbl tbody tr:hover .sk4,
   body.light .tbl tbody tr:hover .sk5 { background:#eff6ff !important; }
+  /* ── Buffer/Stock table: sticky left columns ── */
+  .tbl .bk1 { position:sticky; left:0;    z-index:2; min-width:68px;  max-width:68px; }
+  .tbl .bk2 { position:sticky; left:68px; z-index:2; min-width:155px; max-width:155px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tbl .bk3 { position:sticky; left:223px;z-index:2; min-width:88px;  max-width:88px; }
+  .tbl .bk4 { position:sticky; left:311px;z-index:2; min-width:82px;  max-width:82px; }
+  .tbl .bk5 { position:sticky; left:393px;z-index:2; min-width:82px;  max-width:82px; }
+  .tbl thead .bk1,.tbl thead .bk2,.tbl thead .bk3,.tbl thead .bk4,.tbl thead .bk5 { background:#161d30; }
+  .tbl tbody .bk1,.tbl tbody .bk2,.tbl tbody .bk3,.tbl tbody .bk4,.tbl tbody .bk5 { background:#070b14; }
+  .tbl tbody tr:hover .bk1,.tbl tbody tr:hover .bk2,.tbl tbody tr:hover .bk3,
+  .tbl tbody tr:hover .bk4,.tbl tbody tr:hover .bk5 { background:#111827; }
+  body.light .tbl thead .bk1,body.light .tbl thead .bk2,body.light .tbl thead .bk3,
+  body.light .tbl thead .bk4,body.light .tbl thead .bk5 { background:#f1f5f9 !important; }
+  body.light .tbl tbody .bk1,body.light .tbl tbody .bk2,body.light .tbl tbody .bk3,
+  body.light .tbl tbody .bk4,body.light .tbl tbody .bk5 { background:#ffffff !important; }
+  body.light .tbl tbody tr:hover .bk1,body.light .tbl tbody tr:hover .bk2,
+  body.light .tbl tbody tr:hover .bk3,body.light .tbl tbody tr:hover .bk4,
+  body.light .tbl tbody tr:hover .bk5 { background:#eff6ff !important; }
   </style>
 </head>
 <body>
@@ -1868,10 +1885,10 @@
     let totStockQty=0, totStockValue=0, totStockCBM=0, totBufQty=0;
     const fmtN=v=>v==null?'—':Math.round(v).toLocaleString();
 
-    // World-wide sales per SKU (all branches, no country filter)
+    // World-wide sales per SKU in units (all branches, no country filter)
     const worldSales25={}, worldSales26={};
     _all.filter(r=>isActual(r)).forEach(r=>{
-      const s=r['SKU 2']||(C.sku?r[C.sku]:''); if(!s)return;
+      const s=(C.sku?r[C.sku]:'')||r['SKU 2']; if(!s)return;
       const yr=rowYear(r); const q=num(C.qty?r[C.qty]:0);
       if(yr==='2025') worldSales25[s]=(worldSales25[s]||0)+q;
       if(yr==='2026') worldSales26[s]=(worldSales26[s]||0)+q;
@@ -2022,10 +2039,11 @@
       const ordCells=bufMonths.map(ym=>`<td class="r">${r.bufByMon[ym]?fmtN(r.bufByMon[ym]):''}</td>`).join('');
       const covCells=bufMonths.map(ym=>`<td class="r" style="color:${covCol(r.covByMon[ym])};font-weight:600;">${covFmt(r.covByMon[ym])}</td>`).join('');
       return `<tr>
-        <td style="font-weight:600;white-space:nowrap;">${r.sku}</td>
-        <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;" title="${r.desc}">${r.desc}</td>
-        <td style="font-size:10px;">${r.family}</td>
-        <td style="font-size:10px;">${r.cat}</td>
+        <td class="bk1" style="font-weight:600;white-space:nowrap;">${r.sku}</td>
+        <td class="bk2" style="font-size:10px;" title="${r.desc}">${r.desc}</td>
+        <td class="bk3" style="font-size:10px;">${r.family}</td>
+        <td class="bk4" style="font-size:10px;">${r.cat}</td>
+        <td class="bk5" style="font-size:10px;">${r.subcat}</td>
         <td class="r" style="white-space:nowrap;">${stBadge(r.statusGlob,'#22c55e','#ef4444')}</td>
         <td class="r" style="white-space:nowrap;">${stBadge(r.statusLoc,'#3b82f6','#9ca3af')}</td>
         <td class="r">${r.avg25>0?r.avg25.toFixed(1):'—'}</td>
@@ -2044,9 +2062,11 @@
     const arrowFor=col=>{if(col!==sortCol)return'↕';return sortDir===1?'↑':'↓';};
     wrap.innerHTML=`<table class="tbl" id="buf-tbl" style="font-size:11px;min-width:900px;">
       <thead><tr>
-        <th class="sort-btn" data-col="sku">SKU ${arrowFor('sku')}</th>
-        <th class="sort-btn" data-col="desc">Description ${arrowFor('desc')}</th>
-        <th>Family</th><th>Category</th>
+        <th class="bk1 sort-btn" data-col="sku">SKU ${arrowFor('sku')}</th>
+        <th class="bk2 sort-btn" data-col="desc">Description ${arrowFor('desc')}</th>
+        <th class="bk3">Family</th>
+        <th class="bk4">Category</th>
+        <th class="bk5">Sub-Cat</th>
         <th class="r">Status<br>Global</th>
         <th class="r">Status<br>Local</th>
         <th class="r sort-btn" data-col="avg25">Avg Mo.<br>2025 ${arrowFor('avg25')}</th>
