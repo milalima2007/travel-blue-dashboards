@@ -191,6 +191,10 @@ table.dt tr.tot td{background:#1e293b;font-weight:700;border-top:2px solid var(-
 .section-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
 .empty{text-align:center;color:var(--dim);padding:32px 0;}
 footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top:1px solid var(--border);margin-top:8px;}
+.fbar-search{background:#111827;border:1px solid var(--border);border-radius:6px;color:var(--text);
+  font-size:11px;padding:5px 10px;min-width:180px;flex:1 1 180px;}
+.fbar-search:focus{outline:none;border-color:var(--accent);}
+.fbar-search::placeholder{color:var(--dim);}
 @media(max-width:768px){.kpi-row{grid-template-columns:repeat(2,1fr);}.pc{flex:1 1 130px;}}
 </style>
 </head>
@@ -276,7 +280,7 @@ function renderKPIs(){
 
 /* ── STATE ── */
 let activeTab='vencidas';
-const F={vencidas:{periodo:'',vendedor:'',cliente:''},futuras:{semana:'',vendedor:'',cliente:''}};
+const F={vencidas:{periodo:'',vendedor:'',cliente:'',search:''},futuras:{semana:'',vendedor:'',cliente:'',search:''}};
 const V={vencidas:'periodo',hoje:'cliente',futuras:'semana'};
 
 /* ── TABS ── */
@@ -298,18 +302,48 @@ function renderTab(){
 
 /* ── FILTER HELPERS ── */
 function applyF(data,section){
-  const f=F[section];
-  return data.filter(r=>
-    (!f.periodo||r.Periodo===f.periodo)&&
-    (!f.semana ||r.Semana===f.semana)&&
-    (!f.vendedor||r.Vendedor===f.vendedor)&&
-    (!f.cliente||r.Razao_Social===f.cliente)
-  );
+  const f=F[section], q=(f.search||'').toLowerCase().trim();
+  return data.filter(r=>{
+    if(f.periodo&&r.Periodo!==f.periodo) return false;
+    if(f.semana&&r.Semana!==f.semana) return false;
+    if(f.vendedor&&r.Vendedor!==f.vendedor) return false;
+    if(f.cliente&&r.Razao_Social!==f.cliente) return false;
+    if(q){const hay=[r.Razao_Social,r.Nome_Fantasia,r.Vendedor,String(r.Nota_Fiscal||''),r.CNPJ_CPF].map(x=>String(x||'').toLowerCase()).join(' ');if(!hay.includes(q)) return false;}
+    return true;
+  });
 }
-function setF(sec,k,v){F[sec][k]=v;activeTab=sec;renderTab();}
+/* returns sorted unique values of rowField from allData filtered by f, ignoring selfKey filter */
+function avail(allData,rowField,f,selfKey){
+  const filterRow=r=>{
+    if(f.periodo&&selfKey!=='periodo'&&r.Periodo!==f.periodo) return false;
+    if(f.semana&&selfKey!=='semana'&&r.Semana!==f.semana) return false;
+    if(f.vendedor&&selfKey!=='vendedor'&&r.Vendedor!==f.vendedor) return false;
+    if(f.cliente&&selfKey!=='cliente'&&r.Razao_Social!==f.cliente) return false;
+    const q=(f.search||'').toLowerCase().trim();
+    if(q){const hay=[r.Razao_Social,r.Nome_Fantasia,r.Vendedor,String(r.Nota_Fiscal||''),r.CNPJ_CPF].map(x=>String(x||'').toLowerCase()).join(' ');if(!hay.includes(q)) return false;}
+    return true;
+  };
+  const vals=new Set();
+  allData.filter(filterRow).forEach(r=>{const v=r[rowField];if(v!==undefined&&v!==''&&String(v)!=='nan') vals.add(String(v));});
+  return [...vals].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+}
+function copts(ph,available,selected){
+  return '<option value="">'+ph+'</option>'+available.map(v=>'<option value="'+esc(v)+'"'+(v===selected?' selected':'')+'>'+esc(v)+'</option>').join('');
+}
+function setF(sec,k,v){
+  F[sec][k]=v;
+  if(k!=='search'){
+    const src=sec==='vencidas'?D.vencidas:D.futuras;
+    if(k!=='vendedor'){const av=avail(src,'Vendedor',F[sec],'vendedor');if(F[sec].vendedor&&!av.includes(F[sec].vendedor)) F[sec].vendedor='';}
+    if(k!=='cliente'){const av=avail(src,'Razao_Social',F[sec],'cliente');if(F[sec].cliente&&!av.includes(F[sec].cliente)) F[sec].cliente='';}
+    if(sec==='vencidas'&&k!=='periodo'){const av=avail(src,'Periodo',F[sec],'periodo');if(F[sec].periodo&&!av.includes(F[sec].periodo)) F[sec].periodo='';}
+    if(sec==='futuras'&&k!=='semana'){const avS=new Set(avail(src,'Semana',F[sec],'semana'));if(F[sec].semana&&!avS.has(F[sec].semana)) F[sec].semana='';}
+  }
+  activeTab=sec;renderTab();
+}
 function clrF(sec){Object.keys(F[sec]).forEach(k=>F[sec][k]='');renderTab();}
 function setV(sec,v){V[sec]=v;renderTab();}
-function setPeriodo(p){F.vencidas.periodo=F.vencidas.periodo===p?'':p;renderVencidas();}
+function setPeriodo(p){setF('vencidas','periodo',F.vencidas.periodo===p?'':p);}
 
 /* ── TABLE BUILDERS ── */
 function buildDetalhe(rows,id,cols,hdrs){
@@ -404,13 +438,18 @@ function renderVencidas(){
     ['Razão Social','Vendedor','Vencimento','NF','Parcela','Valor a Receber','Pago','Dias Atraso','Período']);
 
   const hasF=Object.values(f).some(x=>x);
+  const avP_set=new Set(avail(D.vencidas,'Periodo',f,'periodo'));
+  const avP=D.periodos.filter(p=>avP_set.has(p));
+  const avV=avail(D.vencidas,'Vendedor',f,'vendedor');
+  const avC=avail(D.vencidas,'Razao_Social',f,'cliente');
   document.getElementById('content').innerHTML=
     '<div class="card">'
     +'<div class="fbar">'
-    +'<i class="bi bi-funnel-fill text-secondary"></i>'
-    +'<select onchange="setF(\'vencidas\',\'periodo\',this.value)">'+opts(D.periodos,'— Todos os Períodos —')+'</select>'
-    +'<select onchange="setF(\'vencidas\',\'vendedor\',this.value)">'+opts(D.vendedores,'— Todos os Vendedores —')+'</select>'
-    +'<select onchange="setF(\'vencidas\',\'cliente\',this.value)">'+opts(D.clientes,'— Todos os Clientes —')+'</select>'
+    +'<i class="bi bi-search" style="color:var(--dim)"></i>'
+    +'<input class="fbar-search" type="text" placeholder="Buscar cliente, vendedor, NF..." value="'+esc(f.search||'')+'" oninput="setF(\'vencidas\',\'search\',this.value)">'
+    +'<select onchange="setF(\'vencidas\',\'periodo\',this.value)">'+copts('— Todos os Períodos —',avP,f.periodo)+'</select>'
+    +'<select onchange="setF(\'vencidas\',\'vendedor\',this.value)">'+copts('— Todos os Vendedores —',avV,f.vendedor)+'</select>'
+    +'<select onchange="setF(\'vencidas\',\'cliente\',this.value)">'+copts('— Todos os Clientes —',avC,f.cliente)+'</select>'
     +(hasF?'<button class="fbar-reset" onclick="clrF(\'vencidas\')">✕ Limpar</button>':'')
     +'<span class="cnt-badge" style="margin-left:auto">'+data.length+' títulos · '+BRL(sum(data,'A_Receber'))+'</span>'
     +'</div>'
@@ -418,10 +457,6 @@ function renderVencidas(){
     +'<div class="vbtns">'+vbs+'</div>'
     +tbl
     +'</div>';
-
-  const sels=document.querySelectorAll('#content .fbar select');
-  const ks=['periodo','vendedor','cliente'];
-  sels.forEach((s,i)=>{if(ks[i]) s.value=f[ks[i]]||'';});
 }
 
 function buildVencidasPeriodo(data){
@@ -494,22 +529,23 @@ function renderFuturas(){
     ['Razão Social','Vendedor','Vencimento','NF','Parcela','Valor a Receber','Semana']);
 
   const hasF=Object.values(f).some(x=>x);
+  const avS_set=new Set(avail(D.futuras,'Semana',f,'semana'));
+  const avS=D.semanas.filter(s=>avS_set.has(s));
+  const avV=avail(D.futuras,'Vendedor',f,'vendedor');
+  const avC=avail(D.futuras,'Razao_Social',f,'cliente');
   document.getElementById('content').innerHTML=
     '<div class="card">'
     +'<div class="fbar">'
-    +'<i class="bi bi-funnel-fill text-secondary"></i>'
-    +'<select onchange="setF(\'futuras\',\'semana\',this.value)">'+opts(D.semanas,'— Todas as Semanas —')+'</select>'
-    +'<select onchange="setF(\'futuras\',\'vendedor\',this.value)">'+opts(D.vendedores,'— Todos os Vendedores —')+'</select>'
-    +'<select onchange="setF(\'futuras\',\'cliente\',this.value)">'+opts(D.clientes,'— Todos os Clientes —')+'</select>'
+    +'<i class="bi bi-search" style="color:var(--dim)"></i>'
+    +'<input class="fbar-search" type="text" placeholder="Buscar cliente, vendedor, NF..." value="'+esc(f.search||'')+'" oninput="setF(\'futuras\',\'search\',this.value)">'
+    +'<select onchange="setF(\'futuras\',\'semana\',this.value)">'+copts('— Todas as Semanas —',avS,f.semana)+'</select>'
+    +'<select onchange="setF(\'futuras\',\'vendedor\',this.value)">'+copts('— Todos os Vendedores —',avV,f.vendedor)+'</select>'
+    +'<select onchange="setF(\'futuras\',\'cliente\',this.value)">'+copts('— Todos os Clientes —',avC,f.cliente)+'</select>'
     +(hasF?'<button class="fbar-reset" onclick="clrF(\'futuras\')">✕ Limpar</button>':'')
     +'<span class="cnt-badge" style="margin-left:auto">'+data.length+' títulos · '+BRL(sum(data,'A_Receber'))+'</span>'
     +'</div>'
     +'<div class="vbtns">'+vbs+'</div>'
     +tbl+'</div>';
-
-  const sels=document.querySelectorAll('#content .fbar select');
-  const ks=['semana','vendedor','cliente'];
-  sels.forEach((s,i)=>{if(ks[i]) s.value=f[ks[i]]||'';});
 }
 
 function buildBySemana(data){
