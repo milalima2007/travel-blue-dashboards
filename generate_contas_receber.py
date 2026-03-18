@@ -190,6 +190,7 @@ table.dt tr.tot td{background:#1e293b;font-weight:700;border-top:2px solid var(-
 .cnt-badge{background:#f59e0b22;color:var(--accent);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:600;}
 .section-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
 .empty{text-align:center;color:var(--dim);padding:32px 0;}
+.nowrap{white-space:nowrap;}
 footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top:1px solid var(--border);margin-top:8px;}
 .fbar-search{background:#111827;border:1px solid var(--border);border-radius:6px;color:var(--text);
   font-size:11px;padding:5px 10px;min-width:180px;flex:1 1 180px;}
@@ -387,7 +388,7 @@ function buildDetalhe(rows,id,cols,hdrs){
       let disp=v===''||v===null||v===undefined?'—':v;
       if((c==='A_Receber'||c==='Pago_Recebido')&&typeof v==='number') disp=R(v);
       const dv=isN?(parseFloat(v)||0):esc(String(v??''));
-      return '<td class="'+(isN?'nr':'')+'" data-v="'+dv+'">'+esc(String(disp??''))+'</td>';
+      return '<td class="'+(isN?'nr':'')+(c==='CNPJ_CPF'?' nowrap':'')+'" data-v="'+dv+'">'+esc(String(disp??''))+'</td>';
     }).join('');
     return '<tr>'+tds+'</tr>';
   }).join('');
@@ -410,7 +411,7 @@ function buildByCliente(data,pfx){
   const ths=[TH('Cliente',0,id),TH('CNPJ',1,id),TH('Títulos',2,id),TH('Valor a Receber',3,id)].join('');
   const trs=rows.map(r=>'<tr>'
     +'<td data-v="'+esc(r.c)+'">'+esc(r.c)+'</td>'
-    +'<td data-v="'+esc(r.cnpj)+'">'+esc(r.cnpj)+'</td>'
+    +'<td class="nowrap" data-v="'+esc(r.cnpj)+'">'+esc(r.cnpj)+'</td>'
     +'<td class="nr" data-v="'+r.n+'">'+r.n+'</td>'
     +'<td class="nr" data-v="'+r.t+'">'+R(r.t)+'</td></tr>').join('');
   return '<div class="tbl-wrap"><table class="dt" id="'+id+'">'
