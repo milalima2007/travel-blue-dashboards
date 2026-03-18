@@ -240,7 +240,8 @@ const D = __DATA_JSON__;
 
 /* ── HELPERS ── */
 const R = (n,d=2) => typeof n==='number' ? n.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}) : (n||'—');
-const BRL = v => 'R$ '+R(v);
+const BRL = v => 'R$ '+R(v,0);
+const FN = n => Number(n).toLocaleString('pt-BR');
 const sum = (a,k) => a.reduce((s,r)=>s+(parseFloat(r[k])||0),0);
 const grp = (a,k) => a.reduce((g,r)=>{const v=r[k]||'N/D';(g[v]=g[v]||[]).push(r);return g;},{});
 const esc = s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -283,7 +284,7 @@ function renderKPIs(){
     '<div class="kpi">'
     +'<div class="lbl">'+k.l+'</div>'
     +'<div class="val" style="color:'+k.c+'">'+k.v+'</div>'
-    +'<div class="cnt">'+k.n+' título'+(k.n!==1?'s':'')+'</div></div>'
+    +'<div class="cnt">'+FN(k.n)+' título'+(k.n!==1?'s':'')+'</div></div>'
   ).join('');
 }
 
@@ -395,7 +396,7 @@ function buildDetalhe(rows,id,cols,hdrs){
   const totTds=cols.map((c,i)=>{
     if(c==='A_Receber') return '<td class="nr">'+R(sum(rows,c))+'</td>';
     if(c==='Pago_Recebido') return '<td class="nr">'+R(sum(rows,c))+'</td>';
-    if(i===0) return '<td>TOTAL ('+rows.length+' títulos)</td>';
+    if(i===0) return '<td>TOTAL ('+FN(rows.length)+' títulos)</td>';
     return '<td></td>';
   }).join('');
   return '<div class="tbl-wrap"><table class="dt" id="'+id+'">'
@@ -412,14 +413,14 @@ function buildByCliente(data,pfx){
   const trs=rows.map(r=>'<tr>'
     +'<td data-v="'+esc(r.c)+'">'+esc(r.c)+'</td>'
     +'<td class="nowrap" data-v="'+esc(r.cnpj)+'">'+esc(r.cnpj)+'</td>'
-    +'<td class="nr" data-v="'+r.n+'">'+r.n+'</td>'
+    +'<td class="nr" data-v="'+r.n+'">'+FN(r.n)+'</td>'
     +'<td class="nr" data-v="'+r.t+'">'+R(r.t)+'</td></tr>').join('');
   return '<div class="tbl-wrap"><table class="dt" id="'+id+'">'
     +'<thead><tr>'+ths+'</tr></thead>'
     +'<tbody>'+trs
-    +'<tr class="tot"><td>TOTAL ('+rows.length+' clientes)</td>'
+    +'<tr class="tot"><td>TOTAL ('+FN(rows.length)+' clientes)</td>'
     +'<td></td>'
-    +'<td class="nr">'+rows.reduce((s,r)=>s+r.n,0)+'</td>'
+    +'<td class="nr">'+FN(rows.reduce((s,r)=>s+r.n,0))+'</td>'
     +'<td class="nr">'+R(sum(rows,'t'))+'</td></tr>'
     +'</tbody></table></div>';
 }
@@ -431,13 +432,13 @@ function buildByVendedor(data,pfx){
   const ths=[TH('Vendedor',0,id),TH('Títulos',1,id),TH('Valor a Receber',2,id)].join('');
   const trs=rows.map(r=>'<tr>'
     +'<td data-v="'+esc(r.v)+'">'+esc(r.v)+'</td>'
-    +'<td class="nr" data-v="'+r.n+'">'+r.n+'</td>'
+    +'<td class="nr" data-v="'+r.n+'">'+FN(r.n)+'</td>'
     +'<td class="nr" data-v="'+r.t+'">'+R(r.t)+'</td></tr>').join('');
   return '<div class="tbl-wrap"><table class="dt" id="'+id+'">'
     +'<thead><tr>'+ths+'</tr></thead>'
     +'<tbody>'+trs
-    +'<tr class="tot"><td>TOTAL ('+rows.length+' vendedores)</td>'
-    +'<td class="nr">'+rows.reduce((s,r)=>s+r.n,0)+'</td>'
+    +'<tr class="tot"><td>TOTAL ('+FN(rows.length)+' vendedores)</td>'
+    +'<td class="nr">'+FN(rows.reduce((s,r)=>s+r.n,0))+'</td>'
     +'<td class="nr">'+R(sum(rows,'t'))+'</td></tr>'
     +'</tbody></table></div>';
 }
@@ -455,8 +456,8 @@ function renderVencidas(){
       +'<div class="pcl" style="color:'+PC_COLORS[i]+'">'+esc(p.split('(')[0].trim())+'</div>'
       +'<div class="pcc">'+esc(p.match(/\(.*\)/)?.[0]||'')+'</div>'
       +'<div class="pcv" style="color:'+PC_COLORS[i]+'">'+BRL(sum(fil,'A_Receber'))+'</div>'
-      +'<div class="pcsub">'+fil.length+' títulos'+(f.vendedor||f.cliente?' filtrado':'')
-      +(fil.length!==all.length?' · '+all.length+' total':'')+' </div>'
+      +'<div class="pcsub">'+FN(fil.length)+' títulos'+(f.vendedor||f.cliente?' filtrado':'')
+      +(fil.length!==all.length?' · '+FN(all.length)+' total':'')+' </div>'
       +'</div>';
   }).join('');
 
@@ -487,7 +488,7 @@ function renderVencidas(){
     +ssDd('vencidas','vendedor','Vendedor',avV,f.vendedor)
     +ssDd('vencidas','cliente','Cliente',avC,f.cliente)
     +(hasF?'<button class="fbar-reset" onclick="clrF(\'vencidas\')">✕ Limpar</button>':'')
-    +'<span class="cnt-badge" style="margin-left:auto">'+data.length+' títulos · '+BRL(sum(data,'A_Receber'))+'</span>'
+    +'<span class="cnt-badge" style="margin-left:auto">'+FN(data.length)+' títulos · '+BRL(sum(data,'A_Receber'))+'</span>'
     +'</div>'
     +'<div class="period-grid">'+periodCards+'</div>'
     +'<div class="vbtns">'+vbs+'</div>'
@@ -506,7 +507,7 @@ function buildVencidasPeriodo(data){
     html+='<div style="margin-bottom:20px">'
       +'<div class="section-hdr">'
       +'<span class="badge-p bp'+i+'">'+esc(p)+'</span>'
-      +'<span class="cnt-badge">'+rows.length+' títulos</span>'
+      +'<span class="cnt-badge">'+FN(rows.length)+' títulos</span>'
       +'<span style="margin-left:auto;font-weight:700;color:var(--accent)">'+BRL(sum(rows,'A_Receber'))+'</span>'
       +'</div>'
       +buildDetalhe(rows,'vp'+i,
@@ -537,7 +538,7 @@ function renderHoje(){
     +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">'
     +'<div class="kpi"><div class="lbl">Vencem Hoje</div>'
     +'<div class="val" style="color:#f59e0b">'+BRL(sum(data,'A_Receber'))+'</div>'
-    +'<div class="cnt">'+data.length+' título'+(data.length!==1?'s':'')+'</div></div>'
+    +'<div class="cnt">'+FN(data.length)+' título'+(data.length!==1?'s':'')+'</div></div>'
     +'<div class="kpi"><div class="lbl">Clientes</div>'
     +'<div class="val" style="color:#3b82f6">'+Object.keys(grp(data,"Razao_Social")).length+'</div>'
     +'<div class="cnt">distintos</div></div>'
@@ -579,7 +580,7 @@ function renderFuturas(){
     +ssDd('futuras','vendedor','Vendedor',avV,f.vendedor)
     +ssDd('futuras','cliente','Cliente',avC,f.cliente)
     +(hasF?'<button class="fbar-reset" onclick="clrF(\'futuras\')">✕ Limpar</button>':'')
-    +'<span class="cnt-badge" style="margin-left:auto">'+data.length+' títulos · '+BRL(sum(data,'A_Receber'))+'</span>'
+    +'<span class="cnt-badge" style="margin-left:auto">'+FN(data.length)+' títulos · '+BRL(sum(data,'A_Receber'))+'</span>'
     +'</div>'
     +'<div class="vbtns">'+vbs+'</div>'
     +tbl+'</div>';
@@ -595,7 +596,7 @@ function buildBySemana(data){
     return '<div style="margin-bottom:20px">'
       +'<div class="section-hdr">'
       +'<span class="wk"><i class="bi bi-calendar3 me-1"></i>'+esc(s)+'</span>'
-      +'<span class="cnt-badge">'+rows.length+' títulos</span>'
+      +'<span class="cnt-badge">'+FN(rows.length)+' títulos</span>'
       +'<span style="margin-left:auto;font-weight:700;color:var(--green)">'+BRL(sum(rows,'A_Receber'))+'</span>'
       +'</div>'
       +buildDetalhe(rows,'sw'+i,
