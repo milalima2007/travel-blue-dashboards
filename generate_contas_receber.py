@@ -89,7 +89,7 @@ def process_excel(path):
         'hoje'     : to_rec(hoje_df),
         'futuras'  : to_rec(futuras_df, ['Semana','Semana_Sort']),
         'vendedores': uniq(df['Vendedor']),
-        'clientes'  : uniq(df['Razao_Social']),
+        'clientes'  : uniq(df['Nome_Fantasia']),
         'semanas'   : semanas,
     }
 
@@ -195,6 +195,14 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
   font-size:11px;padding:5px 10px;min-width:180px;flex:1 1 180px;}
 .fbar-search:focus{outline:none;border-color:var(--accent);}
 .fbar-search::placeholder{color:var(--dim);}
+.ss-wrap{display:flex;align-items:center;border:1px solid var(--border);border-radius:6px;background:#111827;overflow:hidden;flex:1 1 200px;max-width:280px;}
+.ss-wrap:focus-within{border-color:var(--accent);}
+.ss-lupa{padding:0 6px;color:var(--dim);pointer-events:none;display:flex;align-items:center;font-size:12px;}
+.ss-inp{background:transparent;border:none;color:var(--text);font-size:11px;padding:5px 2px;width:72px;min-width:40px;outline:none;}
+.ss-inp::placeholder{color:var(--dim);}
+.ss-sel{background:transparent;border:none;border-left:1px solid var(--border);color:var(--text);font-size:11px;padding:5px 4px;cursor:pointer;flex:1;min-width:90px;max-width:180px;outline:none;}
+.ss-sel:focus{outline:none;}
+.ss-sel option{background:#1e293b;color:var(--text);}
 @media(max-width:768px){.kpi-row{grid-template-columns:repeat(2,1fr);}.pc{flex:1 1 130px;}}
 </style>
 </head>
@@ -307,7 +315,7 @@ function applyF(data,section){
     if(f.periodo&&r.Periodo!==f.periodo) return false;
     if(f.semana&&r.Semana!==f.semana) return false;
     if(f.vendedor&&r.Vendedor!==f.vendedor) return false;
-    if(f.cliente&&r.Razao_Social!==f.cliente) return false;
+    if(f.cliente&&r.Nome_Fantasia!==f.cliente) return false;
     if(q){const hay=[r.Razao_Social,r.Nome_Fantasia,r.Vendedor,String(r.Nota_Fiscal||''),r.CNPJ_CPF].map(x=>String(x||'').toLowerCase()).join(' ');if(!hay.includes(q)) return false;}
     return true;
   });
@@ -318,7 +326,7 @@ function avail(allData,rowField,f,selfKey){
     if(f.periodo&&selfKey!=='periodo'&&r.Periodo!==f.periodo) return false;
     if(f.semana&&selfKey!=='semana'&&r.Semana!==f.semana) return false;
     if(f.vendedor&&selfKey!=='vendedor'&&r.Vendedor!==f.vendedor) return false;
-    if(f.cliente&&selfKey!=='cliente'&&r.Razao_Social!==f.cliente) return false;
+    if(f.cliente&&selfKey!=='cliente'&&r.Nome_Fantasia!==f.cliente) return false;
     const q=(f.search||'').toLowerCase().trim();
     if(q){const hay=[r.Razao_Social,r.Nome_Fantasia,r.Vendedor,String(r.Nota_Fiscal||''),r.CNPJ_CPF].map(x=>String(x||'').toLowerCase()).join(' ');if(!hay.includes(q)) return false;}
     return true;
@@ -335,14 +343,39 @@ function setF(sec,k,v){
   if(k!=='search'){
     const src=sec==='vencidas'?D.vencidas:D.futuras;
     if(k!=='vendedor'){const av=avail(src,'Vendedor',F[sec],'vendedor');if(F[sec].vendedor&&!av.includes(F[sec].vendedor)) F[sec].vendedor='';}
-    if(k!=='cliente'){const av=avail(src,'Razao_Social',F[sec],'cliente');if(F[sec].cliente&&!av.includes(F[sec].cliente)) F[sec].cliente='';}
+    if(k!=='cliente'){const av=avail(src,'Nome_Fantasia',F[sec],'cliente');if(F[sec].cliente&&!av.includes(F[sec].cliente)) F[sec].cliente='';}
     if(sec==='vencidas'&&k!=='periodo'){const av=avail(src,'Periodo',F[sec],'periodo');if(F[sec].periodo&&!av.includes(F[sec].periodo)) F[sec].periodo='';}
     if(sec==='futuras'&&k!=='semana'){const avS=new Set(avail(src,'Semana',F[sec],'semana'));if(F[sec].semana&&!avS.has(F[sec].semana)) F[sec].semana='';}
   }
   activeTab=sec;renderTab();
 }
-function clrF(sec){Object.keys(F[sec]).forEach(k=>F[sec][k]='');renderTab();}
+function clrF(sec){Object.keys(F[sec]).forEach(k=>F[sec][k]='');Object.keys(SD[sec]).forEach(k=>SD[sec][k]='');renderTab();}
 function setV(sec,v){V[sec]=v;renderTab();}
+
+/* ── SEARCHABLE DROPDOWN (ss) ── */
+const SD={vencidas:{vendedor:'',cliente:''},futuras:{vendedor:'',cliente:''}};
+function filterSS(sec,key){
+  const q=(SD[sec][key]||'').toLowerCase().trim();
+  const sel=document.querySelector('[data-dds="'+sec+'-'+key+'"]');
+  if(!sel) return;
+  sel.querySelectorAll('option').forEach(o=>{if(!o.value) return; o.hidden=q&&!o.text.toLowerCase().includes(q);});
+}
+function setSS(sec,key,q){SD[sec][key]=q;filterSS(sec,key);}
+function applySD(){
+  ['vencidas','futuras'].forEach(sec=>['vendedor','cliente'].forEach(key=>{
+    const inp=document.querySelector('[data-ddi="'+sec+'-'+key+'"]');
+    if(inp) inp.value=SD[sec][key]||'';
+    filterSS(sec,key);
+  }));
+}
+function ssDd(sec,key,ph,available,selected){
+  return '<span class="ss-wrap">'
+    +'<span class="ss-lupa"><i class="bi bi-search"></i></span>'
+    +'<input data-ddi="'+sec+'-'+key+'" class="ss-inp" type="text" placeholder="'+esc(ph)+'" oninput="setSS(\''+sec+'\',\''+key+'\',this.value)">'
+    +'<select data-dds="'+sec+'-'+key+'" class="ss-sel" onchange="setF(\''+sec+'\',\''+key+'\',this.value)">'
+    +copts('Todos',available,selected)
+    +'</select></span>';
+}
 function setPeriodo(p){setF('vencidas','periodo',F.vencidas.periodo===p?'':p);}
 
 /* ── TABLE BUILDERS ── */
@@ -371,18 +404,20 @@ function buildDetalhe(rows,id,cols,hdrs){
 }
 
 function buildByCliente(data,pfx){
-  const g=grp(data,'Razao_Social');
-  const rows=Object.entries(g).map(([c,rs])=>({c,n:rs.length,t:sum(rs,'A_Receber')})).sort((a,b)=>b.t-a.t);
+  const g=grp(data,'Nome_Fantasia');
+  const rows=Object.entries(g).map(([c,rs])=>({c,cnpj:rs[0].CNPJ_CPF||'',n:rs.length,t:sum(rs,'A_Receber')})).sort((a,b)=>b.t-a.t);
   const id=pfx+'_cli';
-  const ths=[TH('Razão Social',0,id),TH('Títulos',1,id),TH('Valor a Receber',2,id)].join('');
+  const ths=[TH('Cliente',0,id),TH('CNPJ',1,id),TH('Títulos',2,id),TH('Valor a Receber',3,id)].join('');
   const trs=rows.map(r=>'<tr>'
     +'<td data-v="'+esc(r.c)+'">'+esc(r.c)+'</td>'
+    +'<td data-v="'+esc(r.cnpj)+'">'+esc(r.cnpj)+'</td>'
     +'<td class="nr" data-v="'+r.n+'">'+r.n+'</td>'
     +'<td class="nr" data-v="'+r.t+'">'+R(r.t)+'</td></tr>').join('');
   return '<div class="tbl-wrap"><table class="dt" id="'+id+'">'
     +'<thead><tr>'+ths+'</tr></thead>'
     +'<tbody>'+trs
     +'<tr class="tot"><td>TOTAL ('+rows.length+' clientes)</td>'
+    +'<td></td>'
     +'<td class="nr">'+rows.reduce((s,r)=>s+r.n,0)+'</td>'
     +'<td class="nr">'+R(sum(rows,'t'))+'</td></tr>'
     +'</tbody></table></div>';
@@ -434,22 +469,22 @@ function renderVencidas(){
   else if(v==='cliente') tbl=buildByCliente(data,'venc');
   else if(v==='vendedor') tbl=buildByVendedor(data,'venc');
   else tbl=buildDetalhe(data,'vd',
-    ['Razao_Social','Vendedor','Vencimento_fmt','Nota_Fiscal','Parcela','A_Receber','Pago_Recebido','Dias_Atraso','Periodo'],
-    ['Razão Social','Vendedor','Vencimento','NF','Parcela','Valor a Receber','Pago','Dias Atraso','Período']);
+    ['Nome_Fantasia','CNPJ_CPF','Vendedor','Vencimento_fmt','Nota_Fiscal','Parcela','A_Receber','Pago_Recebido','Dias_Atraso','Periodo'],
+    ['Cliente','CNPJ','Vendedor','Vencimento','NF','Parcela','Valor a Receber','Pago','Dias Atraso','Período']);
 
   const hasF=Object.values(f).some(x=>x);
   const avP_set=new Set(avail(D.vencidas,'Periodo',f,'periodo'));
   const avP=D.periodos.filter(p=>avP_set.has(p));
   const avV=avail(D.vencidas,'Vendedor',f,'vendedor');
-  const avC=avail(D.vencidas,'Razao_Social',f,'cliente');
+  const avC=avail(D.vencidas,'Nome_Fantasia',f,'cliente');
   document.getElementById('content').innerHTML=
     '<div class="card">'
     +'<div class="fbar">'
     +'<i class="bi bi-search" style="color:var(--dim)"></i>'
     +'<input class="fbar-search" type="text" placeholder="Buscar cliente, vendedor, NF..." value="'+esc(f.search||'')+'" oninput="setF(\'vencidas\',\'search\',this.value)">'
     +'<select onchange="setF(\'vencidas\',\'periodo\',this.value)">'+copts('— Todos os Períodos —',avP,f.periodo)+'</select>'
-    +'<select onchange="setF(\'vencidas\',\'vendedor\',this.value)">'+copts('— Todos os Vendedores —',avV,f.vendedor)+'</select>'
-    +'<select onchange="setF(\'vencidas\',\'cliente\',this.value)">'+copts('— Todos os Clientes —',avC,f.cliente)+'</select>'
+    +ssDd('vencidas','vendedor','Vendedor',avV,f.vendedor)
+    +ssDd('vencidas','cliente','Cliente',avC,f.cliente)
     +(hasF?'<button class="fbar-reset" onclick="clrF(\'vencidas\')">✕ Limpar</button>':'')
     +'<span class="cnt-badge" style="margin-left:auto">'+data.length+' títulos · '+BRL(sum(data,'A_Receber'))+'</span>'
     +'</div>'
@@ -457,6 +492,7 @@ function renderVencidas(){
     +'<div class="vbtns">'+vbs+'</div>'
     +tbl
     +'</div>';
+  applySD();
 }
 
 function buildVencidasPeriodo(data){
@@ -473,8 +509,8 @@ function buildVencidasPeriodo(data){
       +'<span style="margin-left:auto;font-weight:700;color:var(--accent)">'+BRL(sum(rows,'A_Receber'))+'</span>'
       +'</div>'
       +buildDetalhe(rows,'vp'+i,
-        ['Razao_Social','Vendedor','Vencimento_fmt','Nota_Fiscal','A_Receber','Dias_Atraso'],
-        ['Razão Social','Vendedor','Vencimento','NF','Valor a Receber','Dias Atraso'])
+        ['Nome_Fantasia','CNPJ_CPF','Vendedor','Vencimento_fmt','Nota_Fiscal','A_Receber','Dias_Atraso'],
+        ['Cliente','CNPJ','Vendedor','Vencimento','NF','Valor a Receber','Dias Atraso'])
       +'</div>';
   });
   return html||'<div class="empty">Nenhuma conta vencida encontrada.</div>';
@@ -492,8 +528,8 @@ function renderHoje(){
   if(v==='cliente') tbl=buildByCliente(data,'hoje');
   else if(v==='vendedor') tbl=buildByVendedor(data,'hoje');
   else tbl=buildDetalhe(data,'hd',
-    ['Razao_Social','Vendedor','Vencimento_fmt','Nota_Fiscal','Parcela','A_Receber','Pago_Recebido'],
-    ['Razão Social','Vendedor','Vencimento','NF','Parcela','Valor a Receber','Pago']);
+    ['Nome_Fantasia','CNPJ_CPF','Vendedor','Vencimento_fmt','Nota_Fiscal','Parcela','A_Receber','Pago_Recebido'],
+    ['Cliente','CNPJ','Vendedor','Vencimento','NF','Parcela','Valor a Receber','Pago']);
 
   document.getElementById('content').innerHTML=
     '<div class="card">'
@@ -525,27 +561,28 @@ function renderFuturas(){
   else if(v==='cliente') tbl=buildByCliente(data,'fut');
   else if(v==='vendedor') tbl=buildByVendedor(data,'fut');
   else tbl=buildDetalhe(data,'fd',
-    ['Razao_Social','Vendedor','Vencimento_fmt','Nota_Fiscal','Parcela','A_Receber','Semana'],
-    ['Razão Social','Vendedor','Vencimento','NF','Parcela','Valor a Receber','Semana']);
+    ['Nome_Fantasia','CNPJ_CPF','Vendedor','Vencimento_fmt','Nota_Fiscal','Parcela','A_Receber','Semana'],
+    ['Cliente','CNPJ','Vendedor','Vencimento','NF','Parcela','Valor a Receber','Semana']);
 
   const hasF=Object.values(f).some(x=>x);
   const avS_set=new Set(avail(D.futuras,'Semana',f,'semana'));
   const avS=D.semanas.filter(s=>avS_set.has(s));
   const avV=avail(D.futuras,'Vendedor',f,'vendedor');
-  const avC=avail(D.futuras,'Razao_Social',f,'cliente');
+  const avC=avail(D.futuras,'Nome_Fantasia',f,'cliente');
   document.getElementById('content').innerHTML=
     '<div class="card">'
     +'<div class="fbar">'
     +'<i class="bi bi-search" style="color:var(--dim)"></i>'
     +'<input class="fbar-search" type="text" placeholder="Buscar cliente, vendedor, NF..." value="'+esc(f.search||'')+'" oninput="setF(\'futuras\',\'search\',this.value)">'
     +'<select onchange="setF(\'futuras\',\'semana\',this.value)">'+copts('— Todas as Semanas —',avS,f.semana)+'</select>'
-    +'<select onchange="setF(\'futuras\',\'vendedor\',this.value)">'+copts('— Todos os Vendedores —',avV,f.vendedor)+'</select>'
-    +'<select onchange="setF(\'futuras\',\'cliente\',this.value)">'+copts('— Todos os Clientes —',avC,f.cliente)+'</select>'
+    +ssDd('futuras','vendedor','Vendedor',avV,f.vendedor)
+    +ssDd('futuras','cliente','Cliente',avC,f.cliente)
     +(hasF?'<button class="fbar-reset" onclick="clrF(\'futuras\')">✕ Limpar</button>':'')
     +'<span class="cnt-badge" style="margin-left:auto">'+data.length+' títulos · '+BRL(sum(data,'A_Receber'))+'</span>'
     +'</div>'
     +'<div class="vbtns">'+vbs+'</div>'
     +tbl+'</div>';
+  applySD();
 }
 
 function buildBySemana(data){
@@ -561,8 +598,8 @@ function buildBySemana(data){
       +'<span style="margin-left:auto;font-weight:700;color:var(--green)">'+BRL(sum(rows,'A_Receber'))+'</span>'
       +'</div>'
       +buildDetalhe(rows,'sw'+i,
-        ['Razao_Social','Vendedor','Vencimento_fmt','Nota_Fiscal','Parcela','A_Receber'],
-        ['Razão Social','Vendedor','Vencimento','NF','Parcela','Valor a Receber'])
+        ['Nome_Fantasia','CNPJ_CPF','Vendedor','Vencimento_fmt','Nota_Fiscal','Parcela','A_Receber'],
+        ['Cliente','CNPJ','Vendedor','Vencimento','NF','Parcela','Valor a Receber'])
       +'</div>';
   }).join('');
 }
