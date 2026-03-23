@@ -1896,7 +1896,7 @@
     const mesKey = stkRows.length ? Object.keys(stkRows[0]).find(k => k.startsWith('M') && k.toLowerCase().endsWith('s')) || 'Mês' : 'Mês';
 
     const bufMonths = [...new Set(bufRows.map(r=>{
-      const y=String(r['Ano']||''), m=String(r[mesKey]||'').padStart(2,'0');
+      const y=rowYear(r), m=String(rowMonth(r)||'').padStart(2,'0');
       return y&&m!=='00'?y+'-'+m:null;
     }).filter(Boolean))].sort();
 
@@ -1943,7 +1943,7 @@
 
       const bufByMon={};
       bRows.forEach(r=>{
-        const y=String(r['Ano']||''),m=String(r[mesKey]||'').padStart(2,'0');
+        const y=rowYear(r),m=String(rowMonth(r)||'').padStart(2,'0');
         const key=y&&m!=='00'?y+'-'+m:'unknown';
         bufByMon[key]=(bufByMon[key]||0)+num(r['QUANTITY']);
       });
