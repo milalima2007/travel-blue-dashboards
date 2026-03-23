@@ -146,13 +146,13 @@ def push_github():
     ts = datetime.now().strftime('%Y-%m-%d %H:%M')
     result = subprocess.run(
         f'cd /d "{GHPAGES_DIR}" && git add index.html && '
-        f'git commit -m "data: update backpack dashboard {ts}" && git push',
+        f'git diff --cached --quiet || (git commit -m "data: update backpack dashboard {ts}" && git push)',
         shell=True, capture_output=True, text=True
     )
     if result.returncode != 0:
         print(f"      AVISO: git push falhou:\n{result.stderr[:300]}")
     else:
-        print(f"      OK — GitHub Pages atualizado")
+        print(f"      OK — GitHub Pages atualizado (ou ja estava actualizado)")
 
 # ── Entry point ───────────────────────────────────────────────────────────────
 def main():
