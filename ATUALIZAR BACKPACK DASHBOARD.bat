@@ -6,8 +6,15 @@ title Travel Blue – Atualizar Backpack ^& Luggage Dashboard
 echo.
 echo  ====================================================
 echo   Travel Blue – Backpack ^& Luggage Dashboard
-echo   Gerador de Dashboard Offline
+echo   Atualizacao de Dados
 echo  ====================================================
+echo.
+echo  O que este bat faz:
+echo    1. Le o arquivo Excel (aba DATABASE)
+echo    2. Atualiza os dados no Supabase
+echo    3. Reconstroi o viewer.html
+echo    4. Publica no GitHub Pages (URL compartilhada)
+echo    5. Abre o dashboard para conferencia
 echo.
 
 :: ── Verifica Python ─────────────────────────────────────────────────────────
@@ -20,17 +27,10 @@ if errorlevel 1 (
     exit /b
 )
 
-:: ── Verifica pandas ─────────────────────────────────────────────────────────
-python -c "import pandas" >nul 2>&1
-if errorlevel 1 (
-    echo  Instalando pandas e openpyxl...
-    pip install pandas openpyxl --quiet
-)
-
 :: ── Se arquivo foi arrastado sobre o bat ────────────────────────────────────
 if not "%~1"=="" (
     set "EXCEL=%~1"
-    goto :gerar
+    goto :atualizar
 )
 
 :: ── Sem arquivo: busca o mais recente em Downloads ──────────────────────────
@@ -48,48 +48,29 @@ if "!EXCEL!"=="" (
     )
 )
 
+:: fallback: arquivo padrao na pasta backpack-lugagge
 if "!EXCEL!"=="" (
-    echo.
-    echo  Nenhum arquivo .xlsx encontrado em Downloads.
-    echo.
-    echo  OPCOES:
-    echo    1. Arraste o arquivo Excel (SALES ALL TB GROUP...) sobre este .bat
-    echo    2. Coloque o arquivo na pasta Downloads
-    echo.
-    set /p "EXCEL=Ou cole aqui o caminho do arquivo Excel: "
-    if "!EXCEL!"=="" goto :erro
+    set "EXCEL=%~dp0backpack-lugagge\SALES ALL TB GROUP - BACKPACKS&LUGGAGE - TB BRAND.xlsx"
 )
 
-:gerar
-echo.
+:atualizar
 echo  Arquivo: !EXCEL!
 echo.
-echo  Gerando dashboard offline...
-echo.
-python "%~dp0generate_backpack_dashboard.py" "!EXCEL!"
+
+python "%~dp0upload_backpack_data.py" "!EXCEL!"
 
 if errorlevel 1 (
     echo.
-    echo  ERRO ao gerar o dashboard.
-    echo  Verifique se o arquivo Excel tem a aba DATABASE.
+    echo  ====================================================
+    echo   ERRO ao atualizar o dashboard.
+    echo   Verifique se o Excel tem a aba DATABASE.
+    echo  ====================================================
     echo.
     pause
     exit /b
 )
 
 echo.
-echo  ====================================================
-echo   Dashboard atualizado com sucesso!
-echo   Arquivo: backpack-lugagge\dashboard-local.html
-echo  ====================================================
-echo.
-timeout /t 3 /nobreak >nul
-goto :fim
-
-:erro
-echo  Operacao cancelada.
-pause
-exit /b
-
-:fim
+echo  Pressione qualquer tecla para fechar...
+pause >nul
 endlocal
