@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Travel Blue | Central de Controle - Camila</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Extra styles for this hub page */
+    .hub-section { margin-bottom: 44px; }
+    .hub-note {
+      background: rgba(255,199,44,0.12);
+      border: 1px solid rgba(255,199,44,0.35);
+      color: var(--gray-dark);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+    .hub-note strong { color: var(--navy); }
+    .card-link-list { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+    .card-link-list a { font-size: 12px; color: var(--navy); font-weight: 600; }
+    .card-link-list a:hover { color: var(--yellow-dark); text-decoration: underline; }
+    .card-meta { font-size: 11px; color: var(--gray); margin-top: 10px; }
+    .badge-pending { background: #F2F2F2; color: #888; }
+    .editable-table input,
+    .editable-table select,
+    .editable-table textarea {
+      width: 100%;
+      border: 1px solid var(--gray-light);
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      background: #fff;
+    }
+    .editable-table textarea { resize: vertical; min-height: 38px; }
+    .table-actions { padding: 14px 16px; display: flex; gap: 10px; align-items: center; }
+    .last-saved { font-size: 12px; color: var(--gray); margin-left: auto; }
+    .placeholder-card { border: 2px dashed rgba(27,42,107,0.18); box-shadow: none; }
+    .placeholder-card .card-icon { background: rgba(27,42,107,0.04); }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-logo">
+      <svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <rect width="48" height="48" rx="8" fill="#1B2A6B"/>
+        <path d="M10 34 Q16 10 24 24 Q32 38 38 14" stroke="#FFC72C" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <circle cx="38" cy="14" r="2.5" fill="#FFC72C"/>
+      </svg>
+      <div class="logo-text-wrap">
+        <span class="logo-brand">Travel Blue</span>
+        <span class="logo-tagline">London · Since 1987</span>
+      </div>
+    </div>
+    <nav class="topbar-nav">
+      <a href="home.html">Portal</a>
+      <a href="central-camila.html" class="active">Central de Controle</a>
+    </nav>
+  </header>
+
+  <!-- PAGE BANNER -->
+  <section class="page-banner">
+    <h1>Central de Controle <span>— Camila</span></h1>
+    <p>Painéis, dashboards, BI, atividades e prazos — visão única para acompanhamento diário.</p>
+  </section>
+
+  <main class="main-content">
+
+    <div class="hub-note">
+      <strong>Como usar:</strong> esta página é estática (sem login) — ideal para compartilhar o link direto com o
+      chefe. Para atualizar, edite o arquivo <code>central-camila.html</code> (tabela de atividades, status,
+      links dos BIs). Atualize o status/datas diariamente antes de enviar o link.
+    </div>
+
+    <!-- ============================================
+         SEÇÃO 1 — DASHBOARDS (Cowork / GitHub Pages)
+         ============================================ -->
+    <section class="hub-section">
+      <div class="section-header">
+        <h2 class="section-title">Dashboards & Relatórios</h2>
+        <p class="section-subtitle">Painéis gerados a partir das planilhas, hospedados neste site.</p>
+      </div>
+      <div class="cards-grid">
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">📊</div>
+            <h3 class="card-title">Cloe Sellout</h3>
+            <p class="card-description">Vendas sell-in/sell-out Cloe (LATAM). Relatórios por trimestre e por cliente (Liverpool).</p>
+            <div class="card-link-list">
+              <a href="Cloe Sellout/CLOE Ventas Q1.html">→ Ventas Q1</a>
+              <a href="Cloe Sellout/CLOE Ventas Ene-May.html">→ Ventas Ene-May</a>
+              <a href="Cloe Sellout/Cloe_Liverpool.html">→ Cloe Liverpool</a>
+            </div>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização do arquivo principal: 2026-04-16</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="Cloe Sellout/sellin-dashboard.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">✈️</div>
+            <h3 class="card-title">Avolta</h3>
+            <p class="card-description">Duty Paid Brasil e relatórios de venda Avolta por mês.</p>
+            <div class="card-link-list">
+              <a href="avolta/Relatorio Avolta Abril 2026.html">→ Relatório Abril 2026</a>
+              <a href="avolta/Avolta DP Brasil 2026-05-06.html">→ DP Brasil (06/05)</a>
+            </div>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização do arquivo principal: 2026-05-06</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="avolta/avolta-dashboard.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🎒</div>
+            <h3 class="card-title">Backpacks & Luggage</h3>
+            <p class="card-description">Vendas de mochilas e malas — visão geral.</p>
+            <div class="card-link-list">
+              <a href="backpack-lugagge/SALES-BL.html">→ Sales BL</a>
+              <a href="backpack-lugagge/SALES-BP.html">→ Sales BP</a>
+            </div>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-03-23</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="backpack-lugagge/BACKPACKS&LUGGAGE.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🌎</div>
+            <h3 class="card-title">LATAM Sales BP 2026</h3>
+            <p class="card-description">Business Plan Q1 2026 — visão LATAM, Brasil e México.</p>
+            <div class="card-link-list">
+              <a href="LATAM SALES_BP 26/Brazil Q1 2026 Dashboard.html">→ Brasil Q1 2026</a>
+              <a href="LATAM SALES_BP 26/Mexico Q1 2026 Dashboard.html">→ México Q1 2026</a>
+            </div>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-10</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="LATAM SALES_BP 26/LATAM Q1 2026 Dashboard.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">💰</div>
+            <h3 class="card-title">LATAM Profit</h3>
+            <p class="card-description">Margem e profit LATAM, com detalhamento para México.</p>
+            <div class="card-link-list">
+              <a href="latam-profit/mexico.html">→ México</a>
+            </div>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-08</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="latam-profit/latam-profit.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🗄️</div>
+            <h3 class="card-title">Total Sales TB Group</h3>
+            <p class="card-description">Base consolidada de vendas — todo o grupo Travel Blue.</p>
+            <div class="card-link-list">
+              <a href="total-database/dashboard.html">→ Dashboard alternativo</a>
+            </div>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-04-01</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="total-database/TOTAL SALES TB GROUP.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🧾</div>
+            <h3 class="card-title">Contas a Receber</h3>
+            <p class="card-description">Painel geral de contas a receber, com visões por responsável (Gilson, Guilherme).</p>
+            <div class="card-link-list">
+              <a href="contas-receber-gilson.html">→ Gilson</a>
+              <a href="contas-receber-guilherme.html">→ Guilherme</a>
+            </div>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-12</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="contas-receber.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🇧🇷</div>
+            <h3 class="card-title">Vendas Brasil</h3>
+            <p class="card-description">Painel de vendas do mercado Brasil.</p>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-10</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="vendas-brasil.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🛒</div>
+            <h3 class="card-title">Mercado Libre</h3>
+            <p class="card-description">Painel de vendas no marketplace Mercado Libre.</p>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-05-14</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../MERCADO LIBRE/dashboard-mercadolibre.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🛫</div>
+            <h3 class="card-title">Heinemann</h3>
+            <p class="card-description">Painel de vendas Heinemann (duty free).</p>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-09</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../HEINEMANN/HEINEMANN_DASHBOARD.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🌍</div>
+            <h3 class="card-title">Avolta Sellout</h3>
+            <p class="card-description">Análise de sell-out Avolta — visão total, com detalhamento por região.</p>
+            <div class="card-link-list">
+              <a href="../AVOLTA SELLOUT/avolta-emea-analysis.html">→ EMEA</a>
+              <a href="../AVOLTA SELLOUT/avolta-ame-cei-analysis.html">→ Américas & CEI</a>
+              <a href="../AVOLTA SELLOUT/avolta-mexico-analysis.html">→ México</a>
+            </div>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-03</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../AVOLTA SELLOUT/avolta-sales-out-analysis.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🧳</div>
+            <h3 class="card-title">Lexingham</h3>
+            <p class="card-description">Painel de vendas Lexingham.</p>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-06</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../LEXINGHAM/lexingham-dashboard.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🌐</div>
+            <h3 class="card-title">Total Sales All Group</h3>
+            <p class="card-description">Resumo de vendas consolidado de todo o grupo Travel Blue, com visão ASPAC.</p>
+            <div class="card-link-list">
+              <a href="../TOTAL SALES TB GROUP/aspac_sales_summary_2026-05.html">→ ASPAC</a>
+            </div>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-05-27</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../TOTAL SALES TB GROUP/tb_group_sales_summary_2026-05.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">📋</div>
+            <h3 class="card-title">Alan</h3>
+            <p class="card-description">Resumo de vendas — região/conta Alan.</p>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-12</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../ALAN/alan_sales_summary_2026-05.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">📋</div>
+            <h3 class="card-title">Jackie</h3>
+            <p class="card-description">Resumo de vendas — região/conta Jackie.</p>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-12</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../JACKIE/jackie_sales_summary_2026-05.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">📋</div>
+            <h3 class="card-title">Ioana</h3>
+            <p class="card-description">Resumo de vendas — região/conta Ioana.</p>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-12</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../IOANA/ioana_sales_summary_2026-05.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🇩🇪</div>
+            <h3 class="card-title">Germany</h3>
+            <p class="card-description">Resumo de vendas — Alemanha.</p>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-12</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../GERMANY/germany_sales_summary_2026-05.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🇨🇳</div>
+            <h3 class="card-title">China</h3>
+            <p class="card-description">Resumo de vendas — China.</p>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-12</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../CHINA/china_sales_summary_2026-05.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🇮🇳</div>
+            <h3 class="card-title">India</h3>
+            <p class="card-description">Resumo de vendas — Índia.</p>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-12</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../INDIA/india_sales_summary_2026-04.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🇵🇱</div>
+            <h3 class="card-title">Poland</h3>
+            <p class="card-description">Resumo de vendas — Polônia.</p>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-06-12</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../POLAND/poland_sales_summary_2026-04.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-icon">🦥</div>
+            <h3 class="card-title">Slooth</h3>
+            <p class="card-description">Análise de vendas Slooth.</p>
+            <div class="card-meta">Acesso: [preencher] · Frequência: [preencher] · Última atualização: 2026-05-04</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-active">Ativo</span>
+            <a href="../SLOOTH/slooth-analysis.html" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================
+         SEÇÃO 2 — PAINÉIS DE BI (placeholders)
+         ============================================ -->
+    <section class="hub-section">
+      <div class="section-header">
+        <h2 class="section-title">Painéis de BI</h2>
+        <p class="section-subtitle">Power BI / outras ferramentas — preencher nome, link e quem tem acesso.</p>
+      </div>
+      <div class="cards-grid">
+
+        <div class="dash-card placeholder-card">
+          <div class="card-accent" style="background: var(--gray-light);"></div>
+          <div class="card-body">
+            <div class="card-icon">📈</div>
+            <h3 class="card-title">[Nome do painel BI 1]</h3>
+            <p class="card-description">[Descrição curta do que o painel mostra]</p>
+            <div class="card-meta">Acesso: [nomes/áreas com acesso] · Última atualização: [data]</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-pending">A preencher</span>
+            <a href="#" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card placeholder-card">
+          <div class="card-accent" style="background: var(--gray-light);"></div>
+          <div class="card-body">
+            <div class="card-icon">📈</div>
+            <h3 class="card-title">[Nome do painel BI 2]</h3>
+            <p class="card-description">[Descrição curta do que o painel mostra]</p>
+            <div class="card-meta">Acesso: [nomes/áreas com acesso] · Última atualização: [data]</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-pending">A preencher</span>
+            <a href="#" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+        <div class="dash-card placeholder-card">
+          <div class="card-accent" style="background: var(--gray-light);"></div>
+          <div class="card-body">
+            <div class="card-icon">📈</div>
+            <h3 class="card-title">[Nome do painel BI 3]</h3>
+            <p class="card-description">[Descrição curta do que o painel mostra]</p>
+            <div class="card-meta">Acesso: [nomes/áreas com acesso] · Última atualização: [data]</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag badge badge-pending">A preencher</span>
+            <a href="#" class="btn-access">Abrir</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================
+         SEÇÃO 3 — ATIVIDADES / STATUS / DEADLINES
+         ============================================ -->
+    <section class="hub-section">
+      <div class="section-header">
+        <h2 class="section-title">Atividades, Status & Prazos</h2>
+        <p class="section-subtitle">Atualizar diariamente antes de enviar o link para o chefe.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:24%;">Atividade</th>
+              <th style="width:14%;">Projeto / Painel</th>
+              <th style="width:12%;">Status</th>
+              <th style="width:12%;">Prazo</th>
+              <th>Observações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Atualizar base de vendas total TB Group</td>
+              <td>Total Database</td>
+              <td><span class="badge badge-active">Em dia</span></td>
+              <td>2026-06-16</td>
+              <td>Aguardando arquivo de abril da Alemanha.</td>
+            </tr>
+            <tr>
+              <td>Revisar contas a receber — Itamar</td>
+              <td>Contas a Receber</td>
+              <td><span class="badge badge-draft">Em risco</span></td>
+              <td>2026-06-15</td>
+              <td>Pendente confirmação de pagamento com financeiro.</td>
+            </tr>
+            <tr>
+              <td>Publicar LATAM Q1 2026 final</td>
+              <td>LATAM Sales BP 26</td>
+              <td><span class="badge badge-active">Em dia</span></td>
+              <td>2026-06-20</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>[Nova atividade]</td>
+              <td>[Projeto]</td>
+              <td><span class="badge badge-pending">A definir</span></td>
+              <td>[Prazo]</td>
+              <td>[Observações]</td>
+            </tr>
+            <tr>
+              <td>[Nova atividade]</td>
+              <td>[Projeto]</td>
+              <td><span class="badge badge-pending">A definir</span></td>
+              <td>[Prazo]</td>
+              <td>[Observações]</td>
+            </tr>
+            <tr>
+              <td>[Nova atividade]</td>
+              <td>[Projeto]</td>
+              <td><span class="badge badge-pending">A definir</span></td>
+              <td>[Prazo]</td>
+              <td>[Observações]</td>
+            </tr>
+            <tr>
+              <td>[Nova atividade]</td>
+              <td>[Projeto]</td>
+              <td><span class="badge badge-pending">A definir</span></td>
+              <td>[Prazo]</td>
+              <td>[Observações]</td>
+            </tr>
+            <tr>
+              <td>[Nova atividade]</td>
+              <td>[Projeto]</td>
+              <td><span class="badge badge-pending">A definir</span></td>
+              <td>[Prazo]</td>
+              <td>[Observações]</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    © 2026 <span>Travel Blue Ltd.</span> — Uso interno. Central de Controle de Camila Lima.
+  </footer>
+
+</body>
+</html>
