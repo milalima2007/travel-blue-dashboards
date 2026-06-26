@@ -45,11 +45,9 @@ def clean_name(raw):
 
 
 def fmt_date(v):
-    if v is None:
+    if v is None or not isinstance(v, (datetime, date)):
         return None
-    if isinstance(v, (datetime, date)):
-        return v.strftime("%Y-%m-%d")
-    return str(v)
+    return v.strftime("%Y-%m-%d")
 
 
 def load_products(path):
@@ -330,6 +328,11 @@ function numOrNull(v) {
   return isNaN(n) ? null : n;
 }
 
+function validDateOrNull(v) {
+  if (!v || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return null;
+  return v;
+}
+
 function buildProductsFromRows(rows) {
   const bySku = new Map();
   rows.forEach(r => {
@@ -344,11 +347,11 @@ function buildProductsFromRows(rows) {
       duration: numOrNull(r.Duracion_dias),
       depends_on: r.Depende_de || null,
       dep_type: r.Tipo_dep || null,
-      plan_start: r.Inicio_plan || null,
-      plan_end: r.Fin_plan || null,
+      plan_start: validDateOrNull(r.Inicio_plan),
+      plan_end: validDateOrNull(r.Fin_plan),
       status: ['Completada', 'En curso', 'Pendiente'].includes(r.Estatus) ? r.Estatus : 'Pendiente',
-      real_start: r.Inicio_real || null,
-      real_end: r.Fin_real || null,
+      real_start: validDateOrNull(r.Inicio_real),
+      real_end: validDateOrNull(r.Fin_real),
       real_duration: numOrNull(r.Dur_real_dias),
       deviation: numOrNull(r.Desvio_dias),
     });
@@ -502,7 +505,7 @@ function renderDetail() {
 
   const allDates = [];
   p.tasks.forEach(t => {
-    [t.plan_start, t.plan_end, t.real_start, t.real_end].forEach(d => { if (d) allDates.push(d); });
+    [t.plan_start, t.plan_end, t.real_start, t.real_end].forEach(d => { if (validDateOrNull(d)) allDates.push(d); });
   });
   if (TODAY) allDates.push(TODAY);
   const minDate = new Date(Math.min(...allDates.map(d => new Date(d))));
