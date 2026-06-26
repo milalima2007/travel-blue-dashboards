@@ -21,7 +21,7 @@ CSV_OUTPUT = os.path.join(BASE_DIR, "Cronograma_Peanuts_Cloe_EDITAR.csv")
 
 # URL del CSV publicado de Google Sheets ("Archivo > Compartir > Publicar en la web" > CSV).
 # Mientras esté vacío, el dashboard usa el snapshot embebido (datos del xlsx en la última generación).
-SHEET_CSV_URL = ""
+SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHN6Krakasd6LYCqRwmX1TcPEPbicSUVk8vkIYcNIcWk4xS8OWr3v5B1ptxOMk_2MgHLcu2GwumkQP/pub?gid=890603935&single=true&output=csv"
 
 STATUS_ES = {
     "Completada": "Completada",

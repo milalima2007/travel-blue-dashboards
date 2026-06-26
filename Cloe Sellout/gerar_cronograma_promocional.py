@@ -21,7 +21,7 @@ CSV_OUTPUT = os.path.join(BASE_DIR, "Cronograma_Promocional_Cloe_EDITAR.csv")
 
 # URL del CSV publicado de Google Sheets ("Archivo > Compartir > Publicar en la web" > CSV).
 # Mientras esté vacío, el dashboard usa el snapshot embebido (datos del xlsx en la última generación).
-SHEET_CSV_URL = ""
+SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSVBSfE_x1T1X4WiJWh7GYQtJih7wpNEQ5uDMIyo1OQhoe0aVHwjLG3J1DD9Histwr6GRhS18nw4uBL/pub?gid=1207811840&single=true&output=csv"
 
 STATUS_ES = {
     "Completada": "Completada",
