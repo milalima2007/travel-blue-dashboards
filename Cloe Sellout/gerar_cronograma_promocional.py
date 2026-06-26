@@ -468,6 +468,7 @@ function renderTable() {
         <div style="display:flex;align-items:center;gap:8px;">
           <div class="bar-track"><div class="bar-fill" style="width:${p.pct_complete}%"></div></div>
           <span style="font-size:12px;font-weight:700;">${p.pct_complete}%</span>
+          ${p.in_progress_tasks > 0 ? `<span class="badge-p status-curso">${p.in_progress_tasks} en curso</span>` : ''}
         </div>
       </td>
       <td>${p.completed_tasks}/${p.total_tasks}</td>
