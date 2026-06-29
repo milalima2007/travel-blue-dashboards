@@ -98,7 +98,7 @@ table.dt tr.product-row.active td{background:#f59e0b18;}
 .deviation-ok{color:var(--green);font-weight:700;}
 .deviation-warn{color:var(--red);font-weight:700;}
 
-.detail-title{font-size:15px;font-weight:800;color:#fff;}
+.detail-title{font-size:15px;font-weight:800;color:var(--text);}
 .detail-sub{font-size:11px;color:var(--dim);margin-top:2px;}
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;font-size:11px;color:var(--dim);}
 .legend-item{display:flex;align-items:center;gap:6px;}
@@ -118,9 +118,15 @@ table.dt tr.product-row.active td{background:#f59e0b18;}
 footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top:1px solid var(--border);margin-top:8px;}
 
 @media print{
-  .section-tabs,.hdr-actions,.ptabs{display:none !important;}
-  body{background:#fff;color:#111;}
-  .card{break-inside:avoid;border:1px solid #ccc;}
+  :root{--bg:#fff;--card:#fff;--border:#ccc;--text:#111;--dim:#555;--accent:#92400e;--green:#15803d;--red:#b91c1c;}
+  .header,.section-tabs,.hdr-actions,.ptabs,#sync-banner,footer{display:none !important;}
+  body{background:#fff;color:#111;font-size:11px;}
+  .content{padding:0;max-width:none;}
+  .card{break-inside:avoid;border:1px solid #ccc;box-shadow:none;}
+  .bar-track{background:#eee;}
+  .gantt-track-wrap{background:#eee;}
+  .badge-p,.status-pendiente,.status-curso,.status-completada{border:1px solid #ccc;}
+  table.dt th{background:#fff;}
 }
 
 @media(max-width:768px){

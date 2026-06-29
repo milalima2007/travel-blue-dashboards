@@ -51,7 +51,7 @@ table.dt tr.product-row.active td{background:#f59e0b18;}
 .deviation-ok{color:var(--green);font-weight:700;}
 .deviation-warn{color:var(--red);font-weight:700;}
 
-.detail-title{font-size:15px;font-weight:800;color:#fff;}
+.detail-title{font-size:15px;font-weight:800;color:var(--text);}
 .detail-sub{font-size:11px;color:var(--dim);margin-top:2px;}
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;font-size:11px;color:var(--dim);}
 .legend-item{display:flex;align-items:center;gap:6px;}
@@ -71,9 +71,15 @@ table.dt tr.product-row.active td{background:#f59e0b18;}
 footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top:1px solid var(--border);margin-top:8px;}
 
 @media print{
-  .section-tabs,.hdr-actions,.ptabs{display:none !important;}
-  body{background:#fff;color:#111;}
-  .card{break-inside:avoid;border:1px solid #ccc;}
+  :root{--bg:#fff;--card:#fff;--border:#ccc;--text:#111;--dim:#555;--accent:#92400e;--green:#15803d;--red:#b91c1c;}
+  .header,.section-tabs,.hdr-actions,.ptabs,#sync-banner,footer{display:none !important;}
+  body{background:#fff;color:#111;font-size:11px;}
+  .content{padding:0;max-width:none;}
+  .card{break-inside:avoid;border:1px solid #ccc;box-shadow:none;}
+  .bar-track{background:#eee;}
+  .gantt-track-wrap{background:#eee;}
+  .badge-p,.status-pendiente,.status-curso,.status-completada{border:1px solid #ccc;}
+  table.dt th{background:#fff;}
 }
 
 @media(max-width:768px){
@@ -100,7 +106,7 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
       <span class="sub" id="section-subtitle">Cronogramas Cloe</span>
     </div>
   </div>
-  <div class="header-right" id="header-right">Generado el 29/06/2026 10:13</div>
+  <div class="header-right" id="header-right">Generado el 29/06/2026 10:21</div>
 </div>
 
 <div class="section-tabs" id="section-tabs"></div>
@@ -154,7 +160,7 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
   </div>
 </div>
 
-<footer>Travel Blue · Dashboard de cronogramas Cloe · Última actualización: 29/06/2026 10:13</footer>
+<footer>Travel Blue · Dashboard de cronogramas Cloe · Última actualización: 29/06/2026 10:21</footer>
 
 <script>
 const SECTIONS = [{"key":"nuevos","label":"Novos Desenvolvimentos","csvUrl":"https://docs.google.com/spreadsheets/d/e/2PACX-1vSINJkHp80mHYPIF5scyzY3xhmewslj4foW7yShYE_s4GUEtR5jIVm65a3w1Z_0MJR-vcKT6lyVS7C0/pub?gid=528821195&single=true&output=csv"},{"key":"promocional","label":"Promocional","csvUrl":"https://docs.google.com/spreadsheets/d/e/2PACX-1vSVBSfE_x1T1X4WiJWh7GYQtJih7wpNEQ5uDMIyo1OQhoe0aVHwjLG3J1DD9Histwr6GRhS18nw4uBL/pub?gid=1207811840&single=true&output=csv"},{"key":"peanuts","label":"Peanuts","csvUrl":"https://docs.google.com/spreadsheets/d/e/2PACX-1vTHN6Krakasd6LYCqRwmX1TcPEPbicSUVk8vkIYcNIcWk4xS8OWr3v5B1ptxOMk_2MgHLcu2GwumkQP/pub?gid=890603935&single=true&output=csv"}];
@@ -291,7 +297,7 @@ async function loadSection(key) {
     showBanner('No se pudo conectar a la planilla de ' + section.label + '.');
   }
   document.getElementById('header-right').textContent =
-    PRODUCTS.length + ' productos · Generado el 29/06/2026 10:13';
+    PRODUCTS.length + ' productos · Generado el 29/06/2026 10:21';
   renderAll();
 }
 
