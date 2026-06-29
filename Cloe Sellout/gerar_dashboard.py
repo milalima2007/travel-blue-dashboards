@@ -295,7 +295,7 @@ function buildProductsFromRows(rows) {
     const realEnds = p.tasks.map(t => t.real_end).filter(Boolean);
     const deviations = p.tasks.map(t => t.deviation).filter(d => typeof d === 'number');
     const comiteTask = p.tasks.find(t => t.num === 4);
-    const comiteStart = comiteTask ? (comiteTask.real_start || comiteTask.plan_start) : null;
+    const comiteStart = comiteTask ? (comiteTask.real_end || comiteTask.real_start || comiteTask.plan_end || comiteTask.plan_start) : null;
     const displayStart = comiteStart || (planStarts.length ? planStarts.sort()[0] : null);
     products.push({
       sku: p.sku,

@@ -100,7 +100,7 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
       <span class="sub" id="section-subtitle">Cronogramas Cloe</span>
     </div>
   </div>
-  <div class="header-right" id="header-right">Generado el 29/06/2026 10:01</div>
+  <div class="header-right" id="header-right">Generado el 29/06/2026 10:13</div>
 </div>
 
 <div class="section-tabs" id="section-tabs"></div>
@@ -154,7 +154,7 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
   </div>
 </div>
 
-<footer>Travel Blue · Dashboard de cronogramas Cloe · Última actualización: 29/06/2026 10:01</footer>
+<footer>Travel Blue · Dashboard de cronogramas Cloe · Última actualización: 29/06/2026 10:13</footer>
 
 <script>
 const SECTIONS = [{"key":"nuevos","label":"Novos Desenvolvimentos","csvUrl":"https://docs.google.com/spreadsheets/d/e/2PACX-1vSINJkHp80mHYPIF5scyzY3xhmewslj4foW7yShYE_s4GUEtR5jIVm65a3w1Z_0MJR-vcKT6lyVS7C0/pub?gid=528821195&single=true&output=csv"},{"key":"promocional","label":"Promocional","csvUrl":"https://docs.google.com/spreadsheets/d/e/2PACX-1vSVBSfE_x1T1X4WiJWh7GYQtJih7wpNEQ5uDMIyo1OQhoe0aVHwjLG3J1DD9Histwr6GRhS18nw4uBL/pub?gid=1207811840&single=true&output=csv"},{"key":"peanuts","label":"Peanuts","csvUrl":"https://docs.google.com/spreadsheets/d/e/2PACX-1vTHN6Krakasd6LYCqRwmX1TcPEPbicSUVk8vkIYcNIcWk4xS8OWr3v5B1ptxOMk_2MgHLcu2GwumkQP/pub?gid=890603935&single=true&output=csv"}];
@@ -248,7 +248,7 @@ function buildProductsFromRows(rows) {
     const realEnds = p.tasks.map(t => t.real_end).filter(Boolean);
     const deviations = p.tasks.map(t => t.deviation).filter(d => typeof d === 'number');
     const comiteTask = p.tasks.find(t => t.num === 4);
-    const comiteStart = comiteTask ? (comiteTask.real_start || comiteTask.plan_start) : null;
+    const comiteStart = comiteTask ? (comiteTask.real_end || comiteTask.real_start || comiteTask.plan_end || comiteTask.plan_start) : null;
     const displayStart = comiteStart || (planStarts.length ? planStarts.sort()[0] : null);
     products.push({
       sku: p.sku,
@@ -291,7 +291,7 @@ async function loadSection(key) {
     showBanner('No se pudo conectar a la planilla de ' + section.label + '.');
   }
   document.getElementById('header-right').textContent =
-    PRODUCTS.length + ' productos · Generado el 29/06/2026 10:01';
+    PRODUCTS.length + ' productos · Generado el 29/06/2026 10:13';
   renderAll();
 }
 

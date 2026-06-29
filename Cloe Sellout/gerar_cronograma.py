@@ -112,7 +112,7 @@ def load_products(path):
         # "Inicio" se referencia a la tarea "Reunión con Comité" (#4): fecha real si existe,
         # si no la planeada; si esa tarea no existe, se usa la fecha planeada más temprana.
         comite_task = next((t for t in tasks if t["num"] == 4), None)
-        comite_start = (comite_task and (comite_task["real_start"] or comite_task["plan_start"])) or None
+        comite_start = (comite_task and (comite_task["real_end"] or comite_task["real_start"] or comite_task["plan_end"] or comite_task["plan_start"])) or None
         display_start = comite_start or (min(all_plan_starts) if all_plan_starts else None)
 
         products.append({
