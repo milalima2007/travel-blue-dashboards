@@ -18,18 +18,21 @@ OUTPUT = os.path.join(BASE_DIR, "dashboard.html")
 SECTIONS = [
     {
         "key": "nuevos",
-        "label": "Novos Desenvolvimentos",
+        "label": "Nuevos Desarrollos",
         "csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSINJkHp80mHYPIF5scyzY3xhmewslj4foW7yShYE_s4GUEtR5jIVm65a3w1Z_0MJR-vcKT6lyVS7C0/pub?gid=528821195&single=true&output=csv",
+        "use_comite_start": True,
     },
     {
         "key": "promocional",
         "label": "Promocional",
         "csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSVBSfE_x1T1X4WiJWh7GYQtJih7wpNEQ5uDMIyo1OQhoe0aVHwjLG3J1DD9Histwr6GRhS18nw4uBL/pub?gid=1207811840&single=true&output=csv",
+        "use_comite_start": False,
     },
     {
         "key": "peanuts",
         "label": "Peanuts",
         "csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHN6Krakasd6LYCqRwmX1TcPEPbicSUVk8vkIYcNIcWk4xS8OWr3v5B1ptxOMk_2MgHLcu2GwumkQP/pub?gid=890603935&single=true&output=csv",
+        "use_comite_start": False,
     },
 ]
 
@@ -37,7 +40,9 @@ SECTIONS = [
 def build_html():
     generated_at = datetime.now().strftime("%d/%m/%Y %H:%M")
     sections_json = "[" + ",".join(
-        '{"key":"%s","label":"%s","csvUrl":"%s"}' % (s["key"], s["label"], s["csv_url"])
+        '{"key":"%s","label":"%s","csvUrl":"%s","useComiteStart":%s}' % (
+            s["key"], s["label"], s["csv_url"], "true" if s["use_comite_start"] else "false"
+        )
         for s in SECTIONS
     ) + "]"
     html = HTML_TEMPLATE.replace("__SECTIONS_JSON__", sections_json)
@@ -114,6 +119,9 @@ table.dt tr.product-row.active td{background:#f59e0b18;}
 .gantt-today{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--accent);}
 .gantt-dev{font-size:11px;text-align:right;}
 .gantt-comment{grid-column:2/4;font-size:11px;color:var(--dim);font-style:italic;padding:0 0 4px 0;}
+.gantt-axis{margin-bottom:4px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.gantt-axis-track{position:relative;height:14px;}
+.gantt-month-tick{position:absolute;top:0;font-size:10px;color:var(--dim);font-weight:700;white-space:nowrap;transform:translateX(-2px);border-left:1px solid var(--border);padding-left:4px;}
 
 footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top:1px solid var(--border);margin-top:8px;}
 
@@ -267,7 +275,13 @@ function validDateOrNull(v) {
   return v;
 }
 
-function buildProductsFromRows(rows) {
+function fmtDisplay(v) {
+  if (!v) return '—';
+  const [y, m, d] = v.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function buildProductsFromRows(rows, useComiteStart) {
   const bySku = new Map();
   rows.forEach(r => {
     const sku = r.SKU;
@@ -300,9 +314,19 @@ function buildProductsFromRows(rows) {
     const planStarts = p.tasks.map(t => t.plan_start).filter(Boolean);
     const realEnds = p.tasks.map(t => t.real_end).filter(Boolean);
     const deviations = p.tasks.map(t => t.deviation).filter(d => typeof d === 'number');
-    const comiteTask = p.tasks.find(t => t.num === 4);
-    const comiteStart = comiteTask ? (comiteTask.real_end || comiteTask.real_start || comiteTask.plan_end || comiteTask.plan_start) : null;
-    const displayStart = comiteStart || (planStarts.length ? planStarts.sort()[0] : null);
+    const earliestStart = planStarts.length ? planStarts.sort()[0] : null;
+    let displayStart = earliestStart;
+    if (useComiteStart) {
+      const comiteTask = p.tasks.find(t => t.num === 4);
+      const comiteStart = comiteTask ? (comiteTask.real_end || comiteTask.real_start || comiteTask.plan_end || comiteTask.plan_start) : null;
+      displayStart = comiteStart || earliestStart;
+    }
+    const pctComplete = total ? Math.round(100 * completed / total) : 0;
+    const latestPlanEnd = planEnds.length ? planEnds.sort().slice(-1)[0] : null;
+    const latestRealEnd = realEnds.length ? realEnds.sort().slice(-1)[0] : null;
+    // Mientras el producto no esté 100% completo, "Fin estimado" usa la fecha
+    // planeada (la real de una tarea temprana puede quedar antes que el inicio).
+    const currentEndEstimate = (pctComplete === 100 && latestRealEnd) ? latestRealEnd : (latestPlanEnd || latestRealEnd);
     products.push({
       sku: p.sku,
       title: p.title,
@@ -310,10 +334,10 @@ function buildProductsFromRows(rows) {
       total_tasks: total,
       completed_tasks: completed,
       in_progress_tasks: inProgress,
-      pct_complete: total ? Math.round(100 * completed / total) : 0,
+      pct_complete: pctComplete,
       plan_start: displayStart,
-      plan_end: planEnds.length ? planEnds.sort().slice(-1)[0] : null,
-      current_end_estimate: realEnds.length ? realEnds.sort().slice(-1)[0] : (planEnds.length ? planEnds.sort().slice(-1)[0] : null),
+      plan_end: latestPlanEnd,
+      current_end_estimate: currentEndEstimate,
       max_deviation: deviations.length ? Math.max(...deviations) : 0,
     });
   });
@@ -334,7 +358,7 @@ async function loadSection(key) {
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const text = await res.text();
     const rows = parseCsv(text);
-    const live = buildProductsFromRows(rows);
+    const live = buildProductsFromRows(rows, !!section.useComiteStart);
     if (!live.length) throw new Error('CSV vacío');
     PRODUCTS = live;
     TODAY = new Date().toISOString().slice(0, 10);
@@ -394,7 +418,7 @@ document.getElementById('btn-export-excel').addEventListener('click', () => {
   const rows = [['Producto', 'SKU', '#', 'Tarea', 'Estatus', 'Inicio plan.', 'Fin plan.', 'Inicio real', 'Fin real', 'Desvío (días)', 'Comentarios']];
   list.forEach(p => {
     p.tasks.forEach(t => {
-      rows.push([p.title, p.sku, t.num, t.name, t.status, t.plan_start || '', t.plan_end || '', t.real_start || '', t.real_end || '', t.deviation ?? '', t.comments || '']);
+      rows.push([p.title, p.sku, t.num, t.name, t.status, fmtDisplay(t.plan_start), fmtDisplay(t.plan_end), fmtDisplay(t.real_start), fmtDisplay(t.real_end), t.deviation ?? '', t.comments || '']);
     });
   });
   const csv = rows.map(r => r.map(v => {
@@ -447,8 +471,8 @@ function renderTable() {
         </div>
       </td>
       <td>${p.completed_tasks}/${p.total_tasks}</td>
-      <td>${p.plan_start || '—'}</td>
-      <td>${p.current_end_estimate || '—'}</td>
+      <td>${fmtDisplay(p.plan_start)}</td>
+      <td>${fmtDisplay(p.current_end_estimate)}</td>
       <td class="${p.max_deviation > 30 ? 'deviation-warn' : 'deviation-ok'}">${p.max_deviation || 0}</td>
     </tr>
   `).join('');
@@ -467,7 +491,7 @@ function renderDetail() {
   }
   document.getElementById('detail-title').textContent = p.title;
   document.getElementById('detail-sub').textContent =
-    `${p.completed_tasks}/${p.total_tasks} tareas completadas (${p.pct_complete}%) · Inicio: ${p.plan_start || '—'} · Fin estimado: ${p.current_end_estimate || '—'}`;
+    `${p.completed_tasks}/${p.total_tasks} tareas completadas (${p.pct_complete}%) · Inicio: ${fmtDisplay(p.plan_start)} · Fin estimado: ${fmtDisplay(p.current_end_estimate)}`;
 
   const allDates = [];
   p.tasks.forEach(t => {
@@ -485,8 +509,27 @@ function renderDetail() {
 
   const todayPct = pct(TODAY);
 
+  const MONTH_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const monthTicks = [];
+  const cursor = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
+  while (cursor <= maxDate) {
+    const tickPct = ((cursor - minDate) / 86400000) / totalSpan * 100;
+    if (tickPct >= 0 && tickPct <= 100) {
+      monthTicks.push(`<span class="gantt-month-tick" style="left:${tickPct}%">${MONTH_ES[cursor.getMonth()]} ${cursor.getFullYear()}</span>`);
+    }
+    cursor.setMonth(cursor.getMonth() + 1);
+  }
+  const axisRow = `
+    <div class="gantt-row gantt-axis">
+      <div></div>
+      <div></div>
+      <div class="gantt-axis-track">${monthTicks.join('')}</div>
+      <div></div>
+    </div>
+  `;
+
   const container = document.getElementById('gantt-container');
-  container.innerHTML = p.tasks.map(t => {
+  container.innerHTML = axisRow + p.tasks.map(t => {
     const ps = pct(t.plan_start), pe = pct(t.plan_end);
     const rs = pct(t.real_start), re = pct(t.real_end);
     let planBar = '';
