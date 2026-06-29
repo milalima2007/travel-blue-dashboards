@@ -1,147 +1,47 @@
 #!/usr/bin/env python3
 """
-gerar_cronograma.py — Cronograma Promocional · Cloe
-Lee el xlsx de cronogramas promocionales (3 productos x 15 tareas), genera cronograma-promocional.html
-con timeline tipo Gantt, estados, fechas reales vs planeadas y % completado.
+gerar_dashboard.py — Dashboard único Cloe (Nuevos Desarrollos / Promocional / Peanuts)
+Genera dashboard.html con pestañas de sección, cada una leyendo en vivo de su
+planilla de Google Sheets publicada. No depende de un xlsx local: solo arma el
+esqueleto estático y deja todo el fetch/render al navegador.
 
-Para actualizar: reemplazar el xlsx fuente y volver a correr este script
-(o ejecutar ACTUALIZAR CRONOGRAMA CLOE.bat).
+Para actualizar: no hace falta correr nada — los datos vienen siempre de los
+3 Sheets en vivo. Solo correr este script de nuevo si se cambia el diseño o
+las URLs de los Sheets.
 """
-import json
 import os
-import re
-from datetime import datetime, date
-
-import openpyxl
+from datetime import datetime
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SRC = os.path.join(BASE_DIR, "Cronograma Promocional Cloe.xlsx")
-OUTPUT = os.path.join(BASE_DIR, "cronograma-promocional.html")
-CSV_OUTPUT = os.path.join(BASE_DIR, "Cronograma_Promocional_Cloe_EDITAR.csv")
+OUTPUT = os.path.join(BASE_DIR, "dashboard.html")
 
-# URL del CSV publicado de Google Sheets ("Archivo > Compartir > Publicar en la web" > CSV).
-# Mientras esté vacío, el dashboard usa el snapshot embebido (datos del xlsx en la última generación).
-SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSVBSfE_x1T1X4WiJWh7GYQtJih7wpNEQ5uDMIyo1OQhoe0aVHwjLG3J1DD9Histwr6GRhS18nw4uBL/pub?gid=1207811840&single=true&output=csv"
-
-STATUS_ES = {
-    "Completada": "Completada",
-    "En curso": "En curso",
-    "Pendiente": "Pendiente",
-}
-STATUS_COLOR = {
-    "Completada": "#27AE60",
-    "En curso": "#fece08",
-    "Pendiente": "#94A3B8",
-}
-
-
-def clean_name(raw):
-    name = str(raw or "").strip()
-    name = re.sub(r"\s*\(\s*\)\s*", "", name)
-    name = name.replace("�", "-").replace("�", "-")
-    return name
+SECTIONS = [
+    {
+        "key": "nuevos",
+        "label": "Novos Desenvolvimentos",
+        "csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSINJkHp80mHYPIF5scyzY3xhmewslj4foW7yShYE_s4GUEtR5jIVm65a3w1Z_0MJR-vcKT6lyVS7C0/pub?gid=528821195&single=true&output=csv",
+    },
+    {
+        "key": "promocional",
+        "label": "Promocional",
+        "csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSVBSfE_x1T1X4WiJWh7GYQtJih7wpNEQ5uDMIyo1OQhoe0aVHwjLG3J1DD9Histwr6GRhS18nw4uBL/pub?gid=1207811840&single=true&output=csv",
+    },
+    {
+        "key": "peanuts",
+        "label": "Peanuts",
+        "csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHN6Krakasd6LYCqRwmX1TcPEPbicSUVk8vkIYcNIcWk4xS8OWr3v5B1ptxOMk_2MgHLcu2GwumkQP/pub?gid=890603935&single=true&output=csv",
+    },
+]
 
 
-def fmt_date(v):
-    if v is None or not isinstance(v, (datetime, date)):
-        return None
-    return v.strftime("%Y-%m-%d")
-
-
-def load_products(path):
-    wb = openpyxl.load_workbook(path, data_only=True)
-    products = []
-    for sheet_name in wb.sheetnames:
-        ws = wb[sheet_name]
-        title = clean_name(ws["A3"].value) or sheet_name
-        start_date = fmt_date(ws["C4"].value)
-        today = fmt_date(ws["J4"].value)
-
-        tasks = []
-        row = 6
-        while True:
-            num = ws.cell(row=row, column=1).value
-            if num is None:
-                break
-            task_name = clean_name(ws.cell(row=row, column=2).value)
-            duration = ws.cell(row=row, column=3).value
-            depends_on = ws.cell(row=row, column=4).value
-            dep_type = ws.cell(row=row, column=5).value
-            plan_start = fmt_date(ws.cell(row=row, column=6).value)
-            plan_end = fmt_date(ws.cell(row=row, column=7).value)
-            status = str(ws.cell(row=row, column=8).value or "Pendiente").strip()
-            real_start = fmt_date(ws.cell(row=row, column=9).value)
-            real_end = fmt_date(ws.cell(row=row, column=10).value)
-            real_dur = ws.cell(row=row, column=11).value
-            deviation = ws.cell(row=row, column=12).value
-            comments = str(ws.cell(row=row, column=13).value or "").strip()
-
-            tasks.append({
-                "num": int(num),
-                "name": task_name,
-                "duration": duration,
-                "depends_on": depends_on,
-                "dep_type": dep_type,
-                "plan_start": plan_start,
-                "plan_end": plan_end,
-                "status": status if status in STATUS_COLOR else "Pendiente",
-                "real_start": real_start,
-                "real_end": real_end,
-                "real_duration": real_dur,
-                "deviation": deviation,
-                "comments": comments,
-            })
-            row += 1
-
-        total = len(tasks)
-        completed = sum(1 for t in tasks if t["status"] == "Completada")
-        in_progress = sum(1 for t in tasks if t["status"] == "En curso")
-        pct = round(100 * completed / total) if total else 0
-
-        all_plan_starts = [t["plan_start"] for t in tasks if t["plan_start"]]
-        all_plan_ends = [t["plan_end"] for t in tasks if t["plan_end"]]
-        all_real_ends = [t["real_end"] for t in tasks if t["real_end"]]
-
-        max_deviation = max(
-            [t["deviation"] for t in tasks if isinstance(t["deviation"], (int, float))],
-            default=0,
-        )
-
-        # "Inicio" se referencia a la tarea "Reunión con Comité" (#4): fecha real si existe,
-        # si no la planeada; si esa tarea no existe, se usa la fecha planeada más temprana.
-        comite_task = next((t for t in tasks if t["num"] == 4), None)
-        comite_start = (comite_task and (comite_task["real_start"] or comite_task["plan_start"])) or None
-        display_start = comite_start or (min(all_plan_starts) if all_plan_starts else None)
-
-        products.append({
-            "sku": sheet_name,
-            "title": title,
-            "start_date": start_date,
-            "today": today,
-            "tasks": tasks,
-            "total_tasks": total,
-            "completed_tasks": completed,
-            "in_progress_tasks": in_progress,
-            "pct_complete": pct,
-            "plan_start": display_start,
-            "plan_end": max(all_plan_ends) if all_plan_ends else None,
-            "current_end_estimate": max(all_real_ends) if all_real_ends else (max(all_plan_ends) if all_plan_ends else None),
-            "max_deviation": max_deviation,
-        })
-
-    return products
-
-
-def build_html(products):
-    today = products[0]["today"] if products else date.today().strftime("%Y-%m-%d")
-    data_json = json.dumps(products, ensure_ascii=False)
+def build_html():
     generated_at = datetime.now().strftime("%d/%m/%Y %H:%M")
-
-    html = HTML_TEMPLATE.replace("__DATA_JSON__", data_json)
+    sections_json = "[" + ",".join(
+        '{"key":"%s","label":"%s","csvUrl":"%s"}' % (s["key"], s["label"], s["csv_url"])
+        for s in SECTIONS
+    ) + "]"
+    html = HTML_TEMPLATE.replace("__SECTIONS_JSON__", sections_json)
     html = html.replace("__GENERATED_AT__", generated_at)
-    html = html.replace("__TODAY__", today or "")
-    html = html.replace("__N_PRODUCTS__", str(len(products)))
-    html = html.replace("__SHEET_CSV_URL__", SHEET_CSV_URL)
     return html
 
 
@@ -151,7 +51,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Cronograma Promocional · Cloe</title>
+<title>Dashboard Cronogramas · Cloe</title>
 <style>
 :root{--bg:#0a0e1a;--card:#111827;--border:#1e293b;--text:#e2e8f0;--dim:#64748b;
   --accent:#f59e0b;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--purple:#8b5cf6;
@@ -163,6 +63,10 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .logo-text .brand{font-size:17px;font-weight:700;color:#fff;display:block;}
 .logo-text .sub{font-size:11px;color:var(--dim);}
 .header-right{text-align:right;font-size:11px;color:var(--dim);}
+.section-tabs{display:flex;gap:6px;padding:14px 24px 0;flex-wrap:wrap;}
+.section-tab{padding:8px 18px;border-radius:8px 8px 0 0;font-size:12px;font-weight:700;cursor:pointer;background:#1e293b;border:1px solid var(--border);border-bottom:none;color:var(--dim);transition:all .15s;}
+.section-tab:hover{color:var(--text);}
+.section-tab.active{background:var(--card);color:var(--accent);border-color:var(--accent);}
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px 24px;}
 .kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;text-align:center;}
 .kpi .lbl{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;}
@@ -172,9 +76,10 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px;}
 .section-hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
 .section-hdr h2{font-size:13px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.4px;}
+.hdr-actions{display:flex;gap:6px;flex-wrap:wrap;}
 .ptabs{display:flex;gap:6px;}
-.ptab{padding:5px 14px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;background:#1e293b;border:1px solid var(--border);color:var(--dim);transition:all .15s;}
-.ptab:hover{color:var(--text);}
+.ptab,.export-btn{padding:5px 14px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;background:#1e293b;border:1px solid var(--border);color:var(--dim);transition:all .15s;}
+.ptab:hover,.export-btn:hover{color:var(--text);border-color:var(--dim);}
 .ptab.active{background:#f59e0b22;color:var(--accent);border-color:var(--accent);}
 #sync-banner{background:#f59e0b22;color:var(--accent);border:1px solid #f59e0b55;border-radius:8px;padding:10px 14px;font-size:12px;margin-bottom:14px;}
 .tbl-wrap{overflow-x:auto;}
@@ -212,6 +117,12 @@ table.dt tr.product-row.active td{background:#f59e0b18;}
 
 footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top:1px solid var(--border);margin-top:8px;}
 
+@media print{
+  .section-tabs,.hdr-actions,.ptabs{display:none !important;}
+  body{background:#fff;color:#111;}
+  .card{break-inside:avoid;border:1px solid #ccc;}
+}
+
 @media(max-width:768px){
   .kpi-row{grid-template-columns:repeat(2,1fr);}
   .gantt-row{grid-template-columns:22px 1fr;grid-template-areas:"num task" "bar bar" "dev dev";}
@@ -233,11 +144,13 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
     </svg>
     <div class="logo-text">
       <span class="brand">Travel Blue</span>
-      <span class="sub">Cronograma · Promocional Cloe</span>
+      <span class="sub" id="section-subtitle">Cronogramas Cloe</span>
     </div>
   </div>
-  <div class="header-right">__N_PRODUCTS__ productos · Generado el __GENERATED_AT__</div>
+  <div class="header-right" id="header-right">Generado el __GENERATED_AT__</div>
 </div>
+
+<div class="section-tabs" id="section-tabs"></div>
 
 <div class="kpi-row" id="summary-grid"></div>
 
@@ -247,9 +160,13 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
   <div class="card">
     <div class="section-hdr">
       <h2>📋 Resumen por producto</h2>
-      <div class="ptabs" id="product-tabs">
-        <button class="ptab active" data-filter="active">En desarrollo</button>
-        <button class="ptab" data-filter="done">Completados</button>
+      <div class="hdr-actions">
+        <div class="ptabs" id="product-tabs">
+          <button class="ptab active" data-filter="active">En desarrollo</button>
+          <button class="ptab" data-filter="done">Completados</button>
+        </div>
+        <button class="export-btn" id="btn-export-pdf">🖨️ Exportar PDF</button>
+        <button class="export-btn" id="btn-export-excel">📊 Exportar Excel</button>
       </div>
     </div>
     <div class="tbl-wrap">
@@ -276,7 +193,7 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
       <span class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span> En curso</span>
       <span class="legend-item"><span class="legend-dot" style="background:#64748b"></span> Pendiente</span>
       <span class="legend-item"><span class="legend-dot" style="border:2px solid rgba(255,255,255,.5); background:transparent"></span> Fechas reales</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#f59e0b;width:2px;border-radius:0"></span> Hoy (__TODAY__)</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#f59e0b;width:2px;border-radius:0"></span> Hoy</span>
     </div>
     <div class="detail-title" id="detail-title">—</div>
     <div class="detail-sub" id="detail-sub" style="margin-bottom:14px;">—</div>
@@ -284,15 +201,15 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
   </div>
 </div>
 
-<footer>Travel Blue · Cronograma compartido con Cloe · Última actualización: __GENERATED_AT__</footer>
+<footer>Travel Blue · Dashboard de cronogramas Cloe · Última actualización: __GENERATED_AT__</footer>
 
 <script>
-const FALLBACK_PRODUCTS = __DATA_JSON__;
-const FALLBACK_TODAY = "__TODAY__";
-const SHEET_CSV_URL = "__SHEET_CSV_URL__";
-
-let PRODUCTS = FALLBACK_PRODUCTS;
-let TODAY = FALLBACK_TODAY;
+const SECTIONS = __SECTIONS_JSON__;
+let currentSection = SECTIONS[0].key;
+let PRODUCTS = [];
+let TODAY = new Date().toISOString().slice(0, 10);
+let activeSku = null;
+let productFilter = 'active';
 
 function showBanner(msg) {
   const b = document.getElementById('sync-banner');
@@ -373,10 +290,13 @@ function buildProductsFromRows(rows) {
     const total = p.tasks.length;
     const completed = p.tasks.filter(t => t.status === 'Completada').length;
     const inProgress = p.tasks.filter(t => t.status === 'En curso').length;
-    const planStarts = p.tasks.map(t => t.plan_start).filter(Boolean);
     const planEnds = p.tasks.map(t => t.plan_end).filter(Boolean);
+    const planStarts = p.tasks.map(t => t.plan_start).filter(Boolean);
     const realEnds = p.tasks.map(t => t.real_end).filter(Boolean);
     const deviations = p.tasks.map(t => t.deviation).filter(d => typeof d === 'number');
+    const comiteTask = p.tasks.find(t => t.num === 4);
+    const comiteStart = comiteTask ? (comiteTask.real_start || comiteTask.plan_start) : null;
+    const displayStart = comiteStart || (planStarts.length ? planStarts.sort()[0] : null);
     products.push({
       sku: p.sku,
       title: p.title,
@@ -385,7 +305,7 @@ function buildProductsFromRows(rows) {
       completed_tasks: completed,
       in_progress_tasks: inProgress,
       pct_complete: total ? Math.round(100 * completed / total) : 0,
-      plan_start: planStarts.length ? planStarts.sort()[0] : null,
+      plan_start: displayStart,
       plan_end: planEnds.length ? planEnds.sort().slice(-1)[0] : null,
       current_end_estimate: realEnds.length ? realEnds.sort().slice(-1)[0] : (planEnds.length ? planEnds.sort().slice(-1)[0] : null),
       max_deviation: deviations.length ? Math.max(...deviations) : 0,
@@ -394,14 +314,17 @@ function buildProductsFromRows(rows) {
   return products;
 }
 
-async function loadData() {
-  if (!SHEET_CSV_URL) {
-    showBanner('Mostrando datos de la última actualización del archivo (__GENERATED_AT__). Conecta la planilla de Google Sheets para que esto se actualice solo.');
-    renderAll();
-    return;
-  }
+async function loadSection(key) {
+  currentSection = key;
+  activeSku = null;
+  productFilter = 'active';
+  document.querySelectorAll('.section-tab').forEach(b => b.classList.toggle('active', b.dataset.key === key));
+  document.querySelectorAll('.ptab').forEach(b => b.classList.toggle('active', b.dataset.filter === 'active'));
+  const section = SECTIONS.find(s => s.key === key);
+  document.getElementById('section-subtitle').textContent = 'Cronograma · ' + section.label + ' Cloe';
+  showBanner('Cargando ' + section.label + '…');
   try {
-    const res = await fetch(SHEET_CSV_URL + (SHEET_CSV_URL.includes('?') ? '&' : '?') + 'cb=' + Date.now());
+    const res = await fetch(section.csvUrl + (section.csvUrl.includes('?') ? '&' : '?') + 'cb=' + Date.now());
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const text = await res.text();
     const rows = parseCsv(text);
@@ -411,9 +334,21 @@ async function loadData() {
     TODAY = new Date().toISOString().slice(0, 10);
     showBanner('');
   } catch (e) {
-    showBanner('No se pudo conectar a la planilla en vivo — mostrando la última actualización conocida.');
+    PRODUCTS = [];
+    showBanner('No se pudo conectar a la planilla de ' + section.label + '.');
   }
+  document.getElementById('header-right').textContent =
+    PRODUCTS.length + ' productos · Generado el __GENERATED_AT__';
   renderAll();
+}
+
+function renderSectionTabs() {
+  document.getElementById('section-tabs').innerHTML = SECTIONS.map(s =>
+    `<button class="section-tab ${s.key===currentSection?'active':''}" data-key="${s.key}">${escapeHtml(s.label)}</button>`
+  ).join('');
+  document.querySelectorAll('.section-tab').forEach(btn => {
+    btn.addEventListener('click', () => loadSection(btn.dataset.key));
+  });
 }
 
 function toggleTheme() {
@@ -426,19 +361,11 @@ function toggleTheme() {
   if (theme === 'dark') document.body.classList.add('dark');
 })();
 
-function statusClass(s) {
-  if (s === 'Completada') return 'status-completada';
-  if (s === 'En curso') return 'status-curso';
-  return 'status-pendiente';
-}
 function statusColor(s) {
   if (s === 'Completada') return '#27AE60';
   if (s === 'En curso') return '#fece08';
   return '#94A3B8';
 }
-
-let activeSku = PRODUCTS.length ? PRODUCTS[0].sku : null;
-let productFilter = 'active';
 
 document.getElementById('product-tabs').addEventListener('click', (e) => {
   const btn = e.target.closest('.ptab');
@@ -454,6 +381,31 @@ document.getElementById('product-tabs').addEventListener('click', (e) => {
   renderDetail();
 });
 
+document.getElementById('btn-export-pdf').addEventListener('click', () => window.print());
+
+document.getElementById('btn-export-excel').addEventListener('click', () => {
+  const list = filteredProducts();
+  const rows = [['Producto', 'SKU', '#', 'Tarea', 'Estatus', 'Inicio plan.', 'Fin plan.', 'Inicio real', 'Fin real', 'Desvío (días)', 'Comentarios']];
+  list.forEach(p => {
+    p.tasks.forEach(t => {
+      rows.push([p.title, p.sku, t.num, t.name, t.status, t.plan_start || '', t.plan_end || '', t.real_start || '', t.real_end || '', t.deviation ?? '', t.comments || '']);
+    });
+  });
+  const csv = rows.map(r => r.map(v => {
+    const s = String(v ?? '');
+    return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }).join(',')).join('\r\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'cronograma-' + currentSection + '-' + TODAY + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+});
+
 function filteredProducts() {
   return PRODUCTS.filter(p => productFilter === 'done' ? p.pct_complete === 100 : p.pct_complete < 100);
 }
@@ -467,7 +419,7 @@ function renderSummary() {
     <div class="kpi"><div class="lbl">Productos en desarrollo</div><div class="val">${totalProducts}</div><div class="cnt">Total seguidos en este cronograma</div></div>
     <div class="kpi"><div class="lbl">Progreso promedio</div><div class="val">${avgPct}%</div><div class="cnt">Tareas completadas / total</div></div>
     <div class="kpi"><div class="lbl">Productos completados</div><div class="val">${completedProducts}</div><div class="cnt">100% de las tareas finalizadas</div></div>
-    <div class="kpi"><div class="lbl" >Con desvío &gt; 30 días</div><div class="val" style="color:${atRisk>0?'var(--red)':'var(--accent)'}">${atRisk}</div><div class="cnt">Requieren atención</div></div>
+    <div class="kpi"><div class="lbl">Con desvío &gt; 30 días</div><div class="val" style="color:${atRisk>0?'var(--red)':'var(--accent)'}">${atRisk}</div><div class="cnt">Requieren atención</div></div>
   `;
 }
 
@@ -480,7 +432,7 @@ function renderTable() {
   }
   tbody.innerHTML = list.map(p => `
     <tr class="product-row ${p.sku===activeSku?'active':''}" data-sku="${p.sku}">
-      <td><strong>${p.title}</strong></td>
+      <td><strong>${escapeHtml(p.title)}</strong></td>
       <td>
         <div style="display:flex;align-items:center;gap:8px;">
           <div class="bar-track"><div class="bar-fill" style="width:${p.pct_complete}%"></div></div>
@@ -497,10 +449,6 @@ function renderTable() {
   tbody.querySelectorAll('.product-row').forEach(row => {
     row.addEventListener('click', () => { activeSku = row.dataset.sku; renderTable(); renderDetail(); });
   });
-}
-
-function daysBetween(a, b) {
-  return (new Date(b) - new Date(a)) / 86400000;
 }
 
 function renderDetail() {
@@ -568,38 +516,19 @@ function renderAll() {
   renderDetail();
 }
 
-loadData();
+renderSectionTabs();
+loadSection(currentSection);
 </script>
 </body>
 </html>
 """
 
 
-def write_edit_csv(products, path):
-    import csv
-    rows = [["SKU", "Producto", "#", "Tarea", "Duracion_dias", "Depende_de", "Tipo_dep",
-             "Inicio_plan", "Fin_plan", "Estatus", "Inicio_real", "Fin_real",
-             "Dur_real_dias", "Desvio_dias", "Comentarios"]]
-    for p in products:
-        for t in p["tasks"]:
-            rows.append([
-                p["sku"], p["title"], t["num"], t["name"], t["duration"] or "",
-                t["depends_on"] or "", t["dep_type"] or "", t["plan_start"] or "",
-                t["plan_end"] or "", t["status"], t["real_start"] or "",
-                t["real_end"] or "", t["real_duration"] or "", t["deviation"] or "",
-                t.get("comments") or "",
-            ])
-    with open(path, "w", newline="", encoding="utf-8-sig") as f:
-        csv.writer(f).writerows(rows)
-
-
 def main():
-    products = load_products(SRC)
-    html = build_html(products)
+    html = build_html()
     with open(OUTPUT, "w", encoding="utf-8") as f:
         f.write(html)
-    write_edit_csv(products, CSV_OUTPUT)
-    print(f"OK: {len(products)} productos -> {OUTPUT} y {CSV_OUTPUT}")
+    print(f"OK -> {OUTPUT}")
 
 
 if __name__ == "__main__":

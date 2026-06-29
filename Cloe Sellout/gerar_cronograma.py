@@ -76,6 +76,7 @@ def load_products(path):
             real_end = fmt_date(ws.cell(row=row, column=10).value)
             real_dur = ws.cell(row=row, column=11).value
             deviation = ws.cell(row=row, column=12).value
+            comments = str(ws.cell(row=row, column=13).value or "").strip()
 
             tasks.append({
                 "num": int(num),
@@ -90,6 +91,7 @@ def load_products(path):
                 "real_end": real_end,
                 "real_duration": real_dur,
                 "deviation": deviation,
+                "comments": comments,
             })
             row += 1
 
@@ -107,6 +109,12 @@ def load_products(path):
             default=0,
         )
 
+        # "Inicio" se referencia a la tarea "Reunión con Comité" (#4): fecha real si existe,
+        # si no la planeada; si esa tarea no existe, se usa la fecha planeada más temprana.
+        comite_task = next((t for t in tasks if t["num"] == 4), None)
+        comite_start = (comite_task and (comite_task["real_start"] or comite_task["plan_start"])) or None
+        display_start = comite_start or (min(all_plan_starts) if all_plan_starts else None)
+
         products.append({
             "sku": sheet_name,
             "title": title,
@@ -117,7 +125,7 @@ def load_products(path):
             "completed_tasks": completed,
             "in_progress_tasks": in_progress,
             "pct_complete": pct,
-            "plan_start": min(all_plan_starts) if all_plan_starts else None,
+            "plan_start": display_start,
             "plan_end": max(all_plan_ends) if all_plan_ends else None,
             "current_end_estimate": max(all_real_ends) if all_real_ends else (max(all_plan_ends) if all_plan_ends else None),
             "max_deviation": max_deviation,
@@ -202,6 +210,7 @@ table.dt tr.product-row.active td{background:#f59e0b18;}
 .gantt-bar-real{position:absolute;top:2px;bottom:2px;border-radius:4px;border:2px solid rgba(255,255,255,.35);background:transparent;}
 .gantt-today{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--accent);}
 .gantt-dev{font-size:11px;text-align:right;}
+.gantt-comment{grid-column:2/4;font-size:11px;color:var(--dim);font-style:italic;padding:0 0 4px 0;}
 
 footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top:1px solid var(--border);margin-top:8px;}
 
@@ -322,6 +331,10 @@ function splitCsvLine(line) {
   return out;
 }
 
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
 function numOrNull(v) {
   if (v === undefined || v === null || v === '') return null;
   const n = Number(v);
@@ -354,6 +367,7 @@ function buildProductsFromRows(rows) {
       real_end: validDateOrNull(r.Fin_real),
       real_duration: numOrNull(r.Dur_real_dias),
       deviation: numOrNull(r.Desvio_dias),
+      comments: r.Comentarios || '',
     });
   });
   const products = [];
@@ -534,13 +548,15 @@ function renderDetail() {
     const todayMarker = todayPct !== null ? `<div class="gantt-today" style="left:${todayPct}%"></div>` : '';
     const devClass = (t.deviation || 0) > 14 ? 'deviation-warn' : 'deviation-ok';
     const devText = (t.deviation === null || t.deviation === undefined) ? '—' : `${t.deviation}d`;
+    const commentRow = t.comments ? `<div class="gantt-comment">💬 ${escapeHtml(t.comments)}</div>` : '';
     return `
       <div class="gantt-row">
         <div class="gantt-num">${t.num}</div>
-        <div class="gantt-task" title="${t.name}">${t.name}</div>
+        <div class="gantt-task" title="${escapeHtml(t.name)}">${escapeHtml(t.name)}</div>
         <div class="gantt-track-wrap">${planBar}${realBar}${todayMarker}</div>
         <div class="gantt-dev ${devClass}">${devText}</div>
       </div>
+      ${commentRow}
     `;
   }).join('');
 }
