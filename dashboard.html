@@ -53,6 +53,10 @@ table.dt tr.product-row.active td{background:#f59e0b18;}
 
 .detail-title{font-size:15px;font-weight:800;color:var(--text);}
 .detail-sub{font-size:11px;color:var(--dim);margin-top:2px;}
+.dtable{width:100%;border-collapse:collapse;font-size:11.5px;}
+.dtable th{background:#1e293b;color:var(--dim);font-weight:600;padding:5px 8px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+.dtable td{padding:5px 8px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--text);vertical-align:middle;}
+.dtable tbody tr:hover{background:rgba(255,255,255,.03);}
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;font-size:11px;color:var(--dim);}
 .legend-item{display:flex;align-items:center;gap:6px;}
 .legend-dot{width:10px;height:10px;border-radius:3px;display:inline-block;}
@@ -83,6 +87,8 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
   .gantt-track-wrap{background:#eee;}
   .badge-p,.status-pendiente,.status-curso,.status-completada{border:1px solid #ccc;}
   table.dt th{background:#fff;}
+  .dtable th{background:#f3f4f6;color:#555;}
+  .dtable td{color:#111;border-bottom:1px solid #ddd;}
 }
 
 @media(max-width:768px){
@@ -109,7 +115,7 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
       <span class="sub" id="section-subtitle">Cronogramas Cloe</span>
     </div>
   </div>
-  <div class="header-right" id="header-right">Generado el 29/06/2026 15:54</div>
+  <div class="header-right" id="header-right">Generado el 01/07/2026 11:06</div>
 </div>
 
 <div class="section-tabs" id="section-tabs"></div>
@@ -159,11 +165,12 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
     </div>
     <div class="detail-title" id="detail-title">—</div>
     <div class="detail-sub" id="detail-sub" style="margin-bottom:14px;">—</div>
+    <div id="detail-task-table" style="margin-bottom:18px;"></div>
     <div class="gantt" id="gantt-container"></div>
   </div>
 </div>
 
-<footer>Travel Blue · Dashboard de cronogramas Cloe · Última actualización: 29/06/2026 15:54</footer>
+<footer>Travel Blue · Dashboard de cronogramas Cloe · Última actualización: 01/07/2026 11:06</footer>
 
 <script>
 const SECTIONS = [{"key":"nuevos","label":"Nuevos Desarrollos","csvUrl":"https://docs.google.com/spreadsheets/d/e/2PACX-1vSINJkHp80mHYPIF5scyzY3xhmewslj4foW7yShYE_s4GUEtR5jIVm65a3w1Z_0MJR-vcKT6lyVS7C0/pub?gid=528821195&single=true&output=csv","useComiteStart":true},{"key":"promocional","label":"Promocional","csvUrl":"https://docs.google.com/spreadsheets/d/e/2PACX-1vSVBSfE_x1T1X4WiJWh7GYQtJih7wpNEQ5uDMIyo1OQhoe0aVHwjLG3J1DD9Histwr6GRhS18nw4uBL/pub?gid=1207811840&single=true&output=csv","useComiteStart":false},{"key":"peanuts","label":"Peanuts","csvUrl":"https://docs.google.com/spreadsheets/d/e/2PACX-1vTHN6Krakasd6LYCqRwmX1TcPEPbicSUVk8vkIYcNIcWk4xS8OWr3v5B1ptxOMk_2MgHLcu2GwumkQP/pub?gid=890603935&single=true&output=csv","useComiteStart":false}];
@@ -316,7 +323,7 @@ async function loadSection(key) {
     showBanner('No se pudo conectar a la planilla de ' + section.label + '.');
   }
   document.getElementById('header-right').textContent =
-    PRODUCTS.length + ' productos · Generado el 29/06/2026 15:54';
+    PRODUCTS.length + ' productos · Generado el 01/07/2026 11:06';
   renderAll();
 }
 
@@ -434,12 +441,42 @@ function renderDetail() {
   if (!p) {
     document.getElementById('detail-title').textContent = '—';
     document.getElementById('detail-sub').textContent = 'Sin productos en esta vista.';
+    document.getElementById('detail-task-table').innerHTML = '';
     document.getElementById('gantt-container').innerHTML = '';
     return;
   }
   document.getElementById('detail-title').textContent = p.title;
   document.getElementById('detail-sub').textContent =
     `${p.completed_tasks}/${p.total_tasks} tareas completadas (${p.pct_complete}%) · Inicio: ${fmtDisplay(p.plan_start)} · Fin estimado: ${fmtDisplay(p.current_end_estimate)}`;
+
+  // ── Detail table ────────────────────────────────────────────────────────
+  const taskRows = p.tasks.map(t => {
+    const devText = (t.deviation === null || t.deviation === undefined) ? '—' : t.deviation;
+    const durText = (t.real_duration === null || t.real_duration === undefined) ? '—' : t.real_duration;
+    const devClass = (t.deviation || 0) > 14 ? 'deviation-warn' : ((t.deviation || 0) > 0 ? 'deviation-ok' : '');
+    const statusBadge = `<span class="badge-p status-${(t.status||'').toLowerCase().replace(/\\s+/g,'-')}">${escapeHtml(t.status||'—')}</span>`;
+    return `<tr>
+      <td style="text-align:center">${t.num}</td>
+      <td>${escapeHtml(t.name)}</td>
+      <td>${statusBadge}</td>
+      <td>${fmtDisplay(t.plan_start)||'—'}</td>
+      <td>${fmtDisplay(t.plan_end)||'—'}</td>
+      <td>${fmtDisplay(t.real_start)||'—'}</td>
+      <td>${fmtDisplay(t.real_end)||'—'}</td>
+      <td style="text-align:center">${durText}</td>
+      <td style="text-align:center" class="${devClass}">${devText}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('detail-task-table').innerHTML = `
+    <table class="dtable">
+      <thead><tr>
+        <th>#</th><th>Tarea</th><th>Estatus</th>
+        <th>Inicio plan.</th><th>Fin plan.</th>
+        <th>Inicio real</th><th>Fin real</th>
+        <th>Dur. real (días)</th><th>Desvío (días)</th>
+      </tr></thead>
+      <tbody>${taskRows}</tbody>
+    </table>`;
 
   const allDates = [];
   p.tasks.forEach(t => {
