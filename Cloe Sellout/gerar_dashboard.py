@@ -1,51 +1,152 @@
 #!/usr/bin/env python3
 """
-gerar_dashboard.py — Dashboard único Cloe (Nuevos Desarrollos / Promocional / Peanuts)
-Genera dashboard.html con pestañas de sección, cada una leyendo en vivo de su
-planilla de Google Sheets publicada. No depende de un xlsx local: solo arma el
-esqueleto estático y deja todo el fetch/render al navegador.
+gerar_dashboard.py — Dashboard Cronogramas Cloe
+Le los 3 archivos Excel locales y genera dashboard.html con todos los datos embebidos.
+No necesita internet ni Google Sheets.
 
-Para actualizar: no hace falta correr nada — los datos vienen siempre de los
-3 Sheets en vivo. Solo correr este script de nuevo si se cambia el diseño o
-las URLs de los Sheets.
+Uso: python gerar_dashboard.py
 """
 import os
-from datetime import datetime
+import json
+import re
+from datetime import datetime, date
+
+try:
+    from openpyxl import load_workbook
+except ImportError:
+    print("Instalando openpyxl...")
+    import subprocess, sys
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "openpyxl"])
+    from openpyxl import load_workbook
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-OUTPUT = os.path.join(BASE_DIR, "dashboard.html")
+OUTPUT   = os.path.join(BASE_DIR, "dashboard.html")
 
-SECTIONS = [
+# ── Configuración de archivos Excel ──────────────────────────────────────────
+SECTIONS_CFG = [
     {
-        "key": "nuevos",
-        "label": "Nuevos Desarrollos",
-        "csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSINJkHp80mHYPIF5scyzY3xhmewslj4foW7yShYE_s4GUEtR5jIVm65a3w1Z_0MJR-vcKT6lyVS7C0/pub?gid=528821195&single=true&output=csv",
+        "key":              "nuevos",
+        "label":            "Nuevos Desarrollos",
+        "file":             "Cronogramas_Productos_Nuevos_Cloe_fechas_rev_ok.xlsx",
         "use_comite_start": True,
+        "sku_from_sheet":   True,   # nombre de la pestaña = SKU
     },
     {
-        "key": "promocional",
-        "label": "Promocional",
-        "csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSVBSfE_x1T1X4WiJWh7GYQtJih7wpNEQ5uDMIyo1OQhoe0aVHwjLG3J1DD9Histwr6GRhS18nw4uBL/pub?gid=1207811840&single=true&output=csv",
+        "key":              "promocional",
+        "label":            "Promocional",
+        "file":             "Cronograma Promocional Cloe.xlsx",
         "use_comite_start": False,
+        "sku_from_sheet":   False,
     },
     {
-        "key": "peanuts",
-        "label": "Peanuts",
-        "csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHN6Krakasd6LYCqRwmX1TcPEPbicSUVk8vkIYcNIcWk4xS8OWr3v5B1ptxOMk_2MgHLcu2GwumkQP/pub?gid=890603935&single=true&output=csv",
+        "key":              "peanuts",
+        "label":            "Peanuts",
+        "file":             "Cronograma Peanuts Cloe.xlsx",
         "use_comite_start": False,
+        "sku_from_sheet":   False,
     },
 ]
 
+# ── Helpers ───────────────────────────────────────────────────────────────────
+def fmt_date(v):
+    if isinstance(v, (datetime, date)):
+        return v.strftime("%Y-%m-%d")
+    if v and re.match(r"\d{4}-\d{2}-\d{2}", str(v)):
+        return str(v)[:10]
+    return None
 
-def build_html():
+def num_or_null(v):
+    if v is None or str(v).strip() == "":
+        return None
+    try:
+        return int(float(str(v)))
+    except (ValueError, TypeError):
+        return None
+
+def clean_str(v):
+    if v is None:
+        return ""
+    return str(v).strip()
+
+VALID_STATUS = {"Completada", "En curso", "Pendiente"}
+
+def read_section(cfg):
+    path = os.path.join(BASE_DIR, cfg["file"])
+    if not os.path.exists(path):
+        print(f"  ADVERTENCIA: no encontrado -> {cfg['file']}")
+        return []
+
+    wb = load_workbook(path, data_only=True)
+    products = []
+
+    for sheet_name in wb.sheetnames:
+        ws = wb[sheet_name]
+        rows = list(ws.iter_rows(values_only=True))
+
+        if len(rows) < 6:
+            continue
+
+        # Fila 2 (índice 2): nombre del producto en columna 0
+        product_name = clean_str(rows[2][0] if len(rows[2]) > 0 else "")
+        if not product_name or "CRONOGRAMA" in product_name.upper():
+            continue
+
+        sku = sheet_name if cfg["sku_from_sheet"] else re.sub(r"[^A-Z0-9]", "-", sheet_name.upper())
+
+        tasks = []
+        for row in rows[5:]:
+            if not row or row[0] is None:
+                continue
+            num = num_or_null(row[0])
+            if num is None:
+                continue
+            tarea = clean_str(row[1] if len(row) > 1 else None)
+            if not tarea:
+                continue
+
+            status_raw = clean_str(row[7] if len(row) > 7 else None)
+            status = status_raw if status_raw in VALID_STATUS else "Pendiente"
+
+            tasks.append({
+                "num":           num,
+                "name":          tarea,
+                "duration":      num_or_null(row[2] if len(row) > 2 else None),
+                "depends_on":    clean_str(row[3] if len(row) > 3 else None) or None,
+                "dep_type":      clean_str(row[4] if len(row) > 4 else None) or None,
+                "plan_start":    fmt_date(row[5] if len(row) > 5 else None),
+                "plan_end":      fmt_date(row[6] if len(row) > 6 else None),
+                "status":        status,
+                "real_start":    fmt_date(row[8] if len(row) > 8 else None),
+                "real_end":      fmt_date(row[9] if len(row) > 9 else None),
+                "real_duration": num_or_null(row[10] if len(row) > 10 else None),
+                "deviation":     num_or_null(row[11] if len(row) > 11 else None),
+                "comments":      clean_str(row[12] if len(row) > 12 else None),
+            })
+
+        if tasks:
+            products.append({"sku": sku, "title": product_name, "tasks": tasks})
+            print(f"    {sku}: {len(tasks)} tareas")
+
+    return products
+
+
+def build_sections_data():
+    sections_data = {}
+    for cfg in SECTIONS_CFG:
+        print(f"  Leyendo {cfg['file']}...")
+        products = read_section(cfg)
+        sections_data[cfg["key"]] = {
+            "label":          cfg["label"],
+            "useComiteStart": cfg["use_comite_start"],
+            "products":       products,
+        }
+    return sections_data
+
+
+def build_html(sections_data):
     generated_at = datetime.now().strftime("%d/%m/%Y %H:%M")
-    sections_json = "[" + ",".join(
-        '{"key":"%s","label":"%s","csvUrl":"%s","useComiteStart":%s}' % (
-            s["key"], s["label"], s["csv_url"], "true" if s["use_comite_start"] else "false"
-        )
-        for s in SECTIONS
-    ) + "]"
-    html = HTML_TEMPLATE.replace("__SECTIONS_JSON__", sections_json)
+    sections_json = json.dumps(sections_data, ensure_ascii=False)
+    html = HTML_TEMPLATE.replace("__SECTIONS_DATA__", sections_json)
     html = html.replace("__GENERATED_AT__", generated_at)
     return html
 
@@ -59,8 +160,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 <title>Dashboard Cronogramas · Cloe</title>
 <style>
 :root{--bg:#0a0e1a;--card:#111827;--border:#1e293b;--text:#e2e8f0;--dim:#64748b;
-  --accent:#f59e0b;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--purple:#8b5cf6;
-  --c0:#ef4444;--c1:#f97316;--c2:#eab308;--c3:#a855f7;--c4:#64748b;}
+  --accent:#f59e0b;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--purple:#8b5cf6;}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;line-height:1.5}
 .header{background:linear-gradient(135deg,#111827 0%,#1e293b 100%);padding:14px 24px;border-bottom:2px solid var(--accent);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
@@ -86,7 +186,6 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 .ptab,.export-btn{padding:5px 14px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;background:#1e293b;border:1px solid var(--border);color:var(--dim);transition:all .15s;}
 .ptab:hover,.export-btn:hover{color:var(--text);border-color:var(--dim);}
 .ptab.active{background:#f59e0b22;color:var(--accent);border-color:var(--accent);}
-#sync-banner{background:#f59e0b22;color:var(--accent);border:1px solid #f59e0b55;border-radius:8px;padding:10px 14px;font-size:12px;margin-bottom:14px;}
 .tbl-wrap{overflow-x:auto;}
 table.dt{width:100%;border-collapse:collapse;font-size:11px;}
 table.dt th{text-align:left;padding:5px 8px;border-bottom:2px solid var(--accent);color:var(--accent);font-weight:700;font-size:10px;text-transform:uppercase;white-space:nowrap;}
@@ -98,17 +197,19 @@ table.dt tr.product-row.active td{background:#f59e0b18;}
 .bar-fill{height:100%;border-radius:4px;background:var(--green);}
 .badge-p{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;}
 .status-pendiente{background:#64748b22;color:var(--dim);}
-.status-curso{background:#f59e0b22;color:var(--accent);}
+.status-en-curso{background:#f59e0b22;color:var(--accent);}
 .status-completada{background:#10b98122;color:var(--green);}
 .deviation-ok{color:var(--green);font-weight:700;}
 .deviation-warn{color:var(--red);font-weight:700;}
-
 .detail-title{font-size:15px;font-weight:800;color:var(--text);}
 .detail-sub{font-size:11px;color:var(--dim);margin-top:2px;}
+.dtable{width:100%;border-collapse:collapse;font-size:11.5px;}
+.dtable th{background:#1e293b;color:var(--dim);font-weight:600;padding:5px 8px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+.dtable td{padding:5px 8px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--text);vertical-align:middle;}
+.dtable tbody tr:hover{background:rgba(255,255,255,.03);}
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;font-size:11px;color:var(--dim);}
 .legend-item{display:flex;align-items:center;gap:6px;}
 .legend-dot{width:10px;height:10px;border-radius:3px;display:inline-block;}
-
 .gantt{display:flex;flex-direction:column;gap:6px;}
 .gantt-row{display:grid;grid-template-columns:26px 250px 1fr 70px;align-items:center;gap:10px;}
 .gantt-num{font-size:11px;color:var(--dim);text-align:right;}
@@ -122,28 +223,23 @@ table.dt tr.product-row.active td{background:#f59e0b18;}
 .gantt-axis{margin-bottom:4px;padding-bottom:6px;border-bottom:1px solid var(--border);}
 .gantt-axis-track{position:relative;height:14px;}
 .gantt-month-tick{position:absolute;top:0;font-size:10px;color:var(--dim);font-weight:700;white-space:nowrap;transform:translateX(-2px);border-left:1px solid var(--border);padding-left:4px;}
-
 footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top:1px solid var(--border);margin-top:8px;}
-
 @media print{
   :root{--bg:#fff;--card:#fff;--border:#ccc;--text:#111;--dim:#555;--accent:#92400e;--green:#15803d;--red:#b91c1c;}
-  .header,.section-tabs,.hdr-actions,.ptabs,#sync-banner,footer{display:none !important;}
+  .header,.section-tabs,.hdr-actions,.ptabs,footer{display:none !important;}
   body{background:#fff;color:#111;font-size:11px;}
   .content{padding:0;max-width:none;}
   .card{break-inside:avoid;border:1px solid #ccc;box-shadow:none;}
-  .bar-track{background:#eee;}
-  .gantt-track-wrap{background:#eee;}
-  .badge-p,.status-pendiente,.status-curso,.status-completada{border:1px solid #ccc;}
-  table.dt th{background:#fff;}
+  .bar-track,.gantt-track-wrap{background:#eee;}
+  .badge-p{border:1px solid #ccc;}
+  .dtable th{background:#f3f4f6;color:#555;}
+  .dtable td{color:#111;border-bottom:1px solid #ddd;}
 }
-
 @media(max-width:768px){
   .kpi-row{grid-template-columns:repeat(2,1fr);}
   .gantt-row{grid-template-columns:22px 1fr;grid-template-areas:"num task" "bar bar" "dev dev";}
-  .gantt-task{grid-area:task;}
-  .gantt-num{grid-area:num;}
-  .gantt-track-wrap{grid-area:bar;}
-  .gantt-dev{grid-area:dev;text-align:left;}
+  .gantt-task{grid-area:task;} .gantt-num{grid-area:num;}
+  .gantt-track-wrap{grid-area:bar;} .gantt-dev{grid-area:dev;text-align:left;}
 }
 </style>
 </head>
@@ -165,12 +261,9 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
 </div>
 
 <div class="section-tabs" id="section-tabs"></div>
-
 <div class="kpi-row" id="summary-grid"></div>
 
 <div class="content">
-  <div id="sync-banner" style="display:none;"></div>
-
   <div class="card">
     <div class="section-hdr">
       <h2>📋 Resumen por producto</h2>
@@ -185,16 +278,10 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
     </div>
     <div class="tbl-wrap">
       <table class="dt">
-        <thead>
-          <tr>
-            <th>Producto (SKU)</th>
-            <th>Progreso</th>
-            <th>Tareas</th>
-            <th>Inicio plan.</th>
-            <th>Fin estimado</th>
-            <th>Desvío máx.</th>
-          </tr>
-        </thead>
+        <thead><tr>
+          <th>Producto (SKU)</th><th>Progreso</th><th>Tareas</th>
+          <th>Inicio plan.</th><th>Fin estimado</th><th>Desvío máx.</th>
+        </tr></thead>
         <tbody id="products-tbody"></tbody>
       </table>
     </div>
@@ -206,11 +293,12 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
       <span class="legend-item"><span class="legend-dot" style="background:#10b981"></span> Completada</span>
       <span class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span> En curso</span>
       <span class="legend-item"><span class="legend-dot" style="background:#64748b"></span> Pendiente</span>
-      <span class="legend-item"><span class="legend-dot" style="border:2px solid rgba(255,255,255,.5); background:transparent"></span> Fechas reales</span>
+      <span class="legend-item"><span class="legend-dot" style="border:2px solid rgba(255,255,255,.5);background:transparent"></span> Fechas reales</span>
       <span class="legend-item"><span class="legend-dot" style="background:#f59e0b;width:2px;border-radius:0"></span> Hoy</span>
     </div>
     <div class="detail-title" id="detail-title">—</div>
     <div class="detail-sub" id="detail-sub" style="margin-bottom:14px;">—</div>
+    <div id="detail-task-table" style="margin-bottom:18px;"></div>
     <div class="gantt" id="gantt-container"></div>
   </div>
 </div>
@@ -218,186 +306,90 @@ footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top
 <footer>Travel Blue · Dashboard de cronogramas Cloe · Última actualización: __GENERATED_AT__</footer>
 
 <script>
-const SECTIONS = __SECTIONS_JSON__;
-let currentSection = SECTIONS[0].key;
-let PRODUCTS = [];
-let TODAY = new Date().toISOString().slice(0, 10);
-let activeSku = null;
-let productFilter = 'active';
+const SECTIONS_DATA = __SECTIONS_DATA__;
+const SECTION_KEYS  = Object.keys(SECTIONS_DATA);
 
-function showBanner(msg) {
-  const b = document.getElementById('sync-banner');
-  if (!msg) { b.style.display = 'none'; return; }
-  b.style.display = 'block';
-  b.textContent = msg;
-}
-
-function parseCsv(text) {
-  const lines = text.trim().split(/\r?\n/);
-  const headers = splitCsvLine(lines[0]);
-  return lines.slice(1).filter(l => l.trim()).map(line => {
-    const cells = splitCsvLine(line);
-    const obj = {};
-    headers.forEach((h, i) => { obj[h.trim()] = (cells[i] || '').trim(); });
-    return obj;
-  });
-}
-function splitCsvLine(line) {
-  const out = []; let cur = ''; let inQ = false;
-  for (let i = 0; i < line.length; i++) {
-    const c = line[i];
-    if (inQ) {
-      if (c === '"' && line[i+1] === '"') { cur += '"'; i++; }
-      else if (c === '"') { inQ = false; }
-      else { cur += c; }
-    } else {
-      if (c === '"') inQ = true;
-      else if (c === ',') { out.push(cur); cur = ''; }
-      else cur += c;
-    }
-  }
-  out.push(cur);
-  return out;
-}
+let currentSection = SECTION_KEYS[0];
+let PRODUCTS       = [];
+let TODAY          = new Date().toISOString().slice(0, 10);
+let activeSku      = null;
+let productFilter  = 'active';
 
 function escapeHtml(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-
-function numOrNull(v) {
-  if (v === undefined || v === null || v === '') return null;
-  const n = Number(v);
-  return isNaN(n) ? null : n;
-}
-
 function validDateOrNull(v) {
   if (!v || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return null;
   return v;
 }
-
 function fmtDisplay(v) {
   if (!v) return '—';
   const [y, m, d] = v.split('-');
   return `${d}/${m}/${y}`;
 }
-
-function buildProductsFromRows(rows, useComiteStart) {
-  const bySku = new Map();
-  rows.forEach(r => {
-    const sku = r.SKU;
-    if (!sku) return;
-    if (!bySku.has(sku)) {
-      bySku.set(sku, { sku, title: r.Producto || sku, tasks: [] });
-    }
-    bySku.get(sku).tasks.push({
-      num: numOrNull(r['#']),
-      name: r.Tarea || '',
-      duration: numOrNull(r.Duracion_dias),
-      depends_on: r.Depende_de || null,
-      dep_type: r.Tipo_dep || null,
-      plan_start: validDateOrNull(r.Inicio_plan),
-      plan_end: validDateOrNull(r.Fin_plan),
-      status: ['Completada', 'En curso', 'Pendiente'].includes(r.Estatus) ? r.Estatus : 'Pendiente',
-      real_start: validDateOrNull(r.Inicio_real),
-      real_end: validDateOrNull(r.Fin_real),
-      real_duration: numOrNull(r.Dur_real_dias),
-      deviation: numOrNull(r.Desvio_dias),
-      comments: r.Comentarios || '',
-    });
-  });
-  const products = [];
-  bySku.forEach(p => {
-    const total = p.tasks.length;
-    const completed = p.tasks.filter(t => t.status === 'Completada').length;
-    const inProgress = p.tasks.filter(t => t.status === 'En curso').length;
-    const planEnds = p.tasks.map(t => t.plan_end).filter(Boolean);
-    const planStarts = p.tasks.map(t => t.plan_start).filter(Boolean);
-    const realEnds = p.tasks.map(t => t.real_end).filter(Boolean);
-    const deviations = p.tasks.map(t => t.deviation).filter(d => typeof d === 'number');
-    const earliestStart = planStarts.length ? planStarts.sort()[0] : null;
-    let displayStart = earliestStart;
-    if (useComiteStart) {
-      const comiteTask = p.tasks.find(t => t.num === 4);
-      const comiteStart = comiteTask ? (comiteTask.real_end || comiteTask.real_start || comiteTask.plan_end || comiteTask.plan_start) : null;
-      displayStart = comiteStart || earliestStart;
-    }
-    const pctComplete = total ? Math.round(100 * completed / total) : 0;
-    const latestPlanEnd = planEnds.length ? planEnds.sort().slice(-1)[0] : null;
-    const latestRealEnd = realEnds.length ? realEnds.sort().slice(-1)[0] : null;
-    // Mientras el producto no esté 100% completo, "Fin estimado" usa la fecha
-    // planeada (la real de una tarea temprana puede quedar antes que el inicio).
-    const currentEndEstimate = (pctComplete === 100 && latestRealEnd) ? latestRealEnd : (latestPlanEnd || latestRealEnd);
-    products.push({
-      sku: p.sku,
-      title: p.title,
-      tasks: p.tasks,
-      total_tasks: total,
-      completed_tasks: completed,
-      in_progress_tasks: inProgress,
-      pct_complete: pctComplete,
-      plan_start: displayStart,
-      plan_end: latestPlanEnd,
-      current_end_estimate: currentEndEstimate,
-      max_deviation: deviations.length ? Math.max(...deviations) : 0,
-    });
-  });
-  return products;
+function statusColor(s) {
+  if (s === 'Completada') return '#27AE60';
+  if (s === 'En curso')   return '#fece08';
+  return '#94A3B8';
 }
 
-async function loadSection(key) {
+function buildProducts(rawProducts, useComiteStart) {
+  return rawProducts.map(p => {
+    const tasks     = p.tasks;
+    const total     = tasks.length;
+    const completed = tasks.filter(t => t.status === 'Completada').length;
+    const inProg    = tasks.filter(t => t.status === 'En curso').length;
+    const planStarts = tasks.map(t => t.plan_start).filter(Boolean).sort();
+    const planEnds   = tasks.map(t => t.plan_end).filter(Boolean).sort();
+    const realEnds   = tasks.map(t => t.real_end).filter(Boolean).sort();
+    const devs       = tasks.map(t => t.deviation).filter(d => typeof d === 'number');
+    const earliestStart = planStarts[0] || null;
+    let displayStart = earliestStart;
+    if (useComiteStart) {
+      const comite = tasks.find(t => t.num === 4);
+      const cs = comite ? (comite.real_end || comite.real_start || comite.plan_end || comite.plan_start) : null;
+      displayStart = cs || earliestStart;
+    }
+    const pctComplete       = total ? Math.round(100 * completed / total) : 0;
+    const latestPlanEnd     = planEnds.slice(-1)[0] || null;
+    const latestRealEnd     = realEnds.slice(-1)[0] || null;
+    const currentEndEstimate = (pctComplete === 100 && latestRealEnd)
+      ? latestRealEnd : (latestPlanEnd || latestRealEnd);
+    return {
+      sku: p.sku, title: p.title, tasks,
+      total_tasks: total, completed_tasks: completed, in_progress_tasks: inProg,
+      pct_complete: pctComplete,
+      plan_start: displayStart,
+      current_end_estimate: currentEndEstimate,
+      max_deviation: devs.length ? Math.max(...devs) : 0,
+    };
+  });
+}
+
+function loadSection(key) {
   currentSection = key;
-  activeSku = null;
-  productFilter = 'active';
+  activeSku      = null;
+  productFilter  = 'active';
   document.querySelectorAll('.section-tab').forEach(b => b.classList.toggle('active', b.dataset.key === key));
   document.querySelectorAll('.ptab').forEach(b => b.classList.toggle('active', b.dataset.filter === 'active'));
-  const section = SECTIONS.find(s => s.key === key);
-  document.getElementById('section-subtitle').textContent = 'Cronograma · ' + section.label + ' Cloe';
-  showBanner('Cargando ' + section.label + '…');
-  try {
-    const res = await fetch(section.csvUrl + (section.csvUrl.includes('?') ? '&' : '?') + 'cb=' + Date.now());
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const text = await res.text();
-    const rows = parseCsv(text);
-    const live = buildProductsFromRows(rows, !!section.useComiteStart);
-    if (!live.length) throw new Error('CSV vacío');
-    PRODUCTS = live;
-    TODAY = new Date().toISOString().slice(0, 10);
-    showBanner('');
-  } catch (e) {
-    PRODUCTS = [];
-    showBanner('No se pudo conectar a la planilla de ' + section.label + '.');
-  }
+  const sec = SECTIONS_DATA[key];
+  document.getElementById('section-subtitle').textContent = 'Cronograma · ' + sec.label + ' Cloe';
+  PRODUCTS = buildProducts(sec.products, !!sec.useComiteStart);
   document.getElementById('header-right').textContent =
     PRODUCTS.length + ' productos · Generado el __GENERATED_AT__';
   renderAll();
 }
 
 function renderSectionTabs() {
-  document.getElementById('section-tabs').innerHTML = SECTIONS.map(s =>
-    `<button class="section-tab ${s.key===currentSection?'active':''}" data-key="${s.key}">${escapeHtml(s.label)}</button>`
+  document.getElementById('section-tabs').innerHTML = SECTION_KEYS.map(k =>
+    `<button class="section-tab ${k===currentSection?'active':''}" data-key="${k}">${escapeHtml(SECTIONS_DATA[k].label)}</button>`
   ).join('');
   document.querySelectorAll('.section-tab').forEach(btn => {
     btn.addEventListener('click', () => loadSection(btn.dataset.key));
   });
 }
 
-function toggleTheme() {
-  const isDark = document.body.classList.contains('dark');
-  if (isDark) { document.body.classList.remove('dark'); localStorage.setItem('tb_theme','light'); }
-  else { document.body.classList.add('dark'); localStorage.setItem('tb_theme','dark'); }
-}
-(function(){
-  var theme = localStorage.getItem('tb_theme');
-  if (theme === 'dark') document.body.classList.add('dark');
-})();
-
-function statusColor(s) {
-  if (s === 'Completada') return '#27AE60';
-  if (s === 'En curso') return '#fece08';
-  return '#94A3B8';
-}
-
-document.getElementById('product-tabs').addEventListener('click', (e) => {
+document.getElementById('product-tabs').addEventListener('click', e => {
   const btn = e.target.closest('.ptab');
   if (!btn) return;
   productFilter = btn.dataset.filter;
@@ -415,24 +407,23 @@ document.getElementById('btn-export-pdf').addEventListener('click', () => window
 
 document.getElementById('btn-export-excel').addEventListener('click', () => {
   const list = filteredProducts();
-  const rows = [['Producto', 'SKU', '#', 'Tarea', 'Estatus', 'Inicio plan.', 'Fin plan.', 'Inicio real', 'Fin real', 'Desvío (días)', 'Comentarios']];
-  list.forEach(p => {
-    p.tasks.forEach(t => {
-      rows.push([p.title, p.sku, t.num, t.name, t.status, fmtDisplay(t.plan_start), fmtDisplay(t.plan_end), fmtDisplay(t.real_start), fmtDisplay(t.real_end), t.deviation ?? '', t.comments || '']);
-    });
-  });
+  const rows = [['Producto','SKU','#','Tarea','Estatus','Inicio plan.','Fin plan.',
+                  'Inicio real','Fin real','Dur. real (días)','Desvío (días)','Comentarios']];
+  list.forEach(p => p.tasks.forEach(t => rows.push([
+    p.title, p.sku, t.num, t.name, t.status,
+    fmtDisplay(t.plan_start), fmtDisplay(t.plan_end),
+    fmtDisplay(t.real_start), fmtDisplay(t.real_end),
+    t.real_duration ?? '', t.deviation ?? '', t.comments || ''
+  ])));
   const csv = rows.map(r => r.map(v => {
     const s = String(v ?? '');
     return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
   }).join(',')).join('\r\n');
-  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'cronograma-' + currentSection + '-' + TODAY + '.csv';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+  const blob = new Blob(['﻿' + csv], {type:'text/csv;charset=utf-8;'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'cronograma-' + currentSection + '-' + TODAY + '.csv';
+  document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
 });
 
@@ -441,43 +432,43 @@ function filteredProducts() {
 }
 
 function renderSummary() {
-  const totalProducts = PRODUCTS.length;
-  const avgPct = totalProducts ? Math.round(PRODUCTS.reduce((a,p)=>a+p.pct_complete,0)/totalProducts) : 0;
-  const completedProducts = PRODUCTS.filter(p => p.pct_complete === 100).length;
-  const atRisk = PRODUCTS.filter(p => p.max_deviation > 30).length;
+  const total   = PRODUCTS.length;
+  const avgPct  = total ? Math.round(PRODUCTS.reduce((a,p) => a + p.pct_complete, 0) / total) : 0;
+  const done    = PRODUCTS.filter(p => p.pct_complete === 100).length;
+  const atRisk  = PRODUCTS.filter(p => p.max_deviation > 30).length;
   document.getElementById('summary-grid').innerHTML = `
-    <div class="kpi"><div class="lbl">Productos en desarrollo</div><div class="val">${totalProducts}</div><div class="cnt">Total seguidos en este cronograma</div></div>
+    <div class="kpi"><div class="lbl">Productos en desarrollo</div><div class="val">${total}</div><div class="cnt">Total seguidos en este cronograma</div></div>
     <div class="kpi"><div class="lbl">Progreso promedio</div><div class="val">${avgPct}%</div><div class="cnt">Tareas completadas / total</div></div>
-    <div class="kpi"><div class="lbl">Productos completados</div><div class="val">${completedProducts}</div><div class="cnt">100% de las tareas finalizadas</div></div>
-    <div class="kpi"><div class="lbl">Con desvío &gt; 30 días</div><div class="val" style="color:${atRisk>0?'var(--red)':'var(--accent)'}">${atRisk}</div><div class="cnt">Requieren atención</div></div>
-  `;
+    <div class="kpi"><div class="lbl">Productos completados</div><div class="val">${done}</div><div class="cnt">100% de las tareas finalizadas</div></div>
+    <div class="kpi"><div class="lbl">Con desvío &gt; 30 días</div><div class="val" style="color:${atRisk>0?'var(--red)':'var(--accent)'}">${atRisk}</div><div class="cnt">Requieren atención</div></div>`;
 }
 
 function renderTable() {
   const tbody = document.getElementById('products-tbody');
-  const list = filteredProducts();
+  const list  = filteredProducts();
   if (!list.length) {
     tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--dim);padding:24px 0;">Sin productos en esta vista.</td></tr>`;
     return;
   }
   tbody.innerHTML = list.map(p => `
-    <tr class="product-row ${p.sku===activeSku?'active':''}" data-sku="${p.sku}">
+    <tr class="product-row ${p.sku===activeSku?'active':''}" data-sku="${escapeHtml(p.sku)}">
       <td><strong>${escapeHtml(p.title)}</strong></td>
-      <td>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div class="bar-track"><div class="bar-fill" style="width:${p.pct_complete}%"></div></div>
-          <span style="font-size:12px;font-weight:700;">${p.pct_complete}%</span>
-          ${p.in_progress_tasks > 0 ? `<span class="badge-p status-curso">${p.in_progress_tasks} en curso</span>` : ''}
-        </div>
-      </td>
+      <td><div style="display:flex;align-items:center;gap:8px;">
+        <div class="bar-track"><div class="bar-fill" style="width:${p.pct_complete}%"></div></div>
+        <span style="font-size:12px;font-weight:700;">${p.pct_complete}%</span>
+        ${p.in_progress_tasks > 0 ? `<span class="badge-p status-en-curso">${p.in_progress_tasks} en curso</span>` : ''}
+      </div></td>
       <td>${p.completed_tasks}/${p.total_tasks}</td>
       <td>${fmtDisplay(p.plan_start)}</td>
       <td>${fmtDisplay(p.current_end_estimate)}</td>
       <td class="${p.max_deviation > 30 ? 'deviation-warn' : 'deviation-ok'}">${p.max_deviation || 0}</td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
   tbody.querySelectorAll('.product-row').forEach(row => {
-    row.addEventListener('click', () => { activeSku = row.dataset.sku; renderTable(); renderDetail(); });
+    row.addEventListener('click', () => {
+      activeSku = row.dataset.sku;
+      renderTable();
+      renderDetail();
+    });
   });
 }
 
@@ -485,21 +476,57 @@ function renderDetail() {
   const p = PRODUCTS.find(x => x.sku === activeSku);
   if (!p) {
     document.getElementById('detail-title').textContent = '—';
-    document.getElementById('detail-sub').textContent = 'Sin productos en esta vista.';
-    document.getElementById('gantt-container').innerHTML = '';
+    document.getElementById('detail-sub').textContent   = 'Sin productos en esta vista.';
+    document.getElementById('detail-task-table').innerHTML = '';
+    document.getElementById('gantt-container').innerHTML   = '';
     return;
   }
   document.getElementById('detail-title').textContent = p.title;
   document.getElementById('detail-sub').textContent =
     `${p.completed_tasks}/${p.total_tasks} tareas completadas (${p.pct_complete}%) · Inicio: ${fmtDisplay(p.plan_start)} · Fin estimado: ${fmtDisplay(p.current_end_estimate)}`;
 
+  // ── Tabla de detalle ───────────────────────────────────────────────────────
+  const taskRows = p.tasks.map(t => {
+    const devText  = (t.deviation === null || t.deviation === undefined) ? '—' : t.deviation;
+    const durText  = (t.real_duration === null || t.real_duration === undefined) ? '—' : t.real_duration;
+    const devClass = (t.deviation || 0) > 14 ? 'deviation-warn' : ((t.deviation || 0) > 0 ? 'deviation-ok' : '');
+    const slug     = (t.status || '').toLowerCase().replace(/\s+/g, '-');
+    const badge    = `<span class="badge-p status-${slug}">${escapeHtml(t.status || '—')}</span>`;
+    return `<tr>
+      <td style="text-align:center">${t.num}</td>
+      <td>${escapeHtml(t.name)}</td>
+      <td>${badge}</td>
+      <td>${fmtDisplay(t.plan_start)}</td>
+      <td>${fmtDisplay(t.plan_end)}</td>
+      <td>${fmtDisplay(t.real_start)}</td>
+      <td>${fmtDisplay(t.real_end)}</td>
+      <td style="text-align:center">${durText}</td>
+      <td style="text-align:center" class="${devClass}">${devText}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('detail-task-table').innerHTML = `
+    <table class="dtable">
+      <thead><tr>
+        <th>#</th><th>Tarea</th><th>Estatus</th>
+        <th>Inicio plan.</th><th>Fin plan.</th>
+        <th>Inicio real</th><th>Fin real</th>
+        <th>Dur. real (días)</th><th>Desvío (días)</th>
+      </tr></thead>
+      <tbody>${taskRows}</tbody>
+    </table>`;
+
+  // ── Gantt ──────────────────────────────────────────────────────────────────
   const allDates = [];
   p.tasks.forEach(t => {
-    [t.plan_start, t.plan_end, t.real_start, t.real_end].forEach(d => { if (validDateOrNull(d)) allDates.push(d); });
+    [t.plan_start, t.plan_end, t.real_start, t.real_end].forEach(d => {
+      if (validDateOrNull(d)) allDates.push(d);
+    });
   });
   if (TODAY) allDates.push(TODAY);
-  const minDate = new Date(Math.min(...allDates.map(d => new Date(d))));
-  const maxDate = new Date(Math.max(...allDates.map(d => new Date(d))));
+  if (!allDates.length) { document.getElementById('gantt-container').innerHTML = ''; return; }
+
+  const minDate   = new Date(Math.min(...allDates.map(d => new Date(d))));
+  const maxDate   = new Date(Math.max(...allDates.map(d => new Date(d))));
   const totalSpan = Math.max(1, (maxDate - minDate) / 86400000);
 
   function pct(dateStr) {
@@ -507,59 +534,44 @@ function renderDetail() {
     return ((new Date(dateStr) - minDate) / 86400000) / totalSpan * 100;
   }
 
-  const todayPct = pct(TODAY);
-
-  const MONTH_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const todayPct  = pct(TODAY);
+  const MONTH_ES  = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   const monthTicks = [];
   const cursor = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
   while (cursor <= maxDate) {
-    const tickPct = ((cursor - minDate) / 86400000) / totalSpan * 100;
-    if (tickPct >= 0 && tickPct <= 100) {
-      monthTicks.push(`<span class="gantt-month-tick" style="left:${tickPct}%">${MONTH_ES[cursor.getMonth()]} ${cursor.getFullYear()}</span>`);
-    }
+    const tp = ((cursor - minDate) / 86400000) / totalSpan * 100;
+    if (tp >= 0 && tp <= 100)
+      monthTicks.push(`<span class="gantt-month-tick" style="left:${tp}%">${MONTH_ES[cursor.getMonth()]} ${cursor.getFullYear()}</span>`);
     cursor.setMonth(cursor.getMonth() + 1);
   }
-  const axisRow = `
-    <div class="gantt-row gantt-axis">
-      <div></div>
-      <div></div>
-      <div class="gantt-axis-track">${monthTicks.join('')}</div>
-      <div></div>
-    </div>
-  `;
 
-  const container = document.getElementById('gantt-container');
-  container.innerHTML = axisRow + p.tasks.map(t => {
+  const axisRow = `<div class="gantt-row gantt-axis"><div></div><div></div>
+    <div class="gantt-axis-track">${monthTicks.join('')}</div><div></div></div>`;
+
+  document.getElementById('gantt-container').innerHTML = axisRow + p.tasks.map(t => {
     const ps = pct(t.plan_start), pe = pct(t.plan_end);
     const rs = pct(t.real_start), re = pct(t.real_end);
-    let planBar = '';
-    if (ps !== null && pe !== null) {
-      planBar = `<div class="gantt-bar" style="left:${ps}%;width:${Math.max(pe-ps,0.6)}%;background:${statusColor(t.status)}"></div>`;
-    }
-    let realBar = '';
-    if (rs !== null && re !== null) {
-      realBar = `<div class="gantt-bar-real" style="left:${rs}%;width:${Math.max(re-rs,0.6)}%;"></div>`;
-    }
+    const planBar = (ps !== null && pe !== null)
+      ? `<div class="gantt-bar" style="left:${ps}%;width:${Math.max(pe-ps,0.6)}%;background:${statusColor(t.status)}"></div>` : '';
+    const realBar = (rs !== null && re !== null)
+      ? `<div class="gantt-bar-real" style="left:${rs}%;width:${Math.max(re-rs,0.6)}%;"></div>` : '';
     const todayMarker = todayPct !== null ? `<div class="gantt-today" style="left:${todayPct}%"></div>` : '';
     const devClass = (t.deviation || 0) > 14 ? 'deviation-warn' : 'deviation-ok';
-    const devText = (t.deviation === null || t.deviation === undefined) ? '—' : `${t.deviation}d`;
+    const devText  = (t.deviation === null || t.deviation === undefined) ? '—' : `${t.deviation}d`;
     const commentRow = t.comments ? `<div class="gantt-comment">💬 ${escapeHtml(t.comments)}</div>` : '';
-    return `
-      <div class="gantt-row">
-        <div class="gantt-num">${t.num}</div>
-        <div class="gantt-task" title="${escapeHtml(t.name)}">${escapeHtml(t.name)}</div>
-        <div class="gantt-track-wrap">${planBar}${realBar}${todayMarker}</div>
-        <div class="gantt-dev ${devClass}">${devText}</div>
-      </div>
-      ${commentRow}
-    `;
+    return `<div class="gantt-row">
+      <div class="gantt-num">${t.num}</div>
+      <div class="gantt-task" title="${escapeHtml(t.name)}">${escapeHtml(t.name)}</div>
+      <div class="gantt-track-wrap">${planBar}${realBar}${todayMarker}</div>
+      <div class="gantt-dev ${devClass}">${devText}</div>
+    </div>${commentRow}`;
   }).join('');
 }
 
 function renderAll() {
   const visible = filteredProducts();
-  if (activeSku === null && visible.length) activeSku = visible[0].sku;
-  if (activeSku && !visible.some(p => p.sku === activeSku)) activeSku = visible.length ? visible[0].sku : null;
+  if (!activeSku || !visible.some(p => p.sku === activeSku))
+    activeSku = visible.length ? visible[0].sku : null;
   renderSummary();
   renderTable();
   renderDetail();
@@ -574,7 +586,14 @@ loadSection(currentSection);
 
 
 def main():
-    html = build_html()
+    print("Leyendo archivos Excel...")
+    sections_data = build_sections_data()
+
+    total = sum(len(s["products"]) for s in sections_data.values())
+    print(f"\nTotal productos: {total}")
+
+    print("Generando dashboard.html...")
+    html = build_html(sections_data)
     with open(OUTPUT, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"OK -> {OUTPUT}")
