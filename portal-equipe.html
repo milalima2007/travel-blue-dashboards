@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <script src="/js/config.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Travel Blue | Portal da Equipe</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── Loading overlay ── */
+    #loading-overlay {
+      position: fixed; inset: 0; background: var(--surface-0, #f5f5f0);
+      display: flex; align-items: center; justify-content: center; z-index: 999;
+    }
+    .loading-spinner {
+      width: 32px; height: 32px; border: 3px solid #e0e0e0;
+      border-top-color: #1B2A6B; border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Login modal ── */
+    #login-overlay {
+      position: fixed; inset: 0; background: rgba(27,42,107,0.08);
+      display: none; align-items: center; justify-content: center; z-index: 998;
+    }
+    .login-card {
+      background: #fff; border-radius: 16px; padding: 36px 32px;
+      width: 100%; max-width: 380px; box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+    }
+    .login-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .login-logo svg { width: 36px; height: 36px; }
+    .login-logo-text { font-size: 17px; font-weight: 600; color: #1B2A6B; }
+    .login-logo-tag { font-size: 11px; color: #888; }
+    .login-title { font-size: 20px; font-weight: 600; color: #1B2A6B; margin-bottom: 4px; }
+    .login-sub { font-size: 13px; color: #888; margin-bottom: 24px; }
+    .login-field { margin-bottom: 14px; }
+    .login-field label { display: block; font-size: 12px; font-weight: 500; color: #555; margin-bottom: 5px; }
+    .login-field input {
+      width: 100%; padding: 10px 12px; border: 1.5px solid #e0e0e0;
+      border-radius: 8px; font-size: 14px; color: #222; box-sizing: border-box;
+      transition: border-color 0.15s;
+    }
+    .login-field input:focus { outline: none; border-color: #1B2A6B; }
+    .login-btn {
+      width: 100%; padding: 11px; background: #1B2A6B; color: #fff;
+      border: none; border-radius: 8px; font-size: 14px; font-weight: 600;
+      cursor: pointer; margin-top: 4px; transition: background 0.15s;
+    }
+    .login-btn:hover { background: #253d99; }
+    .login-error {
+      font-size: 12px; color: #c0392b; margin-top: 10px;
+      display: none; padding: 8px 10px; background: #fdf0f0; border-radius: 6px;
+    }
+
+    /* ── Tabs ── */
+    .portal-tabs {
+      display: flex; gap: 4px; border-bottom: 1.5px solid #e8e8e8;
+      margin-bottom: 28px; padding: 0 4px;
+    }
+    .tab-btn {
+      padding: 10px 18px; font-size: 14px; font-weight: 500; color: #888;
+      border: none; background: none; cursor: pointer; border-bottom: 2.5px solid transparent;
+      margin-bottom: -1.5px; transition: color 0.15s, border-color 0.15s;
+    }
+    .tab-btn.active { color: #1B2A6B; border-bottom-color: #1B2A6B; }
+    .tab-btn:hover:not(.active) { color: #555; }
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
+
+    /* ── Filter chips ── */
+    .filter-row {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+      align-items: center;
+    }
+    .filter-label { font-size: 12px; color: #888; margin-right: 4px; }
+    .chip {
+      padding: 5px 13px; font-size: 12px; font-weight: 500; border-radius: 20px;
+      border: 1.5px solid #e0e0e0; background: #fff; color: #555;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .chip.active { background: #1B2A6B; color: #fff; border-color: #1B2A6B; }
+    .chip:hover:not(.active) { border-color: #1B2A6B; color: #1B2A6B; }
+    .filter-sep { width: 1px; height: 20px; background: #e0e0e0; margin: 0 4px; }
+
+    /* ── Cards grid ── */
+    .portal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .report-card {
+      background: #fff; border: 1px solid #eee; border-radius: 12px;
+      overflow: hidden; transition: box-shadow 0.15s;
+    }
+    .report-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .report-card-accent { height: 3px; background: linear-gradient(90deg, #1B2A6B, #FFC72C); }
+    .report-card-body { padding: 16px; }
+    .report-card-icon { font-size: 22px; margin-bottom: 8px; }
+    .report-card-title { font-size: 14px; font-weight: 600; color: #1B2A6B; margin-bottom: 4px; }
+    .report-card-desc { font-size: 12px; color: #888; margin-bottom: 10px; line-height: 1.5; }
+    .report-card-links { display: flex; flex-direction: column; gap: 3px; margin-bottom: 10px; }
+    .report-card-links a { font-size: 11px; color: #1B2A6B; font-weight: 600; text-decoration: none; }
+    .report-card-links a:hover { text-decoration: underline; }
+    .report-card-meta { font-size: 11px; color: #aaa; }
+    .report-card-footer {
+      padding: 10px 16px; border-top: 1px solid #f0f0f0;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .type-badge {
+      font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px;
+    }
+    .type-html { background: #EEF2FF; color: #3730A3; }
+    .type-bi   { background: #FFF7ED; color: #C2410C; }
+    .region-badge {
+      font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 4px;
+      background: #F0F9F4; color: #166534;
+    }
+    .btn-open {
+      padding: 6px 14px; background: #1B2A6B; color: #fff;
+      border-radius: 6px; font-size: 12px; font-weight: 600;
+      text-decoration: none; transition: background 0.15s;
+    }
+    .btn-open:hover { background: #253d99; }
+    .no-reports {
+      grid-column: 1/-1; text-align: center; padding: 48px;
+      color: #aaa; font-size: 14px;
+    }
+
+    /* ── Team table ── */
+    .team-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .team-table th {
+      text-align: left; padding: 10px 14px; border-bottom: 1.5px solid #eee;
+      font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .team-table td { padding: 12px 14px; border-bottom: 1px solid #f5f5f5; color: #333; }
+    .team-table tr:last-child td { border-bottom: none; }
+    .avatar-circle {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; border-radius: 50%; font-size: 11px;
+      font-weight: 700; margin-right: 8px; vertical-align: middle;
+    }
+    .av-navy { background: #EEF2FF; color: #1B2A6B; }
+    .av-green { background: #F0FDF4; color: #166534; }
+    .av-orange { background: #FFF7ED; color: #C2410C; }
+    .av-purple { background: #F5F3FF; color: #6D28D9; }
+    .access-pill {
+      display: inline-block; font-size: 10px; font-weight: 500;
+      padding: 3px 8px; border-radius: 12px; margin: 2px 2px 2px 0;
+    }
+    .ap-all    { background: #EEF2FF; color: #3730A3; }
+    .ap-brasil { background: #F0FDF4; color: #166534; }
+    .ap-mexico { background: #FFF7ED; color: #C2410C; }
+    .section-note {
+      font-size: 12px; color: #aaa; margin-bottom: 18px; padding: 10px 14px;
+      background: #FAFAFA; border-radius: 8px; border: 1px solid #eee;
+    }
+
+    /* ── Tasks table ── */
+    .tasks-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .tasks-table th {
+      text-align: left; padding: 10px 14px; border-bottom: 1.5px solid #eee;
+      font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .tasks-table td { padding: 11px 14px; border-bottom: 1px solid #f5f5f5; color: #333; }
+    .tasks-table tr:last-child td { border-bottom: none; }
+    .status-pill {
+      display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 12px;
+    }
+    .sp-ok       { background: #F0FDF4; color: #166534; }
+    .sp-risk     { background: #FFF7ED; color: #C2410C; }
+    .sp-pending  { background: #F5F5F5; color: #888; }
+    .sp-done     { background: #EEF2FF; color: #3730A3; }
+    .restricted-msg {
+      text-align: center; padding: 64px 32px; color: #aaa; font-size: 14px;
+    }
+    .restricted-msg strong { display: block; font-size: 18px; margin-bottom: 8px; color: #ccc; }
+    .table-wrap { background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; }
+  </style>
+</head>
+<body>
+
+  <!-- Loading overlay -->
+  <div id="loading-overlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- Login overlay -->
+  <div id="login-overlay">
+    <div class="login-card">
+      <div class="login-logo">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <rect width="48" height="48" rx="8" fill="#1B2A6B"/>
+          <path d="M10 34 Q16 10 24 24 Q32 38 38 14" stroke="#FFC72C" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <circle cx="38" cy="14" r="2.5" fill="#FFC72C"/>
+        </svg>
+        <div>
+          <div class="login-logo-text">Travel Blue</div>
+          <div class="login-logo-tag">London · Since 1987</div>
+        </div>
+      </div>
+      <div class="login-title">Portal da Equipe</div>
+      <div class="login-sub">Acesso restrito. Entre com o seu e-mail corporativo.</div>
+      <div class="login-field">
+        <label>E-mail</label>
+        <input type="email" id="login-email" placeholder="nome@travel-blue.com" autocomplete="email" />
+      </div>
+      <div class="login-field">
+        <label>Senha</label>
+        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <button class="login-btn" id="login-btn">Entrar</button>
+      <div class="login-error" id="login-error"></div>
+    </div>
+  </div>
+
+  <!-- TOPBAR -->
+  <header class="topbar" id="main-topbar" style="display:none;">
+    <div class="topbar-logo">
+      <svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <rect width="48" height="48" rx="8" fill="#1B2A6B"/>
+        <path d="M10 34 Q16 10 24 24 Q32 38 38 14" stroke="#FFC72C" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <circle cx="38" cy="14" r="2.5" fill="#FFC72C"/>
+      </svg>
+      <div class="logo-text-wrap">
+        <span class="logo-brand">Travel Blue</span>
+        <span class="logo-tagline">Portal da Equipe</span>
+      </div>
+    </div>
+    <nav class="topbar-nav">
+      <span id="topbar-user" style="font-size:13px; color:#888;"></span>
+      <a href="#" id="btn-logout" style="font-size:12px; color:#888;">Sair</a>
+    </nav>
+  </header>
+
+  <!-- PAGE BANNER -->
+  <section class="page-banner" id="main-banner" style="display:none;">
+    <h1>Portal <span>da Equipe</span></h1>
+    <p>Relatórios, equipe e atividades — acesso filtrado por perfil.</p>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content" id="main-content" style="display:none;">
+
+    <!-- TABS -->
+    <div class="portal-tabs">
+      <button class="tab-btn active" data-tab="relatorios">Relatórios</button>
+      <button class="tab-btn" data-tab="equipe" id="tab-equipe" style="display:none;">Equipe</button>
+      <button class="tab-btn" data-tab="tarefas" id="tab-tarefas" style="display:none;">Minhas Tarefas</button>
+    </div>
+
+    <!-- SEÇÃO 1: RELATÓRIOS -->
+    <div class="tab-section active" id="tab-relatorios">
+      <div class="filter-row" id="filter-row">
+        <span class="filter-label">Região:</span>
+        <button class="chip active" data-filter="region" data-value="all">Todos</button>
+        <button class="chip" data-filter="region" data-value="global">Global</button>
+        <button class="chip" data-filter="region" data-value="latam">LATAM</button>
+        <button class="chip" data-filter="region" data-value="brasil">Brasil</button>
+        <button class="chip" data-filter="region" data-value="mexico">México</button>
+        <div class="filter-sep"></div>
+        <span class="filter-label">Tipo:</span>
+        <button class="chip active" data-filter="type" data-value="all">Todos</button>
+        <button class="chip" data-filter="type" data-value="HTML">HTML</button>
+        <button class="chip" data-filter="type" data-value="BI">Power BI</button>
+        <div class="filter-sep"></div>
+        <span class="filter-label">Frequência:</span>
+        <button class="chip active" data-filter="freq" data-value="all">Todas</button>
+        <button class="chip" data-filter="freq" data-value="Mensal">Mensal</button>
+        <button class="chip" data-filter="freq" data-value="Diário">Diário</button>
+      </div>
+      <div class="portal-grid" id="reports-grid"></div>
+    </div>
+
+    <!-- SEÇÃO 2: EQUIPE -->
+    <div class="tab-section" id="tab-equipe-content">
+      <div class="section-note">Visível apenas para Camila e Guillermo.</div>
+      <div class="table-wrap">
+        <table class="team-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Cargo</th>
+              <th>Região</th>
+              <th>Acesso a relatórios</th>
+            </tr>
+          </thead>
+          <tbody id="team-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 3: MINHAS TAREFAS -->
+    <div class="tab-section" id="tab-tarefas-content">
+      <div class="section-note">Visível apenas para Camila e Guillermo.</div>
+      <div class="table-wrap">
+        <table class="tasks-table">
+          <thead>
+            <tr>
+              <th style="width:28%;">Atividade</th>
+              <th style="width:16%;">Projeto</th>
+              <th style="width:14%;">Status</th>
+              <th style="width:12%;">Prazo</th>
+              <th>Observações</th>
+            </tr>
+          </thead>
+          <tbody id="tasks-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer" id="main-footer" style="display:none;">
+    © 2026 <span>Travel Blue Ltd.</span> — Uso interno restrito.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+
+    /* ══════════════════════════════════════════════
+       PERFIS DE USUÁRIO — mapeamento por e-mail
+       ══════════════════════════════════════════════ */
+    const USER_PROFILES = {
+      'milalima2007@gmail.com': {
+        name: 'Camila Lima', initials: 'CL', cargo: 'BI Analyst', region: 'LATAM',
+        access: 'all', canSeeTeam: true, canSeeTasks: true, avatarClass: 'av-navy'
+      },
+      'camila@travel-blue.com': {
+        name: 'Camila Lima', initials: 'CL', cargo: 'BI Analyst', region: 'LATAM',
+        access: 'all', canSeeTeam: true, canSeeTasks: true, avatarClass: 'av-navy'
+      },
+      'guillermo@travel-blue.com': {
+        name: 'Guillermo Benzaquen', initials: 'GB', cargo: 'Diretor LATAM', region: 'Global',
+        access: 'all', canSeeTeam: true, canSeeTasks: true, avatarClass: 'av-navy'
+      },
+      'pablo@travel-blue.com': {
+        name: 'Pablo', initials: 'PA', cargo: 'A confirmar', region: 'LATAM',
+        access: 'all', canSeeTeam: false, canSeeTasks: false, avatarClass: 'av-green'
+      },
+      'edgardo@travel-blue.com': {
+        name: 'Edgardo', initials: 'ED', cargo: 'A confirmar', region: 'LATAM',
+        access: 'all', canSeeTeam: false, canSeeTasks: false, avatarClass: 'av-green'
+      },
+      'noe@travel-blue.com': {
+        name: 'Noe', initials: 'NO', cargo: 'Country Manager', region: 'México',
+        access: ['mexico'], canSeeTeam: false, canSeeTasks: false, avatarClass: 'av-orange'
+      },
+      'javo@travel-blue.com': {
+        name: 'Javo', initials: 'JV', cargo: 'Gerente de Vendas', region: 'México',
+        access: ['mexico'], canSeeTeam: false, canSeeTasks: false, avatarClass: 'av-orange'
+      },
+      'itamar@travel-blue.com': {
+        name: 'Itamar', initials: 'IT', cargo: 'Country Manager', region: 'Brasil',
+        access: ['brasil'], canSeeTeam: false, canSeeTasks: false, avatarClass: 'av-purple'
+      },
+    };
+
+    /* ══════════════════════════════════════════════
+       RELATÓRIOS — catálogo completo
+       tags de região: 'global', 'latam', 'brasil', 'mexico'
+       access: 'all' = todos; ['brasil'] = brasil+all; ['mexico'] = mexico+all
+       ══════════════════════════════════════════════ */
+    const REPORTS = [
+      { id:'cloe',       icon:'📊', name:'Cloe Sellout',           desc:'Vendas sell-in/sell-out Cloe — LATAM.',
+        regions:['latam','mexico'], type:'HTML', freq:'Mensal', label:'LATAM',
+        href:'Cloe Sellout/sellin-dashboard.html',
+        sublinks:[{name:'Ventas Ene-May', href:'Cloe Sellout/CLOE Ventas Ene-May.html'}] },
+
+      { id:'avolta',     icon:'✈️', name:'Avolta',                  desc:'Duty Paid Brasil e relatórios de venda Avolta.',
+        regions:['brasil','latam'], type:'HTML', freq:'Mensal', label:'Brasil',
+        href:'avolta/avolta-dashboard.html',
+        sublinks:[{name:'Relatório Abril 2026', href:'avolta/Relatorio Avolta Abril 2026.html'}] },
+
+      { id:'backpacks',  icon:'🎒', name:'Backpacks & Luggage',     desc:'Vendas de mochilas e malas — visão geral.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'backpack-lugagge/BACKPACKS&LUGGAGE.html',
+        sublinks:[{name:'Sales BL', href:'backpack-lugagge/SALES-BL.html'},{name:'Sales BP', href:'backpack-lugagge/SALES-BP.html'}] },
+
+      { id:'latam-bp',   icon:'🌎', name:'LATAM Sales BP 2026',     desc:'Business Plan Q1 2026 — LATAM, Brasil e México.',
+        regions:['latam','mexico'], type:'HTML', freq:'Mensal', label:'LATAM',
+        href:'LATAM SALES_BP 26/LATAM Q1 2026 Dashboard.html',
+        sublinks:[{name:'Brasil Q1', href:'LATAM SALES_BP 26/Brazil Q1 2026 Dashboard.html'},{name:'México Q1', href:'LATAM SALES_BP 26/Mexico Q1 2026 Dashboard.html'}] },
+
+      { id:'latam-profit', icon:'💰', name:'LATAM Profit',           desc:'Margem e profit LATAM com detalhamento México.',
+        regions:['latam','mexico'], type:'HTML', freq:'Mensal', label:'LATAM',
+        href:'latam-profit/latam-profit.html',
+        sublinks:[{name:'México', href:'latam-profit/mexico.html'}] },
+
+      { id:'total-db',   icon:'🗄️', name:'Total Sales TB Group',    desc:'Base consolidada de vendas — grupo Travel Blue.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'total-database/TOTAL SALES TB GROUP.html', sublinks:[] },
+
+      { id:'contas',     icon:'🧾', name:'Contas a Receber',         desc:'Painel de contas a receber por responsável.',
+        regions:['brasil','latam'], type:'HTML', freq:'Diário', label:'Brasil',
+        href:'contas-receber.html',
+        sublinks:[{name:'Gilson', href:'contas-receber-gilson.html'},{name:'Guilherme', href:'contas-receber-guilherme.html'}] },
+
+      { id:'vendas-br',  icon:'🇧🇷', name:'Vendas Brasil',            desc:'Painel de vendas do mercado Brasil.',
+        regions:['brasil'], type:'HTML', freq:'Diário', label:'Brasil',
+        href:'vendas-brasil.html', sublinks:[] },
+
+      { id:'ml',         icon:'🛒', name:'Mercado Libre',            desc:'Painel de vendas no marketplace Mercado Libre.',
+        regions:['latam','mexico'], type:'HTML', freq:'Mensal', label:'LATAM',
+        href:'../MERCADO LIBRE/dashboard-mercadolibre.html', sublinks:[] },
+
+      { id:'heinemann',  icon:'🛫', name:'Heinemann',                desc:'Painel de vendas Heinemann (duty free).',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'../HEINEMANN/HEINEMANN_DASHBOARD.html', sublinks:[] },
+
+      { id:'avolta-so',  icon:'🌍', name:'Avolta Sellout',           desc:'Análise de sell-out Avolta por região.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'../AVOLTA SELLOUT/avolta-sales-out-analysis.html',
+        sublinks:[{name:'EMEA', href:'../AVOLTA SELLOUT/avolta-emea-analysis.html'},{name:'Américas & CEI', href:'../AVOLTA SELLOUT/avolta-ame-cei-analysis.html'},{name:'México', href:'../AVOLTA SELLOUT/avolta-mexico-analysis.html'}] },
+
+      { id:'lexingham',  icon:'🧳', name:'Lexingham',                desc:'Painel de vendas Lexingham.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'../LEXINGHAM/lexingham-dashboard.html', sublinks:[] },
+
+      { id:'total-all',  icon:'🌐', name:'Total Sales All Group',   desc:'Resumo de vendas consolidado de todo o grupo.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'../TOTAL SALES TB GROUP/tb_group_sales_summary_2026-05.html',
+        sublinks:[{name:'ASPAC', href:'../TOTAL SALES TB GROUP/aspac_sales_summary_2026-05.html'}] },
+
+      { id:'alan',       icon:'📋', name:'Alan',                     desc:'Resumo de vendas — conta Alan.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'../ALAN/alan_sales_summary_2026-05.html', sublinks:[] },
+
+      { id:'jackie-h',   icon:'📋', name:'Jackie',                   desc:'Resumo de vendas — conta Jackie.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'../JACKIE/jackie_sales_summary_2026-05.html', sublinks:[] },
+
+      { id:'ioana',      icon:'📋', name:'Ioana',                    desc:'Resumo de vendas — conta Ioana.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'../IOANA/ioana_sales_summary_2026-05.html', sublinks:[] },
+
+      { id:'germany',    icon:'🇩🇪', name:'Germany',                  desc:'Resumo de vendas — Alemanha.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'../GERMANY/germany_sales_summary_2026-05.html', sublinks:[] },
+
+      { id:'china',      icon:'🇨🇳', name:'China',                    desc:'Resumo de vendas — China.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'../CHINA/china_sales_summary_2026-05.html', sublinks:[] },
+
+      { id:'india',      icon:'🇮🇳', name:'India',                    desc:'Resumo de vendas — Índia.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'../INDIA/india_sales_summary_2026-04.html', sublinks:[] },
+
+      { id:'poland',     icon:'🇵🇱', name:'Poland',                   desc:'Resumo de vendas — Polônia.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'../POLAND/poland_sales_summary_2026-04.html', sublinks:[] },
+
+      { id:'slooth',     icon:'🦥', name:'Slooth',                   desc:'Análise de vendas Slooth.',
+        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
+        href:'../SLOOTH/slooth-analysis.html', sublinks:[] },
+
+      /* ── Power BI ── */
+      { id:'avolta-bi',  icon:'📈', name:'Avolta Sellout (BI)',      desc:'Painel Power BI de sell-out Avolta por região.',
+        regions:['global'], type:'BI', freq:'Mensal', label:'Global',
+        href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/6d761577-4066-41a2-b977-375d0541509c/ReportSectionb12c7674f1e35acd6b32?experience=power-bi',
+        sublinks:[
+          {name:'América & CEI', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/545c1238-2954-4a37-93e2-cbab86060783/3072d3f60bd68bce2fcc?experience=power-bi'},
+          {name:'EMEA', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/af81ff9c-7e53-4245-ae8a-aa9bc685435c/ReportSectionfeee0f4652d07d0815ca?experience=power-bi'},
+          {name:'México', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/4c4de86d-3b24-48a6-ac54-7ff1720f0c0b/9a3b638e5f3007179f00?experience=power-bi'}
+        ] },
+
+      { id:'total-bi',   icon:'🌐', name:'Total Sales TB Group (BI)', desc:'Painel Power BI — vendas totais do grupo (USD).',
+        regions:['global'], type:'BI', freq:'Mensal', label:'Global',
+        href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/99bff0a6-a529-4285-b3da-713e97dac9b5/a303c5c47baee718d256?experience=power-bi',
+        sublinks:[
+          {name:'Total Sales LATAM', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/157a9819-e7b6-4d2d-9cd2-dd8f56fe3f40/9a3b638e5f3007179f00?experience=power-bi'},
+          {name:'ASPAC', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/d24e65f4-c045-4d60-90b1-c0e3d2dffd64/6fd55ede002d9bd27177?experience=power-bi'}
+        ] },
+
+      { id:'paises-bi',  icon:'🗺️', name:'Vendas por País (BI)',     desc:'Power BI por país — Brasil, UK, Germany, China, India, Poland.',
+        regions:['global'], type:'BI', freq:'Mensal', label:'Global',
+        href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/af92c05e-759e-4568-b0d6-7fc2de5e6a5d/47b9e1e68b43075d6b30?experience=power-bi',
+        sublinks:[
+          {name:'UK Sales', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/f941e9ef-3037-487d-b429-bb3c9fd83dfc/ReportSection7e2000440d9555d69984?experience=power-bi'},
+          {name:'Germany', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/c2157499-5399-408f-9202-56e6106d8826/6fd55ede002d9bd27177?experience=power-bi'},
+          {name:'China', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/1d342281-1b5b-4930-83a1-3b6fff2c77dd/6fd55ede002d9bd27177?experience=power-bi'},
+          {name:'India', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/bde9c7d1-1cde-4023-a80e-73b94c9f119b/6fd55ede002d9bd27177?experience=power-bi'},
+          {name:'Poland', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/785c2c29-c1d4-4fdb-9c31-414c1281c81c/6fd55ede002d9bd27177?experience=power-bi'}
+        ] },
+
+      { id:'jackie-bi',  icon:'📋', name:'Jackie (BI)',              desc:'Painel Power BI — conta Jackie.',
+        regions:['global'], type:'BI', freq:'Mensal', label:'Global',
+        href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/3d24fda9-1fcd-40ba-bca2-96e0377e914b?experience=power-bi', sublinks:[] },
+
+      { id:'heine-bi',   icon:'🛫', name:'Heinemann (BI)',           desc:'Painel Power BI — Heinemann duty free.',
+        regions:['global'], type:'BI', freq:'Mensal', label:'Global',
+        href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/586d4808-37db-4f90-b8d8-3f8335b35824/ReportSection979d71ff9cc7928bccec?experience=power-bi', sublinks:[] },
+    ];
+
+    /* ══════════════════════════════════════════════
+       EQUIPE
+       ══════════════════════════════════════════════ */
+    const TEAM = [
+      { name:'Camila Lima',         email:'milalima2007@gmail.com',  cargo:'BI Analyst',       region:'LATAM',   initials:'CL', avatarClass:'av-navy',   accessLabel:'all' },
+      { name:'Guillermo Benzaquen', email:'guillermo@travel-blue.com', cargo:'Diretor LATAM',  region:'Global',  initials:'GB', avatarClass:'av-navy',   accessLabel:'all' },
+      { name:'Pablo',               email:'pablo@travel-blue.com',   cargo:'A confirmar',       region:'LATAM',   initials:'PA', avatarClass:'av-green',  accessLabel:'all' },
+      { name:'Edgardo',             email:'edgardo@travel-blue.com', cargo:'A confirmar',       region:'LATAM',   initials:'ED', avatarClass:'av-green',  accessLabel:'all' },
+      { name:'Noe',                 email:'noe@travel-blue.com',     cargo:'Country Manager',   region:'México',  initials:'NO', avatarClass:'av-orange', accessLabel:'mexico' },
+      { name:'Javo',                email:'javo@travel-blue.com',    cargo:'Gerente de Vendas', region:'México',  initials:'JV', avatarClass:'av-orange', accessLabel:'mexico' },
+      { name:'Itamar',              email:'itamar@travel-blue.com',  cargo:'Country Manager',   region:'Brasil',  initials:'IT', avatarClass:'av-purple', accessLabel:'brasil' },
+    ];
+
+    /* ══════════════════════════════════════════════
+       TAREFAS
+       ══════════════════════════════════════════════ */
+    const TASKS = [
+      { activity:'Atualizar base de vendas total TB Group', project:'Total Database',     status:'em-andamento', statusLabel:'Em andamento', prazo:'2026-06-16', obs:'Alemanha já recebida. Faltam Índia, Polônia e ASPAC (Indonésia, Filipinas, Singapura, Taiwan).' },
+      { activity:'Business Review',                         project:'LATAM Sales BP 26',  status:'done',         statusLabel:'Finalizado',   prazo:'2026-06-18', obs:'Atualizado e concluído.' },
+      { activity:'Finalizar análises Avolta Sellout',       project:'Avolta Sellout',     status:'done',         statusLabel:'Finalizado',   prazo:'2026-06-15', obs:'HTML (EMEA, Américas & CEI, México) e Power BI concluídos.' },
+      { activity:'Atualizar Contas a Receber TB',           project:'Contas a Receber',   status:'em-andamento', statusLabel:'Em andamento', prazo:'—',           obs:'Atualização em curso.' },
+      { activity:'Completar informações da Central de Controle', project:'Central de Controle', status:'risco', statusLabel:'Em risco', prazo:'—', obs:'Faltam dados de acesso, frequência e responsáveis em vários cards.' },
+      { activity:'Construir painel de comunicação interna', project:'Comunicação Interna', status:'pendente',   statusLabel:'A definir',    prazo:'—',           obs:'Em fase de pesquisa.' },
+      { activity:'Atualizar dashboard Backpacks & Luggage', project:'Backpacks & Luggage', status:'risco',      statusLabel:'Em risco',     prazo:'—',           obs:'Faltam estoque local LATAM, custo e compras.' },
+      { activity:'Atualizar dashboard Slooth',              project:'Slooth',             status:'risco',        statusLabel:'Em risco',     prazo:'—',           obs:'Faltam estoque local LATAM, custo e compras.' },
+      { activity:'Relatório de fechamento S1 2026',         project:'Fechamento S1 2026', status:'pendente',     statusLabel:'A definir',    prazo:'—',           obs:'Visão mundial — global e por país. Solicitado por Alan.' },
+      { activity:'Construir scorecard Cloe (até maio)',     project:'Cloe Sellout',       status:'em-andamento', statusLabel:'Em andamento', prazo:'2026-06-16', obs:'Reunião com Javo e Fernando em 16/06 para definir o formato.' },
+    ];
+
+    const STATUS_CLASS = {
+      'done':'sp-done', 'em-andamento':'sp-ok', 'risco':'sp-risk', 'pendente':'sp-pending'
+    };
+    const ACCESS_CLASS = { 'all':'ap-all', 'brasil':'ap-brasil', 'mexico':'ap-mexico' };
+    const ACCESS_LABEL = { 'all':'Todos os relatórios', 'brasil':'Brasil', 'mexico':'México' };
+
+    /* ══════════════════════════════════════════════
+       SUPABASE + AUTH
+       ══════════════════════════════════════════════ */
+    const sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+
+    let activeFilters = { region: 'all', type: 'all', freq: 'all' };
+    let currentReports = [];
+
+    function canSeeReport(report, access) {
+      if (access === 'all') return true;
+      return access.some(a => report.regions.includes(a));
+    }
+
+    function renderReports(reports) {
+      const grid = document.getElementById('reports-grid');
+      const filtered = reports.filter(r => {
+        if (activeFilters.region !== 'all' && !r.regions.includes(activeFilters.region)) return false;
+        if (activeFilters.type !== 'all' && r.type !== activeFilters.type) return false;
+        if (activeFilters.freq !== 'all' && r.freq !== activeFilters.freq) return false;
+        return true;
+      });
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div class="no-reports">Nenhum relatório encontrado com os filtros selecionados.</div>';
+        return;
+      }
+      grid.innerHTML = filtered.map(r => `
+        <div class="report-card">
+          <div class="report-card-accent"></div>
+          <div class="report-card-body">
+            <div class="report-card-icon">${r.icon}</div>
+            <div class="report-card-title">${r.name}</div>
+            <div class="report-card-desc">${r.desc}</div>
+            ${r.sublinks && r.sublinks.length ? `<div class="report-card-links">${r.sublinks.map(s => `<a href="${s.href}" target="_blank">→ ${s.name}</a>`).join('')}</div>` : ''}
+            <div class="report-card-meta">Frequência: ${r.freq}</div>
+          </div>
+          <div class="report-card-footer">
+            <div style="display:flex;gap:6px;align-items:center;">
+              <span class="type-badge type-${r.type.toLowerCase()}">${r.type}</span>
+              <span class="region-badge">${r.label}</span>
+            </div>
+            <a href="${r.href}" target="_blank" class="btn-open">Abrir</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderTeam() {
+      const tbody = document.getElementById('team-tbody');
+      tbody.innerHTML = TEAM.map(m => `
+        <tr>
+          <td><span class="avatar-circle ${m.avatarClass}">${m.initials}</span>${m.name}</td>
+          <td style="color:#888;">${m.email}</td>
+          <td style="color:#555;">${m.cargo}</td>
+          <td style="color:#555;">${m.region}</td>
+          <td><span class="access-pill ${ACCESS_CLASS[m.accessLabel]}">${ACCESS_LABEL[m.accessLabel]}</span></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderTasks() {
+      const tbody = document.getElementById('tasks-tbody');
+      tbody.innerHTML = TASKS.map(t => `
+        <tr>
+          <td>${t.activity}</td>
+          <td style="color:#888;">${t.project}</td>
+          <td><span class="status-pill ${STATUS_CLASS[t.status]}">${t.statusLabel}</span></td>
+          <td style="color:#888;">${t.prazo}</td>
+          <td style="color:#888;">${t.obs}</td>
+        </tr>
+      `).join('');
+    }
+
+    function setupFilters(reports) {
+      document.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const filterType = chip.dataset.filter;
+          document.querySelectorAll(`.chip[data-filter="${filterType}"]`).forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          activeFilters[filterType] = chip.dataset.value;
+          renderReports(reports);
+        });
+      });
+    }
+
+    function setupTabs() {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('tab-' + btn.dataset.tab + '-content') ?
+            document.getElementById('tab-' + btn.dataset.tab + '-content').classList.add('active') :
+            document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        });
+      });
+      document.querySelector('[data-tab="relatorios"]').addEventListener('click', () => {
+        document.getElementById('tab-relatorios').classList.add('active');
+      });
+    }
+
+    async function init() {
+      const { data: { user } } = await sb.auth.getUser();
+
+      document.getElementById('loading-overlay').style.display = 'none';
+
+      if (!user) {
+        document.getElementById('login-overlay').style.display = 'flex';
+        setupLoginForm();
+        return;
+      }
+
+      showPortal(user);
+    }
+
+    function showPortal(user) {
+      const email = user.email.toLowerCase();
+      const profile = USER_PROFILES[email];
+
+      if (!profile) {
+        document.getElementById('loading-overlay').style.display = 'none';
+        document.getElementById('login-overlay').style.display = 'flex';
+        document.getElementById('login-error').style.display = 'block';
+        document.getElementById('login-error').textContent = 'Seu e-mail não tem acesso a este portal. Contacte a Camila.';
+        return;
+      }
+
+      document.getElementById('main-topbar').style.display = 'flex';
+      document.getElementById('main-banner').style.display = 'block';
+      document.getElementById('main-content').style.display = 'block';
+      document.getElementById('main-footer').style.display = 'block';
+      document.getElementById('topbar-user').textContent = profile.name + ' (' + profile.region + ')';
+
+      document.getElementById('btn-logout').addEventListener('click', async (e) => {
+        e.preventDefault();
+        await sb.auth.signOut();
+        window.location.reload();
+      });
+
+      if (profile.canSeeTeam) {
+        document.getElementById('tab-equipe').style.display = 'inline-block';
+        renderTeam();
+      }
+      if (profile.canSeeTasks) {
+        document.getElementById('tab-tarefas').style.display = 'inline-block';
+        renderTasks();
+      }
+
+      currentReports = REPORTS.filter(r => canSeeReport(r, profile.access));
+
+      const uniqueRegions = [...new Set(currentReports.flatMap(r => r.regions))];
+      document.querySelectorAll('.chip[data-filter="region"][data-value!="all"]').forEach(chip => {
+        if (!uniqueRegions.includes(chip.dataset.value)) chip.style.display = 'none';
+      });
+
+      setupFilters(currentReports);
+      setupTabs();
+      renderReports(currentReports);
+    }
+
+    function setupLoginForm() {
+      const btn = document.getElementById('login-btn');
+      const errEl = document.getElementById('login-error');
+
+      async function doLogin() {
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+        btn.textContent = 'Entrando…';
+        btn.disabled = true;
+        errEl.style.display = 'none';
+
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+        if (error) {
+          const msg = /invalid/i.test(error.message) ? 'E-mail ou senha incorretos.' : error.message;
+          errEl.textContent = msg;
+          errEl.style.display = 'block';
+          btn.textContent = 'Entrar';
+          btn.disabled = false;
+          return;
+        }
+
+        document.getElementById('login-overlay').style.display = 'none';
+        showPortal(data.user);
+      }
+
+      btn.addEventListener('click', doLogin);
+      document.getElementById('login-password').addEventListener('keydown', e => {
+        if (e.key === 'Enter') doLogin();
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>
