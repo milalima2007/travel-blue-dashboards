@@ -704,8 +704,8 @@
           r.regions.forEach(function(rg) { if (acc.indexOf(rg) === -1) acc.push(rg); });
           return acc;
         }, []);
-        document.querySelectorAll('.chip[data-filter="region"][data-value!="all"]').forEach(function(chip) {
-          if (uniqueRegions.indexOf(chip.dataset.value) === -1) chip.style.display = 'none';
+        document.querySelectorAll('.chip[data-filter="region"]').forEach(function(chip) {
+          if (chip.dataset.value !== 'all' && uniqueRegions.indexOf(chip.dataset.value) === -1) chip.style.display = 'none';
         });
 
         setupFilters(currentReports);
