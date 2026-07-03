@@ -697,17 +697,24 @@
         try { renderTasks(); } catch(e) { console.error('renderTasks error:', e); }
       }
 
-      currentReports = REPORTS.filter(r => canSeeReport(r, profile.access));
-      console.log('currentReports count:', currentReports.length);
+      try {
+        currentReports = REPORTS.filter(r => canSeeReport(r, profile.access));
 
-      const uniqueRegions = [...new Set(currentReports.flatMap(r => r.regions))];
-      document.querySelectorAll('.chip[data-filter="region"][data-value!="all"]').forEach(chip => {
-        if (!uniqueRegions.includes(chip.dataset.value)) chip.style.display = 'none';
-      });
+        var uniqueRegions = currentReports.reduce(function(acc, r) {
+          r.regions.forEach(function(rg) { if (acc.indexOf(rg) === -1) acc.push(rg); });
+          return acc;
+        }, []);
+        document.querySelectorAll('.chip[data-filter="region"][data-value!="all"]').forEach(function(chip) {
+          if (uniqueRegions.indexOf(chip.dataset.value) === -1) chip.style.display = 'none';
+        });
 
-      setupFilters(currentReports);
-      setupTabs();
-      renderReports(currentReports);
+        setupFilters(currentReports);
+        setupTabs();
+        renderReports(currentReports);
+      } catch(err) {
+        document.getElementById('reports-grid').innerHTML =
+          '<div style="grid-column:1/-1;padding:20px;color:red;font-weight:bold;">ERRO: ' + err.message + '</div>';
+      }
     }
 
     function setupLoginForm() {
