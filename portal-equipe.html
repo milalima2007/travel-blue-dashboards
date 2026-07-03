@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Travel Blue | Portal da Equipe</title>
+  <title>Travel Blue | Portal del Equipo</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
     /* ── Loading overlay ── */
@@ -202,17 +202,17 @@
           <div class="login-logo-tag">London · Since 1987</div>
         </div>
       </div>
-      <div class="login-title">Portal da Equipe</div>
-      <div class="login-sub">Acesso restrito. Entre com o seu e-mail corporativo.</div>
+      <div class="login-title">Portal del Equipo</div>
+      <div class="login-sub">Acceso restringido. Ingresa con tu correo corporativo.</div>
       <div class="login-field">
-        <label>E-mail</label>
-        <input type="email" id="login-email" placeholder="nome@travel-blue.com" autocomplete="email" />
+        <label>Correo electrónico</label>
+        <input type="email" id="login-email" placeholder="nombre@travel-blue.com" autocomplete="email" />
       </div>
       <div class="login-field">
-        <label>Senha</label>
+        <label>Contraseña</label>
         <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
       </div>
-      <button class="login-btn" id="login-btn">Entrar</button>
+      <button class="login-btn" id="login-btn">Ingresar</button>
       <div class="login-error" id="login-error"></div>
     </div>
   </div>
@@ -227,19 +227,19 @@
       </svg>
       <div class="logo-text-wrap">
         <span class="logo-brand">Travel Blue</span>
-        <span class="logo-tagline">Portal da Equipe</span>
+        <span class="logo-tagline">Portal del Equipo</span>
       </div>
     </div>
     <nav class="topbar-nav">
       <span id="topbar-user" style="font-size:13px; color:#888;"></span>
-      <a href="#" id="btn-logout" style="font-size:12px; color:#888;">Sair</a>
+      <a href="#" id="btn-logout" style="font-size:12px; color:#888;">Salir</a>
     </nav>
   </header>
 
   <!-- PAGE BANNER -->
   <section class="page-banner" id="main-banner" style="display:none;">
-    <h1>Portal <span>da Equipe</span></h1>
-    <p>Relatórios, equipe e atividades — acesso filtrado por perfil.</p>
+    <h1>Portal <span>del Equipo</span></h1>
+    <p>Reportes, equipo y actividades — acceso filtrado por perfil.</p>
   </section>
 
   <!-- MAIN CONTENT -->
@@ -247,15 +247,15 @@
 
     <!-- TABS -->
     <div class="portal-tabs">
-      <button class="tab-btn active" data-tab="relatorios">Relatórios</button>
-      <button class="tab-btn" data-tab="equipe" id="tab-equipe" style="display:none;">Equipe</button>
-      <button class="tab-btn" data-tab="tarefas" id="tab-tarefas" style="display:none;">Minhas Tarefas</button>
+      <button class="tab-btn active" data-tab="relatorios">Reportes</button>
+      <button class="tab-btn" data-tab="equipe" id="tab-equipe" style="display:none;">Equipo</button>
+      <button class="tab-btn" data-tab="tarefas" id="tab-tarefas" style="display:none;">Mis Tareas</button>
     </div>
 
     <!-- SEÇÃO 1: RELATÓRIOS -->
     <div class="tab-section active" id="tab-relatorios">
       <div class="filter-row" id="filter-row">
-        <span class="filter-label">Região:</span>
+        <span class="filter-label">Región:</span>
         <button class="chip active" data-filter="region" data-value="all">Todos</button>
         <button class="chip" data-filter="region" data-value="global">Global</button>
         <button class="chip" data-filter="region" data-value="latam">LATAM</button>
@@ -267,10 +267,10 @@
         <button class="chip" data-filter="type" data-value="HTML">HTML</button>
         <button class="chip" data-filter="type" data-value="BI">Power BI</button>
         <div class="filter-sep"></div>
-        <span class="filter-label">Frequência:</span>
+        <span class="filter-label">Frecuencia:</span>
         <button class="chip active" data-filter="freq" data-value="all">Todas</button>
-        <button class="chip" data-filter="freq" data-value="Mensal">Mensal</button>
-        <button class="chip" data-filter="freq" data-value="Diário">Diário</button>
+        <button class="chip" data-filter="freq" data-value="Mensal">Mensual</button>
+        <button class="chip" data-filter="freq" data-value="Diário">Diario</button>
       </div>
       <div class="portal-grid" id="reports-grid">
         <div class="report-card" style="border:3px solid red;padding:16px;">
@@ -279,18 +279,18 @@
       </div>
     </div>
 
-    <!-- SEÇÃO 2: EQUIPE -->
+    <!-- SECCIÓN 2: EQUIPO -->
     <div class="tab-section" id="tab-equipe-content">
-      <div class="section-note">Visível apenas para Camila e Guillermo.</div>
+      <div class="section-note">Visible solo para Camila y Guillermo.</div>
       <div class="table-wrap">
         <table class="team-table">
           <thead>
             <tr>
-              <th>Nome</th>
-              <th>E-mail</th>
+              <th>Nombre</th>
+              <th>Correo</th>
               <th>Cargo</th>
-              <th>Região</th>
-              <th>Acesso a relatórios</th>
+              <th>Región</th>
+              <th>Acceso a reportes</th>
             </tr>
           </thead>
           <tbody id="team-tbody"></tbody>
@@ -298,18 +298,18 @@
       </div>
     </div>
 
-    <!-- SEÇÃO 3: MINHAS TAREFAS -->
+    <!-- SECCIÓN 3: MIS TAREAS -->
     <div class="tab-section" id="tab-tarefas-content">
-      <div class="section-note">Visível apenas para Camila e Guillermo.</div>
+      <div class="section-note">Visible solo para Camila y Guillermo.</div>
       <div class="table-wrap">
         <table class="tasks-table">
           <thead>
             <tr>
-              <th style="width:28%;">Atividade</th>
-              <th style="width:16%;">Projeto</th>
-              <th style="width:14%;">Status</th>
-              <th style="width:12%;">Prazo</th>
-              <th>Observações</th>
+              <th style="width:28%;">Actividad</th>
+              <th style="width:16%;">Proyecto</th>
+              <th style="width:14%;">Estado</th>
+              <th style="width:12%;">Fecha límite</th>
+              <th>Observaciones</th>
             </tr>
           </thead>
           <tbody id="tasks-tbody"></tbody>
@@ -320,7 +320,7 @@
   </main>
 
   <footer class="site-footer" id="main-footer" style="display:none;">
-    © 2026 <span>Travel Blue Ltd.</span> — Uso interno restrito.
+    © 2026 <span>Travel Blue Ltd.</span> — Uso interno restringido.
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -370,100 +370,100 @@
        access: 'all' = todos; ['brasil'] = brasil+all; ['mexico'] = mexico+all
        ══════════════════════════════════════════════ */
     const REPORTS = [
-      { id:'cloe',       icon:'📊', name:'Cloe Sellout',           desc:'Vendas sell-in/sell-out Cloe — LATAM.',
+      { id:'cloe',       icon:'📊', name:'Cloe Sellout',           desc:'Ventas sell-in/sell-out Cloe — LATAM.',
         regions:['latam','mexico'], type:'HTML', freq:'Mensal', label:'LATAM',
         href:'Cloe Sellout/sellin-dashboard.html',
         sublinks:[{name:'Ventas Ene-May', href:'Cloe Sellout/CLOE Ventas Ene-May.html'}] },
 
-      { id:'avolta',     icon:'✈️', name:'Avolta',                  desc:'Duty Paid Brasil e relatórios de venda Avolta.',
+      { id:'avolta',     icon:'✈️', name:'Avolta',                  desc:'Duty Paid Brasil e informes de venta Avolta.',
         regions:['brasil','latam'], type:'HTML', freq:'Mensal', label:'Brasil',
         href:'avolta/avolta-dashboard.html',
-        sublinks:[{name:'Relatório Abril 2026', href:'avolta/Relatorio Avolta Abril 2026.html'}] },
+        sublinks:[{name:'Informe Abril 2026', href:'avolta/Relatorio Avolta Abril 2026.html'}] },
 
-      { id:'backpacks',  icon:'🎒', name:'Backpacks & Luggage',     desc:'Vendas de mochilas e malas — visão geral.',
+      { id:'backpacks',  icon:'🎒', name:'Backpacks & Luggage',     desc:'Ventas de mochilas y maletas — visión general.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'backpack-lugagge/BACKPACKS&LUGGAGE.html',
         sublinks:[{name:'Sales BL', href:'backpack-lugagge/SALES-BL.html'},{name:'Sales BP', href:'backpack-lugagge/SALES-BP.html'}] },
 
-      { id:'latam-bp',   icon:'🌎', name:'LATAM Sales BP 2026',     desc:'Business Plan Q1 2026 — LATAM, Brasil e México.',
+      { id:'latam-bp',   icon:'🌎', name:'LATAM Sales BP 2026',     desc:'Business Plan Q1 2026 — LATAM, Brasil y México.',
         regions:['latam','mexico'], type:'HTML', freq:'Mensal', label:'LATAM',
         href:'LATAM SALES_BP 26/LATAM Q1 2026 Dashboard.html',
         sublinks:[{name:'Brasil Q1', href:'LATAM SALES_BP 26/Brazil Q1 2026 Dashboard.html'},{name:'México Q1', href:'LATAM SALES_BP 26/Mexico Q1 2026 Dashboard.html'}] },
 
-      { id:'latam-profit', icon:'💰', name:'LATAM Profit',           desc:'Margem e profit LATAM com detalhamento México.',
+      { id:'latam-profit', icon:'💰', name:'LATAM Profit',           desc:'Margen y profit LATAM con detalle México.',
         regions:['latam','mexico'], type:'HTML', freq:'Mensal', label:'LATAM',
         href:'latam-profit/latam-profit.html',
         sublinks:[{name:'México', href:'latam-profit/mexico.html'}] },
 
-      { id:'total-db',   icon:'🗄️', name:'Total Sales TB Group',    desc:'Base consolidada de vendas — grupo Travel Blue.',
+      { id:'total-db',   icon:'🗄️', name:'Total Sales TB Group',    desc:'Base consolidada de ventas — grupo Travel Blue.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'total-database/TOTAL SALES TB GROUP.html', sublinks:[] },
 
-      { id:'contas',     icon:'🧾', name:'Contas a Receber',         desc:'Painel de contas a receber por responsável.',
+      { id:'contas',     icon:'🧾', name:'Cuentas por Cobrar',       desc:'Panel de cuentas por cobrar por responsable.',
         regions:['brasil','latam'], type:'HTML', freq:'Diário', label:'Brasil',
         href:'contas-receber.html',
         sublinks:[{name:'Gilson', href:'contas-receber-gilson.html'},{name:'Guilherme', href:'contas-receber-guilherme.html'}] },
 
-      { id:'vendas-br',  icon:'🇧🇷', name:'Vendas Brasil',            desc:'Painel de vendas do mercado Brasil.',
+      { id:'vendas-br',  icon:'🇧🇷', name:'Ventas Brasil',            desc:'Panel de ventas del mercado Brasil.',
         regions:['brasil'], type:'HTML', freq:'Diário', label:'Brasil',
         href:'vendas-brasil.html', sublinks:[] },
 
-      { id:'ml',         icon:'🛒', name:'Mercado Libre',            desc:'Painel de vendas no marketplace Mercado Libre.',
+      { id:'ml',         icon:'🛒', name:'Mercado Libre',            desc:'Panel de ventas en el marketplace Mercado Libre.',
         regions:['latam','mexico'], type:'HTML', freq:'Mensal', label:'LATAM',
         href:'../MERCADO LIBRE/dashboard-mercadolibre.html', sublinks:[] },
 
-      { id:'heinemann',  icon:'🛫', name:'Heinemann',                desc:'Painel de vendas Heinemann (duty free).',
+      { id:'heinemann',  icon:'🛫', name:'Heinemann',                desc:'Panel de ventas Heinemann (duty free).',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'../HEINEMANN/HEINEMANN_DASHBOARD.html', sublinks:[] },
 
-      { id:'avolta-so',  icon:'🌍', name:'Avolta Sellout',           desc:'Análise de sell-out Avolta por região.',
+      { id:'avolta-so',  icon:'🌍', name:'Avolta Sellout',           desc:'Análisis de sell-out Avolta por región.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'../AVOLTA SELLOUT/avolta-sales-out-analysis.html',
         sublinks:[{name:'EMEA', href:'../AVOLTA SELLOUT/avolta-emea-analysis.html'},{name:'Américas & CEI', href:'../AVOLTA SELLOUT/avolta-ame-cei-analysis.html'},{name:'México', href:'../AVOLTA SELLOUT/avolta-mexico-analysis.html'}] },
 
-      { id:'lexingham',  icon:'🧳', name:'Lexingham',                desc:'Painel de vendas Lexingham.',
+      { id:'lexingham',  icon:'🧳', name:'Lexingham',                desc:'Panel de ventas Lexingham.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'../LEXINGHAM/lexingham-dashboard.html', sublinks:[] },
 
-      { id:'total-all',  icon:'🌐', name:'Total Sales All Group',   desc:'Resumo de vendas consolidado de todo o grupo.',
+      { id:'total-all',  icon:'🌐', name:'Total Sales All Group',   desc:'Resumen consolidado de ventas de todo el grupo.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'../TOTAL SALES TB GROUP/tb_group_sales_summary_2026-05.html',
         sublinks:[{name:'ASPAC', href:'../TOTAL SALES TB GROUP/aspac_sales_summary_2026-05.html'}] },
 
-      { id:'alan',       icon:'📋', name:'Alan',                     desc:'Resumo de vendas — conta Alan.',
+      { id:'alan',       icon:'📋', name:'Alan',                     desc:'Resumen de ventas — cuenta Alan.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'../ALAN/alan_sales_summary_2026-05.html', sublinks:[] },
 
-      { id:'jackie-h',   icon:'📋', name:'Jackie',                   desc:'Resumo de vendas — conta Jackie.',
+      { id:'jackie-h',   icon:'📋', name:'Jackie',                   desc:'Resumen de ventas — cuenta Jackie.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'../JACKIE/jackie_sales_summary_2026-05.html', sublinks:[] },
 
-      { id:'ioana',      icon:'📋', name:'Ioana',                    desc:'Resumo de vendas — conta Ioana.',
+      { id:'ioana',      icon:'📋', name:'Ioana',                    desc:'Resumen de ventas — cuenta Ioana.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'../IOANA/ioana_sales_summary_2026-05.html', sublinks:[] },
 
-      { id:'germany',    icon:'🇩🇪', name:'Germany',                  desc:'Resumo de vendas — Alemanha.',
+      { id:'germany',    icon:'🇩🇪', name:'Germany',                  desc:'Resumen de ventas — Alemania.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'../GERMANY/germany_sales_summary_2026-05.html', sublinks:[] },
 
-      { id:'china',      icon:'🇨🇳', name:'China',                    desc:'Resumo de vendas — China.',
+      { id:'china',      icon:'🇨🇳', name:'China',                    desc:'Resumen de ventas — China.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'../CHINA/china_sales_summary_2026-05.html', sublinks:[] },
 
-      { id:'india',      icon:'🇮🇳', name:'India',                    desc:'Resumo de vendas — Índia.',
+      { id:'india',      icon:'🇮🇳', name:'India',                    desc:'Resumen de ventas — India.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'../INDIA/india_sales_summary_2026-04.html', sublinks:[] },
 
-      { id:'poland',     icon:'🇵🇱', name:'Poland',                   desc:'Resumo de vendas — Polônia.',
+      { id:'poland',     icon:'🇵🇱', name:'Poland',                   desc:'Resumen de ventas — Polonia.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'../POLAND/poland_sales_summary_2026-04.html', sublinks:[] },
 
-      { id:'slooth',     icon:'🦥', name:'Slooth',                   desc:'Análise de vendas Slooth.',
+      { id:'slooth',     icon:'🦥', name:'Slooth',                   desc:'Análisis de ventas Slooth.',
         regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
         href:'../SLOOTH/slooth-analysis.html', sublinks:[] },
 
       /* ── Power BI ── */
-      { id:'avolta-bi',  icon:'📈', name:'Avolta Sellout (BI)',      desc:'Painel Power BI de sell-out Avolta por região.',
+      { id:'avolta-bi',  icon:'📈', name:'Avolta Sellout (BI)',      desc:'Panel Power BI de sell-out Avolta por región.',
         regions:['global'], type:'BI', freq:'Mensal', label:'Global',
         href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/6d761577-4066-41a2-b977-375d0541509c/ReportSectionb12c7674f1e35acd6b32?experience=power-bi',
         sublinks:[
@@ -472,7 +472,7 @@
           {name:'México', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/4c4de86d-3b24-48a6-ac54-7ff1720f0c0b/9a3b638e5f3007179f00?experience=power-bi'}
         ] },
 
-      { id:'total-bi',   icon:'🌐', name:'Total Sales TB Group (BI)', desc:'Painel Power BI — vendas totais do grupo (USD).',
+      { id:'total-bi',   icon:'🌐', name:'Total Sales TB Group (BI)', desc:'Panel Power BI — ventas totales del grupo (USD).',
         regions:['global'], type:'BI', freq:'Mensal', label:'Global',
         href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/99bff0a6-a529-4285-b3da-713e97dac9b5/a303c5c47baee718d256?experience=power-bi',
         sublinks:[
@@ -480,7 +480,7 @@
           {name:'ASPAC', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/d24e65f4-c045-4d60-90b1-c0e3d2dffd64/6fd55ede002d9bd27177?experience=power-bi'}
         ] },
 
-      { id:'paises-bi',  icon:'🗺️', name:'Vendas por País (BI)',     desc:'Power BI por país — Brasil, UK, Germany, China, India, Poland.',
+      { id:'paises-bi',  icon:'🗺️', name:'Ventas por País (BI)',     desc:'Power BI por país — Brasil, UK, Alemania, China, India, Polonia.',
         regions:['global'], type:'BI', freq:'Mensal', label:'Global',
         href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/af92c05e-759e-4568-b0d6-7fc2de5e6a5d/47b9e1e68b43075d6b30?experience=power-bi',
         sublinks:[
@@ -491,11 +491,11 @@
           {name:'Poland', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/785c2c29-c1d4-4fdb-9c31-414c1281c81c/6fd55ede002d9bd27177?experience=power-bi'}
         ] },
 
-      { id:'jackie-bi',  icon:'📋', name:'Jackie (BI)',              desc:'Painel Power BI — conta Jackie.',
+      { id:'jackie-bi',  icon:'📋', name:'Jackie (BI)',              desc:'Panel Power BI — cuenta Jackie.',
         regions:['global'], type:'BI', freq:'Mensal', label:'Global',
         href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/3d24fda9-1fcd-40ba-bca2-96e0377e914b?experience=power-bi', sublinks:[] },
 
-      { id:'heine-bi',   icon:'🛫', name:'Heinemann (BI)',           desc:'Painel Power BI — Heinemann duty free.',
+      { id:'heine-bi',   icon:'🛫', name:'Heinemann (BI)',           desc:'Panel Power BI — Heinemann duty free.',
         regions:['global'], type:'BI', freq:'Mensal', label:'Global',
         href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/586d4808-37db-4f90-b8d8-3f8335b35824/ReportSection979d71ff9cc7928bccec?experience=power-bi', sublinks:[] },
     ];
@@ -504,36 +504,36 @@
        EQUIPE
        ══════════════════════════════════════════════ */
     const TEAM = [
-      { name:'Camila Lima',         email:'milalima2007@gmail.com',  cargo:'BI Analyst',       region:'LATAM',   initials:'CL', avatarClass:'av-navy',   accessLabel:'all' },
-      { name:'Guillermo Benzaquen', email:'guillermo@travel-blue.com', cargo:'Diretor LATAM',  region:'Global',  initials:'GB', avatarClass:'av-navy',   accessLabel:'all' },
-      { name:'Pablo',               email:'pablo@travel-blue.com',   cargo:'A confirmar',       region:'LATAM',   initials:'PA', avatarClass:'av-green',  accessLabel:'all' },
-      { name:'Edgardo',             email:'edgardo@travel-blue.com', cargo:'A confirmar',       region:'LATAM',   initials:'ED', avatarClass:'av-green',  accessLabel:'all' },
-      { name:'Noe',                 email:'noe@travel-blue.com',     cargo:'Country Manager',   region:'México',  initials:'NO', avatarClass:'av-orange', accessLabel:'mexico' },
-      { name:'Javo',                email:'javo@travel-blue.com',    cargo:'Gerente de Vendas', region:'México',  initials:'JV', avatarClass:'av-orange', accessLabel:'mexico' },
-      { name:'Itamar',              email:'itamar@travel-blue.com',  cargo:'Country Manager',   region:'Brasil',  initials:'IT', avatarClass:'av-purple', accessLabel:'brasil' },
+      { name:'Camila Lima',         email:'milalima2007@gmail.com',  cargo:'BI Analyst',         region:'LATAM',   initials:'CL', avatarClass:'av-navy',   accessLabel:'all' },
+      { name:'Guillermo Benzaquen', email:'guillermo@travel-blue.com', cargo:'Director LATAM',   region:'Global',  initials:'GB', avatarClass:'av-navy',   accessLabel:'all' },
+      { name:'Pablo',               email:'pablo@travel-blue.com',   cargo:'A confirmar',         region:'LATAM',   initials:'PA', avatarClass:'av-green',  accessLabel:'all' },
+      { name:'Edgardo',             email:'edgardo@travel-blue.com', cargo:'A confirmar',         region:'LATAM',   initials:'ED', avatarClass:'av-green',  accessLabel:'all' },
+      { name:'Noe',                 email:'noe@travel-blue.com',     cargo:'Country Manager',     region:'México',  initials:'NO', avatarClass:'av-orange', accessLabel:'mexico' },
+      { name:'Javo',                email:'javo@travel-blue.com',    cargo:'Gerente de Ventas',   region:'México',  initials:'JV', avatarClass:'av-orange', accessLabel:'mexico' },
+      { name:'Itamar',              email:'itamar@travel-blue.com',  cargo:'Country Manager',     region:'Brasil',  initials:'IT', avatarClass:'av-purple', accessLabel:'brasil' },
     ];
 
     /* ══════════════════════════════════════════════
        TAREFAS
        ══════════════════════════════════════════════ */
     const TASKS = [
-      { activity:'Atualizar base de vendas total TB Group', project:'Total Database',     status:'em-andamento', statusLabel:'Em andamento', prazo:'2026-06-16', obs:'Alemanha já recebida. Faltam Índia, Polônia e ASPAC (Indonésia, Filipinas, Singapura, Taiwan).' },
-      { activity:'Business Review',                         project:'LATAM Sales BP 26',  status:'done',         statusLabel:'Finalizado',   prazo:'2026-06-18', obs:'Atualizado e concluído.' },
-      { activity:'Finalizar análises Avolta Sellout',       project:'Avolta Sellout',     status:'done',         statusLabel:'Finalizado',   prazo:'2026-06-15', obs:'HTML (EMEA, Américas & CEI, México) e Power BI concluídos.' },
-      { activity:'Atualizar Contas a Receber TB',           project:'Contas a Receber',   status:'em-andamento', statusLabel:'Em andamento', prazo:'—',           obs:'Atualização em curso.' },
-      { activity:'Completar informações da Central de Controle', project:'Central de Controle', status:'risco', statusLabel:'Em risco', prazo:'—', obs:'Faltam dados de acesso, frequência e responsáveis em vários cards.' },
-      { activity:'Construir painel de comunicação interna', project:'Comunicação Interna', status:'pendente',   statusLabel:'A definir',    prazo:'—',           obs:'Em fase de pesquisa.' },
-      { activity:'Atualizar dashboard Backpacks & Luggage', project:'Backpacks & Luggage', status:'risco',      statusLabel:'Em risco',     prazo:'—',           obs:'Faltam estoque local LATAM, custo e compras.' },
-      { activity:'Atualizar dashboard Slooth',              project:'Slooth',             status:'risco',        statusLabel:'Em risco',     prazo:'—',           obs:'Faltam estoque local LATAM, custo e compras.' },
-      { activity:'Relatório de fechamento S1 2026',         project:'Fechamento S1 2026', status:'pendente',     statusLabel:'A definir',    prazo:'—',           obs:'Visão mundial — global e por país. Solicitado por Alan.' },
-      { activity:'Construir scorecard Cloe (até maio)',     project:'Cloe Sellout',       status:'em-andamento', statusLabel:'Em andamento', prazo:'2026-06-16', obs:'Reunião com Javo e Fernando em 16/06 para definir o formato.' },
+      { activity:'Actualizar base de ventas total TB Group', project:'Total Database',     status:'em-andamento', statusLabel:'En curso',    prazo:'2026-06-16', obs:'Alemania ya recibida. Faltan India, Polonia y ASPAC (Indonesia, Filipinas, Singapur, Taiwán).' },
+      { activity:'Business Review',                         project:'LATAM Sales BP 26',  status:'done',         statusLabel:'Finalizado',  prazo:'2026-06-18', obs:'Actualizado y concluido.' },
+      { activity:'Finalizar análisis Avolta Sellout',       project:'Avolta Sellout',     status:'done',         statusLabel:'Finalizado',  prazo:'2026-06-15', obs:'HTML (EMEA, Américas & CEI, México) y Power BI concluidos.' },
+      { activity:'Actualizar Cuentas por Cobrar TB',        project:'Cuentas por Cobrar', status:'em-andamento', statusLabel:'En curso',    prazo:'—',           obs:'Actualización en curso.' },
+      { activity:'Completar información del Portal',        project:'Portal del Equipo',  status:'risco',        statusLabel:'En riesgo',   prazo:'—',           obs:'Faltan datos de acceso, frecuencia y responsables en varios cards.' },
+      { activity:'Construir panel de comunicación interna', project:'Comunicación Interna', status:'pendente',  statusLabel:'Por definir', prazo:'—',           obs:'En fase de investigación.' },
+      { activity:'Actualizar dashboard Backpacks & Luggage', project:'Backpacks & Luggage', status:'risco',     statusLabel:'En riesgo',   prazo:'—',           obs:'Faltan stock local LATAM, costo y compras.' },
+      { activity:'Actualizar dashboard Slooth',             project:'Slooth',              status:'risco',       statusLabel:'En riesgo',   prazo:'—',           obs:'Faltan stock local LATAM, costo y compras.' },
+      { activity:'Informe de cierre S1 2026',               project:'Cierre S1 2026',      status:'pendente',    statusLabel:'Por definir', prazo:'—',           obs:'Visión mundial — global y por país. Solicitado por Alan.' },
+      { activity:'Construir scorecard Cloe (hasta mayo)',   project:'Cloe Sellout',        status:'em-andamento', statusLabel:'En curso',  prazo:'2026-06-16', obs:'Reunión con Javo y Fernando el 16/06 para definir el formato.' },
     ];
 
     const STATUS_CLASS = {
       'done':'sp-done', 'em-andamento':'sp-ok', 'risco':'sp-risk', 'pendente':'sp-pending'
     };
     const ACCESS_CLASS = { 'all':'ap-all', 'brasil':'ap-brasil', 'mexico':'ap-mexico' };
-    const ACCESS_LABEL = { 'all':'Todos os relatórios', 'brasil':'Brasil', 'mexico':'México' };
+    const ACCESS_LABEL = { 'all':'Todos los reportes', 'brasil':'Brasil', 'mexico':'México' };
 
     /* ══════════════════════════════════════════════
        SUPABASE + AUTH
@@ -569,7 +569,7 @@
         filtered.push(r);
       }
       if (filtered.length === 0) {
-        grid.innerHTML = '<div class="no-reports">Nenhum relatório encontrado com os filtros selecionados.</div>';
+        grid.innerHTML = '<div class="no-reports">No se encontraron reportes con los filtros seleccionados.</div>';
         return;
       }
       var html = '';
@@ -582,14 +582,14 @@
         html += '<div class="report-card-title">' + r.name + '</div>';
         html += '<div class="report-card-desc">' + r.desc + '</div>';
         html += buildSublinks(r.sublinks);
-        html += '<div class="report-card-meta">Frequência: ' + r.freq + '</div>';
+        html += '<div class="report-card-meta">Frecuencia: ' + r.freq + '</div>';
         html += '</div>';
         html += '<div class="report-card-footer">';
         html += '<div style="display:flex;gap:6px;align-items:center;">';
         html += '<span class="type-badge type-' + r.type.toLowerCase() + '">' + r.type + '</span>';
         html += '<span class="region-badge">' + r.label + '</span>';
         html += '</div>';
-        html += '<a href="' + r.href + '" target="_blank" class="btn-open">Abrir</a>';
+        html += '<a href="' + r.href + '" target="_blank" class="btn-open">Abrir</a>'; // "Abrir" is same in Spanish
         html += '</div>';
         html += '</div>';
       }
@@ -672,7 +672,7 @@
         document.getElementById('loading-overlay').style.display = 'none';
         document.getElementById('login-overlay').style.display = 'flex';
         document.getElementById('login-error').style.display = 'block';
-        document.getElementById('login-error').textContent = 'Seu e-mail não tem acesso a este portal. Contacte a Camila.';
+        document.getElementById('login-error').textContent = 'Tu correo no tiene acceso a este portal. Contacta a Camila.';
         return;
       }
 
@@ -724,17 +724,17 @@
       async function doLogin() {
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value;
-        btn.textContent = 'Entrando…';
+        btn.textContent = 'Ingresando…';
         btn.disabled = true;
         errEl.style.display = 'none';
 
         const { data, error } = await sb.auth.signInWithPassword({ email, password });
 
         if (error) {
-          const msg = /invalid/i.test(error.message) ? 'E-mail ou senha incorretos.' : error.message;
+          const msg = /invalid/i.test(error.message) ? 'Correo o contraseña incorrectos.' : error.message;
           errEl.textContent = msg;
           errEl.style.display = 'block';
-          btn.textContent = 'Entrar';
+          btn.textContent = 'Ingresar';
           btn.disabled = false;
           return;
         }
