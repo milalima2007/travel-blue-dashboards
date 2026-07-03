@@ -333,6 +333,11 @@ function statusColor(s) {
   return '#94A3B8';
 }
 
+function daysDiff(a, b) {
+  if (!a || !b) return null;
+  return Math.round((new Date(b) - new Date(a)) / 86400000);
+}
+
 function buildProducts(rawProducts, useComiteStart) {
   return rawProducts.map(p => {
     const tasks     = p.tasks;
@@ -342,26 +347,47 @@ function buildProducts(rawProducts, useComiteStart) {
     const planStarts = tasks.map(t => t.plan_start).filter(Boolean).sort();
     const planEnds   = tasks.map(t => t.plan_end).filter(Boolean).sort();
     const realEnds   = tasks.map(t => t.real_end).filter(Boolean).sort();
-    const devs       = tasks.map(t => t.deviation).filter(d => typeof d === 'number');
     const earliestStart = planStarts[0] || null;
+
+    // Comité shift: días de retraso de la etapa 4 respecto a su plan original.
+    // Para secciones con useComiteStart, los desvíos de las etapas posteriores
+    // se muestran descontando este retraso (la responsabilidad de Cloe comienza
+    // en la aprobación del Comité, no en el inicio original).
+    let comiteShift = 0;
     let displayStart = earliestStart;
     if (useComiteStart) {
       const comite = tasks.find(t => t.num === 4);
-      const cs = comite ? (comite.real_end || comite.real_start || comite.plan_end || comite.plan_start) : null;
-      displayStart = cs || earliestStart;
+      if (comite) {
+        const cs = comite.real_end || comite.real_start || comite.plan_end || comite.plan_start;
+        displayStart = cs || earliestStart;
+        const shift = daysDiff(comite.plan_end, comite.real_end);
+        comiteShift = shift !== null ? Math.max(0, shift) : 0;
+      }
     }
+
+    // Calcular desvío ajustado por etapa
+    const tasksWithAdj = tasks.map(t => {
+      let adjDev = t.deviation;
+      if (useComiteStart && typeof t.deviation === 'number') {
+        adjDev = t.num >= 4 ? Math.max(0, t.deviation - comiteShift) : 0;
+      }
+      return { ...t, adj_deviation: adjDev };
+    });
+
+    const adjDevs = tasksWithAdj.map(t => t.adj_deviation).filter(d => typeof d === 'number');
     const pctComplete       = total ? Math.round(100 * completed / total) : 0;
     const latestPlanEnd     = planEnds.slice(-1)[0] || null;
     const latestRealEnd     = realEnds.slice(-1)[0] || null;
     const currentEndEstimate = (pctComplete === 100 && latestRealEnd)
       ? latestRealEnd : (latestPlanEnd || latestRealEnd);
     return {
-      sku: p.sku, title: p.title, tasks,
+      sku: p.sku, title: p.title, tasks: tasksWithAdj,
       total_tasks: total, completed_tasks: completed, in_progress_tasks: inProg,
       pct_complete: pctComplete,
       plan_start: displayStart,
       current_end_estimate: currentEndEstimate,
-      max_deviation: devs.length ? Math.max(...devs) : 0,
+      max_deviation: adjDevs.length ? Math.max(...adjDevs) : 0,
+      comite_shift: comiteShift,
     };
   });
 }
@@ -482,14 +508,17 @@ function renderDetail() {
     return;
   }
   document.getElementById('detail-title').textContent = p.title;
+  const shiftNote = p.comite_shift > 0
+    ? ` · Desvíos ajustados desde Comité (−${p.comite_shift}d de retraso base)` : '';
   document.getElementById('detail-sub').textContent =
-    `${p.completed_tasks}/${p.total_tasks} tareas completadas (${p.pct_complete}%) · Inicio: ${fmtDisplay(p.plan_start)} · Fin estimado: ${fmtDisplay(p.current_end_estimate)}`;
+    `${p.completed_tasks}/${p.total_tasks} tareas completadas (${p.pct_complete}%) · Inicio: ${fmtDisplay(p.plan_start)} · Fin estimado: ${fmtDisplay(p.current_end_estimate)}${shiftNote}`;
 
   // ── Tabla de detalle ───────────────────────────────────────────────────────
   const taskRows = p.tasks.map(t => {
-    const devText  = (t.deviation === null || t.deviation === undefined) ? '—' : t.deviation;
+    const dv       = t.adj_deviation !== undefined ? t.adj_deviation : t.deviation;
+    const devText  = (dv === null || dv === undefined) ? '—' : dv;
     const durText  = (t.real_duration === null || t.real_duration === undefined) ? '—' : t.real_duration;
-    const devClass = (t.deviation || 0) > 14 ? 'deviation-warn' : ((t.deviation || 0) > 0 ? 'deviation-ok' : '');
+    const devClass = (dv || 0) > 14 ? 'deviation-warn' : ((dv || 0) > 0 ? 'deviation-ok' : '');
     const slug     = (t.status || '').toLowerCase().replace(/\s+/g, '-');
     const badge    = `<span class="badge-p status-${slug}">${escapeHtml(t.status || '—')}</span>`;
     return `<tr>
@@ -556,8 +585,9 @@ function renderDetail() {
     const realBar = (rs !== null && re !== null)
       ? `<div class="gantt-bar-real" style="left:${rs}%;width:${Math.max(re-rs,0.6)}%;"></div>` : '';
     const todayMarker = todayPct !== null ? `<div class="gantt-today" style="left:${todayPct}%"></div>` : '';
-    const devClass = (t.deviation || 0) > 14 ? 'deviation-warn' : 'deviation-ok';
-    const devText  = (t.deviation === null || t.deviation === undefined) ? '—' : `${t.deviation}d`;
+    const dv2      = t.adj_deviation !== undefined ? t.adj_deviation : t.deviation;
+    const devClass = (dv2 || 0) > 14 ? 'deviation-warn' : 'deviation-ok';
+    const devText  = (dv2 === null || dv2 === undefined) ? '—' : `${dv2}d`;
     const commentRow = t.comments ? `<div class="gantt-comment">💬 ${escapeHtml(t.comments)}</div>` : '';
     return `<div class="gantt-row">
       <div class="gantt-num">${t.num}</div>
