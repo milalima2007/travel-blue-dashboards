@@ -686,14 +686,15 @@
 
       if (profile.canSeeTeam) {
         document.getElementById('tab-equipe').style.display = 'inline-block';
-        renderTeam();
+        try { renderTeam(); } catch(e) { console.error('renderTeam error:', e); }
       }
       if (profile.canSeeTasks) {
         document.getElementById('tab-tarefas').style.display = 'inline-block';
-        renderTasks();
+        try { renderTasks(); } catch(e) { console.error('renderTasks error:', e); }
       }
 
       currentReports = REPORTS.filter(r => canSeeReport(r, profile.access));
+      console.log('currentReports count:', currentReports.length);
 
       const uniqueRegions = [...new Set(currentReports.flatMap(r => r.regions))];
       document.querySelectorAll('.chip[data-filter="region"][data-value!="all"]').forEach(chip => {
