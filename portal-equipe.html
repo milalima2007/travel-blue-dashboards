@@ -544,37 +544,52 @@
       return access.some(a => report.regions.includes(a));
     }
 
+    function buildSublinks(sublinks) {
+      if (!sublinks || !sublinks.length) return '';
+      var links = '';
+      for (var i = 0; i < sublinks.length; i++) {
+        links += '<a href="' + sublinks[i].href + '" target="_blank">→ ' + sublinks[i].name + '</a>';
+      }
+      return '<div class="report-card-links">' + links + '</div>';
+    }
+
     function renderReports(reports) {
-      const grid = document.getElementById('reports-grid');
-      const filtered = reports.filter(r => {
-        if (activeFilters.region !== 'all' && !r.regions.includes(activeFilters.region)) return false;
-        if (activeFilters.type !== 'all' && r.type !== activeFilters.type) return false;
-        if (activeFilters.freq !== 'all' && r.freq !== activeFilters.freq) return false;
-        return true;
-      });
+      var grid = document.getElementById('reports-grid');
+      if (!grid) return;
+      var filtered = [];
+      for (var i = 0; i < reports.length; i++) {
+        var r = reports[i];
+        if (activeFilters.region !== 'all' && r.regions.indexOf(activeFilters.region) === -1) continue;
+        if (activeFilters.type !== 'all' && r.type !== activeFilters.type) continue;
+        if (activeFilters.freq !== 'all' && r.freq !== activeFilters.freq) continue;
+        filtered.push(r);
+      }
       if (filtered.length === 0) {
         grid.innerHTML = '<div class="no-reports">Nenhum relatório encontrado com os filtros selecionados.</div>';
         return;
       }
-      grid.innerHTML = filtered.map(r => `
-        <div class="report-card">
-          <div class="report-card-accent"></div>
-          <div class="report-card-body">
-            <div class="report-card-icon">${r.icon}</div>
-            <div class="report-card-title">${r.name}</div>
-            <div class="report-card-desc">${r.desc}</div>
-            ${r.sublinks && r.sublinks.length ? `<div class="report-card-links">${r.sublinks.map(s => `<a href="${s.href}" target="_blank">→ ${s.name}</a>`).join('')}</div>` : ''}
-            <div class="report-card-meta">Frequência: ${r.freq}</div>
-          </div>
-          <div class="report-card-footer">
-            <div style="display:flex;gap:6px;align-items:center;">
-              <span class="type-badge type-${r.type.toLowerCase()}">${r.type}</span>
-              <span class="region-badge">${r.label}</span>
-            </div>
-            <a href="${r.href}" target="_blank" class="btn-open">Abrir</a>
-          </div>
-        </div>
-      `).join('');
+      var html = '';
+      for (var j = 0; j < filtered.length; j++) {
+        var r = filtered[j];
+        html += '<div class="report-card">';
+        html += '<div class="report-card-accent"></div>';
+        html += '<div class="report-card-body">';
+        html += '<div class="report-card-icon">' + r.icon + '</div>';
+        html += '<div class="report-card-title">' + r.name + '</div>';
+        html += '<div class="report-card-desc">' + r.desc + '</div>';
+        html += buildSublinks(r.sublinks);
+        html += '<div class="report-card-meta">Frequência: ' + r.freq + '</div>';
+        html += '</div>';
+        html += '<div class="report-card-footer">';
+        html += '<div style="display:flex;gap:6px;align-items:center;">';
+        html += '<span class="type-badge type-' + r.type.toLowerCase() + '">' + r.type + '</span>';
+        html += '<span class="region-badge">' + r.label + '</span>';
+        html += '</div>';
+        html += '<a href="' + r.href + '" target="_blank" class="btn-open">Abrir</a>';
+        html += '</div>';
+        html += '</div>';
+      }
+      grid.innerHTML = html;
     }
 
     function renderTeam() {
