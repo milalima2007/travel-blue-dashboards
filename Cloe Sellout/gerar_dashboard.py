@@ -9,15 +9,26 @@ Uso: python gerar_dashboard.py
 import os
 import json
 import re
+import sys
 from datetime import datetime, date
 
 try:
     from openpyxl import load_workbook
 except ImportError:
-    print("Instalando openpyxl...")
-    import subprocess, sys
+    import subprocess
     subprocess.check_call([sys.executable, "-m", "pip", "install", "openpyxl"])
     from openpyxl import load_workbook
+
+def show_error(msg):
+    """Muestra error visible tanto en consola como en ventana (cuando es .exe)."""
+    print("ERROR:", msg)
+    try:
+        import ctypes
+        ctypes.windll.user32.MessageBoxW(0, str(msg), "Dashboard Cloe - Error", 0x10)
+    except Exception:
+        pass
+    input("Presiona Enter para cerrar...")
+    sys.exit(1)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT   = os.path.join(BASE_DIR, "dashboard.html")
@@ -210,17 +221,21 @@ table.dt tr.product-row.active td{background:#f59e0b18;}
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;font-size:11px;color:var(--dim);}
 .legend-item{display:flex;align-items:center;gap:6px;}
 .legend-dot{width:10px;height:10px;border-radius:3px;display:inline-block;}
-.gantt{display:flex;flex-direction:column;gap:6px;}
+.gantt{display:flex;flex-direction:column;gap:2px;}
+.gantt-group{margin-bottom:6px;}
 .gantt-row{display:grid;grid-template-columns:26px 250px 1fr 70px;align-items:center;gap:10px;}
+.gantt-row-real{display:grid;grid-template-columns:26px 250px 1fr 70px;align-items:center;gap:10px;margin-top:2px;}
 .gantt-num{font-size:11px;color:var(--dim);text-align:right;}
 .gantt-task{font-size:12px;font-weight:500;color:var(--text);}
-.gantt-track-wrap{position:relative;height:20px;background:#1e293b;border-radius:5px;overflow:hidden;}
-.gantt-bar{position:absolute;top:2px;bottom:2px;border-radius:4px;opacity:.92;}
-.gantt-bar-real{position:absolute;top:2px;bottom:2px;border-radius:4px;border:2px solid rgba(255,255,255,.35);background:transparent;}
+.gantt-label-plan{font-size:10px;color:var(--dim);font-style:italic;}
+.gantt-label-real{font-size:10px;color:#94a3b8;font-style:italic;}
+.gantt-track-wrap{position:relative;height:16px;background:#1e293b;border-radius:4px;overflow:hidden;}
+.gantt-bar{position:absolute;top:2px;bottom:2px;border-radius:3px;opacity:.92;}
+.gantt-bar-real-solid{position:absolute;top:2px;bottom:2px;border-radius:3px;background:rgba(148,163,184,0.55);}
 .gantt-today{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--accent);}
 .gantt-dev{font-size:11px;text-align:right;}
-.gantt-comment{grid-column:2/4;font-size:11px;color:var(--dim);font-style:italic;padding:0 0 4px 0;}
-.gantt-axis{margin-bottom:4px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.gantt-comment{grid-column:2/4;font-size:11px;color:var(--dim);font-style:italic;padding:2px 0 4px 0;}
+.gantt-axis{margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--border);}
 .gantt-axis-track{position:relative;height:14px;}
 .gantt-month-tick{position:absolute;top:0;font-size:10px;color:var(--dim);font-weight:700;white-space:nowrap;transform:translateX(-2px);border-left:1px solid var(--border);padding-left:4px;}
 footer{text-align:center;color:var(--dim);font-size:11px;padding:16px;border-top:1px solid var(--border);margin-top:8px;}
@@ -375,11 +390,13 @@ function buildProducts(rawProducts, useComiteStart) {
     });
 
     const adjDevs = tasksWithAdj.map(t => t.adj_deviation).filter(d => typeof d === 'number');
-    const pctComplete       = total ? Math.round(100 * completed / total) : 0;
-    const latestPlanEnd     = planEnds.slice(-1)[0] || null;
-    const latestRealEnd     = realEnds.slice(-1)[0] || null;
-    const currentEndEstimate = (pctComplete === 100 && latestRealEnd)
-      ? latestRealEnd : (latestPlanEnd || latestRealEnd);
+    const pctComplete   = total ? Math.round(100 * completed / total) : 0;
+    const latestRealEnd = realEnds.slice(-1)[0] || null;
+    // Fin estimado = siempre la tarea "Lanzamiento" (última tarea del cronograma)
+    const lastTask      = tasks.slice().sort((a,b) => (a.num||0)-(b.num||0)).slice(-1)[0];
+    const currentEndEstimate = lastTask
+      ? (lastTask.real_end || lastTask.plan_end || planEnds.slice(-1)[0] || latestRealEnd)
+      : (planEnds.slice(-1)[0] || latestRealEnd);
     return {
       sku: p.sku, title: p.title, tasks: tasksWithAdj,
       total_tasks: total, completed_tasks: completed, in_progress_tasks: inProg,
@@ -580,21 +597,35 @@ function renderDetail() {
   document.getElementById('gantt-container').innerHTML = axisRow + p.tasks.map(t => {
     const ps = pct(t.plan_start), pe = pct(t.plan_end);
     const rs = pct(t.real_start), re = pct(t.real_end);
-    const planBar = (ps !== null && pe !== null)
-      ? `<div class="gantt-bar" style="left:${ps}%;width:${Math.max(pe-ps,0.6)}%;background:${statusColor(t.status)}"></div>` : '';
-    const realBar = (rs !== null && re !== null)
-      ? `<div class="gantt-bar-real" style="left:${rs}%;width:${Math.max(re-rs,0.6)}%;"></div>` : '';
     const todayMarker = todayPct !== null ? `<div class="gantt-today" style="left:${todayPct}%"></div>` : '';
     const dv2      = t.adj_deviation !== undefined ? t.adj_deviation : t.deviation;
     const devClass = (dv2 || 0) > 14 ? 'deviation-warn' : 'deviation-ok';
     const devText  = (dv2 === null || dv2 === undefined) ? '—' : `${dv2}d`;
     const commentRow = t.comments ? `<div class="gantt-comment">💬 ${escapeHtml(t.comments)}</div>` : '';
-    return `<div class="gantt-row">
+
+    // Plan row
+    const planBar = (ps !== null && pe !== null)
+      ? `<div class="gantt-bar" style="left:${ps}%;width:${Math.max(pe-ps,0.6)}%;background:${statusColor(t.status)}"></div>` : '';
+    const planRow = `<div class="gantt-row">
       <div class="gantt-num">${t.num}</div>
       <div class="gantt-task" title="${escapeHtml(t.name)}">${escapeHtml(t.name)}</div>
-      <div class="gantt-track-wrap">${planBar}${realBar}${todayMarker}</div>
+      <div class="gantt-track-wrap">${planBar}${todayMarker}</div>
       <div class="gantt-dev ${devClass}">${devText}</div>
-    </div>${commentRow}`;
+    </div>`;
+
+    // Real row (only if real dates exist)
+    let realRow = '';
+    if (rs !== null && re !== null) {
+      const realBar = `<div class="gantt-bar-real-solid" style="left:${rs}%;width:${Math.max(re-rs,0.6)}%"></div>`;
+      realRow = `<div class="gantt-row-real">
+        <div></div>
+        <div class="gantt-label-real">Real</div>
+        <div class="gantt-track-wrap">${realBar}${todayMarker}</div>
+        <div></div>
+      </div>`;
+    }
+
+    return `<div class="gantt-group">${planRow}${realRow}${commentRow}</div>`;
   }).join('');
 }
 
@@ -616,17 +647,28 @@ loadSection(currentSection);
 
 
 def main():
-    print("Leyendo archivos Excel...")
-    sections_data = build_sections_data()
+    try:
+        print("Leyendo archivos Excel...")
+        sections_data = build_sections_data()
 
-    total = sum(len(s["products"]) for s in sections_data.values())
-    print(f"\nTotal productos: {total}")
+        total = sum(len(s["products"]) for s in sections_data.values())
+        if total == 0:
+            show_error("No se encontraron productos en los archivos Excel.\nVerifica que los archivos Excel estén en la misma carpeta que este programa.")
 
-    print("Generando dashboard.html...")
-    html = build_html(sections_data)
-    with open(OUTPUT, "w", encoding="utf-8") as f:
-        f.write(html)
-    print(f"OK -> {OUTPUT}")
+        print(f"\nTotal productos: {total}")
+        print("Generando dashboard.html...")
+        html = build_html(sections_data)
+        with open(OUTPUT, "w", encoding="utf-8") as f:
+            f.write(html)
+        print(f"OK -> {OUTPUT}")
+
+        # Abrir el dashboard automáticamente en el navegador
+        import webbrowser
+        webbrowser.open(f"file:///{OUTPUT.replace(os.sep, '/')}")
+        print("Dashboard abierto en el navegador.")
+
+    except Exception as e:
+        show_error(f"Error inesperado:\n{e}")
 
 
 if __name__ == "__main__":
