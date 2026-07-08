@@ -221,20 +221,24 @@ table.dt tr.product-row.active td{background:#f59e0b18;}
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;font-size:11px;color:var(--dim);}
 .legend-item{display:flex;align-items:center;gap:6px;}
 .legend-dot{width:10px;height:10px;border-radius:3px;display:inline-block;}
-.gantt{display:flex;flex-direction:column;gap:2px;}
-.gantt-group{margin-bottom:6px;}
-.gantt-row{display:grid;grid-template-columns:26px 250px 1fr 70px;align-items:center;gap:10px;}
-.gantt-row-real{display:grid;grid-template-columns:26px 250px 1fr 70px;align-items:center;gap:10px;margin-top:2px;}
-.gantt-num{font-size:11px;color:var(--dim);text-align:right;}
-.gantt-task{font-size:12px;font-weight:500;color:var(--text);}
-.gantt-label-plan{font-size:10px;color:var(--dim);font-style:italic;}
-.gantt-label-real{font-size:10px;color:#94a3b8;font-style:italic;}
-.gantt-track-wrap{position:relative;height:16px;background:#1e293b;border-radius:4px;overflow:hidden;}
+.gantt{display:flex;flex-direction:column;gap:0;}
+.gantt-group{display:grid;grid-template-columns:26px 250px 1fr 70px;gap:0 10px;align-items:stretch;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.gantt-group:last-child{border-bottom:none;}
+.gantt-num{font-size:11px;color:var(--dim);text-align:right;padding-top:3px;}
+.gantt-name-col{display:flex;flex-direction:column;justify-content:center;}
+.gantt-task{font-size:12px;font-weight:500;color:var(--text);line-height:1.3;}
+.gantt-comment-inline{font-size:10px;color:var(--dim);font-style:italic;margin-top:2px;}
+.gantt-bars-col{display:flex;flex-direction:column;gap:3px;justify-content:center;}
+.gantt-bar-row{display:flex;align-items:center;gap:6px;}
+.gantt-bar-label{font-size:10px;color:var(--dim);width:28px;text-align:right;flex-shrink:0;}
+.gantt-bar-label.real{color:#94a3b8;}
+.gantt-track-wrap{position:relative;height:14px;background:#1e293b;border-radius:4px;overflow:hidden;flex:1;}
 .gantt-bar{position:absolute;top:2px;bottom:2px;border-radius:3px;opacity:.92;}
 .gantt-bar-real-solid{position:absolute;top:2px;bottom:2px;border-radius:3px;background:rgba(148,163,184,0.55);}
 .gantt-today{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--accent);}
+.gantt-dev-col{display:flex;flex-direction:column;justify-content:center;gap:3px;}
 .gantt-dev{font-size:11px;text-align:right;}
-.gantt-comment{grid-column:2/4;font-size:11px;color:var(--dim);font-style:italic;padding:2px 0 4px 0;}
+.gantt-dev-spacer{height:14px;}
 .gantt-axis{margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--border);}
 .gantt-axis-track{position:relative;height:14px;}
 .gantt-month-tick{position:absolute;top:0;font-size:10px;color:var(--dim);font-weight:700;white-space:nowrap;transform:translateX(-2px);border-left:1px solid var(--border);padding-left:4px;}
@@ -591,8 +595,10 @@ function renderDetail() {
     cursor.setMonth(cursor.getMonth() + 1);
   }
 
-  const axisRow = `<div class="gantt-row gantt-axis"><div></div><div></div>
-    <div class="gantt-axis-track">${monthTicks.join('')}</div><div></div></div>`;
+  const axisRow = `<div class="gantt-group gantt-axis" style="border-bottom:1px solid var(--border);margin-bottom:4px;padding-bottom:4px;">
+    <div></div><div></div>
+    <div style="padding-left:34px;"><div class="gantt-axis-track">${monthTicks.join('')}</div></div>
+    <div></div></div>`;
 
   document.getElementById('gantt-container').innerHTML = axisRow + p.tasks.map(t => {
     const ps = pct(t.plan_start), pe = pct(t.plan_end);
@@ -601,31 +607,34 @@ function renderDetail() {
     const dv2      = t.adj_deviation !== undefined ? t.adj_deviation : t.deviation;
     const devClass = (dv2 || 0) > 14 ? 'deviation-warn' : 'deviation-ok';
     const devText  = (dv2 === null || dv2 === undefined) ? '—' : `${dv2}d`;
-    const commentRow = t.comments ? `<div class="gantt-comment">💬 ${escapeHtml(t.comments)}</div>` : '';
+    const commentEl = t.comments ? `<div class="gantt-comment-inline">💬 ${escapeHtml(t.comments)}</div>` : '';
 
-    // Plan row
     const planBar = (ps !== null && pe !== null)
       ? `<div class="gantt-bar" style="left:${ps}%;width:${Math.max(pe-ps,0.6)}%;background:${statusColor(t.status)}"></div>` : '';
-    const planRow = `<div class="gantt-row">
+    const realBar = (rs !== null && re !== null)
+      ? `<div class="gantt-bar-real-solid" style="left:${rs}%;width:${Math.max(re-rs,0.6)}%"></div>` : '';
+
+    return `<div class="gantt-group">
       <div class="gantt-num">${t.num}</div>
-      <div class="gantt-task" title="${escapeHtml(t.name)}">${escapeHtml(t.name)}</div>
-      <div class="gantt-track-wrap">${planBar}${todayMarker}</div>
-      <div class="gantt-dev ${devClass}">${devText}</div>
+      <div class="gantt-name-col">
+        <div class="gantt-task" title="${escapeHtml(t.name)}">${escapeHtml(t.name)}</div>
+        ${commentEl}
+      </div>
+      <div class="gantt-bars-col">
+        <div class="gantt-bar-row">
+          <div class="gantt-bar-label">Plan</div>
+          <div class="gantt-track-wrap">${planBar}${todayMarker}</div>
+        </div>
+        <div class="gantt-bar-row">
+          <div class="gantt-bar-label real">Real</div>
+          <div class="gantt-track-wrap">${realBar}${todayMarker}</div>
+        </div>
+      </div>
+      <div class="gantt-dev-col">
+        <div class="gantt-dev ${devClass}">${devText}</div>
+        <div class="gantt-dev-spacer"></div>
+      </div>
     </div>`;
-
-    // Real row (only if real dates exist)
-    let realRow = '';
-    if (rs !== null && re !== null) {
-      const realBar = `<div class="gantt-bar-real-solid" style="left:${rs}%;width:${Math.max(re-rs,0.6)}%"></div>`;
-      realRow = `<div class="gantt-row-real">
-        <div></div>
-        <div class="gantt-label-real">Real</div>
-        <div class="gantt-track-wrap">${realBar}${todayMarker}</div>
-        <div></div>
-      </div>`;
-    }
-
-    return `<div class="gantt-group">${planRow}${realRow}${commentRow}</div>`;
   }).join('');
 }
 
