@@ -300,6 +300,23 @@
     </div>
     <button class="login-btn" id="login-btn">Ingresar</button>
     <div class="login-err" id="login-err"></div>
+    <p style="text-align:center;margin-top:14px;">
+      <a href="#" id="forgot-link" style="font-size:12px;color:#1B2A6B;text-decoration:none;">¿Olvidaste tu contraseña?</a>
+    </p>
+
+    <!-- RESET PASSWORD PANEL (hidden by default) -->
+    <div id="reset-panel" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid #eee;">
+      <p style="font-size:13px;color:#555;margin-bottom:12px;">Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña.</p>
+      <div class="lf">
+        <label>Correo electrónico</label>
+        <input type="email" id="reset-email" placeholder="nombre@travel-blue.com"/>
+      </div>
+      <button class="login-btn" id="reset-btn" style="margin-top:4px;">Enviar enlace</button>
+      <div id="reset-msg" style="font-size:12px;margin-top:10px;display:none;padding:9px 12px;border-radius:8px;"></div>
+      <p style="text-align:center;margin-top:10px;">
+        <a href="#" id="back-login" style="font-size:12px;color:#888;text-decoration:none;">← Volver al inicio de sesión</a>
+      </p>
+    </div>
   </div>
 </div>
 
@@ -780,6 +797,46 @@ function setupLogin() {
 
   btn.addEventListener('click', doLogin);
   document.getElementById('login-password').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+
+  // ── Forgot password ──
+  var loginFields = document.getElementById('login-btn').previousElementSibling.previousElementSibling;
+  document.getElementById('forgot-link').addEventListener('click', function(e){
+    e.preventDefault();
+    document.getElementById('reset-panel').style.display = 'block';
+    document.querySelectorAll('.lf').forEach(function(el){ el.style.display='none'; });
+    document.getElementById('login-btn').style.display = 'none';
+    document.querySelector('#login-screen p').style.display = 'none';
+    document.getElementById('forgot-link').parentElement.style.display = 'none';
+  });
+
+  document.getElementById('back-login').addEventListener('click', function(e){
+    e.preventDefault();
+    document.getElementById('reset-panel').style.display = 'none';
+    document.querySelectorAll('.lf').forEach(function(el){ el.style.display=''; });
+    document.getElementById('login-btn').style.display = '';
+    document.querySelector('#login-screen p').style.display = '';
+    document.getElementById('forgot-link').parentElement.style.display = '';
+    document.getElementById('reset-msg').style.display = 'none';
+  });
+
+  document.getElementById('reset-btn').addEventListener('click', async function(){
+    var email = document.getElementById('reset-email').value.trim();
+    var msg = document.getElementById('reset-msg');
+    if (!email) { msg.textContent='Ingresa tu correo.'; msg.style.background='#fdf0f0'; msg.style.color='#c0392b'; msg.style.display='block'; return; }
+    this.textContent='Enviando…'; this.disabled=true;
+    var res = await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://travel-blue-dashboards.vercel.app/portal-equipe.html'
+    });
+    this.textContent='Enviar enlace'; this.disabled=false;
+    if (res.error) {
+      msg.textContent = res.error.message;
+      msg.style.background='#fdf0f0'; msg.style.color='#c0392b';
+    } else {
+      msg.textContent = '✓ Enlace enviado. Revisa tu correo (incluyendo la carpeta de spam).';
+      msg.style.background='#f0fdf4'; msg.style.color='#166534';
+    }
+    msg.style.display='block';
+  });
 }
 
 function showApp(user) {
