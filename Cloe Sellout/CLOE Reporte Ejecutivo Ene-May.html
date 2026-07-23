@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Cloe — Reporte Ejecutivo Mensual</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+  :root{ --bg:#0f1115; --panel:#171a21; --line:#2a2e38; --txt:#e7e9ee; --muted:#9aa1ad;
+          --accent:#3aa3ff; --good:#3ecf8e; --bad:#ff5d5d; }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--txt);}
+  header{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
+  header h1{font-size:18px;margin:0;}
+  .dl-all{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:8px 14px;cursor:pointer;font-size:13px;}
+  nav{display:flex;flex-wrap:wrap;gap:4px;padding:10px 24px;border-bottom:1px solid var(--line);background:var(--panel);}
+  nav button{background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:6px;
+              padding:6px 10px;font-size:12px;cursor:pointer;}
+  nav button.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  main{padding:20px 24px;}
+  .sheet{display:none;}
+  .sheet.active{display:block;}
+  .block{margin-bottom:22px;}
+  .block h2{font-size:14px;color:var(--accent);border-bottom:1px solid var(--line);padding-bottom:4px;}
+  .meta-row{display:flex;gap:8px;font-size:13px;margin-bottom:4px;}
+  .meta-row b{color:var(--muted);min-width:140px;}
+  table{width:100%;border-collapse:collapse;font-size:12px;}
+  th,td{border:1px solid var(--line);padding:5px 8px;text-align:right;white-space:nowrap;}
+  th:first-child,td:first-child{text-align:left;white-space:normal;min-width:160px;}
+  th{background:#1d212b;color:var(--muted);font-weight:600;}
+  tr:nth-child(even) td{background:#141720;}
+  .neg{color:var(--bad);} .pos{color:var(--good);}
+  .empty-sheet{color:var(--muted);font-style:italic;padding:30px 0;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Cloe — Reporte Ejecutivo Mensual (Ene–May 2026)</h1>
+  <button class="dl-all" onclick="downloadAll()">&#11015; Descargar Excel (mismo formato)</button>
+</header>
+<nav id="nav"></nav>
+<main id="main"></main>
+<script>
+const REPORT = {"sheets": [{"name": "1. Resumen Ejecutivo", "blocks": [{"type": "meta", "rows": [["Marca:", "Clōe"], ["Licenciatario:", "Travel Blue Accessories"], ["Categoría:", "Accesorios de viaje"], ["Periodo:", "Marzo"], ["Fecha de envío:", "20.04.2026"]]}, {"type": "title", "text": "1. RESUMEN EJECUTIVO DEL MES"}, {"type": "table", "headers": ["Indicador", "Mes", "YTD", "Plan", "Var vs Plan", "Mes 2025", "Var vs LY"], "rows": [["Ventas netas", 1454524, 6415950, 3002105, -0.5155, 449698, 2.2344], ["Unidades vendidas", 7407, 28705, 10798, -0.314, 4905, 0.5101], ["Precio promedio", 196.37, 223.51, null, null, 206.66, -0.0498], ["Regalías generadas", 145603, 642174, 300211, -0.515, 44152, 2.2978]]}, {"type": "table", "headers": ["Mes", "Plan", "Unidades", "Real Bruta", "Bonificaciones", "Real Neta", "Regalías", "Var vs Plan", "2025", "Var vs LY"], "rows": [["Enero", 3026483, 9393, 2208333, 339905, 1868428, 187055, -0.3826, 2469220, -0.2433], ["Febrero", 2798638, 11905, 3292089, 199091, 3092998, 309516, 0.1052, 2588575, 0.1949], ["Marzo", 3002105, 7407, 1813284, 358760, 1454524, 145603, -0.5155, 449698, 2.2344], ["TOTAL", 8827227, 28705, 7313706, 897756, 6415950, 642174, -0.2732, 5507492, 0.1649]]}, {"type": "title", "text": "COMENTARIO EJECUTIVO"}, {"type": "text", "rows": [["Resultados del mes", "Resultado vs Plan -52%  / vs año anterior +43%  mes/ YTD Plan - 27% / YTD año anterior +16%"], ["Categorías con mejor desempeño", ""], ["Riesgos detectados", ""], ["Acciones correctivas (nivel trimestre)", ""], ["Riesgos / Desafíos", "Ecommerce --  canales cloe "]]}]}, {"name": "2. Ventas y Distribución", "blocks": [{"type": "title", "text": "2. VENTAS POR CANAL"}, {"type": "table", "headers": ["Canal", "Ventas", "% Participación", "Crecimiento vs LY"], "rows": [["Departamentales", 1005641, 0.6914, 5.5], ["Travel Retail", 365121, 0.251, 0.3708], ["Canales Cloe", 0, 0, null], ["E commerce", 32925, 0.0226, 0.1498], ["Otros", 52163, 0.0359, null]]}, {"type": "table", "headers": ["Canal", "PLAN Q", "REAL Q", "VAR Q", "2025 Q", "VAR Q", "PLAN Enero", "REAL Enero", "VAR Enero", "2025 Enero", "VAR Enero", "PLAN Febrero", "REAL Febrero", "VAR Febrero", "2025 Febrero", "VAR Febrero", "PLAN Marzo", "REAL Marzo", "VAR Marzo", "2025 Marzo", "VAR Marzo"], "rows": [["Departamentales", 5248781, 4174583, -0.2047, 3244952, 0.2865, 1831217, 1339142, -0.2687, 1618496, -0.1726, 1594547, 1829801, 0.1475, 1471740, 0.2433, 1823017, 1005641, -0.4484, 154715, 5.5], ["Travel Retail", 2063758, 1572337, -0.2381, 1546845, 0.0165, 691574, 441397, -0.3618, 763160, -0.4216, 698712, 765819, 0.096, 517337, 0.4803, 673472, 365121, -0.4579, 266348, 0.3708], ["Canales Cloe", 953923, 511201, -0.4641, 580747, -0.1198, 319088, 46618, -0.8539, 16764, 1.7808, 314931, 464582, 0.4752, 563983, -0.1762, 319904, 0, -1, 0, null], ["E commerce", 423328, 86695, -0.7952, 135617, -0.3607, 146627, 20586, -0.8596, 71469, -0.712, 144678, 33183, -0.7706, 35514, -0.0656, 132023, 32925, -0.7506, 28634, 0.1498], ["Otros", 137436, 74680, -0.4566, 1, 69793.6916, 37977, 20944, -0.4485, 0, 53700.5385, 45770, 1573, -0.9656, 1, 2312.9265, 53689, 52163, -0.0284, 0, null]]}, {"type": "title", "text": "3. DISTRIBUCIÓN"}, {"type": "kv", "rows": [["Puntos de venta totales", 493, 493], ["Nuevos puntos de venta", 0, 0], ["Ventas promedio por punto", 6074.2, 4155.55]], "headers": ["Indicador", "Actual", "Mes Anterior"]}, {"type": "table", "headers": ["Cadena", "Puntos de venta"], "rows": [["Liverpool", 132], ["Sanborn", 102], ["Hudson", 8], ["GAP", 22], ["Sears", 63], ["Cloe", 53], ["Areas", 49], ["Dax", 34], ["PH", 15], ["Bodesa", 6], ["Chapur", 5], ["Kdepor", 4]]}, {"type": "title", "text": "TOP CLIENTES"}, {"type": "table", "headers": ["Cliente", "Ventas", "% Participación"], "rows": [["Distribuidora Liverpool", 888590.88, 0.6109], ["Operadora aero- boutiques (Areas)", 196549.62, 0.1351], ["Dufry yucatan (HUDSON)", 94920, 0.0653], ["GAP", 57763.38, 0.0397], ["El Palacio de Hierro", 55660.78, 0.0383]]}, {"type": "title", "text": "COMENTARIO EJECUTIVO"}, {"type": "text", "rows": [["Resultados del mes", "Venta real vs Plan - 45% promedio Depart & Travel Retail / Canales Cloe venta $0.00 -100% vs plan  |  ecommerce -75% vs plan crece 23% real."]]}]}, {"name": "3. Categoría y Producto", "blocks": [{"type": "title", "text": "4. DESEMPEÑO POR CATEGORÍA"}, {"type": "table", "headers": ["Categoría", "Ventas", "% Participación"], "rows": [["Almohada", 785420, 0.5395], ["Plegable", 321862, 0.2211], ["Funda Equipaje", 118020, 0.0811], ["Candado", 77951, 0.0535], ["Antifaz", 61865, 0.0425], ["Balanza", 57852, 0.0397], ["Porta Pasaporte", 16345, 0.0112], ["Identificadores", 14643, 0.0101], ["Cartera Secreta", 1589, 0.0011], ["Otros", 301, 0.0002], ["Organizadore de Ropa", 0, 0]]}, {"type": "table", "headers": ["Categoría", "2026", "2025", "Var", "Enero '26", "Enero'25", "Var", "Febrero '26", "Febrero'25", "Var", "Marzo '26", "Marzo'25", "Var"], "rows": [["Almohada", 3304464, 3314676, -0.0031, 824936, 1777724, -0.536, 1694108, 1240856, 0.3653, 785420, 296095, 1.6526], ["Plegable", 1542646, 1371669, 0.1246, 484672, 408829, 0.1855, 736112, 908919, -0.1901, 321862, 53922, 4.969], ["Funda Equipaje", 685686, 406429, 0.6871, 141641, 115879, 0.2223, 426026, 268941, 0.5841, 118020, 21609, 4.4617], ["Porta Pasaporte", 392099, 33494, 10.7064, 279545, 18790, 13.8773, 96209, 7580, 11.6922, 16345, 7124, 1.2944], ["Candado", 275837, 234468, 0.1764, 94747, 88304, 0.073, 103139, 89757, 0.1491, 77951, 56407, 0.3819], ["Antifaz", 87958, 29938, 1.938, 13443, 9137, 0.4713, 12650, 13114, -0.0353, 61865, 7688, 7.0468], ["Balanza", 71719, 40661, 0.7638, 8158, 36629, -0.7773, 5709, 958, 4.959, 57852, 3074, 17.8211], ["Identificadores", 49351, 65511, -0.2467, 16104, 13177, 0.2221, 18603, 48881, -0.6194, 14643, 3453, 3.2402], ["Cartera Secreta", 8917, 9718, -0.0825, 4925, 149, 31.9517, 2403, 9569, -0.7489, 1589, 0, null], ["Otros", 817, 946, -0.1364, 516, 946, -0.4545, 0, 0, -1, 301, 0, null], ["Convertidor", 0, 651, -0.9997, 0, 325, -0.9994, 0, 0, -1, 0, 325, -1], ["Organizadore de Ropa", 0, 0, null, 0, 0, null, 0, 0, null, 0, 0, null]]}, {"type": "title", "text": "5. DESEMPEÑO POR PRODUCTO – TOP 10"}, {"type": "table", "headers": ["SKU", "Producto", "Ventas", "% Participación"], "rows": [["TRAV002 N", "OE ERGONOMIC NECK PAD - BLACK", 264817, 0.146], ["TRAV002 M", "OE ERGONOMIC NECK PAD - PURPLE", 119913, 0.0661], ["6TRAO22048GRI", "ALMOHADILLA ERGONÓMICA CON ANTIFAZ GRIS OXFORD", 84078, 0.0464], ["6TRAI25393OLI", "ERGONOMIC NECK PILLOW - OLIVE", 83281, 0.0459], ["TRAV002 R", "OE ERGONOMIC NECK PAD - PINK", 82881, 0.0457], ["TRAV001 R", "CLOE NECK PILLOW WITH EYE MASK - PINK", 80726, 0.0445], ["6TRAP22047NEG", "MEDIUM BLACK REVERSIBLE FOLDING BAG-CLOE LOGO", 76820, 0.0424], ["TRAV001 N", "CLOE NECK PILLOW WITH EYE MASK - BLACK", 75493, 0.0416], ["6TRAO24416NEG", "DIGITAL SCALE 3 IN 1", 73961, 0.0408], ["6TRAO24415GRI", "3D FACE MASK", 71780, 0.0396]]}, {"type": "title", "text": "KPIs DE PRODUCTO"}, {"type": "kv", "rows": [["% ventas Top 10 productos", 0.56], ["SKUs activos", 49], ["SKUs nuevos", 0]], "headers": ["KPI", "Valor"]}]}, {"name": "4. Inventario", "blocks": [{"type": "title", "text": "6. INVENTARIO"}, {"type": "table", "headers": ["Indicador", "Valor", "", "Disponible", "Anterior", "%"], "rows": [["Inventario total", 28869226, "", 35865, 3789, 0.1056], ["Inventario central", 18793616, "", "", "", ""], ["Inventario en canal", 10075610, "", "", "", ""], ["Días de inventario", 0.43, "", "", "", ""], ["Rotación", 0.08, "", "", "", ""], ["% inventario obsoleto", 0.0301, "", "", "", ""], ["Inventario descontinuado", 564902, "", "", "", ""]]}, {"type": "title", "text": "INVENTARIO POR CATEGORÍA"}, {"type": "table", "headers": ["Categoría", "Inventario"], "rows": [["Plegable", 7870150], ["Almohada", 5564433], ["Candado", 1776538], ["Funda", 1440967], ["Antifaz", 989393], ["Báscula", 553174], ["Identificador", 319718], ["Porta Pasaporte", 182368], ["Convertidor", 96875]]}]}, {"name": "5. Marca y Regalías", "blocks": [{"type": "title", "text": "7. SALUD DE MARCA"}, {"type": "kv", "rows": [["% ventas precio completo", 0.8], ["% ventas con descuento", 0.2], ["Precio promedio retail", 345.2], ["Devoluciones", 1463.79], ["Incidencias de calidad", 960]], "headers": ["KPI", "Valor"]}, {"type": "table", "headers": ["Mes", "Venta Bruta", "Bonificaciones", "Venta Neta", "Regalías", "Var"], "rows": [["Enero", 2208333, 339905, 1868428, 187055, -0.1539], ["Febrero", 3292089, 199091, 3092998, 309516, -0.0605], ["Marzo", 1813284, 358760, 1454524, 145603, -0.1979]]}, {"type": "title", "text": "CUMPLIMIENTO DE LINEAMIENTOS DE MARCA"}, {"type": "table", "headers": ["Control", "Status"], "rows": [["Diseño aprobado", "Si"], ["Packaging aprobado", "No"], ["Material POP aprobado", "N/A"]]}, {"type": "title", "text": "8. REGALÍAS"}, {"type": "table", "headers": ["Indicador", "Mes", "YTD"], "rows": [["Ventas base para regalía", 1454524, 6415950], ["% regalía", 0.1, 0.1], ["Regalías generadas", 145603, 642174], ["Regalías pagadas (monto por facturar)", 145603, 642174]]}, {"type": "table", "headers": ["Mes", "2026", "2025"], "rows": [["Enero", 187055, 255851], ["Febrero", 309516, 271316], ["Marzo", 145603, 44152]]}]}, {"name": "6. Marketing y Plan", "blocks": [{"type": "title", "text": "9. MARKETING Y ACTIVACIONES"}, {"type": "table", "headers": ["Actividad", "Canal", "Resultado"], "rows": [["Lanzamiento producto", "N/A", "N/A"], ["VIM", "Liverpool separación de marcas TB de OE en 98 tiendas (colaboradorres OE / promotres TB Espacio dedicado a marca Oe en muebles genéricos, paneles y exhibidores (retiro copete TB si fuera el caso)", "Se cuenta con una avance del 88%"], ["Exhibiciones fuera de la secciòn equipaje", "Liverpool", "Se logró en un 15% de las tiendas (14 exhibiciones)"], ["Incentivos colaboradores & coordindores sobre ventas en Liverpool", "Pago de incentivos por objetivos, exhibiciones fuera de sección & mantenimiento lineal", "De 93 colaboradores, 69 lograron incentivo (74% $43k)"], ["Campaña Influencer semana santa, alineado con incentivos colaboradores Oe", "Liverpool", "Enfocado a los accesorios Oe, tips mostrando el proceso de empaque de la maleta, recomendaciones de viaje para Semana Santa, tips para viajar, nueva presentación de empaque"]]}, {"type": "title", "text": "COMPARATIVO VTAS LIVERPOOL"}, {"type": "table", "headers": ["Mes", "2025", "2026", "%"], "rows": [["Enero", 1090412, 1855229, 0.7014], ["Febrero", 900408, 1165470, 0.2944], ["Marzo", 1204564, 1698038, 0.4097], ["Total", 3195385, 4718737, 0.4767]]}, {"type": "title", "text": "INVERSIÓN MARKETING"}, {"type": "kv", "rows": [["Inversión marketing", 93500], ["% sobre ventas", 0.0643]], "headers": ["KPI", "Valor"]}, {"type": "kv", "rows": [["Valor", 139411], ["Venta YTD", 6415949], ["% sobre ventas", 0.0217]], "headers": ["", "Q"]}, {"type": "title", "text": "10. PLAN DE ACCIÓN PRÓXIMO MES"}, {"type": "table", "headers": ["Acción", "Responsable", "Fecha"], "rows": [["VIM", "TB / SELL OUT OE", "Abril"], ["Incentivos colaboradores & coordindores sobre ventas en Liverpool", "TB / SELL OUT OE", "Abril"], ["Incentivo por coolcoaciòn tubo & identifiacdor de marca", "TB / SELL OUT OE", "Abril"], ["Alineaciòn descuento departamentales-boutiques-ecommerce", "TB / Planeacion Comercial OE", "Q2"], ["Venta cruzada de inventarios rezagados en boutiques & ecoomerce", "TB / Planeacion Comercial OE", "Q2"], ["Ofrecer promocional  con prdictos descontinuados", "TB / Planeacion Comercial OE", "Q2"]]}, {"type": "title", "text": "TRAVEL SET PENETRATION"}, {"type": "table", "headers": ["KPI", "Qué mide"], "rows": [["% ventas de sets o bundles", "Ticket promedio"]]}]}, {"name": "1. Resumen Ejecutivo (May)", "blocks": [{"type": "meta", "rows": [["Marca:", "Clōe"], ["Licenciatario:", "Travel Blue Accessories"], ["Categoría:", "Accesorios de viaje"], ["Periodo:", "Mayo"], ["Fecha de envío:", "19.06.2026"]]}, {"type": "title", "text": "1. RESUMEN EJECUTIVO DEL MES"}, {"type": "table", "headers": ["Indicador", "Mes", "YTD", "Plan", "Var vs Plan", "Mes 2025", "Var vs LY"], "rows": [["Ventas netas", 2376885, 10708544, 3078964, -0.228, 1618199, 0.4688], ["Unidades vendidas", 10593, 48543, 11415, -0.072, 5987, 0.7693], ["Precio promedio", 224.38, 220.6, null, null, 270.29, -0.1698], ["Regalías generadas", 237702, 1071542, 307896, -0.228, 163661, 0.4524]]}, {"type": "table", "headers": ["Mes", "Plan", "Unidades", "Real Bruta", "Bonificaciones", "Real Neta", "Regalías", "Var vs Plan", "2025", "Var vs LY"], "rows": [["Abril", 2943032, 9245, 2254152, 338444, 1915709, 191666, -0.3491, 1630105, 0.1752], ["Mayo", 3078964, 10593, 2705927, 329042, 2376885, 237702, -0.228, 1618199, 0.4688], ["Junio", 0, 0, 0, 0, 0, 0, null, 1896038, -1], ["TOTAL", 6021996, 19838, 4960079, 667486, 4292594, 429368, -0.2872, 5144342, -0.1656]]}, {"type": "title", "text": "COMENTARIO EJECUTIVO"}, {"type": "text", "rows": [["Resultados del mes", "Resultado vs Plan -23%  / vs año anterior +47%  mes/ YTD Plan - 23% / YTD año anterior -12%"], ["Categorías con mejor desempeño", ""], ["Riesgos detectados", ""], ["Acciones correctivas (nivel trimestre)", ""], ["Riesgos / Desafíos", "Ecommerce --  canales cloe "]]}]}, {"name": "2. Ventas y Distribución (May)", "blocks": [{"type": "title", "text": "2. VENTAS POR CANAL"}, {"type": "table", "headers": ["Canal", "Ventas", "% Participación", "Crecimiento vs LY"], "rows": [["Departamentales", 1151524, 0.4845, 0.1745], ["Travel Retail", 753921, 0.3172, 0.2658], ["Canales Cloe", 409382, 0.1722, null], ["E commerce", 55858, 0.0235, 0.3245], ["Otros", 6937, 0.0029, 173432]]}, {"type": "table", "headers": ["Canal", "PLAN Q", "REAL Q", "VAR Q", "2025 Q", "VAR Q", "PLAN Abril", "REAL Abril", "VAR Abril", "2025 Abril", "VAR Abril", "PLAN Mayo", "REAL Mayo", "VAR Mayo", "2025 Mayo", "VAR Mayo", "PLAN Junio", "REAL Junio", "VAR Junio", "2025 Junio", "VAR Junio"], "rows": [["Departamentales", 3673450, 2040532, -0.4445, 2105664, -0.0309, 1783264, 889008, -0.5015, 358779, 1.4779, 1890186, 1151524, -0.3908, 980435, 0.1745, 0, 0, null, 766449, -1], ["Travel Retail", 1387111, 1272348, -0.0827, 1743764, -0.2703, 690363, 518428, -0.2491, 644421, -0.1955, 696748, 753921, 0.0821, 595590, 0.2658, 0, 0, null, 503753, -1], ["Canales Cloe", 625292, 893454, 0.4289, 1147680, -0.2215, 309575, 484071, 0.5637, 558356, -0.133, 315717, 409382, 0.2967, 0, null, 0, 0, null, 589324, -1], ["E commerce", 236543, 103713, -0.5615, 131461, -0.2111, 117291, 47855, -0.592, 49720, -0.0375, 119252, 55858, -0.5316, 42174, 0.3245, 0, 0, null, 39568, -1], ["Otros", 99600, 8129, -0.9184, 18829, -0.5683, 42539, 1191, -0.972, 18828, -0.9367, 57061, 6937, -0.8784, 0, 173432, 0, 0, null, 0, -1]]}, {"type": "title", "text": "3. DISTRIBUCIÓN"}, {"type": "kv", "rows": [["Puntos de venta totales", 493, 493], ["Nuevos puntos de venta", 0, 0], ["Ventas promedio por punto", 4458.88, 5156.08]], "headers": ["Indicador", "Actual", "Mes Anterior"]}, {"type": "table", "headers": ["Cadena", "Puntos de venta"], "rows": [["Liverpool", 132], ["Sanborn", 102], ["Hudson", 8], ["GAP", 22], ["Sears", 63], ["Cloe", 53], ["Areas", 49], ["Dax", 34], ["PH", 15], ["Bodesa", 6], ["Chapur", 5], ["Kdepor", 4]]}, {"type": "title", "text": "TOP CLIENTES"}, {"type": "table", "headers": ["Cliente", "Ventas", "% Participación"], "rows": [["Distribuidora Liverpool", 843441.14, 0.3549], ["Canales Cloe", 409382.38, 0.1722], ["Dufry yucatan (HUDSON)", 356400, 0.1499], ["Operadora aero- boutiques (Areas)", 201696.6, 0.0849], ["El Palacio de Hierro", 128815.38, 0.0542]]}, {"type": "title", "text": "COMENTARIO EJECUTIVO"}, {"type": "text", "rows": [["Resultados del mes", "Venta real vs Plan - 16% promedio Depart & Travel Retail / Canales Cloe +30%  vs plan  |  ecommerce -53% vs plan /-31% año anterior"]]}]}, {"name": "3. Categoría y Producto (May)", "blocks": [{"type": "title", "text": "4. DESEMPEÑO POR CATEGORÍA"}, {"type": "table", "headers": ["Categoría", "Ventas", "% Participación"], "rows": [["Almohada", 1526290, 0.6419], ["Plegable", 385819, 0.1623], ["Candado", 140521, 0.0591], ["Funda Equipaje", 110767, 0.0466], ["Balanza", 86452, 0.0364], ["Antifaz", 72850, 0.0306], ["Identificadores", 27894, 0.0117], ["Porta Pasaporte", 16452, 0.0069], ["Cartera Secreta", 10204, 0.0043], ["Convertidor", 372, 0.0002]]}, {"type": "table", "headers": ["Categoría", "2026", "2025", "Var", "Abril '26", "Abril'25", "Var", "Mayo '26", "Mayo'25", "Var", "Junio '26", "Junio'25", "Var"], "rows": [["Almohada", 2774773, 3847726, -0.2789, 1248483, 1187247, 0.0516, 1526290, 1299606, 0.1744, 0, 1360873, -1], ["Plegable", 580503, 693373, -0.1628, 194684, 247291, -0.2127, 385819, 186854, 1.0648, 0, 259228, -1], ["Funda Equipaje", 386084, 212627, 0.8158, 275317, 66701, 3.1276, 110767, 41656, 1.6591, 0, 104269, -1], ["Candado", 231192, 174005, 0.3286, 90670, 42899, 1.1136, 140521, 38900, 2.6124, 0, 92206, -1], ["Balanza", 106195, 64343, 0.6504, 19742, 12738, 0.5499, 86452, 30756, 1.8109, 0, 20849, -1], ["Antifaz", 86773, 29573, 1.9342, 13922, 11834, 0.1764, 72850, 7749, 8.4011, 0, 9990, -1], ["Porta Pasaporte", 78509, 64971, 0.2084, 62057, 41015, 0.513, 16452, 2628, 5.2602, 0, 21328, -1], ["Identificadores", 53734, 40754, 0.3185, 25840, 6944, 2.7211, 27894, 9835, 1.8361, 0, 23975, -1], ["Cartera Secreta", 20040, 15549, 0.2888, 9836, 9569, 0.0279, 10204, 0, null, 0, 5980, -1], ["Convertidor", 372, 418, -0.1109, 0, 325, -1, 372, 0, null, 0, 93, -1], ["Organizadore de Ropa", 0, 3240, -1, 0, 3240, -1, 0, 0, null, 0, 0, null], ["Otros", 0, 817, -0.9999, 0, 301, -0.9998, 0, 215, -1, 0, 301, -1]]}, {"type": "title", "text": "5. DESEMPEÑO POR PRODUCTO – TOP 10"}, {"type": "table", "headers": ["SKU", "Producto", "Ventas", "% Participación"], "rows": [["TRAV002 N", "OE ERGONOMIC NECK PAD - BLACK", 431895, 0.1596], ["TRAV002 M", "OE ERGONOMIC NECK PAD - PURPLE", 306346, 0.1132], ["6TRAI25393OLI", "ERGONOMIC NECK PILLOW - OLIVE", 203048, 0.075], ["TRAV002 R", "OE ERGONOMIC NECK PAD - PINK", 151147, 0.0559], ["6TRAO22048GRI", "ALMOHADILLA ERGONÓMICA CON ANTIFAZ GRIS OXFORD", 141834, 0.0524], ["6TRAO22048AZU", "ALMOHADILLA ERGONÓMICA CON ANTIFAZ ROSA CLARO", 123771, 0.0457], ["6TRAO24416NEG", "DIGITAL SCALE 3 IN 1", 107163, 0.0396], ["6TRAI25392AZU", "MEMORY PILLOW - BLUE", 99817, 0.0369], ["6TRAP22038ROS", "PINK-BLUE MEDIUM REVERSIBLE FOLDABLE BAG", 90250, 0.0334], ["TRAV001 N", "CLOE NECK PILLOW WITH EYE MASK - BLACK", 87892, 0.0325]]}, {"type": "title", "text": "KPIs DE PRODUCTO"}, {"type": "kv", "rows": [["% ventas Top 10 productos", 0.64], ["SKUs activos", 48], ["SKUs nuevos", 0]], "headers": ["KPI", "Valor"]}]}, {"name": "4. Inventario (May)", "blocks": [{"type": "title", "text": "6. INVENTARIO"}, {"type": "table", "headers": ["Indicador", "Valor", "", "Disponible", "Anterior", "%"], "rows": [["Inventario total", 26075141, "", 30091, 3253, 0.1081], ["Inventario central", 16857266, "", "", "", ""], ["Inventario en canal", 9217874, "", "", "", ""], ["Días de inventario (DIO)", 10.97, "", "", "", ""], ["Rotación", 11.11, "Cálculo vta prom 6 meses", "", "", ""], ["% inventario obsoleto", 0.0335, "", "", "", ""], ["Inventario descontinuado", 564729, "", "", "", ""]]}, {"type": "title", "text": "INVENTARIO POR CATEGORÍA"}, {"type": "table", "headers": ["Categoría", "Inventario"], "rows": [["Almohada", 7235040], ["Plegable", 6414247], ["Antifaz", 754434], ["Candado Combinacion", 643108], ["Funda", 625364], ["Candado Llave", 328852], ["Báscula", 314550], ["Cartera", 253847], ["Identificador", 184920], ["Convertidor USB", 96100], ["Porta pasaporte", 6807]]}]}, {"name": "5. Marca y Regalías (May)", "blocks": [{"type": "title", "text": "7. SALUD DE MARCA"}, {"type": "kv", "rows": [["% ventas precio completo", 0.88], ["% ventas con descuento", 0.12], ["Precio promedio retail", 345.2], ["Devoluciones", 23231.9], ["Incidencias de calidad", 0]], "headers": ["KPI", "Valor"]}, {"type": "table", "headers": ["Mes", "Venta Bruta", "Bonificaciones", "Venta Neta", "Regalías", "Var"], "rows": [["Abril", 2254152, 338444, 1915709, 191666, -0.1501], ["Mayo", 2705927, 329042, 2376885, 237702, -0.1216], ["Junio", 0, 0, 0, 0, null]]}, {"type": "title", "text": "CUMPLIMIENTO DE LINEAMIENTOS DE MARCA"}, {"type": "table", "headers": ["Control", "Status"], "rows": [["Diseño aprobado", "Si"], ["Packaging aprobado", "No"], ["Material POP aprobado", "N/A"]]}, {"type": "title", "text": "8. REGALÍAS"}, {"type": "table", "headers": ["Indicador", "Mes", "YTD"], "rows": [["Ventas base para regalía", 2376885, 10708544], ["% regalía", 0.1, 0.1], ["Regalías generadas", 237702, 1071542], ["Regalías pagadas (monto por facturar)", 237702, 1071542]]}, {"type": "table", "headers": ["Mes", "2026", "2025"], "rows": [["Abril", 191666, 168157], ["Mayo", 237702, 163661], ["Junio", 0, 192904]]}]}, {"name": "6. Marketing y Plan (May)", "blocks": [{"type": "title", "text": "9. MARKETING Y ACTIVACIONES"}, {"type": "table", "headers": ["Actividad", "Canal", "Resultado"], "rows": [["Lanzamiento producto", "N/A", "N/A"], ["VIM", "Liverpool separación de marcas TB de OE en 98 tiendas (colaboradorres OE / promotres TB Espacio dedicado a marca Oe en muebles genéricos, paneles y exhibidores (retiro copete TB si fuera el caso)", "Se cuenta con una avance del 92%"], ["Exhibiciones fuera de la secciòn equipaje", "Liverpool", "Se logró en un 8% de las tiendas (8 exhibiciones)"], ["Incentivos colaboradores & coordindores sobre ventas en Liverpool", "Pago de incentivos por objetivos, exhibiciones fuera de sección & mantenimiento lineal", "De 96 colaboradores, 68 lograron incentivo (71% $35k)"]]}, {"type": "title", "text": "COMPARATIVO VTAS LIVERPOOL"}, {"type": "table", "headers": ["Mes", "2025", "2026", "%"], "rows": [["Abril", 125200, 679504, 4.4273], ["Mayo", 824365, 843441, 0.0231], ["Junio", 614112, 0, -1]]}, {"type": "title", "text": "INVERSIÓN MARKETING"}, {"type": "kv", "rows": [["Inversión marketing", 174167], ["% sobre ventas", 0.1197]], "headers": ["KPI", "Valor"]}, {"type": "kv", "rows": [["Valor", 392126], ["Venta YTD", 10708542], ["% sobre ventas", 0.0366]], "headers": ["", "Q"]}, {"type": "title", "text": "10. PLAN DE ACCIÓN PRÓXIMO MES"}, {"type": "table", "headers": ["Acción", "Responsable", "Fecha"], "rows": [["VIM PH", "TB / SELL OUT OE", "Junio"], ["Incentivos colaboradores & coordindores sobre ventas en Liverpool", "TB / SELL OUT OE", "Junio"], ["Incentivo por coolcoaciòn tubo & identifiacdor de marca Liverpool", "TB / SELL OUT OE", "Junio"], ["Alineaciòn descuento departamentales-boutiques-ecommerce", "TB / Planeacion Comercial OE", "Q2"], ["Venta cruzada de inventarios rezagados en boutiques & ecoomerce", "TB / Planeacion Comercial OE", "Q2"], ["Ofrecer promocional  con prdictos descontinuados", "TB / Planeacion Comercial OE", "Q2"]]}, {"type": "title", "text": "TRAVEL SET PENETRATION"}, {"type": "table", "headers": ["KPI", "Qué mide"], "rows": [["% ventas de sets o bundles", "Ticket promedio"]]}]}, {"name": "Plan de Acción", "blocks": []}], "generated": true};
+
+function fmtNum(v){
+  if (v===null||v===undefined||v==='') return '';
+  if (typeof v!=='number') return v;
+  if (Math.abs(v)<1 && v!==0) return (v*100).toFixed(1)+'%';
+  return v.toLocaleString('es-MX',{maximumFractionDigits:0});
+}
+function isPct(header){
+  return /var|%|particip/i.test(header||'');
+}
+function fmtCell(v, header){
+  if (v===null||v===undefined||v==='') return '';
+  if (typeof v==='number' && isPct(header)) return (v*100).toFixed(1)+'%';
+  if (typeof v==='number') return v.toLocaleString('es-MX',{maximumFractionDigits:2});
+  return v;
+}
+function cellClass(v, header){
+  if (typeof v==='number' && isPct(header)){ return v<0?'neg':'pos'; }
+  return '';
+}
+
+function renderBlock(b){
+  if (b.type==='title') return '<h2>'+b.text+'</h2>';
+  if (b.type==='meta'){
+    return b.rows.map(r=>'<div class="meta-row"><b>'+r[0]+'</b><span>'+(r[1]||'')+'</span></div>').join('');
+  }
+  if (b.type==='text'){
+    return b.rows.map(r=>'<div class="meta-row"><b>'+r[0]+'</b><span>'+(r[1]||'')+'</span></div>').join('');
+  }
+  if (b.type==='table' || b.type==='kv'){
+    var headers = b.headers || [];
+    var html = '<table><thead><tr>';
+    headers.forEach(h=>html+='<th>'+h+'</th>');
+    html += '</tr></thead><tbody>';
+    b.rows.forEach(row=>{
+      html += '<tr>';
+      row.forEach((c,i)=>{
+        var h = headers[i]||'';
+        html += '<td class="'+cellClass(c,h)+'">'+fmtCell(c,h)+'</td>';
+      });
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    return html;
+  }
+  return '';
+}
+
+function renderSheet(sh){
+  if (!sh.blocks.length) return '<div class="empty-sheet">(Sin contenido — hoja vacía en el reporte original)</div>';
+  return sh.blocks.map(b=>'<div class="block">'+renderBlock(b)+'</div>').join('');
+}
+
+function init(){
+  var nav = document.getElementById('nav');
+  var main = document.getElementById('main');
+  REPORT.sheets.forEach((sh,i)=>{
+    var btn = document.createElement('button');
+    btn.textContent = sh.name;
+    btn.onclick = ()=>showSheet(i);
+    btn.id = 'navbtn-'+i;
+    nav.appendChild(btn);
+    var div = document.createElement('div');
+    div.className = 'sheet';
+    div.id = 'sheet-'+i;
+    div.innerHTML = renderSheet(sh);
+    main.appendChild(div);
+  });
+  showSheet(0);
+}
+function showSheet(i){
+  document.querySelectorAll('.sheet').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('#nav button').forEach(el=>el.classList.remove('active'));
+  document.getElementById('sheet-'+i).classList.add('active');
+  document.getElementById('navbtn-'+i).classList.add('active');
+}
+
+function blockToAoa(b){
+  var rows = [];
+  if (b.type==='title'){ rows.push([b.text]); }
+  else if (b.type==='meta' || b.type==='text'){
+    b.rows.forEach(r=>rows.push([r[0], r[1]||'']));
+  } else if (b.type==='table' || b.type==='kv'){
+    if (b.headers) rows.push(b.headers);
+    b.rows.forEach(r=>rows.push(r));
+  }
+  rows.push([]);
+  return rows;
+}
+
+function downloadAll(){
+  var wb = XLSX.utils.book_new();
+  REPORT.sheets.forEach(sh=>{
+    var aoa = [];
+    sh.blocks.forEach(b=>{ aoa = aoa.concat(blockToAoa(b)); });
+    if (!aoa.length) aoa = [['']];
+    var ws = XLSX.utils.aoa_to_sheet(aoa);
+    var name = sh.name.length>31 ? sh.name.substring(0,31) : sh.name;
+    XLSX.utils.book_append_sheet(wb, ws, name);
+  });
+  XLSX.writeFile(wb, 'CLOE Reporte Ejecutivo Ene-May.xlsx');
+}
+
+init();
+</script>
+</body>
+</html>
