@@ -1,755 +1,815 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="es">
 <head>
   <script src="/js/config.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Travel Blue | Portal del Equipo</title>
-  <link rel="stylesheet" href="css/style.css" />
   <style>
-    /* ── Loading overlay ── */
-    #loading-overlay {
-      position: fixed; inset: 0; background: var(--surface-0, #f5f5f0);
-      display: flex; align-items: center; justify-content: center; z-index: 999;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F4F5F7; color: #222; min-height: 100vh; }
+
+    /* ── LOGIN ── */
+    #login-screen {
+      display: none; position: fixed; inset: 0;
+      background: linear-gradient(135deg, #1B2A6B 0%, #243580 100%);
+      align-items: center; justify-content: center; z-index: 999;
     }
-    .loading-spinner {
-      width: 32px; height: 32px; border: 3px solid #e0e0e0;
+    #login-screen.active { display: flex; }
+    .login-box {
+      background: #fff; border-radius: 20px; padding: 44px 40px;
+      width: 100%; max-width: 400px; box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+    }
+    .login-header { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+    .login-header svg { width: 44px; height: 44px; flex-shrink: 0; }
+    .login-brand { font-size: 20px; font-weight: 700; color: #1B2A6B; line-height: 1.2; }
+    .login-brand small { display: block; font-size: 11px; font-weight: 400; color: #999; }
+    .login-box h2 { font-size: 22px; color: #1B2A6B; margin-bottom: 6px; }
+    .login-box p { font-size: 13px; color: #888; margin-bottom: 28px; }
+    .lf { margin-bottom: 16px; }
+    .lf label { display: block; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .04em; }
+    .lf input {
+      width: 100%; padding: 11px 14px; border: 1.5px solid #E0E0E0;
+      border-radius: 10px; font-size: 14px; color: #222; transition: border-color .15s;
+    }
+    .lf input:focus { outline: none; border-color: #1B2A6B; }
+    .login-btn {
+      width: 100%; padding: 13px; background: #1B2A6B; color: #fff;
+      border: none; border-radius: 10px; font-size: 15px; font-weight: 600;
+      cursor: pointer; margin-top: 8px; transition: background .15s;
+    }
+    .login-btn:hover { background: #253d99; }
+    .login-err {
+      font-size: 12px; color: #c0392b; margin-top: 12px; display: none;
+      padding: 9px 12px; background: #fdf0f0; border-radius: 8px;
+    }
+
+    /* ── LOADING ── */
+    #loading-screen {
+      display: flex; position: fixed; inset: 0;
+      background: #F4F5F7; align-items: center; justify-content: center; z-index: 998;
+    }
+    .spinner {
+      width: 36px; height: 36px; border: 3px solid #ddd;
       border-top-color: #1B2A6B; border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: spin .7s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Login modal ── */
-    #login-overlay {
-      position: fixed; inset: 0; background: rgba(27,42,107,0.08);
-      display: none; align-items: center; justify-content: center; z-index: 998;
-    }
-    .login-card {
-      background: #fff; border-radius: 16px; padding: 36px 32px;
-      width: 100%; max-width: 380px; box-shadow: 0 8px 32px rgba(0,0,0,0.10);
-    }
-    .login-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
-    .login-logo svg { width: 36px; height: 36px; }
-    .login-logo-text { font-size: 17px; font-weight: 600; color: #1B2A6B; }
-    .login-logo-tag { font-size: 11px; color: #888; }
-    .login-title { font-size: 20px; font-weight: 600; color: #1B2A6B; margin-bottom: 4px; }
-    .login-sub { font-size: 13px; color: #888; margin-bottom: 24px; }
-    .login-field { margin-bottom: 14px; }
-    .login-field label { display: block; font-size: 12px; font-weight: 500; color: #555; margin-bottom: 5px; }
-    .login-field input {
-      width: 100%; padding: 10px 12px; border: 1.5px solid #e0e0e0;
-      border-radius: 8px; font-size: 14px; color: #222; box-sizing: border-box;
-      transition: border-color 0.15s;
-    }
-    .login-field input:focus { outline: none; border-color: #1B2A6B; }
-    .login-btn {
-      width: 100%; padding: 11px; background: #1B2A6B; color: #fff;
-      border: none; border-radius: 8px; font-size: 14px; font-weight: 600;
-      cursor: pointer; margin-top: 4px; transition: background 0.15s;
-    }
-    .login-btn:hover { background: #253d99; }
-    .login-error {
-      font-size: 12px; color: #c0392b; margin-top: 10px;
-      display: none; padding: 8px 10px; background: #fdf0f0; border-radius: 6px;
-    }
+    /* ── LAYOUT ── */
+    #app { display: none; min-height: 100vh; }
+    #app.active { display: flex; }
 
-    /* ── Tabs ── */
-    .portal-tabs {
-      display: flex; gap: 4px; border-bottom: 1.5px solid #e8e8e8;
-      margin-bottom: 28px; padding: 0 4px;
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 240px; flex-shrink: 0; background: #1B2A6B;
+      min-height: 100vh; display: flex; flex-direction: column;
+      position: sticky; top: 0; height: 100vh; overflow-y: auto;
     }
-    .tab-btn {
-      padding: 10px 18px; font-size: 14px; font-weight: 500; color: #888;
-      border: none; background: none; cursor: pointer; border-bottom: 2.5px solid transparent;
-      margin-bottom: -1.5px; transition: color 0.15s, border-color 0.15s;
+    .sidebar-logo {
+      display: flex; align-items: center; gap: 10px;
+      padding: 22px 20px 18px; border-bottom: 1px solid rgba(255,255,255,.1);
     }
-    .tab-btn.active { color: #1B2A6B; border-bottom-color: #1B2A6B; }
-    .tab-btn:hover:not(.active) { color: #555; }
-    .tab-section { display: none; }
-    .tab-section.active { display: block; }
+    .sidebar-logo svg { width: 34px; height: 34px; flex-shrink: 0; }
+    .sidebar-logo-text { color: #fff; }
+    .sidebar-logo-text strong { display: block; font-size: 15px; font-weight: 700; }
+    .sidebar-logo-text span { font-size: 10px; color: rgba(255,255,255,.5); }
 
-    /* ── Filter chips ── */
-    .filter-row {
-      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
-      align-items: center;
+    .sidebar-user {
+      padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,.08);
     }
-    .filter-label { font-size: 12px; color: #888; margin-right: 4px; }
+    .sidebar-user-name { font-size: 13px; font-weight: 600; color: #fff; }
+    .sidebar-user-role { font-size: 11px; color: rgba(255,255,255,.45); margin-top: 2px; }
+
+    .sidebar-nav { flex: 1; padding: 12px 0; }
+    .nav-section-label {
+      font-size: 10px; font-weight: 700; color: rgba(255,255,255,.35);
+      text-transform: uppercase; letter-spacing: .08em;
+      padding: 14px 20px 6px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 20px; cursor: pointer; border-radius: 0;
+      color: rgba(255,255,255,.65); font-size: 13px; font-weight: 500;
+      transition: background .15s, color .15s; border: none; background: none;
+      width: 100%; text-align: left;
+    }
+    .nav-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+    .nav-item.active { background: rgba(255,193,44,.15); color: #FFC72C; }
+    .nav-item svg { width: 16px; height: 16px; flex-shrink: 0; opacity: .8; }
+    .nav-item.active svg { opacity: 1; }
+
+    .sidebar-footer {
+      padding: 14px 20px; border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .btn-logout {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: rgba(255,255,255,.45); cursor: pointer;
+      border: none; background: none; padding: 0; transition: color .15s;
+    }
+    .btn-logout:hover { color: #fff; }
+    .btn-logout svg { width: 14px; height: 14px; }
+
+    /* ── MAIN ── */
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+    .topbar {
+      background: #fff; border-bottom: 1px solid #eee;
+      padding: 0 32px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .topbar-title { font-size: 16px; font-weight: 700; color: #1B2A6B; }
+    .topbar-sub { font-size: 12px; color: #aaa; margin-top: 1px; }
+
+    .page { padding: 28px 32px; flex: 1; }
+
+    /* ── SECTION HEADER ── */
+    .section-head { margin-bottom: 22px; }
+    .section-head h2 { font-size: 20px; font-weight: 700; color: #1B2A6B; }
+    .section-head p { font-size: 13px; color: #888; margin-top: 4px; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 22px; align-items: center;
+    }
+    .filter-label { font-size: 11px; color: #999; font-weight: 600; text-transform: uppercase; margin-right: 2px; }
     .chip {
       padding: 5px 13px; font-size: 12px; font-weight: 500; border-radius: 20px;
       border: 1.5px solid #e0e0e0; background: #fff; color: #555;
-      cursor: pointer; transition: all 0.15s;
+      cursor: pointer; transition: all .15s;
     }
     .chip.active { background: #1B2A6B; color: #fff; border-color: #1B2A6B; }
     .chip:hover:not(.active) { border-color: #1B2A6B; color: #1B2A6B; }
-    .filter-sep { width: 1px; height: 20px; background: #e0e0e0; margin: 0 4px; }
+    .filter-sep { width: 1px; height: 20px; background: #e5e5e5; margin: 0 4px; }
 
-    /* ── Cards grid ── */
-    .portal-grid {
+    /* ── REPORT GRID ── */
+    .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 16px;
     }
-    .report-card {
-      background: #fff; border: 1px solid #eee; border-radius: 12px;
-      overflow: hidden; transition: box-shadow 0.15s;
+    .rcard {
+      background: #fff; border: 1px solid #eee; border-radius: 14px;
+      overflow: hidden; transition: box-shadow .15s, transform .15s;
     }
-    .report-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-    .report-card-accent { height: 3px; background: linear-gradient(90deg, #1B2A6B, #FFC72C); }
-    .report-card-body { padding: 16px; }
-    .report-card-icon { font-size: 22px; margin-bottom: 8px; }
-    .report-card-title { font-size: 14px; font-weight: 600; color: #1B2A6B; margin-bottom: 4px; }
-    .report-card-desc { font-size: 12px; color: #888; margin-bottom: 10px; line-height: 1.5; }
-    .report-card-links { display: flex; flex-direction: column; gap: 3px; margin-bottom: 10px; }
-    .report-card-links a { font-size: 11px; color: #1B2A6B; font-weight: 600; text-decoration: none; }
-    .report-card-links a:hover { text-decoration: underline; }
-    .report-card-meta { font-size: 11px; color: #aaa; }
-    .report-card-footer {
+    .rcard:hover { box-shadow: 0 6px 20px rgba(0,0,0,.08); transform: translateY(-1px); }
+    .rcard-accent { height: 3px; background: linear-gradient(90deg, #1B2A6B, #FFC72C); }
+    .rcard-body { padding: 16px; }
+    .rcard-icon { font-size: 24px; margin-bottom: 10px; }
+    .rcard-title { font-size: 14px; font-weight: 700; color: #1B2A6B; margin-bottom: 4px; }
+    .rcard-desc { font-size: 12px; color: #888; line-height: 1.5; margin-bottom: 10px; }
+    .rcard-links { display: flex; flex-direction: column; gap: 3px; margin-bottom: 10px; }
+    .rcard-links a { font-size: 11px; color: #1B2A6B; font-weight: 600; text-decoration: none; }
+    .rcard-links a:hover { text-decoration: underline; }
+    .rcard-meta { font-size: 11px; color: #bbb; }
+    .rcard-footer {
       padding: 10px 16px; border-top: 1px solid #f0f0f0;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .type-badge {
-      font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px;
+    .badge-row { display: flex; gap: 6px; align-items: center; }
+    .badge {
+      font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 5px;
     }
-    .type-html { background: #EEF2FF; color: #3730A3; }
-    .type-bi   { background: #FFF7ED; color: #C2410C; }
-    .region-badge {
-      font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 4px;
-      background: #F0F9F4; color: #166534;
-    }
+    .badge-html { background: #EEF2FF; color: #3730A3; }
+    .badge-bi   { background: #FFF7ED; color: #C2410C; }
+    .badge-region { background: #F0F9F4; color: #166534; }
     .btn-open {
-      padding: 6px 14px; background: #1B2A6B; color: #fff;
-      border-radius: 6px; font-size: 12px; font-weight: 600;
-      text-decoration: none; transition: background 0.15s;
+      padding: 6px 16px; background: #1B2A6B; color: #fff;
+      border-radius: 7px; font-size: 12px; font-weight: 600;
+      text-decoration: none; transition: background .15s;
     }
     .btn-open:hover { background: #253d99; }
-    .no-reports {
-      grid-column: 1/-1; text-align: center; padding: 48px;
-      color: #aaa; font-size: 14px;
+    .no-results {
+      grid-column: 1/-1; text-align: center; padding: 56px 32px;
+      color: #bbb; font-size: 14px;
     }
 
-    /* ── Team table ── */
-    .team-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .team-table th {
-      text-align: left; padding: 10px 14px; border-bottom: 1.5px solid #eee;
-      font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase;
-      letter-spacing: 0.04em;
+    /* ── TABLE ── */
+    .table-card {
+      background: #fff; border: 1px solid #eee; border-radius: 14px; overflow: hidden;
     }
-    .team-table td { padding: 12px 14px; border-bottom: 1px solid #f5f5f5; color: #333; }
-    .team-table tr:last-child td { border-bottom: none; }
-    .avatar-circle {
+    .table-card table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .table-card th {
+      text-align: left; padding: 12px 16px; border-bottom: 1.5px solid #f0f0f0;
+      font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: .05em;
+    }
+    .table-card td { padding: 13px 16px; border-bottom: 1px solid #f8f8f8; color: #333; vertical-align: middle; }
+    .table-card tr:last-child td { border-bottom: none; }
+    .table-card tr:hover td { background: #fafafa; }
+
+    /* ── STATUS PILLS ── */
+    .pill {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      padding: 3px 10px; border-radius: 12px;
+    }
+    .pill-done    { background: #EEF2FF; color: #3730A3; }
+    .pill-ok      { background: #F0FDF4; color: #166534; }
+    .pill-risk    { background: #FFF7ED; color: #C2410C; }
+    .pill-pending { background: #F5F5F5; color: #888; }
+    .pill-all     { background: #EEF2FF; color: #3730A3; }
+    .pill-brasil  { background: #dcfce7; color: #166534; }
+    .pill-mexico  { background: #FFF7ED; color: #C2410C; }
+
+    /* ── AVATAR ── */
+    .avatar {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 30px; height: 30px; border-radius: 50%; font-size: 11px;
-      font-weight: 700; margin-right: 8px; vertical-align: middle;
+      width: 32px; height: 32px; border-radius: 50%; font-size: 11px;
+      font-weight: 700; margin-right: 8px; vertical-align: middle; flex-shrink: 0;
     }
-    .av-navy { background: #EEF2FF; color: #1B2A6B; }
-    .av-green { background: #F0FDF4; color: #166534; }
+    .av-navy   { background: #EEF2FF; color: #1B2A6B; }
+    .av-green  { background: #F0FDF4; color: #166534; }
     .av-orange { background: #FFF7ED; color: #C2410C; }
     .av-purple { background: #F5F3FF; color: #6D28D9; }
-    .access-pill {
-      display: inline-block; font-size: 10px; font-weight: 500;
-      padding: 3px 8px; border-radius: 12px; margin: 2px 2px 2px 0;
+    .name-cell { display: flex; align-items: center; }
+
+    /* ── ACCESOS CARD ── */
+    .access-card {
+      background: #fff; border: 1px solid #eee; border-radius: 14px;
+      padding: 20px 24px; margin-bottom: 12px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px;
     }
-    .ap-all    { background: #EEF2FF; color: #3730A3; }
-    .ap-brasil { background: #F0FDF4; color: #166534; }
-    .ap-mexico { background: #FFF7ED; color: #C2410C; }
-    .section-note {
-      font-size: 12px; color: #aaa; margin-bottom: 18px; padding: 10px 14px;
-      background: #FAFAFA; border-radius: 8px; border: 1px solid #eee;
+    .access-info strong { font-size: 14px; color: #1B2A6B; }
+    .access-info span { display: block; font-size: 12px; color: #888; margin-top: 2px; }
+    .access-cred { text-align: right; }
+    .access-cred code {
+      background: #F4F5F7; border: 1px solid #e8e8e8; padding: 4px 10px;
+      border-radius: 6px; font-size: 12px; color: #333; font-family: monospace;
+    }
+    .access-cred small { display: block; font-size: 10px; color: #bbb; margin-top: 4px; }
+
+    /* ── REGION GROUP ── */
+    .region-group { margin-bottom: 30px; }
+    .region-group-title {
+      font-size: 13px; font-weight: 700; color: #999;
+      text-transform: uppercase; letter-spacing: .06em;
+      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .region-group-title::after {
+      content: ''; flex: 1; height: 1px; background: #eee;
     }
 
-    /* ── Tasks table ── */
-    .tasks-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .tasks-table th {
-      text-align: left; padding: 10px 14px; border-bottom: 1.5px solid #eee;
-      font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase;
-      letter-spacing: 0.04em;
+    /* ── RESTRICTED ── */
+    .restricted {
+      text-align: center; padding: 80px 32px; color: #ccc;
     }
-    .tasks-table td { padding: 11px 14px; border-bottom: 1px solid #f5f5f5; color: #333; }
-    .tasks-table tr:last-child td { border-bottom: none; }
-    .status-pill {
-      display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 12px;
+    .restricted svg { width: 48px; height: 48px; margin: 0 auto 16px; display: block; opacity: .3; }
+    .restricted p { font-size: 15px; color: #bbb; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .sidebar { width: 60px; }
+      .sidebar-logo-text, .nav-item span, .sidebar-user, .nav-section-label, .sidebar-footer span { display: none; }
+      .nav-item { justify-content: center; padding: 12px; }
+      .page { padding: 20px 16px; }
+      .topbar { padding: 0 16px; }
     }
-    .sp-ok       { background: #F0FDF4; color: #166534; }
-    .sp-risk     { background: #FFF7ED; color: #C2410C; }
-    .sp-pending  { background: #F5F5F5; color: #888; }
-    .sp-done     { background: #EEF2FF; color: #3730A3; }
-    .restricted-msg {
-      text-align: center; padding: 64px 32px; color: #aaa; font-size: 14px;
-    }
-    .restricted-msg strong { display: block; font-size: 18px; margin-bottom: 8px; color: #ccc; }
-    .table-wrap { background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; }
   </style>
 </head>
 <body>
 
-  <!-- Loading overlay -->
-  <div id="loading-overlay">
-    <div class="loading-spinner"></div>
-  </div>
+<!-- LOADING -->
+<div id="loading-screen"><div class="spinner"></div></div>
 
-  <!-- Login overlay -->
-  <div id="login-overlay">
-    <div class="login-card">
-      <div class="login-logo">
-        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-          <rect width="48" height="48" rx="8" fill="#1B2A6B"/>
-          <path d="M10 34 Q16 10 24 24 Q32 38 38 14" stroke="#FFC72C" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-          <circle cx="38" cy="14" r="2.5" fill="#FFC72C"/>
-        </svg>
-        <div>
-          <div class="login-logo-text">Travel Blue</div>
-          <div class="login-logo-tag">London · Since 1987</div>
-        </div>
-      </div>
-      <div class="login-title">Portal del Equipo</div>
-      <div class="login-sub">Acceso restringido. Ingresa con tu correo corporativo.</div>
-      <div class="login-field">
-        <label>Correo electrónico</label>
-        <input type="email" id="login-email" placeholder="nombre@travel-blue.com" autocomplete="email" />
-      </div>
-      <div class="login-field">
-        <label>Contraseña</label>
-        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
-      </div>
-      <button class="login-btn" id="login-btn">Ingresar</button>
-      <div class="login-error" id="login-error"></div>
-    </div>
-  </div>
-
-  <!-- TOPBAR -->
-  <header class="topbar" id="main-topbar" style="display:none;">
-    <div class="topbar-logo">
-      <svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-header">
+      <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
         <rect width="48" height="48" rx="8" fill="#1B2A6B"/>
         <path d="M10 34 Q16 10 24 24 Q32 38 38 14" stroke="#FFC72C" stroke-width="3.5" fill="none" stroke-linecap="round"/>
         <circle cx="38" cy="14" r="2.5" fill="#FFC72C"/>
       </svg>
-      <div class="logo-text-wrap">
-        <span class="logo-brand">Travel Blue</span>
-        <span class="logo-tagline">Portal del Equipo</span>
+      <div class="login-brand">Travel Blue<small>London · Since 1987</small></div>
+    </div>
+    <h2>Portal del Equipo</h2>
+    <p>Acceso restringido. Ingresa con tu correo corporativo.</p>
+    <div class="lf">
+      <label>Correo electrónico</label>
+      <input type="email" id="login-email" placeholder="nombre@travel-blue.com" autocomplete="email"/>
+    </div>
+    <div class="lf">
+      <label>Contraseña</label>
+      <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"/>
+    </div>
+    <button class="login-btn" id="login-btn">Ingresar</button>
+    <div class="login-err" id="login-err"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <rect width="48" height="48" rx="8" fill="rgba(255,255,255,0.15)"/>
+        <path d="M10 34 Q16 10 24 24 Q32 38 38 14" stroke="#FFC72C" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <circle cx="38" cy="14" r="2.5" fill="#FFC72C"/>
+      </svg>
+      <div class="sidebar-logo-text">
+        <strong>Travel Blue</strong>
+        <span>Portal del Equipo</span>
       </div>
     </div>
-    <nav class="topbar-nav">
-      <span id="topbar-user" style="font-size:13px; color:#888;"></span>
-      <a href="#" id="btn-logout" style="font-size:12px; color:#888;">Salir</a>
+
+    <div class="sidebar-user">
+      <div class="sidebar-user-name" id="sb-user-name">—</div>
+      <div class="sidebar-user-role" id="sb-user-role">—</div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <div class="nav-section-label">Reportes</div>
+      <button class="nav-item active" data-page="reportes-latam">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span>LATAM</span>
+      </button>
+      <button class="nav-item" data-page="reportes-global">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+        <span>Global</span>
+      </button>
+      <button class="nav-item" data-page="reportes-bi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        <span>Power BI</span>
+      </button>
+
+      <div class="nav-section-label" id="nav-label-admin" style="display:none;">Administración</div>
+      <button class="nav-item" data-page="actividades" id="nav-actividades" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span>Actividades</span>
+      </button>
+      <button class="nav-item" data-page="equipo" id="nav-equipo" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Equipo</span>
+      </button>
+      <button class="nav-item" data-page="accesos" id="nav-accesos" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>Accesos</span>
+      </button>
     </nav>
-  </header>
 
-  <!-- PAGE BANNER -->
-  <section class="page-banner" id="main-banner" style="display:none;">
-    <h1>Portal <span>del Equipo</span></h1>
-    <p>Reportes, equipo y actividades — acceso filtrado por perfil.</p>
-  </section>
-
-  <!-- MAIN CONTENT -->
-  <main class="main-content" id="main-content" style="display:none;">
-
-    <!-- TABS -->
-    <div class="portal-tabs">
-      <button class="tab-btn active" data-tab="relatorios">Reportes</button>
-      <button class="tab-btn" data-tab="equipe" id="tab-equipe" style="display:none;">Equipo</button>
-      <button class="tab-btn" data-tab="tarefas" id="tab-tarefas" style="display:none;">Mis Tareas</button>
+    <div class="sidebar-footer">
+      <button class="btn-logout" id="btn-logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>Salir</span>
+      </button>
     </div>
+  </aside>
 
-    <!-- SEÇÃO 1: RELATÓRIOS -->
-    <div class="tab-section active" id="tab-relatorios">
-      <div class="filter-row" id="filter-row">
-        <span class="filter-label">Región:</span>
-        <button class="chip active" data-filter="region" data-value="all">Todos</button>
-        <button class="chip" data-filter="region" data-value="global">Global</button>
-        <button class="chip" data-filter="region" data-value="latam">LATAM</button>
-        <button class="chip" data-filter="region" data-value="brasil">Brasil</button>
-        <button class="chip" data-filter="region" data-value="mexico">México</button>
-        <div class="filter-sep"></div>
-        <span class="filter-label">Tipo:</span>
-        <button class="chip active" data-filter="type" data-value="all">Todos</button>
-        <button class="chip" data-filter="type" data-value="HTML">HTML</button>
-        <button class="chip" data-filter="type" data-value="BI">Power BI</button>
-        <div class="filter-sep"></div>
-        <span class="filter-label">Frecuencia:</span>
-        <button class="chip active" data-filter="freq" data-value="all">Todas</button>
-        <button class="chip" data-filter="freq" data-value="Mensal">Mensual</button>
-        <button class="chip" data-filter="freq" data-value="Diário">Diario</button>
-      </div>
-      <div class="portal-grid" id="reports-grid">
-        <div class="report-card" style="border:3px solid red;padding:16px;">
-          <b>TESTE — se você vê isso, o CSS está ok</b>
-        </div>
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="topbar-title">Reportes LATAM</div>
+        <div class="topbar-sub" id="topbar-sub">Dashboards y reportes de la región</div>
       </div>
     </div>
 
-    <!-- SECCIÓN 2: EQUIPO -->
-    <div class="tab-section" id="tab-equipe-content">
-      <div class="section-note">Visible solo para Camila y Guillermo.</div>
-      <div class="table-wrap">
-        <table class="team-table">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Correo</th>
-              <th>Cargo</th>
-              <th>Región</th>
-              <th>Acceso a reportes</th>
-            </tr>
-          </thead>
-          <tbody id="team-tbody"></tbody>
-        </table>
-      </div>
-    </div>
+    <div class="page" id="page-content"></div>
+  </div>
+</div>
 
-    <!-- SECCIÓN 3: MIS TAREAS -->
-    <div class="tab-section" id="tab-tarefas-content">
-      <div class="section-note">Visible solo para Camila y Guillermo.</div>
-      <div class="table-wrap">
-        <table class="tasks-table">
-          <thead>
-            <tr>
-              <th style="width:28%;">Actividad</th>
-              <th style="width:16%;">Proyecto</th>
-              <th style="width:14%;">Estado</th>
-              <th style="width:12%;">Fecha límite</th>
-              <th>Observaciones</th>
-            </tr>
-          </thead>
-          <tbody id="tasks-tbody"></tbody>
-        </table>
-      </div>
-    </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
 
-  </main>
+/* ══════════════════════════════════════════════════════
+   PERFILES DE USUARIO
+══════════════════════════════════════════════════════ */
+var USER_PROFILES = {
+  'milalima2007@gmail.com': { name:'Camila Lima', role:'LATAM · BI Analyst', access:'all', admin:true },
+  'camila@travel-blue.com': { name:'Camila Lima', role:'LATAM · BI Analyst', access:'all', admin:true },
+  'guillermo@travel-blue.com': { name:'Guillermo Benzaquen', role:'Director LATAM', access:'all', admin:true },
+  'pablo@travel-blue.com':   { name:'Pablo',   role:'LATAM', access:'all',    admin:false },
+  'edgardo@travel-blue.com': { name:'Edgardo', role:'LATAM', access:'all',    admin:false },
+  'noe@travel-blue.com':     { name:'Noe',     role:'México · Country Manager', access:['mexico'], admin:false },
+  'javo@travel-blue.com':    { name:'Javo',    role:'México · Gerente de Ventas', access:['mexico'], admin:false },
+  'itamar@travel-blue.com':  { name:'Itamar',  role:'Brasil · Country Manager', access:['brasil'], admin:false },
+};
 
-  <footer class="site-footer" id="main-footer" style="display:none;">
-    © 2026 <span>Travel Blue Ltd.</span> — Uso interno restringido.
-  </footer>
+/* ══════════════════════════════════════════════════════
+   CATÁLOGO DE REPORTES
+══════════════════════════════════════════════════════ */
+var REPORTS = [
+  // LATAM
+  { id:'cloe',       icon:'📊', name:'Cloe Sellout',      region:'latam',  theme:'sellout',  type:'HTML', freq:'Mensual', label:'LATAM',
+    desc:'Ventas sell-in/sell-out Cloe — LATAM.',
+    href:'Cloe Sellout/sellin-dashboard.html',
+    sublinks:[{n:'Ventas Ene-May', h:'Cloe Sellout/CLOE Ventas Ene-May.html'}] },
+  { id:'latam-bp',   icon:'🌎', name:'LATAM Sales BP 2026', region:'latam', theme:'ventas',  type:'HTML', freq:'Mensual', label:'LATAM',
+    desc:'Business Plan Q1 2026 — LATAM, Brasil y México.',
+    href:'LATAM SALES_BP 26/LATAM Q1 2026 Dashboard.html',
+    sublinks:[{n:'Brasil Q1',h:'LATAM SALES_BP 26/Brazil Q1 2026 Dashboard.html'},{n:'México Q1',h:'LATAM SALES_BP 26/Mexico Q1 2026 Dashboard.html'}] },
+  { id:'latam-profit', icon:'💰', name:'LATAM Profit',     region:'latam', theme:'profit',   type:'HTML', freq:'Mensual', label:'LATAM',
+    desc:'Margen y profit LATAM con detalle México.',
+    href:'latam-profit/latam-profit.html',
+    sublinks:[{n:'México',h:'latam-profit/mexico.html'}] },
+  { id:'avolta',     icon:'✈️', name:'Avolta',             region:'latam', theme:'duty-free', type:'HTML', freq:'Mensual', label:'Brasil',
+    desc:'Duty Paid Brasil e informes de venta Avolta.',
+    href:'avolta/avolta-dashboard.html',
+    sublinks:[{n:'Informe Abril 2026',h:'avolta/Relatorio Avolta Abril 2026.html'}] },
+  { id:'ml',         icon:'🛒', name:'Mercado Libre',      region:'latam', theme:'marketplace', type:'HTML', freq:'Mensual', label:'LATAM',
+    desc:'Panel de ventas en Mercado Libre.',
+    href:'../MERCADO LIBRE/dashboard-mercadolibre.html', sublinks:[] },
+  { id:'contas',     icon:'🧾', name:'Cuentas por Cobrar', region:'latam', theme:'financiero', type:'HTML', freq:'Diario', label:'Brasil',
+    desc:'Panel de cuentas por cobrar por responsable.',
+    href:'contas-receber.html',
+    sublinks:[{n:'Gilson',h:'contas-receber-gilson.html'},{n:'Guilherme',h:'contas-receber-guilherme.html'}] },
+  { id:'vendas-br',  icon:'🇧🇷', name:'Ventas Brasil',     region:'latam', theme:'ventas',   type:'HTML', freq:'Diario', label:'Brasil',
+    desc:'Panel de ventas del mercado Brasil.',
+    href:'vendas-brasil.html', sublinks:[] },
+  // GLOBAL
+  { id:'backpacks',  icon:'🎒', name:'Backpacks & Luggage', region:'global', theme:'ventas',  type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Ventas de mochilas y maletas — visión general.',
+    href:'backpack-lugagge/BACKPACKS&LUGGAGE.html',
+    sublinks:[{n:'Sales BL',h:'backpack-lugagge/SALES-BL.html'},{n:'Sales BP',h:'backpack-lugagge/SALES-BP.html'}] },
+  { id:'total-db',   icon:'🗄️', name:'Total Sales TB Group', region:'global', theme:'ventas', type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Base consolidada de ventas — grupo Travel Blue.',
+    href:'total-database/TOTAL SALES TB GROUP.html', sublinks:[] },
+  { id:'heinemann',  icon:'🛫', name:'Heinemann',           region:'global', theme:'duty-free', type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Panel de ventas Heinemann (duty free).',
+    href:'../HEINEMANN/HEINEMANN_DASHBOARD.html', sublinks:[] },
+  { id:'avolta-so',  icon:'🌍', name:'Avolta Sellout',      region:'global', theme:'duty-free', type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Análisis de sell-out Avolta por región.',
+    href:'../AVOLTA SELLOUT/avolta-sales-out-analysis.html',
+    sublinks:[{n:'EMEA',h:'../AVOLTA SELLOUT/avolta-emea-analysis.html'},{n:'Américas & CEI',h:'../AVOLTA SELLOUT/avolta-ame-cei-analysis.html'},{n:'México',h:'../AVOLTA SELLOUT/avolta-mexico-analysis.html'}] },
+  { id:'lexingham',  icon:'🧳', name:'Lexingham',           region:'global', theme:'ventas',  type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Panel de ventas Lexingham.',
+    href:'../LEXINGHAM/lexingham-dashboard.html', sublinks:[] },
+  { id:'total-all',  icon:'🌐', name:'Total Sales All Group', region:'global', theme:'ventas', type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Resumen consolidado de ventas de todo el grupo.',
+    href:'../TOTAL SALES TB GROUP/tb_group_sales_summary_2026-05.html',
+    sublinks:[{n:'ASPAC',h:'../TOTAL SALES TB GROUP/aspac_sales_summary_2026-05.html'}] },
+  { id:'alan',       icon:'📋', name:'Alan',                region:'global', theme:'ventas',  type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Resumen de ventas — cuenta Alan.',
+    href:'../ALAN/alan_sales_summary_2026-05.html', sublinks:[] },
+  { id:'jackie-h',   icon:'📋', name:'Jackie',              region:'global', theme:'ventas',  type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Resumen de ventas — cuenta Jackie.',
+    href:'../JACKIE/jackie_sales_summary_2026-05.html', sublinks:[] },
+  { id:'ioana',      icon:'📋', name:'Ioana',               region:'global', theme:'ventas',  type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Resumen de ventas — cuenta Ioana.',
+    href:'../IOANA/ioana_sales_summary_2026-05.html', sublinks:[] },
+  { id:'germany',    icon:'🇩🇪', name:'Germany',             region:'global', theme:'ventas',  type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Resumen de ventas — Alemania.',
+    href:'../GERMANY/germany_sales_summary_2026-05.html', sublinks:[] },
+  { id:'china',      icon:'🇨🇳', name:'China',               region:'global', theme:'ventas',  type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Resumen de ventas — China.',
+    href:'../CHINA/china_sales_summary_2026-05.html', sublinks:[] },
+  { id:'india',      icon:'🇮🇳', name:'India',               region:'global', theme:'ventas',  type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Resumen de ventas — India.',
+    href:'../INDIA/india_sales_summary_2026-04.html', sublinks:[] },
+  { id:'poland',     icon:'🇵🇱', name:'Poland',              region:'global', theme:'ventas',  type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Resumen de ventas — Polonia.',
+    href:'../POLAND/poland_sales_summary_2026-04.html', sublinks:[] },
+  { id:'slooth',     icon:'🦥', name:'Slooth',              region:'global', theme:'ventas',  type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Análisis de ventas Slooth.',
+    href:'../SLOOTH/slooth-analysis.html', sublinks:[] },
+  // POWER BI
+  { id:'avolta-bi',  icon:'📈', name:'Avolta Sellout (BI)', region:'global', theme:'duty-free', type:'BI', freq:'Mensual', label:'Global',
+    desc:'Panel Power BI de sell-out Avolta por región.',
+    href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/6d761577-4066-41a2-b977-375d0541509c/ReportSectionb12c7674f1e35acd6b32?experience=power-bi',
+    sublinks:[{n:'América & CEI',h:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/545c1238-2954-4a37-93e2-cbab86060783/3072d3f60bd68bce2fcc?experience=power-bi'},{n:'EMEA',h:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/af81ff9c-7e53-4245-ae8a-aa9bc685435c/ReportSectionfeee0f4652d07d0815ca?experience=power-bi'},{n:'México',h:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/4c4de86d-3b24-48a6-ac54-7ff1720f0c0b/9a3b638e5f3007179f00?experience=power-bi'}] },
+  { id:'total-bi',   icon:'🌐', name:'Total Sales TB Group (BI)', region:'global', theme:'ventas', type:'BI', freq:'Mensual', label:'Global',
+    desc:'Panel Power BI — ventas totales del grupo (USD).',
+    href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/99bff0a6-a529-4285-b3da-713e97dac9b5/a303c5c47baee718d256?experience=power-bi',
+    sublinks:[{n:'Total Sales LATAM',h:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/157a9819-e7b6-4d2d-9cd2-dd8f56fe3f40/9a3b638e5f3007179f00?experience=power-bi'},{n:'ASPAC',h:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/d24e65f4-c045-4d60-90b1-c0e3d2dffd64/6fd55ede002d9bd27177?experience=power-bi'}] },
+  { id:'paises-bi',  icon:'🗺️', name:'Ventas por País (BI)', region:'global', theme:'ventas', type:'BI', freq:'Mensual', label:'Global',
+    desc:'Power BI por país — Brasil, UK, Alemania, China, India, Polonia.',
+    href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/af92c05e-759e-4568-b0d6-7fc2de5e6a5d/47b9e1e68b43075d6b30?experience=power-bi',
+    sublinks:[{n:'UK Sales',h:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/f941e9ef-3037-487d-b429-bb3c9fd83dfc/ReportSection7e2000440d9555d69984?experience=power-bi'},{n:'Germany',h:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/c2157499-5399-408f-9202-56e6106d8826/6fd55ede002d9bd27177?experience=power-bi'},{n:'China',h:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/1d342281-1b5b-4930-83a1-3b6fff2c77dd/6fd55ede002d9bd27177?experience=power-bi'},{n:'India',h:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/bde9c7d1-1cde-4023-a80e-73b94c9f119b/6fd55ede002d9bd27177?experience=power-bi'},{n:'Poland',h:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/785c2c29-c1d4-4fdb-9c31-414c1281c81c/6fd55ede002d9bd27177?experience=power-bi'}] },
+  { id:'jackie-bi',  icon:'📋', name:'Jackie (BI)',          region:'global', theme:'ventas', type:'BI', freq:'Mensual', label:'Global',
+    desc:'Panel Power BI — cuenta Jackie.',
+    href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/3d24fda9-1fcd-40ba-bca2-96e0377e914b?experience=power-bi', sublinks:[] },
+  { id:'heine-bi',   icon:'🛫', name:'Heinemann (BI)',       region:'global', theme:'duty-free', type:'BI', freq:'Mensual', label:'Global',
+    desc:'Panel Power BI — Heinemann duty free.',
+    href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/586d4808-37db-4f90-b8d8-3f8335b35824/ReportSection979d71ff9cc7928bccec?experience=power-bi', sublinks:[] },
+];
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script>
+/* ══════════════════════════════════════════════════════
+   EQUIPO
+══════════════════════════════════════════════════════ */
+var TEAM = [
+  { name:'Camila Lima',         email:'milalima2007@gmail.com',  cargo:'BI Analyst',        region:'LATAM',   av:'CL', avc:'av-navy',   acc:'all' },
+  { name:'Guillermo Benzaquen', email:'guillermo@travel-blue.com', cargo:'Director LATAM',  region:'Global',  av:'GB', avc:'av-navy',   acc:'all' },
+  { name:'Pablo',               email:'pablo@travel-blue.com',   cargo:'A confirmar',        region:'LATAM',   av:'PA', avc:'av-green',  acc:'all' },
+  { name:'Edgardo',             email:'edgardo@travel-blue.com', cargo:'A confirmar',        region:'LATAM',   av:'ED', avc:'av-green',  acc:'all' },
+  { name:'Noe',                 email:'noe@travel-blue.com',     cargo:'Country Manager',    region:'México',  av:'NO', avc:'av-orange', acc:'mexico' },
+  { name:'Javo',                email:'javo@travel-blue.com',    cargo:'Gerente de Ventas',  region:'México',  av:'JV', avc:'av-orange', acc:'mexico' },
+  { name:'Itamar',              email:'itamar@travel-blue.com',  cargo:'Country Manager',    region:'Brasil',  av:'IT', avc:'av-purple', acc:'brasil' },
+];
 
-    /* ══════════════════════════════════════════════
-       PERFIS DE USUÁRIO — mapeamento por e-mail
-       ══════════════════════════════════════════════ */
-    const USER_PROFILES = {
-      'milalima2007@gmail.com': {
-        name: 'Camila Lima', initials: 'CL', cargo: 'BI Analyst', region: 'LATAM',
-        access: 'all', canSeeTeam: true, canSeeTasks: true, avatarClass: 'av-navy'
-      },
-      'camila@travel-blue.com': {
-        name: 'Camila Lima', initials: 'CL', cargo: 'BI Analyst', region: 'LATAM',
-        access: 'all', canSeeTeam: true, canSeeTasks: true, avatarClass: 'av-navy'
-      },
-      'guillermo@travel-blue.com': {
-        name: 'Guillermo Benzaquen', initials: 'GB', cargo: 'Diretor LATAM', region: 'Global',
-        access: 'all', canSeeTeam: true, canSeeTasks: true, avatarClass: 'av-navy'
-      },
-      'pablo@travel-blue.com': {
-        name: 'Pablo', initials: 'PA', cargo: 'A confirmar', region: 'LATAM',
-        access: 'all', canSeeTeam: false, canSeeTasks: false, avatarClass: 'av-green'
-      },
-      'edgardo@travel-blue.com': {
-        name: 'Edgardo', initials: 'ED', cargo: 'A confirmar', region: 'LATAM',
-        access: 'all', canSeeTeam: false, canSeeTasks: false, avatarClass: 'av-green'
-      },
-      'noe@travel-blue.com': {
-        name: 'Noe', initials: 'NO', cargo: 'Country Manager', region: 'México',
-        access: ['mexico'], canSeeTeam: false, canSeeTasks: false, avatarClass: 'av-orange'
-      },
-      'javo@travel-blue.com': {
-        name: 'Javo', initials: 'JV', cargo: 'Gerente de Vendas', region: 'México',
-        access: ['mexico'], canSeeTeam: false, canSeeTasks: false, avatarClass: 'av-orange'
-      },
-      'itamar@travel-blue.com': {
-        name: 'Itamar', initials: 'IT', cargo: 'Country Manager', region: 'Brasil',
-        access: ['brasil'], canSeeTeam: false, canSeeTasks: false, avatarClass: 'av-purple'
-      },
-    };
+/* ══════════════════════════════════════════════════════
+   ACTIVIDADES
+══════════════════════════════════════════════════════ */
+var TASKS = [
+  { act:'Actualizar base de ventas total TB Group', proj:'Total Database',      st:'ok',      stl:'En curso',    fecha:'2026-06-16', obs:'Alemania ya recibida. Faltan India, Polonia y ASPAC.' },
+  { act:'Business Review',                          proj:'LATAM Sales BP 26',   st:'done',    stl:'Finalizado',  fecha:'2026-06-18', obs:'Actualizado y concluido.' },
+  { act:'Finalizar análisis Avolta Sellout',        proj:'Avolta Sellout',      st:'done',    stl:'Finalizado',  fecha:'2026-06-15', obs:'HTML (EMEA, Américas & CEI, México) y Power BI concluidos.' },
+  { act:'Actualizar Cuentas por Cobrar TB',         proj:'Cuentas por Cobrar',  st:'ok',      stl:'En curso',    fecha:'—',          obs:'Actualización en curso.' },
+  { act:'Completar información del Portal',         proj:'Portal del Equipo',   st:'risk',    stl:'En riesgo',   fecha:'—',          obs:'Faltan datos de acceso, frecuencia y responsables.' },
+  { act:'Panel de comunicación interna',            proj:'Comunicación Interna', st:'pending', stl:'Por definir', fecha:'—',          obs:'En fase de investigación.' },
+  { act:'Actualizar dashboard Backpacks & Luggage', proj:'Backpacks & Luggage', st:'risk',    stl:'En riesgo',   fecha:'—',          obs:'Faltan stock local LATAM, costo y compras.' },
+  { act:'Actualizar dashboard Slooth',              proj:'Slooth',              st:'risk',    stl:'En riesgo',   fecha:'—',          obs:'Faltan stock local LATAM, costo y compras.' },
+  { act:'Informe de cierre S1 2026',                proj:'Cierre S1 2026',      st:'pending', stl:'Por definir', fecha:'—',          obs:'Visión mundial — global y por país. Solicitado por Alan.' },
+  { act:'Scorecard Cloe (hasta mayo)',              proj:'Cloe Sellout',        st:'ok',      stl:'En curso',    fecha:'2026-06-16', obs:'Reunión con Javo y Fernando el 16/06.' },
+];
 
-    /* ══════════════════════════════════════════════
-       RELATÓRIOS — catálogo completo
-       tags de região: 'global', 'latam', 'brasil', 'mexico'
-       access: 'all' = todos; ['brasil'] = brasil+all; ['mexico'] = mexico+all
-       ══════════════════════════════════════════════ */
-    const REPORTS = [
-      { id:'cloe',       icon:'📊', name:'Cloe Sellout',           desc:'Ventas sell-in/sell-out Cloe — LATAM.',
-        regions:['latam','mexico'], type:'HTML', freq:'Mensal', label:'LATAM',
-        href:'Cloe Sellout/sellin-dashboard.html',
-        sublinks:[{name:'Ventas Ene-May', href:'Cloe Sellout/CLOE Ventas Ene-May.html'}] },
+var ST_CLASS = { done:'pill-done', ok:'pill-ok', risk:'pill-risk', pending:'pill-pending' };
+var ACC_PILL  = { all:'pill-all', brasil:'pill-brasil', mexico:'pill-mexico' };
+var ACC_LABEL = { all:'Todos los reportes', brasil:'Brasil', mexico:'México' };
 
-      { id:'avolta',     icon:'✈️', name:'Avolta',                  desc:'Duty Paid Brasil e informes de venta Avolta.',
-        regions:['brasil','latam'], type:'HTML', freq:'Mensal', label:'Brasil',
-        href:'avolta/avolta-dashboard.html',
-        sublinks:[{name:'Informe Abril 2026', href:'avolta/Relatorio Avolta Abril 2026.html'}] },
+var THEMES = ['ventas','sellout','profit','duty-free','marketplace','financiero'];
+var THEME_LABEL = { ventas:'Ventas', sellout:'Sell-out', profit:'Profit', 'duty-free':'Duty Free', marketplace:'Marketplace', financiero:'Financiero' };
 
-      { id:'backpacks',  icon:'🎒', name:'Backpacks & Luggage',     desc:'Ventas de mochilas y maletas — visión general.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'backpack-lugagge/BACKPACKS&LUGGAGE.html',
-        sublinks:[{name:'Sales BL', href:'backpack-lugagge/SALES-BL.html'},{name:'Sales BP', href:'backpack-lugagge/SALES-BP.html'}] },
+/* ══════════════════════════════════════════════════════
+   SUPABASE
+══════════════════════════════════════════════════════ */
+var sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+var currentProfile = null;
+var activeFilters = { theme:'all', freq:'all' };
 
-      { id:'latam-bp',   icon:'🌎', name:'LATAM Sales BP 2026',     desc:'Business Plan Q1 2026 — LATAM, Brasil y México.',
-        regions:['latam','mexico'], type:'HTML', freq:'Mensal', label:'LATAM',
-        href:'LATAM SALES_BP 26/LATAM Q1 2026 Dashboard.html',
-        sublinks:[{name:'Brasil Q1', href:'LATAM SALES_BP 26/Brazil Q1 2026 Dashboard.html'},{name:'México Q1', href:'LATAM SALES_BP 26/Mexico Q1 2026 Dashboard.html'}] },
+function canSee(r) {
+  if (!currentProfile) return false;
+  if (currentProfile.access === 'all') return true;
+  return currentProfile.access.some(function(a){ return r.region === a; });
+}
 
-      { id:'latam-profit', icon:'💰', name:'LATAM Profit',           desc:'Margen y profit LATAM con detalle México.',
-        regions:['latam','mexico'], type:'HTML', freq:'Mensal', label:'LATAM',
-        href:'latam-profit/latam-profit.html',
-        sublinks:[{name:'México', href:'latam-profit/mexico.html'}] },
+/* ══════════════════════════════════════════════════════
+   RENDER HELPERS
+══════════════════════════════════════════════════════ */
+function buildCard(r) {
+  var links = '';
+  for (var i=0; i<r.sublinks.length; i++) {
+    links += '<a href="'+r.sublinks[i].h+'" target="_blank">→ '+r.sublinks[i].n+'</a>';
+  }
+  return '<div class="rcard">'
+    +'<div class="rcard-accent"></div>'
+    +'<div class="rcard-body">'
+    +'<div class="rcard-icon">'+r.icon+'</div>'
+    +'<div class="rcard-title">'+r.name+'</div>'
+    +'<div class="rcard-desc">'+r.desc+'</div>'
+    +(links ? '<div class="rcard-links">'+links+'</div>' : '')
+    +'<div class="rcard-meta">Frecuencia: '+r.freq+'</div>'
+    +'</div>'
+    +'<div class="rcard-footer">'
+    +'<div class="badge-row"><span class="badge badge-'+(r.type==='BI'?'bi':'html')+'">'+r.type+'</span><span class="badge badge-region">'+r.label+'</span></div>'
+    +'<a href="'+r.href+'" target="_blank" class="btn-open">Abrir</a>'
+    +'</div></div>';
+}
 
-      { id:'total-db',   icon:'🗄️', name:'Total Sales TB Group',    desc:'Base consolidada de ventas — grupo Travel Blue.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'total-database/TOTAL SALES TB GROUP.html', sublinks:[] },
+function renderGrid(reports) {
+  if (!reports.length) return '<div class="no-results">No hay reportes para los filtros seleccionados.</div>';
+  var h = '';
+  for (var i=0; i<reports.length; i++) h += buildCard(reports[i]);
+  return h;
+}
 
-      { id:'contas',     icon:'🧾', name:'Cuentas por Cobrar',       desc:'Panel de cuentas por cobrar por responsable.',
-        regions:['brasil','latam'], type:'HTML', freq:'Diário', label:'Brasil',
-        href:'contas-receber.html',
-        sublinks:[{name:'Gilson', href:'contas-receber-gilson.html'},{name:'Guilherme', href:'contas-receber-guilherme.html'}] },
+function filterBar(regionLabel) {
+  var freqs = ['Mensual','Diario'];
+  var chips_t = '<span class="filter-label">Tema:</span>'
+    +'<button class="chip active" data-ft="theme" data-fv="all">Todos</button>';
+  for (var i=0; i<THEMES.length; i++) {
+    chips_t += '<button class="chip" data-ft="theme" data-fv="'+THEMES[i]+'">'+THEME_LABEL[THEMES[i]]+'</button>';
+  }
+  var chips_f = '<div class="filter-sep"></div><span class="filter-label">Frecuencia:</span>'
+    +'<button class="chip active" data-ft="freq" data-fv="all">Todas</button>';
+  for (var j=0; j<freqs.length; j++) {
+    chips_f += '<button class="chip" data-ft="freq" data-fv="'+freqs[j]+'">'+freqs[j]+'</button>';
+  }
+  return '<div class="filter-bar">'+chips_t+chips_f+'</div>';
+}
 
-      { id:'vendas-br',  icon:'🇧🇷', name:'Ventas Brasil',            desc:'Panel de ventas del mercado Brasil.',
-        regions:['brasil'], type:'HTML', freq:'Diário', label:'Brasil',
-        href:'vendas-brasil.html', sublinks:[] },
-
-      { id:'ml',         icon:'🛒', name:'Mercado Libre',            desc:'Panel de ventas en el marketplace Mercado Libre.',
-        regions:['latam','mexico'], type:'HTML', freq:'Mensal', label:'LATAM',
-        href:'../MERCADO LIBRE/dashboard-mercadolibre.html', sublinks:[] },
-
-      { id:'heinemann',  icon:'🛫', name:'Heinemann',                desc:'Panel de ventas Heinemann (duty free).',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'../HEINEMANN/HEINEMANN_DASHBOARD.html', sublinks:[] },
-
-      { id:'avolta-so',  icon:'🌍', name:'Avolta Sellout',           desc:'Análisis de sell-out Avolta por región.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'../AVOLTA SELLOUT/avolta-sales-out-analysis.html',
-        sublinks:[{name:'EMEA', href:'../AVOLTA SELLOUT/avolta-emea-analysis.html'},{name:'Américas & CEI', href:'../AVOLTA SELLOUT/avolta-ame-cei-analysis.html'},{name:'México', href:'../AVOLTA SELLOUT/avolta-mexico-analysis.html'}] },
-
-      { id:'lexingham',  icon:'🧳', name:'Lexingham',                desc:'Panel de ventas Lexingham.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'../LEXINGHAM/lexingham-dashboard.html', sublinks:[] },
-
-      { id:'total-all',  icon:'🌐', name:'Total Sales All Group',   desc:'Resumen consolidado de ventas de todo el grupo.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'../TOTAL SALES TB GROUP/tb_group_sales_summary_2026-05.html',
-        sublinks:[{name:'ASPAC', href:'../TOTAL SALES TB GROUP/aspac_sales_summary_2026-05.html'}] },
-
-      { id:'alan',       icon:'📋', name:'Alan',                     desc:'Resumen de ventas — cuenta Alan.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'../ALAN/alan_sales_summary_2026-05.html', sublinks:[] },
-
-      { id:'jackie-h',   icon:'📋', name:'Jackie',                   desc:'Resumen de ventas — cuenta Jackie.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'../JACKIE/jackie_sales_summary_2026-05.html', sublinks:[] },
-
-      { id:'ioana',      icon:'📋', name:'Ioana',                    desc:'Resumen de ventas — cuenta Ioana.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'../IOANA/ioana_sales_summary_2026-05.html', sublinks:[] },
-
-      { id:'germany',    icon:'🇩🇪', name:'Germany',                  desc:'Resumen de ventas — Alemania.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'../GERMANY/germany_sales_summary_2026-05.html', sublinks:[] },
-
-      { id:'china',      icon:'🇨🇳', name:'China',                    desc:'Resumen de ventas — China.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'../CHINA/china_sales_summary_2026-05.html', sublinks:[] },
-
-      { id:'india',      icon:'🇮🇳', name:'India',                    desc:'Resumen de ventas — India.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'../INDIA/india_sales_summary_2026-04.html', sublinks:[] },
-
-      { id:'poland',     icon:'🇵🇱', name:'Poland',                   desc:'Resumen de ventas — Polonia.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'../POLAND/poland_sales_summary_2026-04.html', sublinks:[] },
-
-      { id:'slooth',     icon:'🦥', name:'Slooth',                   desc:'Análisis de ventas Slooth.',
-        regions:['global'], type:'HTML', freq:'Mensal', label:'Global',
-        href:'../SLOOTH/slooth-analysis.html', sublinks:[] },
-
-      /* ── Power BI ── */
-      { id:'avolta-bi',  icon:'📈', name:'Avolta Sellout (BI)',      desc:'Panel Power BI de sell-out Avolta por región.',
-        regions:['global'], type:'BI', freq:'Mensal', label:'Global',
-        href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/6d761577-4066-41a2-b977-375d0541509c/ReportSectionb12c7674f1e35acd6b32?experience=power-bi',
-        sublinks:[
-          {name:'América & CEI', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/545c1238-2954-4a37-93e2-cbab86060783/3072d3f60bd68bce2fcc?experience=power-bi'},
-          {name:'EMEA', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/af81ff9c-7e53-4245-ae8a-aa9bc685435c/ReportSectionfeee0f4652d07d0815ca?experience=power-bi'},
-          {name:'México', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/4c4de86d-3b24-48a6-ac54-7ff1720f0c0b/9a3b638e5f3007179f00?experience=power-bi'}
-        ] },
-
-      { id:'total-bi',   icon:'🌐', name:'Total Sales TB Group (BI)', desc:'Panel Power BI — ventas totales del grupo (USD).',
-        regions:['global'], type:'BI', freq:'Mensal', label:'Global',
-        href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/99bff0a6-a529-4285-b3da-713e97dac9b5/a303c5c47baee718d256?experience=power-bi',
-        sublinks:[
-          {name:'Total Sales LATAM', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/157a9819-e7b6-4d2d-9cd2-dd8f56fe3f40/9a3b638e5f3007179f00?experience=power-bi'},
-          {name:'ASPAC', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/d24e65f4-c045-4d60-90b1-c0e3d2dffd64/6fd55ede002d9bd27177?experience=power-bi'}
-        ] },
-
-      { id:'paises-bi',  icon:'🗺️', name:'Ventas por País (BI)',     desc:'Power BI por país — Brasil, UK, Alemania, China, India, Polonia.',
-        regions:['global'], type:'BI', freq:'Mensal', label:'Global',
-        href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/af92c05e-759e-4568-b0d6-7fc2de5e6a5d/47b9e1e68b43075d6b30?experience=power-bi',
-        sublinks:[
-          {name:'UK Sales', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/f941e9ef-3037-487d-b429-bb3c9fd83dfc/ReportSection7e2000440d9555d69984?experience=power-bi'},
-          {name:'Germany', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/c2157499-5399-408f-9202-56e6106d8826/6fd55ede002d9bd27177?experience=power-bi'},
-          {name:'China', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/1d342281-1b5b-4930-83a1-3b6fff2c77dd/6fd55ede002d9bd27177?experience=power-bi'},
-          {name:'India', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/bde9c7d1-1cde-4023-a80e-73b94c9f119b/6fd55ede002d9bd27177?experience=power-bi'},
-          {name:'Poland', href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/785c2c29-c1d4-4fdb-9c31-414c1281c81c/6fd55ede002d9bd27177?experience=power-bi'}
-        ] },
-
-      { id:'jackie-bi',  icon:'📋', name:'Jackie (BI)',              desc:'Panel Power BI — cuenta Jackie.',
-        regions:['global'], type:'BI', freq:'Mensal', label:'Global',
-        href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/3d24fda9-1fcd-40ba-bca2-96e0377e914b?experience=power-bi', sublinks:[] },
-
-      { id:'heine-bi',   icon:'🛫', name:'Heinemann (BI)',           desc:'Panel Power BI — Heinemann duty free.',
-        regions:['global'], type:'BI', freq:'Mensal', label:'Global',
-        href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/586d4808-37db-4f90-b8d8-3f8335b35824/ReportSection979d71ff9cc7928bccec?experience=power-bi', sublinks:[] },
-    ];
-
-    /* ══════════════════════════════════════════════
-       EQUIPE
-       ══════════════════════════════════════════════ */
-    const TEAM = [
-      { name:'Camila Lima',         email:'milalima2007@gmail.com',  cargo:'BI Analyst',         region:'LATAM',   initials:'CL', avatarClass:'av-navy',   accessLabel:'all' },
-      { name:'Guillermo Benzaquen', email:'guillermo@travel-blue.com', cargo:'Director LATAM',   region:'Global',  initials:'GB', avatarClass:'av-navy',   accessLabel:'all' },
-      { name:'Pablo',               email:'pablo@travel-blue.com',   cargo:'A confirmar',         region:'LATAM',   initials:'PA', avatarClass:'av-green',  accessLabel:'all' },
-      { name:'Edgardo',             email:'edgardo@travel-blue.com', cargo:'A confirmar',         region:'LATAM',   initials:'ED', avatarClass:'av-green',  accessLabel:'all' },
-      { name:'Noe',                 email:'noe@travel-blue.com',     cargo:'Country Manager',     region:'México',  initials:'NO', avatarClass:'av-orange', accessLabel:'mexico' },
-      { name:'Javo',                email:'javo@travel-blue.com',    cargo:'Gerente de Ventas',   region:'México',  initials:'JV', avatarClass:'av-orange', accessLabel:'mexico' },
-      { name:'Itamar',              email:'itamar@travel-blue.com',  cargo:'Country Manager',     region:'Brasil',  initials:'IT', avatarClass:'av-purple', accessLabel:'brasil' },
-    ];
-
-    /* ══════════════════════════════════════════════
-       TAREFAS
-       ══════════════════════════════════════════════ */
-    const TASKS = [
-      { activity:'Actualizar base de ventas total TB Group', project:'Total Database',     status:'em-andamento', statusLabel:'En curso',    prazo:'2026-06-16', obs:'Alemania ya recibida. Faltan India, Polonia y ASPAC (Indonesia, Filipinas, Singapur, Taiwán).' },
-      { activity:'Business Review',                         project:'LATAM Sales BP 26',  status:'done',         statusLabel:'Finalizado',  prazo:'2026-06-18', obs:'Actualizado y concluido.' },
-      { activity:'Finalizar análisis Avolta Sellout',       project:'Avolta Sellout',     status:'done',         statusLabel:'Finalizado',  prazo:'2026-06-15', obs:'HTML (EMEA, Américas & CEI, México) y Power BI concluidos.' },
-      { activity:'Actualizar Cuentas por Cobrar TB',        project:'Cuentas por Cobrar', status:'em-andamento', statusLabel:'En curso',    prazo:'—',           obs:'Actualización en curso.' },
-      { activity:'Completar información del Portal',        project:'Portal del Equipo',  status:'risco',        statusLabel:'En riesgo',   prazo:'—',           obs:'Faltan datos de acceso, frecuencia y responsables en varios cards.' },
-      { activity:'Construir panel de comunicación interna', project:'Comunicación Interna', status:'pendente',  statusLabel:'Por definir', prazo:'—',           obs:'En fase de investigación.' },
-      { activity:'Actualizar dashboard Backpacks & Luggage', project:'Backpacks & Luggage', status:'risco',     statusLabel:'En riesgo',   prazo:'—',           obs:'Faltan stock local LATAM, costo y compras.' },
-      { activity:'Actualizar dashboard Slooth',             project:'Slooth',              status:'risco',       statusLabel:'En riesgo',   prazo:'—',           obs:'Faltan stock local LATAM, costo y compras.' },
-      { activity:'Informe de cierre S1 2026',               project:'Cierre S1 2026',      status:'pendente',    statusLabel:'Por definir', prazo:'—',           obs:'Visión mundial — global y por país. Solicitado por Alan.' },
-      { activity:'Construir scorecard Cloe (hasta mayo)',   project:'Cloe Sellout',        status:'em-andamento', statusLabel:'En curso',  prazo:'2026-06-16', obs:'Reunión con Javo y Fernando el 16/06 para definir el formato.' },
-    ];
-
-    const STATUS_CLASS = {
-      'done':'sp-done', 'em-andamento':'sp-ok', 'risco':'sp-risk', 'pendente':'sp-pending'
-    };
-    const ACCESS_CLASS = { 'all':'ap-all', 'brasil':'ap-brasil', 'mexico':'ap-mexico' };
-    const ACCESS_LABEL = { 'all':'Todos los reportes', 'brasil':'Brasil', 'mexico':'México' };
-
-    /* ══════════════════════════════════════════════
-       SUPABASE + AUTH
-       ══════════════════════════════════════════════ */
-    const sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
-
-    let activeFilters = { region: 'all', type: 'all', freq: 'all' };
-    let currentReports = [];
-
-    function canSeeReport(report, access) {
-      if (access === 'all') return true;
-      return access.some(a => report.regions.includes(a));
+/* ══════════════════════════════════════════════════════
+   PÁGINAS
+══════════════════════════════════════════════════════ */
+var PAGES = {
+  'reportes-latam': {
+    title: 'Reportes LATAM',
+    sub: 'Dashboards de la región LATAM — Brasil, México y más',
+    render: function() {
+      var reports = REPORTS.filter(function(r){ return r.region==='latam' && canSee(r) && filterMatch(r); });
+      return filterBar('LATAM')+'<div class="cards-grid" id="report-grid">'+renderGrid(reports)+'</div>';
     }
-
-    function buildSublinks(sublinks) {
-      if (!sublinks || !sublinks.length) return '';
-      var links = '';
-      for (var i = 0; i < sublinks.length; i++) {
-        links += '<a href="' + sublinks[i].href + '" target="_blank">→ ' + sublinks[i].name + '</a>';
-      }
-      return '<div class="report-card-links">' + links + '</div>';
+  },
+  'reportes-global': {
+    title: 'Reportes Global',
+    sub: 'Dashboards globales — Todo el grupo Travel Blue',
+    render: function() {
+      if (currentProfile && currentProfile.access !== 'all') return restricted();
+      var reports = REPORTS.filter(function(r){ return r.region==='global' && r.type==='HTML' && filterMatch(r); });
+      return filterBar('Global')+'<div class="cards-grid" id="report-grid">'+renderGrid(reports)+'</div>';
     }
-
-    function renderReports(reports) {
-      var grid = document.getElementById('reports-grid');
-      if (!grid) return;
-      var filtered = [];
-      for (var i = 0; i < reports.length; i++) {
-        var r = reports[i];
-        if (activeFilters.region !== 'all' && r.regions.indexOf(activeFilters.region) === -1) continue;
-        if (activeFilters.type !== 'all' && r.type !== activeFilters.type) continue;
-        if (activeFilters.freq !== 'all' && r.freq !== activeFilters.freq) continue;
-        filtered.push(r);
-      }
-      if (filtered.length === 0) {
-        grid.innerHTML = '<div class="no-reports">No se encontraron reportes con los filtros seleccionados.</div>';
-        return;
-      }
-      var html = '';
-      for (var j = 0; j < filtered.length; j++) {
-        var r = filtered[j];
-        html += '<div class="report-card">';
-        html += '<div class="report-card-accent"></div>';
-        html += '<div class="report-card-body">';
-        html += '<div class="report-card-icon">' + r.icon + '</div>';
-        html += '<div class="report-card-title">' + r.name + '</div>';
-        html += '<div class="report-card-desc">' + r.desc + '</div>';
-        html += buildSublinks(r.sublinks);
-        html += '<div class="report-card-meta">Frecuencia: ' + r.freq + '</div>';
-        html += '</div>';
-        html += '<div class="report-card-footer">';
-        html += '<div style="display:flex;gap:6px;align-items:center;">';
-        html += '<span class="type-badge type-' + r.type.toLowerCase() + '">' + r.type + '</span>';
-        html += '<span class="region-badge">' + r.label + '</span>';
-        html += '</div>';
-        html += '<a href="' + r.href + '" target="_blank" class="btn-open">Abrir</a>'; // "Abrir" is same in Spanish
-        html += '</div>';
-        html += '</div>';
-      }
-      grid.innerHTML = html;
+  },
+  'reportes-bi': {
+    title: 'Power BI',
+    sub: 'Paneles Power BI — acceso directo a los reportes interactivos',
+    render: function() {
+      if (currentProfile && currentProfile.access !== 'all') return restricted();
+      var reports = REPORTS.filter(function(r){ return r.type==='BI' && filterMatch(r); });
+      return filterBar('Power BI')+'<div class="cards-grid" id="report-grid">'+renderGrid(reports)+'</div>';
     }
-
-    function renderTeam() {
-      const tbody = document.getElementById('team-tbody');
-      tbody.innerHTML = TEAM.map(m => `
-        <tr>
-          <td><span class="avatar-circle ${m.avatarClass}">${m.initials}</span>${m.name}</td>
-          <td style="color:#888;">${m.email}</td>
-          <td style="color:#555;">${m.cargo}</td>
-          <td style="color:#555;">${m.region}</td>
-          <td><span class="access-pill ${ACCESS_CLASS[m.accessLabel]}">${ACCESS_LABEL[m.accessLabel]}</span></td>
-        </tr>
-      `).join('');
-    }
-
-    function renderTasks() {
-      const tbody = document.getElementById('tasks-tbody');
-      tbody.innerHTML = TASKS.map(t => `
-        <tr>
-          <td>${t.activity}</td>
-          <td style="color:#888;">${t.project}</td>
-          <td><span class="status-pill ${STATUS_CLASS[t.status]}">${t.statusLabel}</span></td>
-          <td style="color:#888;">${t.prazo}</td>
-          <td style="color:#888;">${t.obs}</td>
-        </tr>
-      `).join('');
-    }
-
-    function setupFilters(reports) {
-      document.querySelectorAll('.chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-          const filterType = chip.dataset.filter;
-          document.querySelectorAll(`.chip[data-filter="${filterType}"]`).forEach(c => c.classList.remove('active'));
-          chip.classList.add('active');
-          activeFilters[filterType] = chip.dataset.value;
-          renderReports(reports);
-        });
-      });
-    }
-
-    function setupTabs() {
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-          document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-          btn.classList.add('active');
-          document.getElementById('tab-' + btn.dataset.tab + '-content') ?
-            document.getElementById('tab-' + btn.dataset.tab + '-content').classList.add('active') :
-            document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-        });
-      });
-      document.querySelector('[data-tab="relatorios"]').addEventListener('click', () => {
-        document.getElementById('tab-relatorios').classList.add('active');
-      });
-    }
-
-    async function init() {
-      const { data: { user } } = await sb.auth.getUser();
-
-      document.getElementById('loading-overlay').style.display = 'none';
-
-      if (!user) {
-        document.getElementById('login-overlay').style.display = 'flex';
-        setupLoginForm();
-        return;
+  },
+  'actividades': {
+    title: 'Actividades',
+    sub: 'Estado de tareas y proyectos en curso',
+    render: function() {
+      if (!currentProfile || !currentProfile.admin) return restricted();
+      var rows = '';
+      for (var i=0; i<TASKS.length; i++) {
+        var t = TASKS[i];
+        rows += '<tr>'
+          +'<td>'+t.act+'</td>'
+          +'<td style="color:#888;">'+t.proj+'</td>'
+          +'<td><span class="pill '+ST_CLASS[t.st]+'">'+t.stl+'</span></td>'
+          +'<td style="color:#888;">'+t.fecha+'</td>'
+          +'<td style="color:#aaa;font-size:12px;">'+t.obs+'</td>'
+          +'</tr>';
       }
-
-      showPortal(user);
+      return '<div class="table-card"><table>'
+        +'<thead><tr><th>Actividad</th><th>Proyecto</th><th>Estado</th><th>Fecha límite</th><th>Observaciones</th></tr></thead>'
+        +'<tbody>'+rows+'</tbody></table></div>';
     }
-
-    function showPortal(user) {
-      const email = user.email.toLowerCase();
-      const profile = USER_PROFILES[email];
-
-      if (!profile) {
-        document.getElementById('loading-overlay').style.display = 'none';
-        document.getElementById('login-overlay').style.display = 'flex';
-        document.getElementById('login-error').style.display = 'block';
-        document.getElementById('login-error').textContent = 'Tu correo no tiene acceso a este portal. Contacta a Camila.';
-        return;
+  },
+  'equipo': {
+    title: 'Equipo',
+    sub: 'Directorio del equipo LATAM',
+    render: function() {
+      if (!currentProfile || !currentProfile.admin) return restricted();
+      var rows = '';
+      for (var i=0; i<TEAM.length; i++) {
+        var m = TEAM[i];
+        rows += '<tr>'
+          +'<td><div class="name-cell"><span class="avatar '+m.avc+'">'+m.av+'</span>'+m.name+'</div></td>'
+          +'<td style="color:#888;">'+m.email+'</td>'
+          +'<td style="color:#555;">'+m.cargo+'</td>'
+          +'<td style="color:#555;">'+m.region+'</td>'
+          +'<td><span class="pill '+ACC_PILL[m.acc]+'">'+ACC_LABEL[m.acc]+'</span></td>'
+          +'</tr>';
       }
-
-      document.getElementById('main-topbar').style.display = 'flex';
-      document.getElementById('main-banner').style.display = 'block';
-      document.getElementById('main-content').style.display = 'block';
-      document.getElementById('main-footer').style.display = 'block';
-      document.getElementById('topbar-user').textContent = profile.name + ' (' + profile.region + ')';
-
-      document.getElementById('btn-logout').addEventListener('click', async (e) => {
-        e.preventDefault();
-        await sb.auth.signOut();
-        window.location.reload();
-      });
-
-      if (profile.canSeeTeam) {
-        document.getElementById('tab-equipe').style.display = 'inline-block';
-        try { renderTeam(); } catch(e) { console.error('renderTeam error:', e); }
-      }
-      if (profile.canSeeTasks) {
-        document.getElementById('tab-tarefas').style.display = 'inline-block';
-        try { renderTasks(); } catch(e) { console.error('renderTasks error:', e); }
-      }
-
-      try {
-        currentReports = REPORTS.filter(r => canSeeReport(r, profile.access));
-
-        var uniqueRegions = currentReports.reduce(function(acc, r) {
-          r.regions.forEach(function(rg) { if (acc.indexOf(rg) === -1) acc.push(rg); });
-          return acc;
-        }, []);
-        document.querySelectorAll('.chip[data-filter="region"]').forEach(function(chip) {
-          if (chip.dataset.value !== 'all' && uniqueRegions.indexOf(chip.dataset.value) === -1) chip.style.display = 'none';
-        });
-
-        setupFilters(currentReports);
-        setupTabs();
-        renderReports(currentReports);
-      } catch(err) {
-        document.getElementById('reports-grid').innerHTML =
-          '<div style="grid-column:1/-1;padding:20px;color:red;font-weight:bold;">ERRO: ' + err.message + '</div>';
-      }
+      return '<div class="table-card"><table>'
+        +'<thead><tr><th>Nombre</th><th>Correo</th><th>Cargo</th><th>Región</th><th>Acceso</th></tr></thead>'
+        +'<tbody>'+rows+'</tbody></table></div>';
     }
-
-    function setupLoginForm() {
-      const btn = document.getElementById('login-btn');
-      const errEl = document.getElementById('login-error');
-
-      async function doLogin() {
-        const email = document.getElementById('login-email').value.trim();
-        const password = document.getElementById('login-password').value;
-        btn.textContent = 'Ingresando…';
-        btn.disabled = true;
-        errEl.style.display = 'none';
-
-        const { data, error } = await sb.auth.signInWithPassword({ email, password });
-
-        if (error) {
-          const msg = /invalid/i.test(error.message) ? 'Correo o contraseña incorrectos.' : error.message;
-          errEl.textContent = msg;
-          errEl.style.display = 'block';
-          btn.textContent = 'Ingresar';
-          btn.disabled = false;
-          return;
-        }
-
-        document.getElementById('login-overlay').style.display = 'none';
-        showPortal(data.user);
+  },
+  'accesos': {
+    title: 'Accesos y Contraseñas',
+    sub: 'Credenciales de acceso al portal por usuario',
+    render: function() {
+      if (!currentProfile || !currentProfile.admin) return restricted();
+      var h = '<p style="font-size:13px;color:#aaa;margin-bottom:20px;">Contraseña inicial de todos: <code style="background:#F4F5F7;padding:3px 8px;border-radius:6px;font-size:13px;">TravelBlue2026!</code> — Se recomienda que cada usuario la cambie al ingresar por primera vez.</p>';
+      for (var i=0; i<TEAM.length; i++) {
+        var m = TEAM[i];
+        h += '<div class="access-card">'
+          +'<div style="display:flex;align-items:center;gap:12px;">'
+          +'<span class="avatar '+m.avc+'">'+m.av+'</span>'
+          +'<div class="access-info"><strong>'+m.name+'</strong><span>'+m.cargo+' · '+m.region+'</span></div>'
+          +'</div>'
+          +'<div class="access-cred">'
+          +'<code>'+m.email+'</code>'
+          +'<small>Acceso: '+ACC_LABEL[m.acc]+'</small>'
+          +'</div>'
+          +'</div>';
       }
-
-      btn.addEventListener('click', doLogin);
-      document.getElementById('login-password').addEventListener('keydown', e => {
-        if (e.key === 'Enter') doLogin();
-      });
+      return h;
     }
+  }
+};
 
-    init();
-  </script>
+function restricted() {
+  return '<div class="restricted">'
+    +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'
+    +'<p>No tienes acceso a esta sección.</p></div>';
+}
+
+function filterMatch(r) {
+  if (activeFilters.theme !== 'all' && r.theme !== activeFilters.theme) return false;
+  if (activeFilters.freq !== 'all' && r.freq !== activeFilters.freq) return false;
+  return true;
+}
+
+/* ══════════════════════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════════════════════ */
+var currentPage = 'reportes-latam';
+
+function navigate(page) {
+  currentPage = page;
+  var p = PAGES[page];
+  if (!p) return;
+  document.getElementById('topbar-title').textContent = p.title;
+  document.getElementById('topbar-sub').textContent = p.sub;
+  document.getElementById('page-content').innerHTML = p.render();
+  document.querySelectorAll('.nav-item').forEach(function(btn){
+    btn.classList.toggle('active', btn.dataset.page === page);
+  });
+  // Bind filter chips
+  document.querySelectorAll('.chip[data-ft]').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      var ft = chip.dataset.ft;
+      document.querySelectorAll('.chip[data-ft="'+ft+'"]').forEach(function(c){ c.classList.remove('active'); });
+      chip.classList.add('active');
+      activeFilters[ft] = chip.dataset.fv;
+      var grid = document.getElementById('report-grid');
+      if (grid) grid.innerHTML = renderGrid(getFilteredReports(page));
+    });
+  });
+}
+
+function getFilteredReports(page) {
+  if (page === 'reportes-latam')   return REPORTS.filter(function(r){ return r.region==='latam' && canSee(r) && filterMatch(r); });
+  if (page === 'reportes-global')  return REPORTS.filter(function(r){ return r.region==='global' && r.type==='HTML' && filterMatch(r); });
+  if (page === 'reportes-bi')      return REPORTS.filter(function(r){ return r.type==='BI' && filterMatch(r); });
+  return [];
+}
+
+/* ══════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════ */
+(async function(){
+  var loading = document.getElementById('loading-screen');
+  var loginScreen = document.getElementById('login-screen');
+  var app = document.getElementById('app');
+
+  var res = await sb.auth.getUser();
+  var user = res.data && res.data.user;
+
+  loading.style.display = 'none';
+
+  if (!user) {
+    loginScreen.classList.add('active');
+    setupLogin();
+    return;
+  }
+  showApp(user);
+})();
+
+function setupLogin() {
+  var btn = document.getElementById('login-btn');
+  var err = document.getElementById('login-err');
+
+  async function doLogin() {
+    var email = document.getElementById('login-email').value.trim();
+    var pwd   = document.getElementById('login-password').value;
+    btn.textContent = 'Ingresando…'; btn.disabled = true; err.style.display = 'none';
+    var res = await sb.auth.signInWithPassword({ email: email, password: pwd });
+    if (res.error) {
+      err.textContent = /invalid/i.test(res.error.message) ? 'Correo o contraseña incorrectos.' : res.error.message;
+      err.style.display = 'block';
+      btn.textContent = 'Ingresar'; btn.disabled = false;
+      return;
+    }
+    document.getElementById('login-screen').classList.remove('active');
+    showApp(res.data.user);
+  }
+
+  btn.addEventListener('click', doLogin);
+  document.getElementById('login-password').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+}
+
+function showApp(user) {
+  var email = user.email.toLowerCase();
+  var profile = USER_PROFILES[email];
+
+  if (!profile) {
+    document.getElementById('login-screen').classList.add('active');
+    document.getElementById('login-err').textContent = 'Tu correo no tiene acceso. Contacta a Camila.';
+    document.getElementById('login-err').style.display = 'block';
+    return;
+  }
+
+  currentProfile = profile;
+  document.getElementById('sb-user-name').textContent = profile.name;
+  document.getElementById('sb-user-role').textContent = profile.role;
+  document.getElementById('app').classList.add('active');
+
+  if (profile.admin) {
+    document.getElementById('nav-label-admin').style.display = 'block';
+    document.getElementById('nav-actividades').style.display = 'flex';
+    document.getElementById('nav-equipo').style.display = 'flex';
+    document.getElementById('nav-accesos').style.display = 'flex';
+  }
+
+  // Nav clicks
+  document.querySelectorAll('.nav-item[data-page]').forEach(function(btn){
+    btn.addEventListener('click', function(){ navigate(btn.dataset.page); });
+  });
+
+  // Logout
+  document.getElementById('btn-logout').addEventListener('click', async function(){
+    await sb.auth.signOut();
+    window.location.reload();
+  });
+
+  // Determine start page by access
+  var startPage = 'reportes-latam';
+  if (profile.access !== 'all' && profile.access.indexOf('brasil') === -1 && profile.access.indexOf('latam') === -1) {
+    startPage = 'reportes-latam'; // Mexico users still see LATAM tab (filtered)
+  }
+  navigate(startPage);
+}
+</script>
 </body>
 </html>
