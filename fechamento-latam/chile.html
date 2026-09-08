@@ -1,0 +1,2404 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Informe CHILE — Agosto 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#113d85;--navy-dk:#0e326b;--navy-lt:#337ab7;--yellow:#fece08;--bg:#f1f4f9;--card:#fff;--border:#E2E8F0;--muted:#64748B;--text:#0F172A;--radius:12px}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);font-size:13px}
+.hdr{background:var(--navy);padding:14px 28px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.hdr-inner{max-width:1600px;margin:0 auto}
+.hdr-top{display:flex;align-items:center;margin-bottom:12px}
+.hdr-title{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.3px}.hdr-title span{color:var(--yellow)}
+.hdr-sub{font-size:10.5px;color:rgba(255,255,255,.5);margin-top:2px}
+.kpi-grid{display:flex;align-items:stretch;gap:0;overflow-x:auto;scrollbar-width:none}.kpi-grid::-webkit-scrollbar{display:none}
+.kpi-div{width:1px;background:rgba(255,255,255,.15);margin:0 14px;flex-shrink:0}
+.kpi-group{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.kpi-glabel{font-size:8.5px;font-weight:800;letter-spacing:.12em;color:rgba(255,255,255,.4);text-transform:uppercase;padding-bottom:2px}
+.kpi-gcards{display:flex;gap:8px}
+.kpi-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:9px;padding:8px 12px;min-width:0}
+.kpi-card.accent{background:rgba(254,206,8,.13);border-color:rgba(254,206,8,.3)}
+.kpi-card.dim{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
+.kl{font-size:9px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;white-space:nowrap}
+.kv-num{font-size:12px;font-weight:800;color:#fff;white-space:nowrap}.kv-num.hi{color:#fece08;font-size:13px}.kv-num.lo{color:rgba(255,255,255,.7);font-size:11.5px}
+.kcomps{display:flex;flex-direction:column;gap:1px;margin-top:4px}
+.kv{font-size:9.5px;font-weight:600;color:rgba(255,255,255,.4);white-space:nowrap}.kv.pos{color:#4ade80}.kv.neg{color:#f87171}
+.tab-bar{background:#fff;border-bottom:2px solid var(--border);padding:8px 28px;position:sticky;top:64px;z-index:90;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;box-shadow:0 1px 4px rgba(17,61,133,.06)}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{padding:6px 16px;border-radius:20px;border:1.5px solid var(--border);background:transparent;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;transition:.15s;display:inline-flex;align-items:center;gap:5px}
+.tab-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tab-btn:hover:not(.active){background:var(--bg);color:var(--navy);border-color:var(--navy)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.main{max-width:1600px;margin:0 auto;padding:20px 28px 48px}
+.analysis-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 1px 4px rgba(17,61,133,.07);margin-bottom:16px;overflow:hidden}
+.sec-header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dk) 100%);padding:11px 18px;display:flex;align-items:center;gap:9px}
+.sec-header.alt{background:linear-gradient(135deg,#1e4fa0 0%,#113d85 100%)}
+.sec-icon{font-size:16px}.sec-title{font-size:12.5px;font-weight:700;color:#fff;flex:1}
+.sec-badge{background:rgba(254,206,8,.22);border:1px solid rgba(254,206,8,.35);color:var(--yellow);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px}
+.sec-body{display:grid;grid-template-columns:300px 1fr}
+.sec-body.no-chart{display:block}
+.chart-col{padding:12px 14px;border-right:1px solid var(--border);display:flex;align-items:center}.chart-wrap{width:100%}
+.table-col{overflow-x:auto}
+.rep-table{width:100%;border-collapse:collapse;font-size:11px;min-width:600px}
+.rep-table thead tr{background:var(--navy)}
+.rep-table th{padding:7px 10px;color:#fff;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;text-align:right}
+.rep-table th:nth-child(1),.rep-table th:nth-child(2){text-align:left}
+.rep-table tbody tr{border-bottom:1px solid var(--border)}.rep-table tbody tr:hover{background:#f5f8ff}
+.rep-table td{padding:5px 10px;vertical-align:middle}
+.rep-table tfoot tr{background:#EEF2F9;border-top:2px solid var(--navy)}.rep-table tfoot td{padding:6px 10px}
+.td-rank{color:var(--muted);font-weight:700;font-size:10px;width:26px;text-align:left}
+.td-name{min-width:130px;max-width:260px}
+.name-txt{display:block;font-weight:600;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:250px}
+.mini-bar{height:3px;background:#E2E8F0;border-radius:2px;margin-top:3px}.mini-bar-fill{height:100%;background:var(--navy);border-radius:2px}
+.td-num{text-align:right;white-space:nowrap;font-weight:500}
+.td-lcy{color:#444;font-weight:600}.td-usd{color:var(--navy);font-weight:700}
+.td-avg{color:var(--navy-lt);font-weight:600}
+.td-pct-qty{color:var(--muted);font-size:10.5px}.td-pct-usd{color:#27AE60;font-weight:700;font-size:10.5px}
+.td-pos{color:#16a34a;font-weight:700}.td-neg{color:#dc2626;font-weight:700}
+.td-share{color:var(--muted);font-size:10.5px;font-weight:600}
+footer{background:var(--navy);text-align:center;padding:13px;font-size:10.5px;color:rgba(255,255,255,.35)}footer span{color:var(--yellow)}</style>
+</head><body>
+<header class="hdr"><div class="hdr-inner">
+  <div class="hdr-top"><div>
+    <h1 class="hdr-title">TRAVEL BLUE <span>CL CHILE</span></h1>
+    <p class="hdr-sub">Informe de Cierre Mensual &middot; Agosto 2026 &middot; Moneda local: CLP</p>
+  </div></div>
+  <div class="kpi-grid">
+    <div class="kpi-group"><div class="kpi-glabel">RESUMEN AGOSTO 2026</div><div class="kpi-gcards">
+      <div class="kpi-card dim"><div class="kl">Importe CLP</div><div class="kv-num">CLP 1,394,004</div></div>
+      <div class="kpi-card dim"><div class="kl">Volumen (uds.)</div><div class="kv-num">180</div></div>
+      <div class="kpi-card dim"><div class="kl">Precio Promedio</div><div class="kv-num">$8.32</div></div>
+      <div class="kpi-card dim"><div class="kl">T/C CLP/USD</div><div class="kv-num">930.51</div></div>
+    </div></div>
+    <div class="kpi-div"></div>
+    <div class="kpi-group"><div class="kpi-glabel">AGOSTO 2026 — USD</div><div class="kpi-gcards">
+      <div class="kpi-card accent"><div class="kl">Ventas Reales</div><div class="kv-num hi">$1,498</div>
+        <div class="kcomps"><span class="kv neg">vs Budget: -78.6%</span><span class="kv neg">vs 2025: -93.5%</span></div></div>
+      <div class="kpi-card"><div class="kl">Business Plan</div><div class="kv-num lo">$7,000</div><div class="kcomps"><span class="kv">Meta mensual</span></div></div>
+      <div class="kpi-card"><div class="kl">Ago 2025</div><div class="kv-num lo">$23,169</div><div class="kcomps"><span class="kv">Mismo mes a.a.</span></div></div>
+    </div></div>
+    <div class="kpi-div"></div>
+    <div class="kpi-group"><div class="kpi-glabel">YTD ENE-AGO 2026 — USD</div><div class="kpi-gcards">
+      <div class="kpi-card accent"><div class="kl">Acumulado Real</div><div class="kv-num hi">$39,242</div>
+        <div class="kcomps"><span class="kv neg">vs Budget: -50.9%</span><span class="kv neg">vs 2025: -60.6%</span></div></div>
+      <div class="kpi-card"><div class="kl">Acum. Budget</div><div class="kv-num lo">$79,920</div><div class="kcomps"><span class="kv">Meta Ene-Jul</span></div></div>
+      <div class="kpi-card"><div class="kl">Acum. 2025</div><div class="kv-num lo">$99,500</div><div class="kcomps"><span class="kv">Ene-Ago a.a.</span></div></div>
+    </div></div>
+  </div>
+</div></header>
+<div class="tab-bar"><button class="tab-btn active" onclick="showTab('cliente',this)">&#128100; Cliente</button><button class="tab-btn" onclick="showTab('canal',this)">&#128225; Canal</button><button class="tab-btn" onclick="showTab('marca',this)">&#127991; Marca</button><button class="tab-btn" onclick="showTab('familia',this)">&#128194; Familia</button><button class="tab-btn" onclick="showTab('categoria',this)">&#128193; Categoria</button><button class="tab-btn" onclick="showTab('sku',this)">&#128230; SKU</button></div>
+<main class="main"><div class="tab-panel active" id="tab-cliente"><div class="analysis-section" style="border-radius:var(--radius) var(--radius) 0 0;margin-bottom:0"><div class="sec-header"><h2 class="sec-title">&#128100; Cliente</h2><span class="sec-badge">2 items</span></div><div class="sec-body"><div class="chart-col"><div class="chart-wrap" style="height:180px"><canvas id="c_CHILE_cliente"></canvas></div></div><div class="table-col"><table class="rep-table"><thead><tr><th>#</th><th>Nombre</th><th>Cantidad</th><th>Importe (CLP)</th><th>Importe (USD)</th><th>P. Prom.</th><th>% Cant.</th><th>% USD</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">DUFRY</span><div class="mini-bar"><div class="mini-bar-fill" style="width:66.1%"></div></div></td>
+          <td class="td-num">126</td>
+          <td class="td-num td-lcy">CLP 922,099</td>
+          <td class="td-num td-usd">$991</td>
+          <td class="td-num td-avg">$7.86</td>
+          <td class="td-num td-pct-qty">70.0%</td>
+          <td class="td-num td-pct-usd">66.1%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">MERCADO LIBRE</span><div class="mini-bar"><div class="mini-bar-fill" style="width:33.9%"></div></div></td>
+          <td class="td-num">54</td>
+          <td class="td-num td-lcy">CLP 471,905</td>
+          <td class="td-num td-usd">$507</td>
+          <td class="td-num td-avg">$9.39</td>
+          <td class="td-num td-pct-qty">30.0%</td>
+          <td class="td-num td-pct-usd">33.9%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num"><strong>180</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 1,394,004</strong></td>
+      <td class="td-num td-usd"><strong>$1,498</strong></td>
+      <td class="td-num td-avg"><strong>$8.32</strong></td>
+      <td class="td-num td-pct-qty"><strong>100%</strong></td>
+      <td class="td-num td-pct-usd"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div><div class="analysis-section" style="margin-top:0;border-top:2px solid var(--border);border-radius:0 0 var(--radius) var(--radius)"><div class="sec-header alt"><span class="sec-icon">&#128202;</span><h2 class="sec-title">Analisis Comparativo — CLP &middot; Ago / YTD</h2><span class="sec-badge">vs 2025</span></div><div class="sec-body no-chart"><div class="table-col" style="padding:0"><table class="rep-table" style="min-width:800px"><thead><tr><th>#</th><th>Nombre</th><th>Ago 26 (CLP)</th><th>Ago 25 (CLP)</th><th>% Var</th><th>Acum 26 (CLP)</th><th>Acum 25 (CLP)</th><th>% Var</th><th>Share 25</th><th>Share 26</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">DUFRY</span></td>
+          <td class="td-num td-lcy">CLP 922,099</td>
+          <td class="td-num td-lcy">CLP 1,499,280</td>
+          <td class="td-num td-neg">-38.5%</td>
+          <td class="td-num td-lcy">CLP 24,067,705</td>
+          <td class="td-num td-lcy">CLP 53,387,273</td>
+          <td class="td-num td-neg">-54.9%</td>
+          <td class="td-num td-share">71.3%</td>
+          <td class="td-num td-share">68.4%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">COMERCIALIZADORA ZONA PROMO</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 5,212,000</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">14.8%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">MERCADO LIBRE</span></td>
+          <td class="td-num td-lcy">CLP 471,905</td>
+          <td class="td-num td-lcy">CLP 820,556</td>
+          <td class="td-num td-neg">-42.5%</td>
+          <td class="td-num td-lcy">CLP 4,073,947</td>
+          <td class="td-num td-lcy">CLP 10,789,715</td>
+          <td class="td-num td-neg">-62.2%</td>
+          <td class="td-num td-share">14.4%</td>
+          <td class="td-num td-share">11.6%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">COMERCIALIZADORA ZONA PROMO LIMITADA</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 992,000</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">2.8%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">CERCANO</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 848,047</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">2.4%</td></tr><tr>
+          <td class="td-rank">#6</td>
+          <td class="td-name"><span class="name-txt">BRITT</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 10,740,000</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-share">14.3%</td>
+          <td class="td-num td-share">0.0%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 1,394,004</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 2,319,836</strong></td>
+      <td></td>
+      <td class="td-num td-lcy"><strong>CLP 35,193,699</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 74,916,988</strong></td>
+      <td></td><td class="td-num td-share"><strong>100%</strong></td><td class="td-num td-share"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div><div class="analysis-section" style="margin-top:0;border-top:2px solid var(--border);border-radius:0 0 var(--radius) var(--radius)"><div class="sec-header alt"><span class="sec-icon">&#128202;</span><h2 class="sec-title">Analisis Comparativo — USD &middot; Ago / YTD</h2><span class="sec-badge">vs 2025</span></div><div class="sec-body no-chart"><div class="table-col" style="padding:0"><table class="rep-table" style="min-width:800px"><thead><tr><th>#</th><th>Nombre</th><th>Ago 26 (USD)</th><th>Ago 25 (USD)</th><th>% Var</th><th>Acum 26 (USD)</th><th>Acum 25 (USD)</th><th>% Var</th><th>Share 25</th><th>Share 26</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">DUFRY</span></td>
+          <td class="td-num td-usd">$991</td>
+          <td class="td-num">$1,552</td>
+          <td class="td-num td-neg">-36.1%</td>
+          <td class="td-num td-usd">$27,030</td>
+          <td class="td-num">$55,971</td>
+          <td class="td-num td-neg">-51.7%</td>
+          <td class="td-num td-share">71.3%</td>
+          <td class="td-num td-share">68.4%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">COMERCIALIZADORA ZONA PROMO</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$5,624</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">14.8%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">MERCADO LIBRE</span></td>
+          <td class="td-num td-usd">$507</td>
+          <td class="td-num">$849</td>
+          <td class="td-num td-neg">-40.3%</td>
+          <td class="td-num td-usd">$4,512</td>
+          <td class="td-num">$11,327</td>
+          <td class="td-num td-neg">-60.2%</td>
+          <td class="td-num td-share">14.4%</td>
+          <td class="td-num td-share">11.6%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">COMERCIALIZADORA ZONA PROMO LIMITADA</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$1,107</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">2.8%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">CERCANO</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$970</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">2.4%</td></tr><tr>
+          <td class="td-rank">#6</td>
+          <td class="td-name"><span class="name-txt">BRITT</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$11,434</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-share">14.3%</td>
+          <td class="td-num td-share">0.0%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num td-usd"><strong>$1,498</strong></td>
+      <td class="td-num"><strong>$2,401</strong></td>
+      <td></td>
+      <td class="td-num td-usd"><strong>$39,242</strong></td>
+      <td class="td-num"><strong>$78,732</strong></td>
+      <td></td><td class="td-num td-share"><strong>100%</strong></td><td class="td-num td-share"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div></div><div class="tab-panel" id="tab-canal"><div class="analysis-section" style="border-radius:var(--radius) var(--radius) 0 0;margin-bottom:0"><div class="sec-header"><h2 class="sec-title">&#128225; Canal</h2><span class="sec-badge">2 items</span></div><div class="sec-body"><div class="chart-col"><div class="chart-wrap" style="height:200px"><canvas id="c_CHILE_canal"></canvas></div></div><div class="table-col"><table class="rep-table"><thead><tr><th>#</th><th>Nombre</th><th>Cantidad</th><th>Importe (CLP)</th><th>Importe (USD)</th><th>P. Prom.</th><th>% Cant.</th><th>% USD</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">RETAIL</span><div class="mini-bar"><div class="mini-bar-fill" style="width:66.1%"></div></div></td>
+          <td class="td-num">126</td>
+          <td class="td-num td-lcy">CLP 922,099</td>
+          <td class="td-num td-usd">$991</td>
+          <td class="td-num td-avg">$7.86</td>
+          <td class="td-num td-pct-qty">70.0%</td>
+          <td class="td-num td-pct-usd">66.1%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">ONLINE</span><div class="mini-bar"><div class="mini-bar-fill" style="width:33.9%"></div></div></td>
+          <td class="td-num">54</td>
+          <td class="td-num td-lcy">CLP 471,905</td>
+          <td class="td-num td-usd">$507</td>
+          <td class="td-num td-avg">$9.39</td>
+          <td class="td-num td-pct-qty">30.0%</td>
+          <td class="td-num td-pct-usd">33.9%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num"><strong>180</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 1,394,004</strong></td>
+      <td class="td-num td-usd"><strong>$1,498</strong></td>
+      <td class="td-num td-avg"><strong>$8.32</strong></td>
+      <td class="td-num td-pct-qty"><strong>100%</strong></td>
+      <td class="td-num td-pct-usd"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div><div class="analysis-section" style="margin-top:0;border-top:2px solid var(--border);border-radius:0 0 var(--radius) var(--radius)"><div class="sec-header alt"><span class="sec-icon">&#128202;</span><h2 class="sec-title">Analisis Comparativo — CLP &middot; Ago / YTD</h2><span class="sec-badge">vs 2025</span></div><div class="sec-body no-chart"><div class="table-col" style="padding:0"><table class="rep-table" style="min-width:800px"><thead><tr><th>#</th><th>Nombre</th><th>Ago 26 (CLP)</th><th>Ago 25 (CLP)</th><th>% Var</th><th>Acum 26 (CLP)</th><th>Acum 25 (CLP)</th><th>% Var</th><th>Share 25</th><th>Share 26</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">TRAVEL RETAIL</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 1,499,280</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-lcy">CLP 18,913,235</td>
+          <td class="td-num td-lcy">CLP 64,127,273</td>
+          <td class="td-num td-neg">-70.5%</td>
+          <td class="td-num td-share">85.6%</td>
+          <td class="td-num td-share">53.7%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">DOMESTIC</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 7,052,047</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">20.0%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">RETAIL</span></td>
+          <td class="td-num td-lcy">CLP 922,099</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 5,154,470</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">14.6%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">ONLINE</span></td>
+          <td class="td-num td-lcy">CLP 471,905</td>
+          <td class="td-num td-lcy">CLP 820,556</td>
+          <td class="td-num td-neg">-42.5%</td>
+          <td class="td-num td-lcy">CLP 4,073,947</td>
+          <td class="td-num td-lcy">CLP 10,789,715</td>
+          <td class="td-num td-neg">-62.2%</td>
+          <td class="td-num td-share">14.4%</td>
+          <td class="td-num td-share">11.6%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 1,394,004</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 2,319,836</strong></td>
+      <td></td>
+      <td class="td-num td-lcy"><strong>CLP 35,193,699</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 74,916,988</strong></td>
+      <td></td><td class="td-num td-share"><strong>100%</strong></td><td class="td-num td-share"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div><div class="analysis-section" style="margin-top:0;border-top:2px solid var(--border);border-radius:0 0 var(--radius) var(--radius)"><div class="sec-header alt"><span class="sec-icon">&#128202;</span><h2 class="sec-title">Analisis Comparativo — USD &middot; Ago / YTD</h2><span class="sec-badge">vs 2025</span></div><div class="sec-body no-chart"><div class="table-col" style="padding:0"><table class="rep-table" style="min-width:800px"><thead><tr><th>#</th><th>Nombre</th><th>Ago 26 (USD)</th><th>Ago 25 (USD)</th><th>% Var</th><th>Acum 26 (USD)</th><th>Acum 25 (USD)</th><th>% Var</th><th>Share 25</th><th>Share 26</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">TRAVEL RETAIL</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$1,552</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-usd">$21,487</td>
+          <td class="td-num">$67,405</td>
+          <td class="td-num td-neg">-68.1%</td>
+          <td class="td-num td-share">85.6%</td>
+          <td class="td-num td-share">53.7%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">DOMESTIC</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$7,700</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">20.0%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">RETAIL</span></td>
+          <td class="td-num td-usd">$991</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$5,542</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">14.6%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">ONLINE</span></td>
+          <td class="td-num td-usd">$507</td>
+          <td class="td-num">$849</td>
+          <td class="td-num td-neg">-40.3%</td>
+          <td class="td-num td-usd">$4,512</td>
+          <td class="td-num">$11,327</td>
+          <td class="td-num td-neg">-60.2%</td>
+          <td class="td-num td-share">14.4%</td>
+          <td class="td-num td-share">11.6%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num td-usd"><strong>$1,498</strong></td>
+      <td class="td-num"><strong>$2,401</strong></td>
+      <td></td>
+      <td class="td-num td-usd"><strong>$39,242</strong></td>
+      <td class="td-num"><strong>$78,732</strong></td>
+      <td></td><td class="td-num td-share"><strong>100%</strong></td><td class="td-num td-share"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div></div><div class="tab-panel" id="tab-marca"><div class="analysis-section" style="border-radius:var(--radius) var(--radius) 0 0;margin-bottom:0"><div class="sec-header"><h2 class="sec-title">&#127991; Marca</h2><span class="sec-badge">4 items</span></div><div class="sec-body"><div class="chart-col"><div class="chart-wrap" style="height:180px"><canvas id="c_CHILE_marca"></canvas></div></div><div class="table-col"><table class="rep-table"><thead><tr><th>#</th><th>Nombre</th><th>Cantidad</th><th>Importe (CLP)</th><th>Importe (USD)</th><th>P. Prom.</th><th>% Cant.</th><th>% USD</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">TRAVEL BLUE</span><div class="mini-bar"><div class="mini-bar-fill" style="width:43.8%"></div></div></td>
+          <td class="td-num">61</td>
+          <td class="td-num td-lcy">CLP 610,254</td>
+          <td class="td-num td-usd">$656</td>
+          <td class="td-num td-avg">$10.75</td>
+          <td class="td-num td-pct-qty">33.9%</td>
+          <td class="td-num td-pct-usd">43.8%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">LEXINGHAM</span><div class="mini-bar"><div class="mini-bar-fill" style="width:36.3%"></div></div></td>
+          <td class="td-num">88</td>
+          <td class="td-num td-lcy">CLP 506,012</td>
+          <td class="td-num td-usd">$544</td>
+          <td class="td-num td-avg">$6.18</td>
+          <td class="td-num td-pct-qty">48.9%</td>
+          <td class="td-num td-pct-usd">36.3%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">TRAVEL BLUE L</span><div class="mini-bar"><div class="mini-bar-fill" style="width:15.2%"></div></div></td>
+          <td class="td-num">16</td>
+          <td class="td-num td-lcy">CLP 212,073</td>
+          <td class="td-num td-usd">$228</td>
+          <td class="td-num td-avg">$14.24</td>
+          <td class="td-num td-pct-qty">8.9%</td>
+          <td class="td-num td-pct-usd">15.2%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">OTHERS</span><div class="mini-bar"><div class="mini-bar-fill" style="width:4.7%"></div></div></td>
+          <td class="td-num">15</td>
+          <td class="td-num td-lcy">CLP 65,665</td>
+          <td class="td-num td-usd">$71</td>
+          <td class="td-num td-avg">$4.70</td>
+          <td class="td-num td-pct-qty">8.3%</td>
+          <td class="td-num td-pct-usd">4.7%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num"><strong>180</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 1,394,004</strong></td>
+      <td class="td-num td-usd"><strong>$1,498</strong></td>
+      <td class="td-num td-avg"><strong>$8.32</strong></td>
+      <td class="td-num td-pct-qty"><strong>100%</strong></td>
+      <td class="td-num td-pct-usd"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div><div class="analysis-section" style="margin-top:0;border-top:2px solid var(--border);border-radius:0 0 var(--radius) var(--radius)"><div class="sec-header alt"><span class="sec-icon">&#128202;</span><h2 class="sec-title">Analisis Comparativo — CLP &middot; Ago / YTD</h2><span class="sec-badge">vs 2025</span></div><div class="sec-body no-chart"><div class="table-col" style="padding:0"><table class="rep-table" style="min-width:800px"><thead><tr><th>#</th><th>Nombre</th><th>Ago 26 (CLP)</th><th>Ago 25 (CLP)</th><th>% Var</th><th>Acum 26 (CLP)</th><th>Acum 25 (CLP)</th><th>% Var</th><th>Share 25</th><th>Share 26</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">TRAVEL BLUE</span></td>
+          <td class="td-num td-lcy">CLP 610,254</td>
+          <td class="td-num td-lcy">CLP 633,512</td>
+          <td class="td-num td-neg">-3.7%</td>
+          <td class="td-num td-lcy">CLP 18,335,556</td>
+          <td class="td-num td-lcy">CLP 46,626,888</td>
+          <td class="td-num td-neg">-60.7%</td>
+          <td class="td-num td-share">62.2%</td>
+          <td class="td-num td-share">52.1%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">LEXINGHAM</span></td>
+          <td class="td-num td-lcy">CLP 506,012</td>
+          <td class="td-num td-lcy">CLP 1,202,072</td>
+          <td class="td-num td-neg">-57.9%</td>
+          <td class="td-num td-lcy">CLP 9,762,061</td>
+          <td class="td-num td-lcy">CLP 13,444,791</td>
+          <td class="td-num td-neg">-27.4%</td>
+          <td class="td-num td-share">17.9%</td>
+          <td class="td-num td-share">27.7%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">SLOOTH</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 4,696,777</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">13.3%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">TRAVEL BLUE L</span></td>
+          <td class="td-num td-lcy">CLP 212,073</td>
+          <td class="td-num td-lcy">CLP 307,140</td>
+          <td class="td-num td-neg">-31.0%</td>
+          <td class="td-num td-lcy">CLP 1,931,150</td>
+          <td class="td-num td-lcy">CLP 1,722,374</td>
+          <td class="td-num td-pos">+12.1%</td>
+          <td class="td-num td-share">2.3%</td>
+          <td class="td-num td-share">5.5%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">OTHERS</span></td>
+          <td class="td-num td-lcy">CLP 65,665</td>
+          <td class="td-num td-lcy">CLP 177,112</td>
+          <td class="td-num td-neg">-62.9%</td>
+          <td class="td-num td-lcy">CLP 468,155</td>
+          <td class="td-num td-lcy">CLP 2,382,936</td>
+          <td class="td-num td-neg">-80.4%</td>
+          <td class="td-num td-share">3.2%</td>
+          <td class="td-num td-share">1.3%</td></tr><tr>
+          <td class="td-rank">#6</td>
+          <td class="td-name"><span class="name-txt">OEM</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 10,740,000</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-share">14.3%</td>
+          <td class="td-num td-share">0.0%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 1,394,004</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 2,319,836</strong></td>
+      <td></td>
+      <td class="td-num td-lcy"><strong>CLP 35,193,699</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 74,916,988</strong></td>
+      <td></td><td class="td-num td-share"><strong>100%</strong></td><td class="td-num td-share"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div><div class="analysis-section" style="margin-top:0;border-top:2px solid var(--border);border-radius:0 0 var(--radius) var(--radius)"><div class="sec-header alt"><span class="sec-icon">&#128202;</span><h2 class="sec-title">Analisis Comparativo — USD &middot; Ago / YTD</h2><span class="sec-badge">vs 2025</span></div><div class="sec-body no-chart"><div class="table-col" style="padding:0"><table class="rep-table" style="min-width:800px"><thead><tr><th>#</th><th>Nombre</th><th>Ago 26 (USD)</th><th>Ago 25 (USD)</th><th>% Var</th><th>Acum 26 (USD)</th><th>Acum 25 (USD)</th><th>% Var</th><th>Share 25</th><th>Share 26</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">TRAVEL BLUE</span></td>
+          <td class="td-num td-usd">$656</td>
+          <td class="td-num">$656</td>
+          <td class="td-num td-pos">+0.0%</td>
+          <td class="td-num td-usd">$20,526</td>
+          <td class="td-num">$48,947</td>
+          <td class="td-num td-neg">-58.1%</td>
+          <td class="td-num td-share">62.2%</td>
+          <td class="td-num td-share">52.1%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">LEXINGHAM</span></td>
+          <td class="td-num td-usd">$544</td>
+          <td class="td-num">$1,244</td>
+          <td class="td-num td-neg">-56.3%</td>
+          <td class="td-num td-usd">$10,941</td>
+          <td class="td-num">$14,036</td>
+          <td class="td-num td-neg">-22.1%</td>
+          <td class="td-num td-share">17.9%</td>
+          <td class="td-num td-share">27.7%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">SLOOTH</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$5,089</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">13.3%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">TRAVEL BLUE L</span></td>
+          <td class="td-num td-usd">$228</td>
+          <td class="td-num">$318</td>
+          <td class="td-num td-neg">-28.3%</td>
+          <td class="td-num td-usd">$2,165</td>
+          <td class="td-num">$1,814</td>
+          <td class="td-num td-pos">+19.3%</td>
+          <td class="td-num td-share">2.3%</td>
+          <td class="td-num td-share">5.5%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">OTHERS</span></td>
+          <td class="td-num td-usd">$71</td>
+          <td class="td-num">$183</td>
+          <td class="td-num td-neg">-61.5%</td>
+          <td class="td-num td-usd">$521</td>
+          <td class="td-num">$2,501</td>
+          <td class="td-num td-neg">-79.2%</td>
+          <td class="td-num td-share">3.2%</td>
+          <td class="td-num td-share">1.3%</td></tr><tr>
+          <td class="td-rank">#6</td>
+          <td class="td-name"><span class="name-txt">OEM</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$11,434</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-share">14.3%</td>
+          <td class="td-num td-share">0.0%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num td-usd"><strong>$1,498</strong></td>
+      <td class="td-num"><strong>$2,401</strong></td>
+      <td></td>
+      <td class="td-num td-usd"><strong>$39,242</strong></td>
+      <td class="td-num"><strong>$78,732</strong></td>
+      <td></td><td class="td-num td-share"><strong>100%</strong></td><td class="td-num td-share"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div></div><div class="tab-panel" id="tab-familia"><div class="analysis-section" style="border-radius:var(--radius) var(--radius) 0 0;margin-bottom:0"><div class="sec-header"><h2 class="sec-title">&#128194; Familia</h2><span class="sec-badge">5 items</span></div><div class="sec-body"><div class="chart-col"><div class="chart-wrap" style="height:200px"><canvas id="c_CHILE_familia"></canvas></div></div><div class="table-col"><table class="rep-table"><thead><tr><th>#</th><th>Nombre</th><th>Cantidad</th><th>Importe (CLP)</th><th>Importe (USD)</th><th>P. Prom.</th><th>% Cant.</th><th>% USD</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">TECH</span><div class="mini-bar"><div class="mini-bar-fill" style="width:36.3%"></div></div></td>
+          <td class="td-num">88</td>
+          <td class="td-num td-lcy">CLP 506,012</td>
+          <td class="td-num td-usd">$544</td>
+          <td class="td-num td-avg">$6.18</td>
+          <td class="td-num td-pct-qty">48.9%</td>
+          <td class="td-num td-pct-usd">36.3%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">TRAVEL ACCESSORIES</span><div class="mini-bar"><div class="mini-bar-fill" style="width:34.2%"></div></div></td>
+          <td class="td-num">47</td>
+          <td class="td-num td-lcy">CLP 476,123</td>
+          <td class="td-num td-usd">$512</td>
+          <td class="td-num td-avg">$10.89</td>
+          <td class="td-num td-pct-qty">26.1%</td>
+          <td class="td-num td-pct-usd">34.2%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">BACKPACKS</span><div class="mini-bar"><div class="mini-bar-fill" style="width:15.2%"></div></div></td>
+          <td class="td-num">16</td>
+          <td class="td-num td-lcy">CLP 212,073</td>
+          <td class="td-num td-usd">$228</td>
+          <td class="td-num td-avg">$14.24</td>
+          <td class="td-num td-pct-qty">8.9%</td>
+          <td class="td-num td-pct-usd">15.2%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">PILLOWS</span><div class="mini-bar"><div class="mini-bar-fill" style="width:9.6%"></div></div></td>
+          <td class="td-num">14</td>
+          <td class="td-num td-lcy">CLP 134,131</td>
+          <td class="td-num td-usd">$144</td>
+          <td class="td-num td-avg">$10.30</td>
+          <td class="td-num td-pct-qty">7.8%</td>
+          <td class="td-num td-pct-usd">9.6%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">OTHERS</span><div class="mini-bar"><div class="mini-bar-fill" style="width:4.7%"></div></div></td>
+          <td class="td-num">15</td>
+          <td class="td-num td-lcy">CLP 65,665</td>
+          <td class="td-num td-usd">$71</td>
+          <td class="td-num td-avg">$4.70</td>
+          <td class="td-num td-pct-qty">8.3%</td>
+          <td class="td-num td-pct-usd">4.7%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num"><strong>180</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 1,394,004</strong></td>
+      <td class="td-num td-usd"><strong>$1,498</strong></td>
+      <td class="td-num td-avg"><strong>$8.32</strong></td>
+      <td class="td-num td-pct-qty"><strong>100%</strong></td>
+      <td class="td-num td-pct-usd"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div><div class="analysis-section" style="margin-top:0;border-top:2px solid var(--border);border-radius:0 0 var(--radius) var(--radius)"><div class="sec-header alt"><span class="sec-icon">&#128202;</span><h2 class="sec-title">Analisis Comparativo — CLP &middot; Ago / YTD</h2><span class="sec-badge">vs 2025</span></div><div class="sec-body no-chart"><div class="table-col" style="padding:0"><table class="rep-table" style="min-width:800px"><thead><tr><th>#</th><th>Nombre</th><th>Ago 26 (CLP)</th><th>Ago 25 (CLP)</th><th>% Var</th><th>Acum 26 (CLP)</th><th>Acum 25 (CLP)</th><th>% Var</th><th>Share 25</th><th>Share 26</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">PILLOWS</span></td>
+          <td class="td-num td-lcy">CLP 134,131</td>
+          <td class="td-num td-lcy">CLP 127,960</td>
+          <td class="td-num td-pos">+4.8%</td>
+          <td class="td-num td-lcy">CLP 14,445,362</td>
+          <td class="td-num td-lcy">CLP 30,980,906</td>
+          <td class="td-num td-neg">-53.4%</td>
+          <td class="td-num td-share">41.4%</td>
+          <td class="td-num td-share">41.0%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">TECH</span></td>
+          <td class="td-num td-lcy">CLP 506,012</td>
+          <td class="td-num td-lcy">CLP 1,202,072</td>
+          <td class="td-num td-neg">-57.9%</td>
+          <td class="td-num td-lcy">CLP 12,974,709</td>
+          <td class="td-num td-lcy">CLP 27,053,012</td>
+          <td class="td-num td-neg">-52.0%</td>
+          <td class="td-num td-share">36.1%</td>
+          <td class="td-num td-share">36.9%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">TRAVEL ACCESSORIES</span></td>
+          <td class="td-num td-lcy">CLP 476,123</td>
+          <td class="td-num td-lcy">CLP 505,552</td>
+          <td class="td-num td-neg">-5.8%</td>
+          <td class="td-num td-lcy">CLP 3,624,738</td>
+          <td class="td-num td-lcy">CLP 7,821,367</td>
+          <td class="td-num td-neg">-53.7%</td>
+          <td class="td-num td-share">10.4%</td>
+          <td class="td-num td-share">10.3%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">BACKPACKS</span></td>
+          <td class="td-num td-lcy">CLP 212,073</td>
+          <td class="td-num td-lcy">CLP 307,140</td>
+          <td class="td-num td-neg">-31.0%</td>
+          <td class="td-num td-lcy">CLP 1,931,150</td>
+          <td class="td-num td-lcy">CLP 1,722,374</td>
+          <td class="td-num td-pos">+12.1%</td>
+          <td class="td-num td-share">2.3%</td>
+          <td class="td-num td-share">5.5%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">LUGGAGE</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 1,749,585</td>
+          <td class="td-num td-lcy">CLP 4,956,393</td>
+          <td class="td-num td-neg">-64.7%</td>
+          <td class="td-num td-share">6.6%</td>
+          <td class="td-num td-share">5.0%</td></tr><tr>
+          <td class="td-rank">#6</td>
+          <td class="td-name"><span class="name-txt">OTHERS</span></td>
+          <td class="td-num td-lcy">CLP 65,665</td>
+          <td class="td-num td-lcy">CLP 177,112</td>
+          <td class="td-num td-neg">-62.9%</td>
+          <td class="td-num td-lcy">CLP 468,155</td>
+          <td class="td-num td-lcy">CLP 2,382,936</td>
+          <td class="td-num td-neg">-80.4%</td>
+          <td class="td-num td-share">3.2%</td>
+          <td class="td-num td-share">1.3%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 1,394,004</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 2,319,836</strong></td>
+      <td></td>
+      <td class="td-num td-lcy"><strong>CLP 35,193,699</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 74,916,988</strong></td>
+      <td></td><td class="td-num td-share"><strong>100%</strong></td><td class="td-num td-share"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div><div class="analysis-section" style="margin-top:0;border-top:2px solid var(--border);border-radius:0 0 var(--radius) var(--radius)"><div class="sec-header alt"><span class="sec-icon">&#128202;</span><h2 class="sec-title">Analisis Comparativo — USD &middot; Ago / YTD</h2><span class="sec-badge">vs 2025</span></div><div class="sec-body no-chart"><div class="table-col" style="padding:0"><table class="rep-table" style="min-width:800px"><thead><tr><th>#</th><th>Nombre</th><th>Ago 26 (USD)</th><th>Ago 25 (USD)</th><th>% Var</th><th>Acum 26 (USD)</th><th>Acum 25 (USD)</th><th>% Var</th><th>Share 25</th><th>Share 26</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">PILLOWS</span></td>
+          <td class="td-num td-usd">$144</td>
+          <td class="td-num">$132</td>
+          <td class="td-num td-pos">+8.8%</td>
+          <td class="td-num td-usd">$15,969</td>
+          <td class="td-num">$32,621</td>
+          <td class="td-num td-neg">-51.0%</td>
+          <td class="td-num td-share">41.4%</td>
+          <td class="td-num td-share">41.0%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">TECH</span></td>
+          <td class="td-num td-usd">$544</td>
+          <td class="td-num">$1,244</td>
+          <td class="td-num td-neg">-56.3%</td>
+          <td class="td-num td-usd">$14,627</td>
+          <td class="td-num">$28,393</td>
+          <td class="td-num td-neg">-48.5%</td>
+          <td class="td-num td-share">36.1%</td>
+          <td class="td-num td-share">36.9%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">TRAVEL ACCESSORIES</span></td>
+          <td class="td-num td-usd">$512</td>
+          <td class="td-num">$523</td>
+          <td class="td-num td-neg">-2.2%</td>
+          <td class="td-num td-usd">$4,022</td>
+          <td class="td-num">$8,214</td>
+          <td class="td-num td-neg">-51.0%</td>
+          <td class="td-num td-share">10.4%</td>
+          <td class="td-num td-share">10.3%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">BACKPACKS</span></td>
+          <td class="td-num td-usd">$228</td>
+          <td class="td-num">$318</td>
+          <td class="td-num td-neg">-28.3%</td>
+          <td class="td-num td-usd">$2,165</td>
+          <td class="td-num">$1,814</td>
+          <td class="td-num td-pos">+19.3%</td>
+          <td class="td-num td-share">2.3%</td>
+          <td class="td-num td-share">5.5%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">LUGGAGE</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$1,938</td>
+          <td class="td-num">$5,189</td>
+          <td class="td-num td-neg">-62.7%</td>
+          <td class="td-num td-share">6.6%</td>
+          <td class="td-num td-share">5.0%</td></tr><tr>
+          <td class="td-rank">#6</td>
+          <td class="td-name"><span class="name-txt">OTHERS</span></td>
+          <td class="td-num td-usd">$71</td>
+          <td class="td-num">$183</td>
+          <td class="td-num td-neg">-61.5%</td>
+          <td class="td-num td-usd">$521</td>
+          <td class="td-num">$2,501</td>
+          <td class="td-num td-neg">-79.2%</td>
+          <td class="td-num td-share">3.2%</td>
+          <td class="td-num td-share">1.3%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num td-usd"><strong>$1,498</strong></td>
+      <td class="td-num"><strong>$2,401</strong></td>
+      <td></td>
+      <td class="td-num td-usd"><strong>$39,242</strong></td>
+      <td class="td-num"><strong>$78,732</strong></td>
+      <td></td><td class="td-num td-share"><strong>100%</strong></td><td class="td-num td-share"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div></div><div class="tab-panel" id="tab-categoria"><div class="analysis-section" style="border-radius:var(--radius) var(--radius) 0 0;margin-bottom:0"><div class="sec-header"><h2 class="sec-title">&#128193; Categoria</h2><span class="sec-badge">10 items</span></div><div class="sec-body"><div class="chart-col"><div class="chart-wrap" style="height:260px"><canvas id="c_CHILE_categoria"></canvas></div></div><div class="table-col"><table class="rep-table"><thead><tr><th>#</th><th>Nombre</th><th>Cantidad</th><th>Importe (CLP)</th><th>Importe (USD)</th><th>P. Prom.</th><th>% Cant.</th><th>% USD</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">AUDIO</span><div class="mini-bar"><div class="mini-bar-fill" style="width:29.5%"></div></div></td>
+          <td class="td-num">70</td>
+          <td class="td-num td-lcy">CLP 410,876</td>
+          <td class="td-num td-usd">$442</td>
+          <td class="td-num td-avg">$6.31</td>
+          <td class="td-num td-pct-qty">38.9%</td>
+          <td class="td-num td-pct-usd">29.5%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">SECURITY</span><div class="mini-bar"><div class="mini-bar-fill" style="width:17.3%"></div></div></td>
+          <td class="td-num">25</td>
+          <td class="td-num td-lcy">CLP 241,763</td>
+          <td class="td-num td-usd">$260</td>
+          <td class="td-num td-avg">$10.39</td>
+          <td class="td-num td-pct-qty">13.9%</td>
+          <td class="td-num td-pct-usd">17.3%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">COLLECTION 2023</span><div class="mini-bar"><div class="mini-bar-fill" style="width:15.2%"></div></div></td>
+          <td class="td-num">16</td>
+          <td class="td-num td-lcy">CLP 212,073</td>
+          <td class="td-num td-usd">$228</td>
+          <td class="td-num td-avg">$14.24</td>
+          <td class="td-num td-pct-qty">8.9%</td>
+          <td class="td-num td-pct-usd">15.2%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">TRAVEL EXTRAS</span><div class="mini-bar"><div class="mini-bar-fill" style="width:11.9%"></div></div></td>
+          <td class="td-num">17</td>
+          <td class="td-num td-lcy">CLP 165,189</td>
+          <td class="td-num td-usd">$178</td>
+          <td class="td-num td-avg">$10.44</td>
+          <td class="td-num td-pct-qty">9.4%</td>
+          <td class="td-num td-pct-usd">11.9%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">ERGONOMIC PILLOWS</span><div class="mini-bar"><div class="mini-bar-fill" style="width:8.6%"></div></div></td>
+          <td class="td-num">12</td>
+          <td class="td-num td-lcy">CLP 119,778</td>
+          <td class="td-num td-usd">$129</td>
+          <td class="td-num td-avg">$10.73</td>
+          <td class="td-num td-pct-qty">6.7%</td>
+          <td class="td-num td-pct-usd">8.6%</td></tr><tr>
+          <td class="td-rank">#6</td>
+          <td class="td-name"><span class="name-txt">CABLES & CONNECTIVITY</span><div class="mini-bar"><div class="mini-bar-fill" style="width:6.8%"></div></div></td>
+          <td class="td-num">18</td>
+          <td class="td-num td-lcy">CLP 95,136</td>
+          <td class="td-num td-usd">$102</td>
+          <td class="td-num td-avg">$5.68</td>
+          <td class="td-num td-pct-qty">10.0%</td>
+          <td class="td-num td-pct-usd">6.8%</td></tr><tr>
+          <td class="td-rank">#7</td>
+          <td class="td-name"><span class="name-txt">OTHERS</span><div class="mini-bar"><div class="mini-bar-fill" style="width:4.7%"></div></div></td>
+          <td class="td-num">15</td>
+          <td class="td-num td-lcy">CLP 65,665</td>
+          <td class="td-num td-usd">$71</td>
+          <td class="td-num td-avg">$4.70</td>
+          <td class="td-num td-pct-qty">8.3%</td>
+          <td class="td-num td-pct-usd">4.7%</td></tr><tr>
+          <td class="td-rank">#8</td>
+          <td class="td-name"><span class="name-txt">COMFORT & CARE</span><div class="mini-bar"><div class="mini-bar-fill" style="width:2.6%"></div></div></td>
+          <td class="td-num">3</td>
+          <td class="td-num td-lcy">CLP 36,366</td>
+          <td class="td-num td-usd">$39</td>
+          <td class="td-num td-avg">$13.03</td>
+          <td class="td-num td-pct-qty">1.7%</td>
+          <td class="td-num td-pct-usd">2.6%</td></tr><tr>
+          <td class="td-rank">#9</td>
+          <td class="td-name"><span class="name-txt">BAGS & CASES</span><div class="mini-bar"><div class="mini-bar-fill" style="width:2.4%"></div></div></td>
+          <td class="td-num">2</td>
+          <td class="td-num td-lcy">CLP 32,805</td>
+          <td class="td-num td-usd">$35</td>
+          <td class="td-num td-avg">$17.62</td>
+          <td class="td-num td-pct-qty">1.1%</td>
+          <td class="td-num td-pct-usd">2.4%</td></tr><tr>
+          <td class="td-rank">#10</td>
+          <td class="td-name"><span class="name-txt">INFLATABLE PILLOWS</span><div class="mini-bar"><div class="mini-bar-fill" style="width:1.0%"></div></div></td>
+          <td class="td-num">2</td>
+          <td class="td-num td-lcy">CLP 14,353</td>
+          <td class="td-num td-usd">$15</td>
+          <td class="td-num td-avg">$7.71</td>
+          <td class="td-num td-pct-qty">1.1%</td>
+          <td class="td-num td-pct-usd">1.0%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num"><strong>180</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 1,394,004</strong></td>
+      <td class="td-num td-usd"><strong>$1,498</strong></td>
+      <td class="td-num td-avg"><strong>$8.32</strong></td>
+      <td class="td-num td-pct-qty"><strong>100%</strong></td>
+      <td class="td-num td-pct-usd"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div><div class="analysis-section" style="margin-top:0;border-top:2px solid var(--border);border-radius:0 0 var(--radius) var(--radius)"><div class="sec-header alt"><span class="sec-icon">&#128202;</span><h2 class="sec-title">Analisis Comparativo — CLP &middot; Ago / YTD</h2><span class="sec-badge">vs 2025</span></div><div class="sec-body no-chart"><div class="table-col" style="padding:0"><table class="rep-table" style="min-width:800px"><thead><tr><th>#</th><th>Nombre</th><th>Ago 26 (CLP)</th><th>Ago 25 (CLP)</th><th>% Var</th><th>Acum 26 (CLP)</th><th>Acum 25 (CLP)</th><th>% Var</th><th>Share 25</th><th>Share 26</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">ERGONOMIC PILLOWS</span></td>
+          <td class="td-num td-lcy">CLP 119,778</td>
+          <td class="td-num td-lcy">CLP 109,060</td>
+          <td class="td-num td-pos">+9.8%</td>
+          <td class="td-num td-lcy">CLP 13,296,462</td>
+          <td class="td-num td-lcy">CLP 18,503,367</td>
+          <td class="td-num td-neg">-28.1%</td>
+          <td class="td-num td-share">24.7%</td>
+          <td class="td-num td-share">37.8%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">CABLES & CONNECTIVITY</span></td>
+          <td class="td-num td-lcy">CLP 95,136</td>
+          <td class="td-num td-lcy">CLP 487,457</td>
+          <td class="td-num td-neg">-80.5%</td>
+          <td class="td-num td-lcy">CLP 5,092,301</td>
+          <td class="td-num td-lcy">CLP 6,381,915</td>
+          <td class="td-num td-neg">-20.2%</td>
+          <td class="td-num td-share">8.5%</td>
+          <td class="td-num td-share">14.5%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">AUDIO</span></td>
+          <td class="td-num td-lcy">CLP 410,876</td>
+          <td class="td-num td-lcy">CLP 714,615</td>
+          <td class="td-num td-neg">-42.5%</td>
+          <td class="td-num td-lcy">CLP 4,773,320</td>
+          <td class="td-num td-lcy">CLP 7,387,283</td>
+          <td class="td-num td-neg">-35.4%</td>
+          <td class="td-num td-share">9.9%</td>
+          <td class="td-num td-share">13.6%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">ADAPTORS & CHARGING</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 3,109,088</td>
+          <td class="td-num td-lcy">CLP 13,283,814</td>
+          <td class="td-num td-neg">-76.6%</td>
+          <td class="td-num td-share">17.7%</td>
+          <td class="td-num td-share">8.8%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">COLLECTION 2023</span></td>
+          <td class="td-num td-lcy">CLP 212,073</td>
+          <td class="td-num td-lcy">CLP 307,140</td>
+          <td class="td-num td-neg">-31.0%</td>
+          <td class="td-num td-lcy">CLP 1,931,150</td>
+          <td class="td-num td-lcy">CLP 1,722,374</td>
+          <td class="td-num td-pos">+12.1%</td>
+          <td class="td-num td-share">2.3%</td>
+          <td class="td-num td-share">5.5%</td></tr><tr>
+          <td class="td-rank">#6</td>
+          <td class="td-name"><span class="name-txt">TRAVELLER</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 1,749,585</td>
+          <td class="td-num td-lcy">CLP 4,956,393</td>
+          <td class="td-num td-neg">-64.7%</td>
+          <td class="td-num td-share">6.6%</td>
+          <td class="td-num td-share">5.0%</td></tr><tr>
+          <td class="td-rank">#7</td>
+          <td class="td-name"><span class="name-txt">SECURITY</span></td>
+          <td class="td-num td-lcy">CLP 241,763</td>
+          <td class="td-num td-lcy">CLP 118,931</td>
+          <td class="td-num td-pos">+103.3%</td>
+          <td class="td-num td-lcy">CLP 1,665,633</td>
+          <td class="td-num td-lcy">CLP 4,078,637</td>
+          <td class="td-num td-neg">-59.2%</td>
+          <td class="td-num td-share">5.4%</td>
+          <td class="td-num td-share">4.7%</td></tr><tr>
+          <td class="td-rank">#8</td>
+          <td class="td-name"><span class="name-txt">COMFORT & CARE</span></td>
+          <td class="td-num td-lcy">CLP 36,366</td>
+          <td class="td-num td-lcy">CLP 320,295</td>
+          <td class="td-num td-neg">-88.6%</td>
+          <td class="td-num td-lcy">CLP 1,095,967</td>
+          <td class="td-num td-lcy">CLP 2,279,390</td>
+          <td class="td-num td-neg">-51.9%</td>
+          <td class="td-num td-share">3.0%</td>
+          <td class="td-num td-share">3.1%</td></tr><tr>
+          <td class="td-rank">#9</td>
+          <td class="td-name"><span class="name-txt">BAGS & CASES</span></td>
+          <td class="td-num td-lcy">CLP 32,805</td>
+          <td class="td-num td-lcy">CLP 34,915</td>
+          <td class="td-num td-neg">-6.0%</td>
+          <td class="td-num td-lcy">CLP 611,025</td>
+          <td class="td-num td-lcy">CLP 1,241,153</td>
+          <td class="td-num td-neg">-50.8%</td>
+          <td class="td-num td-share">1.7%</td>
+          <td class="td-num td-share">1.7%</td></tr><tr>
+          <td class="td-rank">#10</td>
+          <td class="td-name"><span class="name-txt">INFLATABLE PILLOWS</span></td>
+          <td class="td-num td-lcy">CLP 14,353</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 588,301</td>
+          <td class="td-num td-lcy">CLP 1,209,279</td>
+          <td class="td-num td-neg">-51.4%</td>
+          <td class="td-num td-share">1.6%</td>
+          <td class="td-num td-share">1.7%</td></tr><tr>
+          <td class="td-rank">#11</td>
+          <td class="td-name"><span class="name-txt">MEMORY PILLOWS</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 560,599</td>
+          <td class="td-num td-lcy">CLP 11,164,139</td>
+          <td class="td-num td-neg">-95.0%</td>
+          <td class="td-num td-share">14.9%</td>
+          <td class="td-num td-share">1.6%</td></tr><tr>
+          <td class="td-rank">#12</td>
+          <td class="td-name"><span class="name-txt">OTHERS</span></td>
+          <td class="td-num td-lcy">CLP 65,665</td>
+          <td class="td-num td-lcy">CLP 177,112</td>
+          <td class="td-num td-neg">-62.9%</td>
+          <td class="td-num td-lcy">CLP 468,155</td>
+          <td class="td-num td-lcy">CLP 2,382,936</td>
+          <td class="td-num td-neg">-80.4%</td>
+          <td class="td-num td-share">3.2%</td>
+          <td class="td-num td-share">1.3%</td></tr><tr>
+          <td class="td-rank">#13</td>
+          <td class="td-name"><span class="name-txt">TRAVEL EXTRAS</span></td>
+          <td class="td-num td-lcy">CLP 165,189</td>
+          <td class="td-num td-lcy">CLP 31,411</td>
+          <td class="td-num td-pos">+425.9%</td>
+          <td class="td-num td-lcy">CLP 252,113</td>
+          <td class="td-num td-lcy">CLP 222,188</td>
+          <td class="td-num td-pos">+13.5%</td>
+          <td class="td-num td-share">0.3%</td>
+          <td class="td-num td-share">0.7%</td></tr><tr>
+          <td class="td-rank">#14</td>
+          <td class="td-name"><span class="name-txt">COMFORT KITS</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 18,900</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 104,120</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-share">0.1%</td>
+          <td class="td-num td-share">0.0%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 1,394,004</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 2,319,836</strong></td>
+      <td></td>
+      <td class="td-num td-lcy"><strong>CLP 35,193,699</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 74,916,988</strong></td>
+      <td></td><td class="td-num td-share"><strong>100%</strong></td><td class="td-num td-share"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div><div class="analysis-section" style="margin-top:0;border-top:2px solid var(--border);border-radius:0 0 var(--radius) var(--radius)"><div class="sec-header alt"><span class="sec-icon">&#128202;</span><h2 class="sec-title">Analisis Comparativo — USD &middot; Ago / YTD</h2><span class="sec-badge">vs 2025</span></div><div class="sec-body no-chart"><div class="table-col" style="padding:0"><table class="rep-table" style="min-width:800px"><thead><tr><th>#</th><th>Nombre</th><th>Ago 26 (USD)</th><th>Ago 25 (USD)</th><th>% Var</th><th>Acum 26 (USD)</th><th>Acum 25 (USD)</th><th>% Var</th><th>Share 25</th><th>Share 26</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">ERGONOMIC PILLOWS</span></td>
+          <td class="td-num td-usd">$129</td>
+          <td class="td-num">$113</td>
+          <td class="td-num td-pos">+14.0%</td>
+          <td class="td-num td-usd">$14,680</td>
+          <td class="td-num">$19,365</td>
+          <td class="td-num td-neg">-24.2%</td>
+          <td class="td-num td-share">24.7%</td>
+          <td class="td-num td-share">37.8%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">CABLES & CONNECTIVITY</span></td>
+          <td class="td-num td-usd">$102</td>
+          <td class="td-num">$505</td>
+          <td class="td-num td-neg">-79.7%</td>
+          <td class="td-num td-usd">$5,712</td>
+          <td class="td-num">$6,647</td>
+          <td class="td-num td-neg">-14.1%</td>
+          <td class="td-num td-share">8.5%</td>
+          <td class="td-num td-share">14.5%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">AUDIO</span></td>
+          <td class="td-num td-usd">$442</td>
+          <td class="td-num">$740</td>
+          <td class="td-num td-neg">-40.3%</td>
+          <td class="td-num td-usd">$5,342</td>
+          <td class="td-num">$7,732</td>
+          <td class="td-num td-neg">-30.9%</td>
+          <td class="td-num td-share">9.9%</td>
+          <td class="td-num td-share">13.6%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">ADAPTORS & CHARGING</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$3,572</td>
+          <td class="td-num">$14,014</td>
+          <td class="td-num td-neg">-74.5%</td>
+          <td class="td-num td-share">17.7%</td>
+          <td class="td-num td-share">8.8%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">COLLECTION 2023</span></td>
+          <td class="td-num td-usd">$228</td>
+          <td class="td-num">$318</td>
+          <td class="td-num td-neg">-28.3%</td>
+          <td class="td-num td-usd">$2,165</td>
+          <td class="td-num">$1,814</td>
+          <td class="td-num td-pos">+19.3%</td>
+          <td class="td-num td-share">2.3%</td>
+          <td class="td-num td-share">5.5%</td></tr><tr>
+          <td class="td-rank">#6</td>
+          <td class="td-name"><span class="name-txt">TRAVELLER</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$1,938</td>
+          <td class="td-num">$5,189</td>
+          <td class="td-num td-neg">-62.7%</td>
+          <td class="td-num td-share">6.6%</td>
+          <td class="td-num td-share">5.0%</td></tr><tr>
+          <td class="td-rank">#7</td>
+          <td class="td-name"><span class="name-txt">SECURITY</span></td>
+          <td class="td-num td-usd">$260</td>
+          <td class="td-num">$123</td>
+          <td class="td-num td-pos">+111.1%</td>
+          <td class="td-num td-usd">$1,840</td>
+          <td class="td-num">$4,293</td>
+          <td class="td-num td-neg">-57.1%</td>
+          <td class="td-num td-share">5.4%</td>
+          <td class="td-num td-share">4.7%</td></tr><tr>
+          <td class="td-rank">#8</td>
+          <td class="td-name"><span class="name-txt">COMFORT & CARE</span></td>
+          <td class="td-num td-usd">$39</td>
+          <td class="td-num">$332</td>
+          <td class="td-num td-neg">-88.2%</td>
+          <td class="td-num td-usd">$1,229</td>
+          <td class="td-num">$2,392</td>
+          <td class="td-num td-neg">-48.6%</td>
+          <td class="td-num td-share">3.0%</td>
+          <td class="td-num td-share">3.1%</td></tr><tr>
+          <td class="td-rank">#9</td>
+          <td class="td-name"><span class="name-txt">BAGS & CASES</span></td>
+          <td class="td-num td-usd">$35</td>
+          <td class="td-num">$36</td>
+          <td class="td-num td-neg">-2.5%</td>
+          <td class="td-num td-usd">$677</td>
+          <td class="td-num">$1,298</td>
+          <td class="td-num td-neg">-47.9%</td>
+          <td class="td-num td-share">1.7%</td>
+          <td class="td-num td-share">1.7%</td></tr><tr>
+          <td class="td-rank">#10</td>
+          <td class="td-name"><span class="name-txt">INFLATABLE PILLOWS</span></td>
+          <td class="td-num td-usd">$15</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$659</td>
+          <td class="td-num">$1,265</td>
+          <td class="td-num td-neg">-47.9%</td>
+          <td class="td-num td-share">1.6%</td>
+          <td class="td-num td-share">1.7%</td></tr><tr>
+          <td class="td-rank">#11</td>
+          <td class="td-name"><span class="name-txt">MEMORY PILLOWS</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$630</td>
+          <td class="td-num">$11,883</td>
+          <td class="td-num td-neg">-94.7%</td>
+          <td class="td-num td-share">14.9%</td>
+          <td class="td-num td-share">1.6%</td></tr><tr>
+          <td class="td-rank">#12</td>
+          <td class="td-name"><span class="name-txt">OTHERS</span></td>
+          <td class="td-num td-usd">$71</td>
+          <td class="td-num">$183</td>
+          <td class="td-num td-neg">-61.5%</td>
+          <td class="td-num td-usd">$521</td>
+          <td class="td-num">$2,501</td>
+          <td class="td-num td-neg">-79.2%</td>
+          <td class="td-num td-share">3.2%</td>
+          <td class="td-num td-share">1.3%</td></tr><tr>
+          <td class="td-rank">#13</td>
+          <td class="td-name"><span class="name-txt">TRAVEL EXTRAS</span></td>
+          <td class="td-num td-usd">$178</td>
+          <td class="td-num">$33</td>
+          <td class="td-num td-pos">+446.1%</td>
+          <td class="td-num td-usd">$277</td>
+          <td class="td-num">$232</td>
+          <td class="td-num td-pos">+19.6%</td>
+          <td class="td-num td-share">0.3%</td>
+          <td class="td-num td-share">0.7%</td></tr><tr>
+          <td class="td-rank">#14</td>
+          <td class="td-name"><span class="name-txt">COMFORT KITS</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$20</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$109</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-share">0.1%</td>
+          <td class="td-num td-share">0.0%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num td-usd"><strong>$1,498</strong></td>
+      <td class="td-num"><strong>$2,401</strong></td>
+      <td></td>
+      <td class="td-num td-usd"><strong>$39,242</strong></td>
+      <td class="td-num"><strong>$78,732</strong></td>
+      <td></td><td class="td-num td-share"><strong>100%</strong></td><td class="td-num td-share"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div></div><div class="tab-panel" id="tab-sku"><div class="analysis-section" style="border-radius:var(--radius) var(--radius) 0 0;margin-bottom:0"><div class="sec-header"><h2 class="sec-title">&#128230; SKU</h2><span class="sec-badge">32 items</span></div><div class="sec-body"><div class="chart-col"><div class="chart-wrap" style="height:260px"><canvas id="c_CHILE_sku"></canvas></div></div><div class="table-col"><table class="rep-table"><thead><tr><th>#</th><th>Nombre</th><th>Cantidad</th><th>Importe (CLP)</th><th>Importe (USD)</th><th>P. Prom.</th><th>% Cant.</th><th>% USD</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">L5240</span><div class="mini-bar"><div class="mini-bar-fill" style="width:12.1%"></div></div></td>
+          <td class="td-num">20</td>
+          <td class="td-num td-lcy">CLP 169,260</td>
+          <td class="td-num td-usd">$182</td>
+          <td class="td-num td-avg">$9.10</td>
+          <td class="td-num td-pct-qty">11.1%</td>
+          <td class="td-num td-pct-usd">12.1%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">TB525</span><div class="mini-bar"><div class="mini-bar-fill" style="width:10.3%"></div></div></td>
+          <td class="td-num">15</td>
+          <td class="td-num td-lcy">CLP 143,700</td>
+          <td class="td-num td-usd">$154</td>
+          <td class="td-num td-avg">$10.30</td>
+          <td class="td-num td-pct-qty">8.3%</td>
+          <td class="td-num td-pct-usd">10.3%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">TB043</span><div class="mini-bar"><div class="mini-bar-fill" style="width:7.3%"></div></div></td>
+          <td class="td-num">8</td>
+          <td class="td-num td-lcy">CLP 101,788</td>
+          <td class="td-num td-usd">$109</td>
+          <td class="td-num td-avg">$13.67</td>
+          <td class="td-num td-pct-qty">4.4%</td>
+          <td class="td-num td-pct-usd">7.3%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">TB219</span><div class="mini-bar"><div class="mini-bar-fill" style="width:6.1%"></div></div></td>
+          <td class="td-num">10</td>
+          <td class="td-num td-lcy">CLP 85,000</td>
+          <td class="td-num td-usd">$91</td>
+          <td class="td-num td-avg">$9.13</td>
+          <td class="td-num td-pct-qty">5.6%</td>
+          <td class="td-num td-pct-usd">6.1%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">L5200</span><div class="mini-bar"><div class="mini-bar-fill" style="width:5.8%"></div></div></td>
+          <td class="td-num">18</td>
+          <td class="td-num td-lcy">CLP 81,540</td>
+          <td class="td-num td-usd">$88</td>
+          <td class="td-num td-avg">$4.87</td>
+          <td class="td-num td-pct-qty">10.0%</td>
+          <td class="td-num td-pct-usd">5.8%</td></tr><tr>
+          <td class="td-rank">#6</td>
+          <td class="td-name"><span class="name-txt">BP-5612.1</span><div class="mini-bar"><div class="mini-bar-fill" style="width:5.7%"></div></div></td>
+          <td class="td-num">5</td>
+          <td class="td-num td-lcy">CLP 79,265</td>
+          <td class="td-num td-usd">$85</td>
+          <td class="td-num td-avg">$17.04</td>
+          <td class="td-num td-pct-qty">2.8%</td>
+          <td class="td-num td-pct-usd">5.7%</td></tr><tr>
+          <td class="td-rank">#7</td>
+          <td class="td-name"><span class="name-txt">BP-5610.1</span><div class="mini-bar"><div class="mini-bar-fill" style="width:5.4%"></div></div></td>
+          <td class="td-num">5</td>
+          <td class="td-num td-lcy">CLP 75,965</td>
+          <td class="td-num td-usd">$82</td>
+          <td class="td-num td-avg">$16.33</td>
+          <td class="td-num td-pct-qty">2.8%</td>
+          <td class="td-num td-pct-usd">5.4%</td></tr><tr>
+          <td class="td-rank">#8</td>
+          <td class="td-name"><span class="name-txt">L5710</span><div class="mini-bar"><div class="mini-bar-fill" style="width:4.9%"></div></div></td>
+          <td class="td-num">12</td>
+          <td class="td-num td-lcy">CLP 67,956</td>
+          <td class="td-num td-usd">$73</td>
+          <td class="td-num td-avg">$6.09</td>
+          <td class="td-num td-pct-qty">6.7%</td>
+          <td class="td-num td-pct-usd">4.9%</td></tr><tr>
+          <td class="td-rank">#9</td>
+          <td class="td-name"><span class="name-txt">ENVIO</span><div class="mini-bar"><div class="mini-bar-fill" style="width:4.7%"></div></div></td>
+          <td class="td-num">15</td>
+          <td class="td-num td-lcy">CLP 65,665</td>
+          <td class="td-num td-usd">$71</td>
+          <td class="td-num td-avg">$4.70</td>
+          <td class="td-num td-pct-qty">8.3%</td>
+          <td class="td-num td-pct-usd">4.7%</td></tr><tr>
+          <td class="td-rank">#10</td>
+          <td class="td-name"><span class="name-txt">L5201</span><div class="mini-bar"><div class="mini-bar-fill" style="width:3.9%"></div></div></td>
+          <td class="td-num">12</td>
+          <td class="td-num td-lcy">CLP 54,360</td>
+          <td class="td-num td-usd">$58</td>
+          <td class="td-num td-avg">$4.87</td>
+          <td class="td-num td-pct-qty">6.7%</td>
+          <td class="td-num td-pct-usd">3.9%</td></tr><tr>
+          <td class="td-rank">#11</td>
+          <td class="td-name"><span class="name-txt">L5220</span><div class="mini-bar"><div class="mini-bar-fill" style="width:3.9%"></div></div></td>
+          <td class="td-num">12</td>
+          <td class="td-num td-lcy">CLP 54,360</td>
+          <td class="td-num td-usd">$58</td>
+          <td class="td-num td-avg">$4.87</td>
+          <td class="td-num td-pct-qty">6.7%</td>
+          <td class="td-num td-pct-usd">3.9%</td></tr><tr>
+          <td class="td-rank">#12</td>
+          <td class="td-name"><span class="name-txt">BP-5654.1</span><div class="mini-bar"><div class="mini-bar-fill" style="width:3.6%"></div></div></td>
+          <td class="td-num">5</td>
+          <td class="td-num td-lcy">CLP 49,535</td>
+          <td class="td-num td-usd">$53</td>
+          <td class="td-num td-avg">$10.65</td>
+          <td class="td-num td-pct-qty">2.8%</td>
+          <td class="td-num td-pct-usd">3.6%</td></tr><tr>
+          <td class="td-rank">#13</td>
+          <td class="td-name"><span class="name-txt">L5250</span><div class="mini-bar"><div class="mini-bar-fill" style="width:2.9%"></div></div></td>
+          <td class="td-num">7</td>
+          <td class="td-num td-lcy">CLP 40,602</td>
+          <td class="td-num td-usd">$44</td>
+          <td class="td-num td-avg">$6.23</td>
+          <td class="td-num td-pct-qty">3.9%</td>
+          <td class="td-num td-pct-usd">2.9%</td></tr><tr>
+          <td class="td-rank">#14</td>
+          <td class="td-name"><span class="name-txt">TB103</span><div class="mini-bar"><div class="mini-bar-fill" style="width:2.4%"></div></div></td>
+          <td class="td-num">5</td>
+          <td class="td-num td-lcy">CLP 33,241</td>
+          <td class="td-num td-usd">$36</td>
+          <td class="td-num td-avg">$7.14</td>
+          <td class="td-num td-pct-qty">2.8%</td>
+          <td class="td-num td-pct-usd">2.4%</td></tr><tr>
+          <td class="td-rank">#15</td>
+          <td class="td-name"><span class="name-txt">TB039</span><div class="mini-bar"><div class="mini-bar-fill" style="width:2.0%"></div></div></td>
+          <td class="td-num">2</td>
+          <td class="td-num td-lcy">CLP 28,524</td>
+          <td class="td-num td-usd">$31</td>
+          <td class="td-num td-avg">$15.32</td>
+          <td class="td-num td-pct-qty">1.1%</td>
+          <td class="td-num td-pct-usd">2.0%</td></tr><tr>
+          <td class="td-rank">#16</td>
+          <td class="td-name"><span class="name-txt">L5720</span><div class="mini-bar"><div class="mini-bar-fill" style="width:1.9%"></div></div></td>
+          <td class="td-num">6</td>
+          <td class="td-num td-lcy">CLP 27,180</td>
+          <td class="td-num td-usd">$29</td>
+          <td class="td-num td-avg">$4.87</td>
+          <td class="td-num td-pct-qty">3.3%</td>
+          <td class="td-num td-pct-usd">1.9%</td></tr><tr>
+          <td class="td-rank">#17</td>
+          <td class="td-name"><span class="name-txt">TB791</span><div class="mini-bar"><div class="mini-bar-fill" style="width:1.8%"></div></div></td>
+          <td class="td-num">2</td>
+          <td class="td-num td-lcy">CLP 25,281</td>
+          <td class="td-num td-usd">$27</td>
+          <td class="td-num td-avg">$13.59</td>
+          <td class="td-num td-pct-qty">1.1%</td>
+          <td class="td-num td-pct-usd">1.8%</td></tr><tr>
+          <td class="td-rank">#18</td>
+          <td class="td-name"><span class="name-txt">TB583</span><div class="mini-bar"><div class="mini-bar-fill" style="width:1.5%"></div></div></td>
+          <td class="td-num">2</td>
+          <td class="td-num td-lcy">CLP 21,489</td>
+          <td class="td-num td-usd">$23</td>
+          <td class="td-num td-avg">$11.54</td>
+          <td class="td-num td-pct-qty">1.1%</td>
+          <td class="td-num td-pct-usd">1.5%</td></tr><tr>
+          <td class="td-rank">#19</td>
+          <td class="td-name"><span class="name-txt">TB067</span><div class="mini-bar"><div class="mini-bar-fill" style="width:1.5%"></div></div></td>
+          <td class="td-num">1</td>
+          <td class="td-num td-lcy">CLP 20,334</td>
+          <td class="td-num td-usd">$22</td>
+          <td class="td-num td-avg">$21.85</td>
+          <td class="td-num td-pct-qty">0.6%</td>
+          <td class="td-num td-pct-usd">1.5%</td></tr><tr>
+          <td class="td-rank">#20</td>
+          <td class="td-name"><span class="name-txt">TB028</span><div class="mini-bar"><div class="mini-bar-fill" style="width:1.4%"></div></div></td>
+          <td class="td-num">2</td>
+          <td class="td-num td-lcy">CLP 20,106</td>
+          <td class="td-num td-usd">$22</td>
+          <td class="td-num td-avg">$10.80</td>
+          <td class="td-num td-pct-qty">1.1%</td>
+          <td class="td-num td-pct-usd">1.4%</td></tr><tr>
+          <td class="td-rank">#21</td>
+          <td class="td-name"><span class="name-txt">TB212</span><div class="mini-bar"><div class="mini-bar-fill" style="width:1.4%"></div></div></td>
+          <td class="td-num">1</td>
+          <td class="td-num td-lcy">CLP 19,429</td>
+          <td class="td-num td-usd">$21</td>
+          <td class="td-num td-avg">$20.88</td>
+          <td class="td-num td-pct-qty">0.6%</td>
+          <td class="td-num td-pct-usd">1.4%</td></tr><tr>
+          <td class="td-rank">#22</td>
+          <td class="td-name"><span class="name-txt">TB016</span><div class="mini-bar"><div class="mini-bar-fill" style="width:1.1%"></div></div></td>
+          <td class="td-num">2</td>
+          <td class="td-num td-lcy">CLP 15,785</td>
+          <td class="td-num td-usd">$17</td>
+          <td class="td-num td-avg">$8.48</td>
+          <td class="td-num td-pct-qty">1.1%</td>
+          <td class="td-num td-pct-usd">1.1%</td></tr><tr>
+          <td class="td-rank">#23</td>
+          <td class="td-name"><span class="name-txt">TB216</span><div class="mini-bar"><div class="mini-bar-fill" style="width:1.1%"></div></div></td>
+          <td class="td-num">1</td>
+          <td class="td-num td-lcy">CLP 15,349</td>
+          <td class="td-num td-usd">$16</td>
+          <td class="td-num td-avg">$16.50</td>
+          <td class="td-num td-pct-qty">0.6%</td>
+          <td class="td-num td-pct-usd">1.1%</td></tr><tr>
+          <td class="td-rank">#24</td>
+          <td class="td-name"><span class="name-txt">TB220</span><div class="mini-bar"><div class="mini-bar-fill" style="width:1.0%"></div></div></td>
+          <td class="td-num">2</td>
+          <td class="td-num td-lcy">CLP 14,353</td>
+          <td class="td-num td-usd">$15</td>
+          <td class="td-num td-avg">$7.71</td>
+          <td class="td-num td-pct-qty">1.1%</td>
+          <td class="td-num td-pct-usd">1.0%</td></tr><tr>
+          <td class="td-rank">#25</td>
+          <td class="td-name"><span class="name-txt">TB068</span><div class="mini-bar"><div class="mini-bar-fill" style="width:0.9%"></div></div></td>
+          <td class="td-num">1</td>
+          <td class="td-num td-lcy">CLP 12,471</td>
+          <td class="td-num td-usd">$13</td>
+          <td class="td-num td-avg">$13.40</td>
+          <td class="td-num td-pct-qty">0.6%</td>
+          <td class="td-num td-pct-usd">0.9%</td></tr><tr>
+          <td class="td-rank">#26</td>
+          <td class="td-name"><span class="name-txt">TB029</span><div class="mini-bar"><div class="mini-bar-fill" style="width:0.9%"></div></div></td>
+          <td class="td-num">2</td>
+          <td class="td-num td-lcy">CLP 12,462</td>
+          <td class="td-num td-usd">$13</td>
+          <td class="td-num td-avg">$6.70</td>
+          <td class="td-num td-pct-qty">1.1%</td>
+          <td class="td-num td-pct-usd">0.9%</td></tr><tr>
+          <td class="td-rank">#27</td>
+          <td class="td-name"><span class="name-txt">TB101</span><div class="mini-bar"><div class="mini-bar-fill" style="width:0.8%"></div></div></td>
+          <td class="td-num">2</td>
+          <td class="td-num td-lcy">CLP 11,724</td>
+          <td class="td-num td-usd">$13</td>
+          <td class="td-num td-avg">$6.30</td>
+          <td class="td-num td-pct-qty">1.1%</td>
+          <td class="td-num td-pct-usd">0.8%</td></tr><tr>
+          <td class="td-rank">#28</td>
+          <td class="td-name"><span class="name-txt">TB650</span><div class="mini-bar"><div class="mini-bar-fill" style="width:0.8%"></div></div></td>
+          <td class="td-num">1</td>
+          <td class="td-num td-lcy">CLP 11,085</td>
+          <td class="td-num td-usd">$12</td>
+          <td class="td-num td-avg">$11.91</td>
+          <td class="td-num td-pct-qty">0.6%</td>
+          <td class="td-num td-pct-usd">0.8%</td></tr><tr>
+          <td class="td-rank">#29</td>
+          <td class="td-name"><span class="name-txt">L5231</span><div class="mini-bar"><div class="mini-bar-fill" style="width:0.8%"></div></div></td>
+          <td class="td-num">1</td>
+          <td class="td-num td-lcy">CLP 10,754</td>
+          <td class="td-num td-usd">$12</td>
+          <td class="td-num td-avg">$11.56</td>
+          <td class="td-num td-pct-qty">0.6%</td>
+          <td class="td-num td-pct-usd">0.8%</td></tr><tr>
+          <td class="td-rank">#30</td>
+          <td class="td-name"><span class="name-txt">TB124</span><div class="mini-bar"><div class="mini-bar-fill" style="width:0.7%"></div></div></td>
+          <td class="td-num">1</td>
+          <td class="td-num td-lcy">CLP 9,823</td>
+          <td class="td-num td-usd">$11</td>
+          <td class="td-num td-avg">$10.56</td>
+          <td class="td-num td-pct-qty">0.6%</td>
+          <td class="td-num td-pct-usd">0.7%</td></tr><tr>
+          <td class="td-rank">#31</td>
+          <td class="td-name"><span class="name-txt">TB111</span><div class="mini-bar"><div class="mini-bar-fill" style="width:0.6%"></div></div></td>
+          <td class="td-num">1</td>
+          <td class="td-num td-lcy">CLP 8,310</td>
+          <td class="td-num td-usd">$9</td>
+          <td class="td-num td-avg">$8.93</td>
+          <td class="td-num td-pct-qty">0.6%</td>
+          <td class="td-num td-pct-usd">0.6%</td></tr><tr>
+          <td class="td-rank">#32</td>
+          <td class="td-name"><span class="name-txt">BP-5653.1</span><div class="mini-bar"><div class="mini-bar-fill" style="width:0.5%"></div></div></td>
+          <td class="td-num">1</td>
+          <td class="td-num td-lcy">CLP 7,308</td>
+          <td class="td-num td-usd">$8</td>
+          <td class="td-num td-avg">$7.85</td>
+          <td class="td-num td-pct-qty">0.6%</td>
+          <td class="td-num td-pct-usd">0.5%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num"><strong>180</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 1,394,004</strong></td>
+      <td class="td-num td-usd"><strong>$1,498</strong></td>
+      <td class="td-num td-avg"><strong>$8.32</strong></td>
+      <td class="td-num td-pct-qty"><strong>100%</strong></td>
+      <td class="td-num td-pct-usd"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div><div class="analysis-section" style="margin-top:0;border-top:2px solid var(--border);border-radius:0 0 var(--radius) var(--radius)"><div class="sec-header alt"><span class="sec-icon">&#128202;</span><h2 class="sec-title">Analisis Comparativo — CLP &middot; Ago / YTD</h2><span class="sec-badge">vs 2025</span></div><div class="sec-body no-chart"><div class="table-col" style="padding:0"><table class="rep-table" style="min-width:800px"><thead><tr><th>#</th><th>Nombre</th><th>Ago 26 (CLP)</th><th>Ago 25 (CLP)</th><th>% Var</th><th>Acum 26 (CLP)</th><th>Acum 25 (CLP)</th><th>% Var</th><th>Share 25</th><th>Share 26</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">TB219</span></td>
+          <td class="td-num td-lcy">CLP 85,000</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 6,852,490</td>
+          <td class="td-num td-lcy">CLP 11,651,536</td>
+          <td class="td-num td-neg">-41.2%</td>
+          <td class="td-num td-share">15.6%</td>
+          <td class="td-num td-share">19.5%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">SL1.50</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 4,320,000</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">12.3%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">TB1001</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 2,600,000</td>
+          <td class="td-num td-lcy">CLP 12,090,000</td>
+          <td class="td-num td-neg">-78.5%</td>
+          <td class="td-num td-share">16.1%</td>
+          <td class="td-num td-share">7.4%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">L5240</span></td>
+          <td class="td-num td-lcy">CLP 169,260</td>
+          <td class="td-num td-lcy">CLP 338,520</td>
+          <td class="td-num td-neg">-50.0%</td>
+          <td class="td-num td-lcy">CLP 1,650,285</td>
+          <td class="td-num td-lcy">CLP 1,777,230</td>
+          <td class="td-num td-neg">-7.1%</td>
+          <td class="td-num td-share">2.4%</td>
+          <td class="td-num td-share">4.7%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">3311</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 1,208,121</td>
+          <td class="td-num td-lcy">CLP 2,888,985</td>
+          <td class="td-num td-neg">-58.2%</td>
+          <td class="td-num td-share">3.9%</td>
+          <td class="td-num td-share">3.4%</td></tr><tr>
+          <td class="td-rank">#6</td>
+          <td class="td-name"><span class="name-txt">L5710</span></td>
+          <td class="td-num td-lcy">CLP 67,956</td>
+          <td class="td-num td-lcy">CLP 84,945</td>
+          <td class="td-num td-neg">-20.0%</td>
+          <td class="td-num td-lcy">CLP 1,180,805</td>
+          <td class="td-num td-lcy">CLP 1,829,149</td>
+          <td class="td-num td-neg">-35.4%</td>
+          <td class="td-num td-share">2.4%</td>
+          <td class="td-num td-share">3.4%</td></tr><tr>
+          <td class="td-rank">#7</td>
+          <td class="td-name"><span class="name-txt">TB208</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 944,386</td>
+          <td class="td-num td-lcy">CLP 1,417,835</td>
+          <td class="td-num td-neg">-33.4%</td>
+          <td class="td-num td-share">1.9%</td>
+          <td class="td-num td-share">2.7%</td></tr><tr>
+          <td class="td-rank">#8</td>
+          <td class="td-name"><span class="name-txt">L5760</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 45,300</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-lcy">CLP 906,000</td>
+          <td class="td-num td-lcy">CLP 1,096,260</td>
+          <td class="td-num td-neg">-17.4%</td>
+          <td class="td-num td-share">1.5%</td>
+          <td class="td-num td-share">2.6%</td></tr><tr>
+          <td class="td-rank">#9</td>
+          <td class="td-name"><span class="name-txt">L5720</span></td>
+          <td class="td-num td-lcy">CLP 27,180</td>
+          <td class="td-num td-lcy">CLP 67,950</td>
+          <td class="td-num td-neg">-60.0%</td>
+          <td class="td-num td-lcy">CLP 827,073</td>
+          <td class="td-num td-lcy">CLP 928,489</td>
+          <td class="td-num td-neg">-10.9%</td>
+          <td class="td-num td-share">1.2%</td>
+          <td class="td-num td-share">2.4%</td></tr><tr>
+          <td class="td-rank">#10</td>
+          <td class="td-name"><span class="name-txt">TB212</span></td>
+          <td class="td-num td-lcy">CLP 19,429</td>
+          <td class="td-num td-lcy">CLP 48,572</td>
+          <td class="td-num td-neg">-60.0%</td>
+          <td class="td-num td-lcy">CLP 773,732</td>
+          <td class="td-num td-lcy">CLP 2,810,498</td>
+          <td class="td-num td-neg">-72.5%</td>
+          <td class="td-num td-share">3.8%</td>
+          <td class="td-num td-share">2.2%</td></tr><tr>
+          <td class="td-rank">#11</td>
+          <td class="td-name"><span class="name-txt">L5740</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 97,440</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-lcy">CLP 626,890</td>
+          <td class="td-num td-lcy">CLP 708,064</td>
+          <td class="td-num td-neg">-11.5%</td>
+          <td class="td-num td-share">0.9%</td>
+          <td class="td-num td-share">1.8%</td></tr><tr>
+          <td class="td-rank">#12</td>
+          <td class="td-name"><span class="name-txt">L5201</span></td>
+          <td class="td-num td-lcy">CLP 54,360</td>
+          <td class="td-num td-lcy">CLP 113,250</td>
+          <td class="td-num td-neg">-52.0%</td>
+          <td class="td-num td-lcy">CLP 620,610</td>
+          <td class="td-num td-lcy">CLP 1,114,380</td>
+          <td class="td-num td-neg">-44.3%</td>
+          <td class="td-num td-share">1.5%</td>
+          <td class="td-num td-share">1.8%</td></tr><tr>
+          <td class="td-rank">#13</td>
+          <td class="td-name"><span class="name-txt">L5210</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 560,643</td>
+          <td class="td-num td-lcy">CLP 524,400</td>
+          <td class="td-num td-pos">+6.9%</td>
+          <td class="td-num td-share">0.7%</td>
+          <td class="td-num td-share">1.6%</td></tr><tr>
+          <td class="td-rank">#14</td>
+          <td class="td-name"><span class="name-txt">3314</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 541,464</td>
+          <td class="td-num td-lcy">CLP 2,067,408</td>
+          <td class="td-num td-neg">-73.8%</td>
+          <td class="td-num td-share">2.8%</td>
+          <td class="td-num td-share">1.5%</td></tr><tr>
+          <td class="td-rank">#15</td>
+          <td class="td-name"><span class="name-txt">BP-5653.1</span></td>
+          <td class="td-num td-lcy">CLP 7,308</td>
+          <td class="td-num td-lcy">CLP 47,885</td>
+          <td class="td-num td-neg">-84.7%</td>
+          <td class="td-num td-lcy">CLP 534,362</td>
+          <td class="td-num td-lcy">CLP 417,019</td>
+          <td class="td-num td-pos">+28.1%</td>
+          <td class="td-num td-share">0.6%</td>
+          <td class="td-num td-share">1.5%</td></tr><tr>
+          <td class="td-rank">#16</td>
+          <td class="td-name"><span class="name-txt">TB254</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 487,773</td>
+          <td class="td-num td-lcy">CLP 1,193,814</td>
+          <td class="td-num td-neg">-59.1%</td>
+          <td class="td-num td-share">1.6%</td>
+          <td class="td-num td-share">1.4%</td></tr><tr>
+          <td class="td-rank">#17</td>
+          <td class="td-name"><span class="name-txt">ENVIO</span></td>
+          <td class="td-num td-lcy">CLP 65,665</td>
+          <td class="td-num td-lcy">CLP 177,112</td>
+          <td class="td-num td-neg">-62.9%</td>
+          <td class="td-num td-lcy">CLP 468,155</td>
+          <td class="td-num td-lcy">CLP 2,382,936</td>
+          <td class="td-num td-neg">-80.4%</td>
+          <td class="td-num td-share">3.2%</td>
+          <td class="td-num td-share">1.3%</td></tr><tr>
+          <td class="td-rank">#18</td>
+          <td class="td-name"><span class="name-txt">L5780</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 431,820</td>
+          <td class="td-num td-lcy">CLP 249,496</td>
+          <td class="td-num td-pos">+73.1%</td>
+          <td class="td-num td-share">0.3%</td>
+          <td class="td-num td-share">1.2%</td></tr><tr>
+          <td class="td-rank">#19</td>
+          <td class="td-name"><span class="name-txt">L5220</span></td>
+          <td class="td-num td-lcy">CLP 54,360</td>
+          <td class="td-num td-lcy">CLP 67,950</td>
+          <td class="td-num td-neg">-20.0%</td>
+          <td class="td-num td-lcy">CLP 428,120</td>
+          <td class="td-num td-lcy">CLP 774,630</td>
+          <td class="td-num td-neg">-44.7%</td>
+          <td class="td-num td-share">1.0%</td>
+          <td class="td-num td-share">1.2%</td></tr><tr>
+          <td class="td-rank">#20</td>
+          <td class="td-name"><span class="name-txt">BP-5612.1</span></td>
+          <td class="td-num td-lcy">CLP 79,265</td>
+          <td class="td-num td-lcy">CLP 79,265</td>
+          <td class="td-num td-pos">+0.0%</td>
+          <td class="td-num td-lcy">CLP 426,398</td>
+          <td class="td-num td-lcy">CLP 237,795</td>
+          <td class="td-num td-pos">+79.3%</td>
+          <td class="td-num td-share">0.3%</td>
+          <td class="td-num td-share">1.2%</td></tr><tr>
+          <td class="td-rank">#21</td>
+          <td class="td-name"><span class="name-txt">L5230</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 109,950</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-lcy">CLP 417,500</td>
+          <td class="td-num td-lcy">CLP 630,380</td>
+          <td class="td-num td-neg">-33.8%</td>
+          <td class="td-num td-share">0.8%</td>
+          <td class="td-num td-share">1.2%</td></tr><tr>
+          <td class="td-rank">#22</td>
+          <td class="td-name"><span class="name-txt">L5250</span></td>
+          <td class="td-num td-lcy">CLP 40,602</td>
+          <td class="td-num td-lcy">CLP 84,945</td>
+          <td class="td-num td-neg">-52.2%</td>
+          <td class="td-num td-lcy">CLP 394,608</td>
+          <td class="td-num td-lcy">CLP 577,626</td>
+          <td class="td-num td-neg">-31.7%</td>
+          <td class="td-num td-share">0.8%</td>
+          <td class="td-num td-share">1.1%</td></tr><tr>
+          <td class="td-rank">#23</td>
+          <td class="td-name"><span class="name-txt">L5730</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 383,670</td>
+          <td class="td-num td-lcy">CLP 404,985</td>
+          <td class="td-num td-neg">-5.3%</td>
+          <td class="td-num td-share">0.5%</td>
+          <td class="td-num td-share">1.1%</td></tr><tr>
+          <td class="td-rank">#24</td>
+          <td class="td-name"><span class="name-txt">SL1.46</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 376,777</td>
+          <td class="td-num td-lcy">CLP 6,000,000</td>
+          <td class="td-num td-neg">-93.7%</td>
+          <td class="td-num td-share">8.0%</td>
+          <td class="td-num td-share">1.1%</td></tr><tr>
+          <td class="td-rank">#25</td>
+          <td class="td-name"><span class="name-txt">L5810</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 143,940</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-lcy">CLP 350,386</td>
+          <td class="td-num td-lcy">CLP 777,276</td>
+          <td class="td-num td-neg">-54.9%</td>
+          <td class="td-num td-share">1.0%</td>
+          <td class="td-num td-share">1.0%</td></tr><tr>
+          <td class="td-rank">#26</td>
+          <td class="td-name"><span class="name-txt">BP-5655.1</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 54,490</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-lcy">CLP 342,569</td>
+          <td class="td-num td-lcy">CLP 319,006</td>
+          <td class="td-num td-pos">+7.4%</td>
+          <td class="td-num td-share">0.4%</td>
+          <td class="td-num td-share">1.0%</td></tr><tr>
+          <td class="td-rank">#27</td>
+          <td class="td-name"><span class="name-txt">L5200</span></td>
+          <td class="td-num td-lcy">CLP 81,540</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 330,690</td>
+          <td class="td-num td-lcy">CLP 774,630</td>
+          <td class="td-num td-neg">-57.3%</td>
+          <td class="td-num td-share">1.0%</td>
+          <td class="td-num td-share">0.9%</td></tr><tr>
+          <td class="td-rank">#28</td>
+          <td class="td-name"><span class="name-txt">BP-5654.1</span></td>
+          <td class="td-num td-lcy">CLP 49,535</td>
+          <td class="td-num td-lcy">CLP 49,535</td>
+          <td class="td-num td-pos">+0.0%</td>
+          <td class="td-num td-lcy">CLP 325,910</td>
+          <td class="td-num td-lcy">CLP 227,861</td>
+          <td class="td-num td-pos">+43.0%</td>
+          <td class="td-num td-share">0.3%</td>
+          <td class="td-num td-share">0.9%</td></tr><tr>
+          <td class="td-rank">#29</td>
+          <td class="td-name"><span class="name-txt">TB209</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 312,000</td>
+          <td class="td-num td-lcy">CLP 1,493,302</td>
+          <td class="td-num td-neg">-79.1%</td>
+          <td class="td-num td-share">2.0%</td>
+          <td class="td-num td-share">0.9%</td></tr><tr>
+          <td class="td-rank">#30</td>
+          <td class="td-name"><span class="name-txt">BP-5610.1</span></td>
+          <td class="td-num td-lcy">CLP 75,965</td>
+          <td class="td-num td-lcy">CLP 75,965</td>
+          <td class="td-num td-pos">+0.0%</td>
+          <td class="td-num td-lcy">CLP 301,911</td>
+          <td class="td-num td-lcy">CLP 520,693</td>
+          <td class="td-num td-neg">-42.0%</td>
+          <td class="td-num td-share">0.7%</td>
+          <td class="td-num td-share">0.9%</td></tr><tr>
+          <td class="td-rank">#31</td>
+          <td class="td-name"><span class="name-txt">L5231</span></td>
+          <td class="td-num td-lcy">CLP 10,754</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 267,304</td>
+          <td class="td-num td-lcy">CLP 131,940</td>
+          <td class="td-num td-pos">+102.6%</td>
+          <td class="td-num td-share">0.2%</td>
+          <td class="td-num td-share">0.8%</td></tr><tr>
+          <td class="td-rank">#32</td>
+          <td class="td-name"><span class="name-txt">TB223</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 253,756</td>
+          <td class="td-num td-lcy">CLP 294,699</td>
+          <td class="td-num td-neg">-13.9%</td>
+          <td class="td-num td-share">0.4%</td>
+          <td class="td-num td-share">0.7%</td></tr><tr>
+          <td class="td-rank">#33</td>
+          <td class="td-name"><span class="name-txt">TB492</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 5,172</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-lcy">CLP 239,770</td>
+          <td class="td-num td-lcy">CLP 37,492</td>
+          <td class="td-num td-pos">+539.5%</td>
+          <td class="td-num td-share">0.1%</td>
+          <td class="td-num td-share">0.7%</td></tr><tr>
+          <td class="td-rank">#34</td>
+          <td class="td-name"><span class="name-txt">L5790</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 226,520</td>
+          <td class="td-num td-lcy">CLP 33,978</td>
+          <td class="td-num td-pos">+566.7%</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">0.6%</td></tr><tr>
+          <td class="td-rank">#35</td>
+          <td class="td-name"><span class="name-txt">TB038</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 220,672</td>
+          <td class="td-num td-lcy">CLP 489,572</td>
+          <td class="td-num td-neg">-54.9%</td>
+          <td class="td-num td-share">0.7%</td>
+          <td class="td-num td-share">0.6%</td></tr><tr>
+          <td class="td-rank">#36</td>
+          <td class="td-name"><span class="name-txt">TB454</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 13,851</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-lcy">CLP 199,929</td>
+          <td class="td-num td-lcy">CLP 253,970</td>
+          <td class="td-num td-neg">-21.3%</td>
+          <td class="td-num td-share">0.3%</td>
+          <td class="td-num td-share">0.6%</td></tr><tr>
+          <td class="td-rank">#37</td>
+          <td class="td-name"><span class="name-txt">TB043</span></td>
+          <td class="td-num td-lcy">CLP 101,788</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 186,085</td>
+          <td class="td-num td-lcy">CLP 87,960</td>
+          <td class="td-num td-pos">+111.6%</td>
+          <td class="td-num td-share">0.1%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#38</td>
+          <td class="td-name"><span class="name-txt">TB067</span></td>
+          <td class="td-num td-lcy">CLP 20,334</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 184,027</td>
+          <td class="td-num td-lcy">CLP 107,546</td>
+          <td class="td-num td-pos">+71.1%</td>
+          <td class="td-num td-share">0.1%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#39</td>
+          <td class="td-name"><span class="name-txt">TB232</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 183,822</td>
+          <td class="td-num td-lcy">CLP 424,139</td>
+          <td class="td-num td-neg">-56.7%</td>
+          <td class="td-num td-share">0.6%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#40</td>
+          <td class="td-name"><span class="name-txt">TB039</span></td>
+          <td class="td-num td-lcy">CLP 28,524</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 180,480</td>
+          <td class="td-num td-lcy">CLP 236,793</td>
+          <td class="td-num td-neg">-23.8%</td>
+          <td class="td-num td-share">0.3%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#41</td>
+          <td class="td-name"><span class="name-txt">TB016</span></td>
+          <td class="td-num td-lcy">CLP 15,785</td>
+          <td class="td-num td-lcy">CLP 11,015</td>
+          <td class="td-num td-pos">+43.3%</td>
+          <td class="td-num td-lcy">CLP 173,840</td>
+          <td class="td-num td-lcy">CLP 405,340</td>
+          <td class="td-num td-neg">-57.1%</td>
+          <td class="td-num td-share">0.5%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#42</td>
+          <td class="td-name"><span class="name-txt">TB791</span></td>
+          <td class="td-num td-lcy">CLP 25,281</td>
+          <td class="td-num td-lcy">CLP 174,025</td>
+          <td class="td-num td-neg">-85.5%</td>
+          <td class="td-num td-lcy">CLP 166,731</td>
+          <td class="td-num td-lcy">CLP 853,196</td>
+          <td class="td-num td-neg">-80.5%</td>
+          <td class="td-num td-share">1.1%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#43</td>
+          <td class="td-name"><span class="name-txt">TB111</span></td>
+          <td class="td-num td-lcy">CLP 8,310</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 163,514</td>
+          <td class="td-num td-lcy">CLP 138,863</td>
+          <td class="td-num td-pos">+17.8%</td>
+          <td class="td-num td-share">0.2%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#44</td>
+          <td class="td-name"><span class="name-txt">TB068</span></td>
+          <td class="td-num td-lcy">CLP 12,471</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 147,051</td>
+          <td class="td-num td-lcy">CLP 165,862</td>
+          <td class="td-num td-neg">-11.3%</td>
+          <td class="td-num td-share">0.2%</td>
+          <td class="td-num td-share">0.4%</td></tr><tr>
+          <td class="td-rank">#45</td>
+          <td class="td-name"><span class="name-txt">TB525</span></td>
+          <td class="td-num td-lcy">CLP 143,700</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 143,700</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">0.4%</td></tr><tr>
+          <td class="td-rank">#46</td>
+          <td class="td-name"><span class="name-txt">TB790</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 111,064</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-lcy">CLP 139,991</td>
+          <td class="td-num td-lcy">CLP 430,117</td>
+          <td class="td-num td-neg">-67.5%</td>
+          <td class="td-num td-share">0.6%</td>
+          <td class="td-num td-share">0.4%</td></tr><tr>
+          <td class="td-rank">#47</td>
+          <td class="td-name"><span class="name-txt">TB222</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 133,388</td>
+          <td class="td-num td-lcy">CLP 305,953</td>
+          <td class="td-num td-neg">-56.4%</td>
+          <td class="td-num td-share">0.4%</td>
+          <td class="td-num td-share">0.4%</td></tr><tr>
+          <td class="td-rank">#48</td>
+          <td class="td-name"><span class="name-txt">TB036</span></td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-lcy">CLP 23,700</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-lcy">CLP 131,917</td>
+          <td class="td-num td-lcy">CLP 325,654</td>
+          <td class="td-num td-neg">-59.5%</td>
+          <td class="td-num td-share">0.4%</td>
+          <td class="td-num td-share">0.4%</td></tr><tr>
+          <td class="td-rank">#49</td>
+          <td class="td-name"><span class="name-txt">TB220</span></td>
+          <td class="td-num td-lcy">CLP 14,353</td>
+          <td class="td-num td-lcy">CLP 0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-lcy">CLP 124,919</td>
+          <td class="td-num td-lcy">CLP 228,099</td>
+          <td class="td-num td-neg">-45.2%</td>
+          <td class="td-num td-share">0.3%</td>
+          <td class="td-num td-share">0.4%</td></tr><tr>
+          <td class="td-rank">#50</td>
+          <td class="td-name"><span class="name-txt">TB028</span></td>
+          <td class="td-num td-lcy">CLP 20,106</td>
+          <td class="td-num td-lcy">CLP 20,825</td>
+          <td class="td-num td-neg">-3.5%</td>
+          <td class="td-num td-lcy">CLP 124,672</td>
+          <td class="td-num td-lcy">CLP 562,384</td>
+          <td class="td-num td-neg">-77.8%</td>
+          <td class="td-num td-share">0.8%</td>
+          <td class="td-num td-share">0.4%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 1,278,831</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 2,046,666</strong></td>
+      <td></td>
+      <td class="td-num td-lcy"><strong>CLP 35,193,699</strong></td>
+      <td class="td-num td-lcy"><strong>CLP 74,916,988</strong></td>
+      <td></td><td class="td-num td-share"><strong>100%</strong></td><td class="td-num td-share"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div><div class="analysis-section" style="margin-top:0;border-top:2px solid var(--border);border-radius:0 0 var(--radius) var(--radius)"><div class="sec-header alt"><span class="sec-icon">&#128202;</span><h2 class="sec-title">Analisis Comparativo — USD &middot; Ago / YTD</h2><span class="sec-badge">vs 2025</span></div><div class="sec-body no-chart"><div class="table-col" style="padding:0"><table class="rep-table" style="min-width:800px"><thead><tr><th>#</th><th>Nombre</th><th>Ago 26 (USD)</th><th>Ago 25 (USD)</th><th>% Var</th><th>Acum 26 (USD)</th><th>Acum 25 (USD)</th><th>% Var</th><th>Share 25</th><th>Share 26</th></tr></thead><tbody><tr>
+          <td class="td-rank">#1</td>
+          <td class="td-name"><span class="name-txt">TB219</span></td>
+          <td class="td-num td-usd">$91</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$7,635</td>
+          <td class="td-num">$12,159</td>
+          <td class="td-num td-neg">-37.2%</td>
+          <td class="td-num td-share">18.4%</td>
+          <td class="td-num td-share">20.4%</td></tr><tr>
+          <td class="td-rank">#2</td>
+          <td class="td-name"><span class="name-txt">SL1.50</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$4,662</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">12.9%</td></tr><tr>
+          <td class="td-rank">#3</td>
+          <td class="td-name"><span class="name-txt">TB1001</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$2,994</td>
+          <td class="td-num">$12,773</td>
+          <td class="td-num td-neg">-76.6%</td>
+          <td class="td-num td-share">19.1%</td>
+          <td class="td-num td-share">7.8%</td></tr><tr>
+          <td class="td-rank">#4</td>
+          <td class="td-name"><span class="name-txt">L5240</span></td>
+          <td class="td-num td-usd">$182</td>
+          <td class="td-num">$350</td>
+          <td class="td-num td-neg">-48.1%</td>
+          <td class="td-num td-usd">$1,846</td>
+          <td class="td-num">$1,858</td>
+          <td class="td-num td-neg">-0.6%</td>
+          <td class="td-num td-share">2.8%</td>
+          <td class="td-num td-share">4.9%</td></tr><tr>
+          <td class="td-rank">#5</td>
+          <td class="td-name"><span class="name-txt">3311</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$1,340</td>
+          <td class="td-num">$3,027</td>
+          <td class="td-num td-neg">-55.7%</td>
+          <td class="td-num td-share">4.6%</td>
+          <td class="td-num td-share">3.6%</td></tr><tr>
+          <td class="td-rank">#6</td>
+          <td class="td-name"><span class="name-txt">L5710</span></td>
+          <td class="td-num td-usd">$73</td>
+          <td class="td-num">$88</td>
+          <td class="td-num td-neg">-16.9%</td>
+          <td class="td-num td-usd">$1,319</td>
+          <td class="td-num">$1,902</td>
+          <td class="td-num td-neg">-30.7%</td>
+          <td class="td-num td-share">2.9%</td>
+          <td class="td-num td-share">3.5%</td></tr><tr>
+          <td class="td-rank">#7</td>
+          <td class="td-name"><span class="name-txt">TB208</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$1,056</td>
+          <td class="td-num">$1,483</td>
+          <td class="td-num td-neg">-28.8%</td>
+          <td class="td-num td-share">2.2%</td>
+          <td class="td-num td-share">2.8%</td></tr><tr>
+          <td class="td-rank">#8</td>
+          <td class="td-name"><span class="name-txt">L5760</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$47</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-usd">$1,015</td>
+          <td class="td-num">$1,140</td>
+          <td class="td-num td-neg">-10.9%</td>
+          <td class="td-num td-share">1.7%</td>
+          <td class="td-num td-share">2.7%</td></tr><tr>
+          <td class="td-rank">#9</td>
+          <td class="td-name"><span class="name-txt">L5720</span></td>
+          <td class="td-num td-usd">$29</td>
+          <td class="td-num">$70</td>
+          <td class="td-num td-neg">-58.5%</td>
+          <td class="td-num td-usd">$936</td>
+          <td class="td-num">$973</td>
+          <td class="td-num td-neg">-3.8%</td>
+          <td class="td-num td-share">1.5%</td>
+          <td class="td-num td-share">2.5%</td></tr><tr>
+          <td class="td-rank">#10</td>
+          <td class="td-name"><span class="name-txt">TB212</span></td>
+          <td class="td-num td-usd">$21</td>
+          <td class="td-num">$50</td>
+          <td class="td-num td-neg">-58.5%</td>
+          <td class="td-num td-usd">$884</td>
+          <td class="td-num">$2,955</td>
+          <td class="td-num td-neg">-70.1%</td>
+          <td class="td-num td-share">4.4%</td>
+          <td class="td-num td-share">2.3%</td></tr><tr>
+          <td class="td-rank">#11</td>
+          <td class="td-name"><span class="name-txt">L5740</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$101</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-usd">$705</td>
+          <td class="td-num">$744</td>
+          <td class="td-num td-neg">-5.3%</td>
+          <td class="td-num td-share">1.1%</td>
+          <td class="td-num td-share">1.9%</td></tr><tr>
+          <td class="td-rank">#12</td>
+          <td class="td-name"><span class="name-txt">L5201</span></td>
+          <td class="td-num td-usd">$58</td>
+          <td class="td-num">$117</td>
+          <td class="td-num td-neg">-50.2%</td>
+          <td class="td-num td-usd">$704</td>
+          <td class="td-num">$1,168</td>
+          <td class="td-num td-neg">-39.7%</td>
+          <td class="td-num td-share">1.8%</td>
+          <td class="td-num td-share">1.9%</td></tr><tr>
+          <td class="td-rank">#13</td>
+          <td class="td-name"><span class="name-txt">L5210</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$627</td>
+          <td class="td-num">$548</td>
+          <td class="td-num td-pos">+14.5%</td>
+          <td class="td-num td-share">0.8%</td>
+          <td class="td-num td-share">1.7%</td></tr><tr>
+          <td class="td-rank">#14</td>
+          <td class="td-name"><span class="name-txt">3314</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$598</td>
+          <td class="td-num">$2,163</td>
+          <td class="td-num td-neg">-72.3%</td>
+          <td class="td-num td-share">3.3%</td>
+          <td class="td-num td-share">1.6%</td></tr><tr>
+          <td class="td-rank">#15</td>
+          <td class="td-name"><span class="name-txt">BP-5653.1</span></td>
+          <td class="td-num td-usd">$8</td>
+          <td class="td-num">$50</td>
+          <td class="td-num td-neg">-84.2%</td>
+          <td class="td-num td-usd">$600</td>
+          <td class="td-num">$438</td>
+          <td class="td-num td-pos">+37.1%</td>
+          <td class="td-num td-share">0.7%</td>
+          <td class="td-num td-share">1.6%</td></tr><tr>
+          <td class="td-rank">#16</td>
+          <td class="td-name"><span class="name-txt">TB254</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$555</td>
+          <td class="td-num">$1,241</td>
+          <td class="td-num td-neg">-55.3%</td>
+          <td class="td-num td-share">1.9%</td>
+          <td class="td-num td-share">1.5%</td></tr><tr>
+          <td class="td-rank">#17</td>
+          <td class="td-name"><span class="name-txt">ENVIO</span></td>
+          <td class="td-num td-usd">$71</td>
+          <td class="td-num">$183</td>
+          <td class="td-num td-neg">-61.5%</td>
+          <td class="td-num td-usd">$521</td>
+          <td class="td-num">$2,501</td>
+          <td class="td-num td-neg">-79.2%</td>
+          <td class="td-num td-share">3.8%</td>
+          <td class="td-num td-share">1.4%</td></tr><tr>
+          <td class="td-rank">#18</td>
+          <td class="td-name"><span class="name-txt">L5780</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$486</td>
+          <td class="td-num">$256</td>
+          <td class="td-num td-pos">+89.8%</td>
+          <td class="td-num td-share">0.4%</td>
+          <td class="td-num td-share">1.3%</td></tr><tr>
+          <td class="td-rank">#19</td>
+          <td class="td-name"><span class="name-txt">L5220</span></td>
+          <td class="td-num td-usd">$58</td>
+          <td class="td-num">$70</td>
+          <td class="td-num td-neg">-16.9%</td>
+          <td class="td-num td-usd">$480</td>
+          <td class="td-num">$808</td>
+          <td class="td-num td-neg">-40.6%</td>
+          <td class="td-num td-share">1.2%</td>
+          <td class="td-num td-share">1.3%</td></tr><tr>
+          <td class="td-rank">#20</td>
+          <td class="td-name"><span class="name-txt">BP-5612.1</span></td>
+          <td class="td-num td-usd">$85</td>
+          <td class="td-num">$82</td>
+          <td class="td-num td-pos">+3.8%</td>
+          <td class="td-num td-usd">$478</td>
+          <td class="td-num">$249</td>
+          <td class="td-num td-pos">+91.5%</td>
+          <td class="td-num td-share">0.4%</td>
+          <td class="td-num td-share">1.3%</td></tr><tr>
+          <td class="td-rank">#21</td>
+          <td class="td-name"><span class="name-txt">L5230</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$114</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-usd">$463</td>
+          <td class="td-num">$659</td>
+          <td class="td-num td-neg">-29.8%</td>
+          <td class="td-num td-share">1.0%</td>
+          <td class="td-num td-share">1.2%</td></tr><tr>
+          <td class="td-rank">#22</td>
+          <td class="td-name"><span class="name-txt">L5250</span></td>
+          <td class="td-num td-usd">$44</td>
+          <td class="td-num">$88</td>
+          <td class="td-num td-neg">-50.4%</td>
+          <td class="td-num td-usd">$443</td>
+          <td class="td-num">$603</td>
+          <td class="td-num td-neg">-26.5%</td>
+          <td class="td-num td-share">0.9%</td>
+          <td class="td-num td-share">1.2%</td></tr><tr>
+          <td class="td-rank">#23</td>
+          <td class="td-name"><span class="name-txt">L5730</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$431</td>
+          <td class="td-num">$419</td>
+          <td class="td-num td-pos">+2.8%</td>
+          <td class="td-num td-share">0.6%</td>
+          <td class="td-num td-share">1.1%</td></tr><tr>
+          <td class="td-rank">#24</td>
+          <td class="td-name"><span class="name-txt">SL1.46</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$427</td>
+          <td class="td-num">$6,388</td>
+          <td class="td-num td-neg">-93.3%</td>
+          <td class="td-num td-share">9.5%</td>
+          <td class="td-num td-share">1.1%</td></tr><tr>
+          <td class="td-rank">#25</td>
+          <td class="td-name"><span class="name-txt">L5810</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$149</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-usd">$391</td>
+          <td class="td-num">$809</td>
+          <td class="td-num td-neg">-51.6%</td>
+          <td class="td-num td-share">1.2%</td>
+          <td class="td-num td-share">1.0%</td></tr><tr>
+          <td class="td-rank">#26</td>
+          <td class="td-name"><span class="name-txt">BP-5655.1</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$56</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-usd">$385</td>
+          <td class="td-num">$335</td>
+          <td class="td-num td-pos">+14.9%</td>
+          <td class="td-num td-share">0.5%</td>
+          <td class="td-num td-share">1.0%</td></tr><tr>
+          <td class="td-rank">#27</td>
+          <td class="td-name"><span class="name-txt">L5200</span></td>
+          <td class="td-num td-usd">$88</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$368</td>
+          <td class="td-num">$813</td>
+          <td class="td-num td-neg">-54.7%</td>
+          <td class="td-num td-share">1.2%</td>
+          <td class="td-num td-share">1.0%</td></tr><tr>
+          <td class="td-rank">#28</td>
+          <td class="td-name"><span class="name-txt">BP-5654.1</span></td>
+          <td class="td-num td-usd">$53</td>
+          <td class="td-num">$51</td>
+          <td class="td-num td-pos">+3.8%</td>
+          <td class="td-num td-usd">$363</td>
+          <td class="td-num">$241</td>
+          <td class="td-num td-pos">+50.6%</td>
+          <td class="td-num td-share">0.4%</td>
+          <td class="td-num td-share">1.0%</td></tr><tr>
+          <td class="td-rank">#29</td>
+          <td class="td-name"><span class="name-txt">TB209</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$339</td>
+          <td class="td-num">$1,575</td>
+          <td class="td-num td-neg">-78.5%</td>
+          <td class="td-num td-share">2.4%</td>
+          <td class="td-num td-share">0.9%</td></tr><tr>
+          <td class="td-rank">#30</td>
+          <td class="td-name"><span class="name-txt">BP-5610.1</span></td>
+          <td class="td-num td-usd">$82</td>
+          <td class="td-num">$79</td>
+          <td class="td-num td-pos">+3.8%</td>
+          <td class="td-num td-usd">$339</td>
+          <td class="td-num">$551</td>
+          <td class="td-num td-neg">-38.4%</td>
+          <td class="td-num td-share">0.8%</td>
+          <td class="td-num td-share">0.9%</td></tr><tr>
+          <td class="td-rank">#31</td>
+          <td class="td-name"><span class="name-txt">L5231</span></td>
+          <td class="td-num td-usd">$12</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$297</td>
+          <td class="td-num">$140</td>
+          <td class="td-num td-pos">+112.0%</td>
+          <td class="td-num td-share">0.2%</td>
+          <td class="td-num td-share">0.8%</td></tr><tr>
+          <td class="td-rank">#32</td>
+          <td class="td-name"><span class="name-txt">TB223</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$285</td>
+          <td class="td-num">$306</td>
+          <td class="td-num td-neg">-6.8%</td>
+          <td class="td-num td-share">0.5%</td>
+          <td class="td-num td-share">0.8%</td></tr><tr>
+          <td class="td-rank">#33</td>
+          <td class="td-name"><span class="name-txt">TB492</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$5</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-usd">$267</td>
+          <td class="td-num">$39</td>
+          <td class="td-num td-pos">+584.4%</td>
+          <td class="td-num td-share">0.1%</td>
+          <td class="td-num td-share">0.7%</td></tr><tr>
+          <td class="td-rank">#34</td>
+          <td class="td-name"><span class="name-txt">L5790</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$252</td>
+          <td class="td-num">$36</td>
+          <td class="td-num td-pos">+602.9%</td>
+          <td class="td-num td-share">0.1%</td>
+          <td class="td-num td-share">0.7%</td></tr><tr>
+          <td class="td-rank">#35</td>
+          <td class="td-name"><span class="name-txt">TB038</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$251</td>
+          <td class="td-num">$518</td>
+          <td class="td-num td-neg">-51.6%</td>
+          <td class="td-num td-share">0.8%</td>
+          <td class="td-num td-share">0.7%</td></tr><tr>
+          <td class="td-rank">#36</td>
+          <td class="td-name"><span class="name-txt">TB454</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$14</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-usd">$229</td>
+          <td class="td-num">$267</td>
+          <td class="td-num td-neg">-14.3%</td>
+          <td class="td-num td-share">0.4%</td>
+          <td class="td-num td-share">0.6%</td></tr><tr>
+          <td class="td-rank">#37</td>
+          <td class="td-name"><span class="name-txt">TB043</span></td>
+          <td class="td-num td-usd">$109</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$200</td>
+          <td class="td-num">$93</td>
+          <td class="td-num td-pos">+115.1%</td>
+          <td class="td-num td-share">0.1%</td>
+          <td class="td-num td-share">0.6%</td></tr><tr>
+          <td class="td-rank">#38</td>
+          <td class="td-name"><span class="name-txt">TB067</span></td>
+          <td class="td-num td-usd">$22</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$202</td>
+          <td class="td-num">$114</td>
+          <td class="td-num td-pos">+76.7%</td>
+          <td class="td-num td-share">0.2%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#39</td>
+          <td class="td-name"><span class="name-txt">TB232</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$203</td>
+          <td class="td-num">$449</td>
+          <td class="td-num td-neg">-54.8%</td>
+          <td class="td-num td-share">0.7%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#40</td>
+          <td class="td-name"><span class="name-txt">TB039</span></td>
+          <td class="td-num td-usd">$31</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$200</td>
+          <td class="td-num">$251</td>
+          <td class="td-num td-neg">-20.3%</td>
+          <td class="td-num td-share">0.4%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#41</td>
+          <td class="td-name"><span class="name-txt">TB016</span></td>
+          <td class="td-num td-usd">$17</td>
+          <td class="td-num">$11</td>
+          <td class="td-num td-pos">+48.8%</td>
+          <td class="td-num td-usd">$194</td>
+          <td class="td-num">$425</td>
+          <td class="td-num td-neg">-54.3%</td>
+          <td class="td-num td-share">0.6%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#42</td>
+          <td class="td-name"><span class="name-txt">TB791</span></td>
+          <td class="td-num td-usd">$27</td>
+          <td class="td-num">$180</td>
+          <td class="td-num td-neg">-84.9%</td>
+          <td class="td-num td-usd">$185</td>
+          <td class="td-num">$894</td>
+          <td class="td-num td-neg">-79.3%</td>
+          <td class="td-num td-share">1.3%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#43</td>
+          <td class="td-name"><span class="name-txt">TB111</span></td>
+          <td class="td-num td-usd">$9</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$180</td>
+          <td class="td-num">$145</td>
+          <td class="td-num td-pos">+23.8%</td>
+          <td class="td-num td-share">0.2%</td>
+          <td class="td-num td-share">0.5%</td></tr><tr>
+          <td class="td-rank">#44</td>
+          <td class="td-name"><span class="name-txt">TB068</span></td>
+          <td class="td-num td-usd">$13</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$166</td>
+          <td class="td-num">$174</td>
+          <td class="td-num td-neg">-4.6%</td>
+          <td class="td-num td-share">0.3%</td>
+          <td class="td-num td-share">0.4%</td></tr><tr>
+          <td class="td-rank">#45</td>
+          <td class="td-name"><span class="name-txt">TB525</span></td>
+          <td class="td-num td-usd">$154</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$156</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-share">0.0%</td>
+          <td class="td-num td-share">0.4%</td></tr><tr>
+          <td class="td-rank">#46</td>
+          <td class="td-name"><span class="name-txt">TB790</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$115</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-usd">$158</td>
+          <td class="td-num">$449</td>
+          <td class="td-num td-neg">-64.8%</td>
+          <td class="td-num td-share">0.7%</td>
+          <td class="td-num td-share">0.4%</td></tr><tr>
+          <td class="td-rank">#47</td>
+          <td class="td-name"><span class="name-txt">TB222</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$148</td>
+          <td class="td-num">$321</td>
+          <td class="td-num td-neg">-53.8%</td>
+          <td class="td-num td-share">0.5%</td>
+          <td class="td-num td-share">0.4%</td></tr><tr>
+          <td class="td-rank">#48</td>
+          <td class="td-name"><span class="name-txt">TB036</span></td>
+          <td class="td-num td-usd">$0</td>
+          <td class="td-num">$25</td>
+          <td class="td-num td-neg">-100.0%</td>
+          <td class="td-num td-usd">$150</td>
+          <td class="td-num">$344</td>
+          <td class="td-num td-neg">-56.5%</td>
+          <td class="td-num td-share">0.5%</td>
+          <td class="td-num td-share">0.4%</td></tr><tr>
+          <td class="td-rank">#49</td>
+          <td class="td-name"><span class="name-txt">TB220</span></td>
+          <td class="td-num td-usd">$15</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-num">-</td>
+          <td class="td-num td-usd">$140</td>
+          <td class="td-num">$238</td>
+          <td class="td-num td-neg">-41.0%</td>
+          <td class="td-num td-share">0.4%</td>
+          <td class="td-num td-share">0.4%</td></tr><tr>
+          <td class="td-rank">#50</td>
+          <td class="td-name"><span class="name-txt">TB028</span></td>
+          <td class="td-num td-usd">$22</td>
+          <td class="td-num">$22</td>
+          <td class="td-num td-pos">+0.3%</td>
+          <td class="td-num td-usd">$136</td>
+          <td class="td-num">$592</td>
+          <td class="td-num td-neg">-77.0%</td>
+          <td class="td-num td-share">0.9%</td>
+          <td class="td-num td-share">0.4%</td></tr></tbody><tfoot><tr>
+      <td colspan="2"><strong>TOTAL</strong></td>
+      <td class="td-num td-usd"><strong>$1,374</strong></td>
+      <td class="td-num"><strong>$2,118</strong></td>
+      <td></td>
+      <td class="td-num td-usd"><strong>$37,389</strong></td>
+      <td class="td-num"><strong>$66,571</strong></td>
+      <td></td><td class="td-num td-share"><strong>100%</strong></td><td class="td-num td-share"><strong>100%</strong></td>
+    </tr></tfoot></table></div></div></div></div></main>
+<footer>&copy; 2026 <span>Travel Blue Ltd.</span> &mdash; Uso interno &middot; Cierre Agosto 2026</footer>
+<script>function showTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(window._pc&&window._pc[id]){window._pc[id]();delete window._pc[id];}
+  setTimeout(()=>window.dispatchEvent(new Event('resize')),60);
+}document.addEventListener('DOMContentLoaded',function(){window._pc={};window._pc['cliente']=function(){new Chart(document.getElementById('c_CHILE_cliente'),{type:'bar',data:{labels:["DUFRY", "MERCADO LIBRE"],datasets:[{data:[990.96, 507.15],backgroundColor:'#113d85',borderRadius:5,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'#64748B',font:{size:10}},grid:{display:false}},x:{ticks:{color:'#64748B',font:{size:10},callback:function(v){return '$'+Number(v).toLocaleString();}},grid:{color:'rgba(17,61,133,0.06)'}}}}});};window._pc['canal']=function(){new Chart(document.getElementById('c_CHILE_canal'),{type:'doughnut',data:{labels:["RETAIL", "ONLINE"],datasets:[{data:[990.96, 507.15],backgroundColor:["#113d85", "#fece08"],borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#0F172A',font:{size:10},padding:8}}}}});};window._pc['marca']=function(){new Chart(document.getElementById('c_CHILE_marca'),{type:'bar',data:{labels:["TRAVEL BLUE", "LEXINGHAM", "TRAVEL BLUE L", "OTHERS"],datasets:[{data:[655.83, 543.8, 227.91, 70.57],backgroundColor:'#113d85',borderRadius:5,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'#64748B',font:{size:10}},grid:{display:false}},x:{ticks:{color:'#64748B',font:{size:10},callback:function(v){return '$'+Number(v).toLocaleString();}},grid:{color:'rgba(17,61,133,0.06)'}}}}});};window._pc['familia']=function(){new Chart(document.getElementById('c_CHILE_familia'),{type:'doughnut',data:{labels:["TECH", "TRAVEL ACCESSORIES", "BACKPACKS", "PILLOWS", "OTHERS"],datasets:[{data:[543.8, 511.68, 227.91, 144.15, 70.57],backgroundColor:["#113d85", "#fece08", "#337ab7", "#27AE60", "#E74C3C"],borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#0F172A',font:{size:10},padding:8}}}}});};window._pc['categoria']=function(){new Chart(document.getElementById('c_CHILE_categoria'),{type:'bar',data:{labels:["AUDIO", "SECURITY", "COLLECTION 2023", "TRAVEL EXTRAS", "ERGONOMIC PILLOWS", "CABLES & CONNECTIVITY", "OTHERS", "COMFORT & CARE", "BAGS & CASES", "INFLATABLE PILLOWS"],datasets:[{data:[441.56, 259.82, 227.91, 177.53, 128.72, 102.24, 70.57, 39.08, 35.25, 15.42],backgroundColor:'#113d85',borderRadius:5,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'#64748B',font:{size:10}},grid:{display:false}},x:{ticks:{color:'#64748B',font:{size:10},callback:function(v){return '$'+Number(v).toLocaleString();}},grid:{color:'rgba(17,61,133,0.06)'}}}}});};window._pc['sku']=function(){new Chart(document.getElementById('c_CHILE_sku'),{type:'bar',data:{labels:["L5240", "TB525", "TB043", "TB219", "L5200", "BP-5612.1", "BP-5610.1", "L5710", "ENVIO", "L5201"],datasets:[{data:[181.9, 154.43, 109.39, 91.35, 87.63, 85.18, 81.64, 73.03, 70.57, 58.42],backgroundColor:'#113d85',borderRadius:5,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'#64748B',font:{size:10}},grid:{display:false}},x:{ticks:{color:'#64748B',font:{size:10},callback:function(v){return '$'+Number(v).toLocaleString();}},grid:{color:'rgba(17,61,133,0.06)'}}}}});};if(window._pc['cliente']){window._pc['cliente']();delete window._pc['cliente'];}});</script>
+</body></html>
