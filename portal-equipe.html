@@ -359,7 +359,11 @@
 
     <nav class="sidebar-nav" id="sidebar-nav">
       <div class="nav-section-label">Reportes</div>
-      <button class="nav-item active" data-page="reportes-latam">
+      <button class="nav-item active" data-page="resumen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+        <span>Resumen</span>
+      </button>
+      <button class="nav-item" data-page="reportes-latam">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         <span>LATAM</span>
       </button>
@@ -601,7 +605,7 @@ var TASKS = [
   { act:'Business Review',                          proj:'LATAM Sales BP 26',   st:'done',    stl:'Finalizado',  fecha:'2026-06-18', obs:'Actualizado y concluido.' },
   { act:'Finalizar análisis Avolta Sellout',        proj:'Avolta Sellout',      st:'done',    stl:'Finalizado',  fecha:'2026-06-15', obs:'HTML (EMEA, Américas & CEI, México) y Power BI concluidos.' },
   { act:'Actualizar Cuentas por Cobrar TB',         proj:'Cuentas por Cobrar',  st:'done',    stl:'Finalizado',  fecha:'2026-07-23', obs:'Actualizado y concluido.' },
-  { act:'Completar información del Portal',         proj:'Portal del Equipo',   st:'risk',    stl:'En riesgo',   fecha:'—',          obs:'Faltan datos de acceso, frecuencia y responsables.' },
+  { act:'Completar información del Portal',         proj:'Portal del Equipo',   st:'ok',      stl:'En curso',    fecha:'—',          obs:'Reportes y accesos ya configurados. Falta distribuir los accesos al equipo y la aprobación de Guillermo.' },
   { act:'Panel de comunicación interna',            proj:'Comunicación Interna', st:'pending', stl:'Por definir', fecha:'—',          obs:'En fase de investigación.' },
   { act:'Actualizar dashboard Backpacks & Luggage', proj:'Backpacks & Luggage', st:'risk',    stl:'En riesgo',   fecha:'—',          obs:'Faltan stock local LATAM, costo y compras.' },
   { act:'Actualizar dashboard Slooth',              proj:'Slooth',              st:'risk',    stl:'En riesgo',   fecha:'—',          obs:'Faltan stock local LATAM, costo y compras.' },
@@ -691,11 +695,63 @@ function filterBar(base) {
    PÁGINAS
 ══════════════════════════════════════════════════════ */
 var PAGES = {
+  'resumen': {
+    title: 'Resumen',
+    sub: 'Lista de todos los reportes disponibles',
+    render: function() {
+      var SECTIONS = [
+        ['LATAM',    function(r){ return r.region==='latam'  && r.type==='HTML'; }],
+        ['Global',   function(r){ return r.region==='global' && r.type==='HTML'; }],
+        ['Power BI', function(r){ return r.type==='BI'; }]
+      ];
+      var isAdmin = currentProfile && currentProfile.admin;
+      var total = 0, html = '';
+
+      for (var s=0; s<SECTIONS.length; s++) {
+        var list = REPORTS.filter(function(r){ return SECTIONS[s][1](r) && canSee(r); });
+        if (!list.length) continue;
+        total += list.length;
+
+        var rows = '';
+        for (var i=0; i<list.length; i++) {
+          var r = list[i];
+          var subs = r.sublinks.length
+            ? '<div style="font-size:11px;color:#aaa;margin-top:3px;">+ '
+              + r.sublinks.map(function(s){ return s.n; }).join(', ') + '</div>'
+            : '';
+          var who = '';
+          if (isAdmin) {
+            var names = r.allowed.length
+              ? 'Admins + ' + r.allowed.map(function(k){ return k.charAt(0).toUpperCase()+k.slice(1); }).join(', ')
+              : 'Solo admins';
+            who = '<td style="color:#888;font-size:12px;">'+names+'</td>';
+          }
+          rows += '<tr>'
+            +'<td><span style="margin-right:8px;">'+r.icon+'</span><strong>'+r.name+'</strong>'+subs+'</td>'
+            +'<td style="color:#888;">'+r.theme.charAt(0).toUpperCase()+r.theme.slice(1)+'</td>'
+            +'<td style="color:#888;">'+r.freq+'</td>'
+            + who
+            +'</tr>';
+        }
+
+        html += '<h3 style="font-size:14px;font-weight:700;color:#1B2A6B;margin:24px 0 10px;">'
+              + SECTIONS[s][0] + ' <span style="color:#bbb;font-weight:400;">· ' + list.length + '</span></h3>'
+              + '<div class="table-card"><table><thead><tr>'
+              + '<th>Reporte</th><th>Tema</th><th>Frecuencia</th>'
+              + (isAdmin ? '<th>Quién tiene acceso</th>' : '')
+              + '</tr></thead><tbody>'+rows+'</tbody></table></div>';
+      }
+
+      var head = '<p style="font-size:13px;color:#888;margin-bottom:4px;">Tienes acceso a <strong style="color:#1B2A6B;">'
+               + total + ' reportes</strong>.</p>';
+      return head + html;
+    }
+  },
   'reportes-latam': {
     title: 'Reportes LATAM',
     sub: 'Dashboards de la región LATAM — Brasil, México y más',
     render: function() {
-      var base = REPORTS.filter(function(r){ return r.region==='latam' && canSee(r); });
+      var base = REPORTS.filter(function(r){ return r.region==='latam' && r.type==='HTML' && canSee(r); });
       return filterBar(base)+'<div class="cards-grid" id="report-grid">'+renderGrid(base.filter(filterMatch))+'</div>';
     }
   },
@@ -1010,7 +1066,7 @@ function showApp(user) {
   });
 
   // Hide report tabs that have nothing visible for this user
-  [['reportes-latam', function(r){ return r.region==='latam'; }],
+  [['reportes-latam', function(r){ return r.region==='latam' && r.type==='HTML'; }],
    ['reportes-global',function(r){ return r.region==='global' && r.type==='HTML'; }],
    ['reportes-bi',    function(r){ return r.type==='BI'; }]
   ].forEach(function(pair){
@@ -1020,7 +1076,7 @@ function showApp(user) {
   });
 
   // Open the first tab that actually has content
-  var first = ['reportes-latam','reportes-global','reportes-bi'].find(function(p){
+  var first = ['resumen','reportes-latam','reportes-global','reportes-bi'].find(function(p){
     var btn = document.querySelector('.nav-item[data-page="'+p+'"]');
     return btn && btn.style.display !== 'none';
   }) || 'reportes-latam';
