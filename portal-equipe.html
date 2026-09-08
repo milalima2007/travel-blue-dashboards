@@ -440,7 +440,7 @@ var REPORTS = [
     href:'LATAM SALES_BP 26/Business Review LATAM 2026.html',
     sublinks:[{n:'Brasil',h:'LATAM SALES_BP 26/Business Review Brasil 2026.html'},{n:'México',h:'LATAM SALES_BP 26/Business Review Mexico 2026.html'}],
     allowed:['pablo','edgardo'] },
-  { id:'margen',       icon:'💰', name:'Margen LATAM',              region:'latam',  theme:'profit',      type:'HTML', freq:'Mensual', label:'LATAM',
+  { id:'margen',       icon:'💰', name:'Margen LATAM',              region:'latam',  theme:'ventas',      type:'HTML', freq:'Mensual', label:'LATAM',
     desc:'Margen y rentabilidad LATAM, México y Brasil.',
     href:'latam-profit/latam-profit.html',
     sublinks:[{n:'México',h:'latam-profit/mexico.html'},{n:'Brasil',h:'latam-profit/brazil.html'}],
@@ -601,8 +601,8 @@ var ST_CLASS = { done:'pill-done', ok:'pill-ok', risk:'pill-risk', pending:'pill
 var ACC_PILL  = { all:'pill-all', brasil:'pill-brasil', mexico:'pill-mexico' };
 var ACC_LABEL = { all:'Todos los reportes', brasil:'Brasil', mexico:'México' };
 
-var THEMES = ['ventas','sellout','profit','duty-free','marketplace','financiero'];
-var THEME_LABEL = { ventas:'Ventas', sellout:'Sell-out', profit:'Profit', 'duty-free':'Duty Free', marketplace:'Marketplace', financiero:'Financiero' };
+var THEMES = ['ventas','sellout','marketplace','financiero'];
+var THEME_LABEL = { ventas:'Ventas', sellout:'Sell-out', marketplace:'Marketplace', financiero:'Financiero' };
 
 /* ══════════════════════════════════════════════════════
    SUPABASE
@@ -647,19 +647,32 @@ function renderGrid(reports) {
   return h;
 }
 
-function filterBar(regionLabel) {
-  var freqs = ['Mensual','Diario'];
-  var chips_t = '<span class="filter-label">Tema:</span>'
-    +'<button class="chip active" data-ft="theme" data-fv="all">Todos</button>';
-  for (var i=0; i<THEMES.length; i++) {
-    chips_t += '<button class="chip" data-ft="theme" data-fv="'+THEMES[i]+'">'+THEME_LABEL[THEMES[i]]+'</button>';
+/* Builds the filter bar from the reports actually available in this section,
+   so a chip never leads to an empty result. `base` = section reports the user
+   can see, before any theme/frequency filtering. */
+function filterBar(base) {
+  function chip(type, value, label) {
+    var on = activeFilters[type] === value ? ' active' : '';
+    return '<button class="chip'+on+'" data-ft="'+type+'" data-fv="'+value+'">'+label+'</button>';
   }
-  var chips_f = '<div class="filter-sep"></div><span class="filter-label">Frecuencia:</span>'
-    +'<button class="chip active" data-ft="freq" data-fv="all">Todas</button>';
-  for (var j=0; j<freqs.length; j++) {
-    chips_f += '<button class="chip" data-ft="freq" data-fv="'+freqs[j]+'">'+freqs[j]+'</button>';
+  var themes = THEMES.filter(function(t){
+    return base.some(function(r){ return r.theme === t; });
+  });
+  var freqs = ['Mensual','Diario'].filter(function(f){
+    return base.some(function(r){ return r.freq === f; });
+  });
+
+  var html = '';
+  if (themes.length > 1) {
+    html += '<span class="filter-label">Tema:</span>' + chip('theme','all','Todos');
+    themes.forEach(function(t){ html += chip('theme', t, THEME_LABEL[t]); });
   }
-  return '<div class="filter-bar">'+chips_t+chips_f+'</div>';
+  if (freqs.length > 1) {
+    if (html) html += '<div class="filter-sep"></div>';
+    html += '<span class="filter-label">Frecuencia:</span>' + chip('freq','all','Todas');
+    freqs.forEach(function(f){ html += chip('freq', f, f); });
+  }
+  return html ? '<div class="filter-bar">'+html+'</div>' : '';
 }
 
 /* ══════════════════════════════════════════════════════
@@ -670,24 +683,24 @@ var PAGES = {
     title: 'Reportes LATAM',
     sub: 'Dashboards de la región LATAM — Brasil, México y más',
     render: function() {
-      var reports = REPORTS.filter(function(r){ return r.region==='latam' && canSee(r) && filterMatch(r); });
-      return filterBar('LATAM')+'<div class="cards-grid" id="report-grid">'+renderGrid(reports)+'</div>';
+      var base = REPORTS.filter(function(r){ return r.region==='latam' && canSee(r); });
+      return filterBar(base)+'<div class="cards-grid" id="report-grid">'+renderGrid(base.filter(filterMatch))+'</div>';
     }
   },
   'reportes-global': {
     title: 'Reportes Global',
     sub: 'Dashboards globales — Todo el grupo Travel Blue',
     render: function() {
-      var reports = REPORTS.filter(function(r){ return r.region==='global' && r.type==='HTML' && canSee(r) && filterMatch(r); });
-      return filterBar('Global')+'<div class="cards-grid" id="report-grid">'+renderGrid(reports)+'</div>';
+      var base = REPORTS.filter(function(r){ return r.region==='global' && r.type==='HTML' && canSee(r); });
+      return filterBar(base)+'<div class="cards-grid" id="report-grid">'+renderGrid(base.filter(filterMatch))+'</div>';
     }
   },
   'reportes-bi': {
     title: 'Power BI',
     sub: 'Paneles Power BI — acceso directo a los reportes interactivos',
     render: function() {
-      var reports = REPORTS.filter(function(r){ return r.type==='BI' && canSee(r) && filterMatch(r); });
-      return filterBar('Power BI')+'<div class="cards-grid" id="report-grid">'+renderGrid(reports)+'</div>';
+      var base = REPORTS.filter(function(r){ return r.type==='BI' && canSee(r); });
+      return filterBar(base)+'<div class="cards-grid" id="report-grid">'+renderGrid(base.filter(filterMatch))+'</div>';
     }
   },
   'actividades': {
@@ -774,9 +787,11 @@ function filterMatch(r) {
 var currentPage = 'reportes-latam';
 
 function navigate(page) {
-  currentPage = page;
   var p = PAGES[page];
   if (!p) return;
+  // Filters are per-section: reset them when moving to a different page
+  if (page !== currentPage) activeFilters = { theme:'all', freq:'all' };
+  currentPage = page;
   document.getElementById('topbar-title').textContent = p.title;
   document.getElementById('topbar-sub').textContent = p.sub;
   document.getElementById('page-content').innerHTML = p.render();
