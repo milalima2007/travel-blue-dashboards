@@ -803,11 +803,10 @@ function setupLogin() {
   document.getElementById('login-password').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
 
   // ── Forgot password ──
-  var loginFields = document.getElementById('login-btn').previousElementSibling.previousElementSibling;
   document.getElementById('forgot-link').addEventListener('click', function(e){
     e.preventDefault();
     document.getElementById('reset-panel').style.display = 'block';
-    document.querySelectorAll('.lf').forEach(function(el){ el.style.display='none'; });
+    document.querySelectorAll('.login-box > .lf').forEach(function(el){ el.style.display='none'; });
     document.getElementById('login-btn').style.display = 'none';
     document.querySelector('#login-screen p').style.display = 'none';
     document.getElementById('forgot-link').parentElement.style.display = 'none';
@@ -816,7 +815,7 @@ function setupLogin() {
   document.getElementById('back-login').addEventListener('click', function(e){
     e.preventDefault();
     document.getElementById('reset-panel').style.display = 'none';
-    document.querySelectorAll('.lf').forEach(function(el){ el.style.display=''; });
+    document.querySelectorAll('.login-box > .lf').forEach(function(el){ el.style.display=''; });
     document.getElementById('login-btn').style.display = '';
     document.querySelector('#login-screen p').style.display = '';
     document.getElementById('forgot-link').parentElement.style.display = '';
