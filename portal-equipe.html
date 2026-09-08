@@ -647,8 +647,7 @@ var PAGES = {
     title: 'Reportes Global',
     sub: 'Dashboards globales — Todo el grupo Travel Blue',
     render: function() {
-      if (currentProfile && currentProfile.access !== 'all') return restricted();
-      var reports = REPORTS.filter(function(r){ return r.region==='global' && r.type==='HTML' && filterMatch(r); });
+      var reports = REPORTS.filter(function(r){ return r.region==='global' && r.type==='HTML' && canSee(r) && filterMatch(r); });
       return filterBar('Global')+'<div class="cards-grid" id="report-grid">'+renderGrid(reports)+'</div>';
     }
   },
@@ -656,8 +655,7 @@ var PAGES = {
     title: 'Power BI',
     sub: 'Paneles Power BI — acceso directo a los reportes interactivos',
     render: function() {
-      if (currentProfile && currentProfile.access !== 'all') return restricted();
-      var reports = REPORTS.filter(function(r){ return r.type==='BI' && filterMatch(r); });
+      var reports = REPORTS.filter(function(r){ return r.type==='BI' && canSee(r) && filterMatch(r); });
       return filterBar('Power BI')+'<div class="cards-grid" id="report-grid">'+renderGrid(reports)+'</div>';
     }
   },
@@ -769,8 +767,8 @@ function navigate(page) {
 
 function getFilteredReports(page) {
   if (page === 'reportes-latam')   return REPORTS.filter(function(r){ return r.region==='latam' && canSee(r) && filterMatch(r); });
-  if (page === 'reportes-global')  return REPORTS.filter(function(r){ return r.region==='global' && r.type==='HTML' && filterMatch(r); });
-  if (page === 'reportes-bi')      return REPORTS.filter(function(r){ return r.type==='BI' && filterMatch(r); });
+  if (page === 'reportes-global')  return REPORTS.filter(function(r){ return r.region==='global' && r.type==='HTML' && canSee(r) && filterMatch(r); });
+  if (page === 'reportes-bi')      return REPORTS.filter(function(r){ return r.type==='BI' && canSee(r) && filterMatch(r); });
   return [];
 }
 
@@ -947,12 +945,22 @@ function showApp(user) {
     window.location.reload();
   });
 
-  // Determine start page by access
-  var startPage = 'reportes-latam';
-  if (profile.access !== 'all' && profile.access.indexOf('brasil') === -1 && profile.access.indexOf('latam') === -1) {
-    startPage = 'reportes-latam'; // Mexico users still see LATAM tab (filtered)
-  }
-  navigate(startPage);
+  // Hide report tabs that have nothing visible for this user
+  [['reportes-latam', function(r){ return r.region==='latam'; }],
+   ['reportes-global',function(r){ return r.region==='global' && r.type==='HTML'; }],
+   ['reportes-bi',    function(r){ return r.type==='BI'; }]
+  ].forEach(function(pair){
+    var has = REPORTS.some(function(r){ return pair[1](r) && canSee(r); });
+    var btn = document.querySelector('.nav-item[data-page="'+pair[0]+'"]');
+    if (btn) btn.style.display = has ? '' : 'none';
+  });
+
+  // Open the first tab that actually has content
+  var first = ['reportes-latam','reportes-global','reportes-bi'].find(function(p){
+    var btn = document.querySelector('.nav-item[data-page="'+p+'"]');
+    return btn && btn.style.display !== 'none';
+  }) || 'reportes-latam';
+  navigate(first);
 }
 </script>
 </body>
