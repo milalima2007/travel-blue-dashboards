@@ -317,6 +317,21 @@
         <a href="#" id="back-login" style="font-size:12px;color:#888;text-decoration:none;">← Volver al inicio de sesión</a>
       </p>
     </div>
+
+    <!-- NEW PASSWORD PANEL (shown after clicking the recovery link) -->
+    <div id="newpass-panel" style="display:none;">
+      <p style="font-size:13px;color:#555;margin-bottom:14px;">Define tu nueva contraseña para acceder al portal.</p>
+      <div class="lf">
+        <label>Nueva contraseña</label>
+        <input type="password" id="newpass-1" placeholder="Mínimo 8 caracteres"/>
+      </div>
+      <div class="lf">
+        <label>Repetir contraseña</label>
+        <input type="password" id="newpass-2" placeholder="Repite la contraseña"/>
+      </div>
+      <button class="login-btn" id="newpass-btn">Guardar contraseña</button>
+      <div id="newpass-msg" style="font-size:12px;margin-top:10px;display:none;padding:9px 12px;border-radius:8px;"></div>
+    </div>
   </div>
 </div>
 
@@ -763,14 +778,37 @@ function getFilteredReports(page) {
    INIT
 ══════════════════════════════════════════════════════ */
 (async function(){
+  // Capture the URL hash before supabase-js consumes it
+  var hash = window.location.hash || '';
+  var isRecovery = hash.indexOf('type=recovery') >= 0;
+  var hashError  = /error_code=([^&]+)/.exec(hash);
+
   var loading = document.getElementById('loading-screen');
   var loginScreen = document.getElementById('login-screen');
-  var app = document.getElementById('app');
 
   var res = await sb.auth.getUser();
   var user = res.data && res.data.user;
 
   loading.style.display = 'none';
+
+  // Recovery link expired or invalid → back to login with a message
+  if (hashError) {
+    loginScreen.classList.add('active');
+    setupLogin();
+    var e = document.getElementById('login-err');
+    e.textContent = 'El enlace expiró o no es válido. Solicita uno nuevo.';
+    e.style.display = 'block';
+    history.replaceState(null, '', window.location.pathname);
+    return;
+  }
+
+  // Came from a recovery link → let the user define a new password
+  if (isRecovery && user) {
+    loginScreen.classList.add('active');
+    setupLogin();
+    showNewPassPanel();
+    return;
+  }
 
   if (!user) {
     loginScreen.classList.add('active');
@@ -779,6 +817,39 @@ function getFilteredReports(page) {
   }
   showApp(user);
 })();
+
+function showNewPassPanel() {
+  document.querySelectorAll('.login-box > .lf').forEach(function(el){ el.style.display='none'; });
+  document.getElementById('login-btn').style.display = 'none';
+  document.getElementById('reset-panel').style.display = 'none';
+  document.querySelector('#login-screen p').style.display = 'none';
+  document.getElementById('forgot-link').parentElement.style.display = 'none';
+  document.getElementById('newpass-panel').style.display = 'block';
+
+  document.getElementById('newpass-btn').addEventListener('click', async function(){
+    var p1 = document.getElementById('newpass-1').value;
+    var p2 = document.getElementById('newpass-2').value;
+    var msg = document.getElementById('newpass-msg');
+    function fail(t){ msg.textContent=t; msg.style.background='#fdf0f0'; msg.style.color='#c0392b'; msg.style.display='block'; }
+
+    if (p1.length < 8)  return fail('La contraseña debe tener al menos 8 caracteres.');
+    if (p1 !== p2)      return fail('Las contraseñas no coinciden.');
+
+    this.textContent='Guardando…'; this.disabled=true;
+    var r = await sb.auth.updateUser({ password: p1 });
+    this.textContent='Guardar contraseña'; this.disabled=false;
+
+    if (r.error) return fail(r.error.message);
+
+    history.replaceState(null, '', window.location.pathname);
+    loginScreen_hide();
+    showApp(r.data.user);
+  });
+}
+
+function loginScreen_hide() {
+  document.getElementById('login-screen').classList.remove('active');
+}
 
 function setupLogin() {
   var btn = document.getElementById('login-btn');
