@@ -589,6 +589,14 @@ var TEAM = [
    ACTIVIDADES
 ══════════════════════════════════════════════════════ */
 var TASKS = [
+  { act:'Re-Forecast LATAM 2026',                   proj:'Forecast 2026',       st:'ok',      stl:'En curso',    fecha:'—',          main:true,
+    obs:'Proyección de los meses restantes del año para LATAM.' },
+  { act:'Business Plan 2027 LATAM',                 proj:'BP 2027',             st:'ok',      stl:'En curso',    fecha:'—',          main:true,
+    obs:'Construcción del plan de negocio 2027 para la región LATAM.' },
+  { act:'Actualizar reportes Globales — agosto',    proj:'Reportes Global',     st:'pending', stl:'Pendiente',   fecha:'—',
+    obs:'Falta agosto: Europe, UK, China y TB Consumption. Falta julio y agosto (siguen en H1): APAC, India, Total Group, Germany y Poland.' },
+  { act:'Actualizar Sell-outs — agosto',            proj:'Sell-out',            st:'pending', stl:'Pendiente',   fecha:'—',
+    obs:'Falta agosto: Avolta, Heinemann, ShopGallery y Mercado Libre. Falta julio y agosto: Liverpool y Cloe (hasta junio).' },
   { act:'Actualizar base de ventas total TB Group', proj:'Total Database',      st:'ok',      stl:'En curso',    fecha:'2026-06-16', obs:'Alemania ya recibida. Faltan India, Polonia y ASPAC.' },
   { act:'Business Review',                          proj:'LATAM Sales BP 26',   st:'done',    stl:'Finalizado',  fecha:'2026-06-18', obs:'Actualizado y concluido.' },
   { act:'Finalizar análisis Avolta Sellout',        proj:'Avolta Sellout',      st:'done',    stl:'Finalizado',  fecha:'2026-06-15', obs:'HTML (EMEA, Américas & CEI, México) y Power BI concluidos.' },
@@ -712,11 +720,17 @@ var PAGES = {
     sub: 'Estado de tareas y proyectos en curso',
     render: function() {
       if (!currentProfile || !currentProfile.admin) return restricted();
+      // Main activities first, then the rest in their original order
+      var ordered = TASKS.filter(function(t){ return t.main; })
+                         .concat(TASKS.filter(function(t){ return !t.main; }));
       var rows = '';
-      for (var i=0; i<TASKS.length; i++) {
-        var t = TASKS[i];
-        rows += '<tr>'
-          +'<td>'+t.act+'</td>'
+      for (var i=0; i<ordered.length; i++) {
+        var t = ordered[i];
+        var badge = t.main
+          ? '<span style="background:#FFC72C;color:#1B2A6B;font-size:9px;font-weight:800;letter-spacing:.05em;padding:2px 7px;border-radius:10px;margin-right:8px;vertical-align:middle;">PRINCIPAL</span>'
+          : '';
+        rows += '<tr'+(t.main ? ' style="background:#FFFBEF;"' : '')+'>'
+          +'<td>'+badge+(t.main ? '<strong>'+t.act+'</strong>' : t.act)+'</td>'
           +'<td style="color:#888;">'+t.proj+'</td>'
           +'<td><span class="pill '+ST_CLASS[t.st]+'">'+t.stl+'</span></td>'
           +'<td style="color:#888;">'+t.fecha+'</td>'
