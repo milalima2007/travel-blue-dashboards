@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Travel Blue LATAM — Proyección Anual 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#113d85;--navy-dk:#0e326b;--yellow:#fece08;--bg:#f1f4f9;--card:#fff;--border:#E2E8F0;--muted:#64748B;--text:#0F172A;--pos:#16a34a;--neg:#dc2626;--radius:12px}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);font-size:13px}
+.hdr{background:var(--navy);padding:18px 32px 16px;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.hdr-inner{max-width:1500px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.hdr-title{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.3px}.hdr-title span{color:var(--yellow)}
+.hdr-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:3px}
+.hdr-badge{background:rgba(254,206,8,.18);border:1px solid rgba(254,206,8,.35);color:var(--yellow);font-size:10px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:20px;white-space:nowrap}
+.main{max-width:1500px;margin:0 auto;padding:28px 24px;display:flex;flex-direction:column;gap:28px}
+.table-block{background:var(--card);border-radius:var(--radius);box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden}
+.summary-block{box-shadow:0 2px 12px rgba(17,61,133,.15);border:2px solid #c7d5ed}
+.table-title{padding:14px 24px 12px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.mes-badge{background:var(--navy);color:#fff;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;letter-spacing:.04em}
+.mes-badge.anual{background:linear-gradient(135deg,#0e326b,#1a6b3a);font-size:13px;padding:5px 16px}
+.table-sub{color:var(--muted);font-size:11px;font-weight:500}
+.acum-tag{margin-left:auto;font-size:10px;color:#92400e;background:#fffbeb;border:1px solid #fcd34d;border-radius:6px;padding:3px 8px;white-space:nowrap}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+thead tr.th-group th{background:var(--navy);color:#fff;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:10px 12px;text-align:center;border-bottom:2px solid var(--navy-dk)}
+thead tr.th-group th.th-country{text-align:left;min-width:130px}
+thead tr.th-group th.sec2{background:#0e326b}
+thead tr:last-child th{background:#f8fafc;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:8px 12px;text-align:right;border-bottom:2px solid var(--border)}
+tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
+tbody tr:hover{background:#f8faff}
+td{padding:9px 12px;vertical-align:middle}
+.td-country{font-weight:600;font-size:12px;white-space:nowrap}
+.td-fc{text-align:right;font-weight:700;color:var(--navy);font-size:12.5px}
+.td-fc-sm{text-align:right;font-weight:600;color:#1e40af;font-size:12px}
+.td-num{text-align:right;color:#374151;font-size:12px}
+.td-pct{text-align:right;font-weight:700;font-size:12px}
+.td-pct.pos{color:var(--pos)}.td-pct.neg{color:var(--neg)}
+tr.total-row{background:#EEF2FA}
+tr.total-row td{font-weight:800;font-size:12.5px;border-top:2px solid #c7d5ed}
+tr.total-row .td-pct.pos{color:#15803d}tr.total-row .td-pct.neg{color:#b91c1c}
+.nota{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:10px 16px;font-size:11px;color:#92400e}
+.seccion-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:8px 0 4px}
+footer{text-align:center;padding:16px;font-size:10.5px;background:var(--navy);color:rgba(255,255,255,.4)}
+footer span{color:var(--yellow)}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-inner">
+    <div>
+      <div class="hdr-title">TRAVEL BLUE <span>LATAM</span></div>
+      <div class="hdr-sub">Proyección Anual 2026 &middot; Generado el 11/09/2026</div>
+    </div>
+    <div class="hdr-badge">FORECAST SET → DIC 2026</div>
+  </div>
+</div>
+<div class="main">
+  <div class="nota">
+    <strong>Metodología:</strong> Acumulado 2026 = Realizado Ene-Ago 2026 (cerrado) + Forecast de los meses indicados.
+    Acumulado 2025 y BP = mismo período (Ene hasta el mes en análisis). Valores en USD.
+  </div>
+
+  
+    <div class="table-block summary-block">
+      <div class="table-title">
+        <span class="mes-badge anual">RESUMEN ANUAL 2026</span>
+        <span class="table-sub">Realizado Ene-Ago + Forecast Set-Dic</span>
+      </div>
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr class="th-group">
+            <th rowspan="2" class="th-country">País</th>
+            <th colspan="4" class="th-section">Forecast mensual (USD)</th>
+            <th colspan="5" class="th-section sec2">Proyección Año Completo</th>
+          </tr>
+          <tr>
+            <th>Sep</th><th>Oct</th><th>Nov</th><th>Dic</th>
+            <th>Total 2026</th>
+            <th>BP 2026</th>
+            <th>% vs BP</th>
+            <th>Real 2025</th>
+            <th>% vs 2025</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+          <td class="td-country">🇲🇽 Mexico</td>
+          <td class="td-fc-sm">$434,230</td><td class="td-fc-sm">$444,270</td><td class="td-fc-sm">$565,090</td><td class="td-fc-sm">$468,630</td>
+          <td class="td-fc">$5,566,247</td>
+          <td class="td-num">$5,298,009</td>
+          <td class="td-pct pos">+5%</td>
+          <td class="td-num">$4,322,044</td>
+          <td class="td-pct pos">+29%</td>
+        </tr><tr>
+          <td class="td-country">🇧🇷 Brasil</td>
+          <td class="td-fc-sm">$120,000</td><td class="td-fc-sm">$140,000</td><td class="td-fc-sm">$160,000</td><td class="td-fc-sm">$115,000</td>
+          <td class="td-fc">$1,570,043</td>
+          <td class="td-num">$1,521,087</td>
+          <td class="td-pct pos">+3%</td>
+          <td class="td-num">$1,731,604</td>
+          <td class="td-pct neg">-9%</td>
+        </tr><tr>
+          <td class="td-country">🇦🇷 Argentina</td>
+          <td class="td-fc-sm">$52,700</td><td class="td-fc-sm">$53,900</td><td class="td-fc-sm">$53,500</td><td class="td-fc-sm">$82,000</td>
+          <td class="td-fc">$1,129,844</td>
+          <td class="td-num">$1,143,555</td>
+          <td class="td-pct neg">-1%</td>
+          <td class="td-num">$892,834</td>
+          <td class="td-pct pos">+27%</td>
+        </tr><tr>
+          <td class="td-country">🇨🇴 Colombia</td>
+          <td class="td-fc-sm">$33,800</td><td class="td-fc-sm">$24,000</td><td class="td-fc-sm">$25,600</td><td class="td-fc-sm">$28,100</td>
+          <td class="td-fc">$318,856</td>
+          <td class="td-num">$361,773</td>
+          <td class="td-pct neg">-12%</td>
+          <td class="td-num">$326,754</td>
+          <td class="td-pct neg">-2%</td>
+        </tr><tr>
+          <td class="td-country">🇨🇱 Chile</td>
+          <td class="td-fc-sm">$7,350</td><td class="td-fc-sm">$8,550</td><td class="td-fc-sm">$9,050</td><td class="td-fc-sm">$8,600</td>
+          <td class="td-fc">$72,792</td>
+          <td class="td-num">$118,138</td>
+          <td class="td-pct neg">-38%</td>
+          <td class="td-num">$121,196</td>
+          <td class="td-pct neg">-40%</td>
+        </tr><tr>
+          <td class="td-country">🇵🇦 Panama</td>
+          <td class="td-fc-sm">$11,800</td><td class="td-fc-sm">$76,500</td><td class="td-fc-sm">$187,600</td><td class="td-fc-sm">$96,500</td>
+          <td class="td-fc">$776,394</td>
+          <td class="td-num">$870,000</td>
+          <td class="td-pct neg">-11%</td>
+          <td class="td-num">$445,810</td>
+          <td class="td-pct pos">+74%</td>
+        </tr><tr>
+          <td class="td-country">🇵🇪 Peru</td>
+          <td class="td-fc-sm">$3,900</td><td class="td-fc-sm">$3,600</td><td class="td-fc-sm">$4,200</td><td class="td-fc-sm">$4,600</td>
+          <td class="td-fc">$53,310</td>
+          <td class="td-num">$51,039</td>
+          <td class="td-pct pos">+4%</td>
+          <td class="td-num">$31,670</td>
+          <td class="td-pct pos">+68%</td>
+        </tr><tr class="total-row">
+      <td class="td-country">TOTAL LATAM</td>
+      <td class="td-fc-sm">$663,780</td><td class="td-fc-sm">$750,820</td><td class="td-fc-sm">$1,005,040</td><td class="td-fc-sm">$803,430</td>
+      <td class="td-fc">$9,487,486</td>
+      <td class="td-num">$9,363,600</td>
+      <td class="td-pct pos">+1%</td>
+      <td class="td-num">$7,871,912</td>
+      <td class="td-pct pos">+21%</td>
+    </tr></tbody>
+      </table>
+      </div>
+    </div>
+
+  <div class="seccion-label">Detalle mensual</div>
+
+  
+    <div class="table-block">
+      <div class="table-title">
+        <span class="mes-badge">Septiembre 2026</span>
+        <span class="table-sub">Forecast mensual y acumulado anual</span>
+        <span class="acum-tag">Acum: Ene-Jan-Ago (real) + Sep</span>
+      </div>
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr class="th-group">
+            <th rowspan="2" class="th-country">País</th>
+            <th colspan="5" class="th-section">Mes: Septiembre</th>
+            <th colspan="5" class="th-section sec2">Acumulado 2026 (proyectado)</th>
+          </tr>
+          <tr>
+            <th>Forecast Sep 26</th>
+            <th>Real Sep 25</th>
+            <th>%</th>
+            <th>BP Sep 26</th>
+            <th>% vs BP</th>
+            <th>Ene-Sep 26 (proy.)</th>
+            <th>Ene-Sep 25</th>
+            <th>%</th>
+            <th>BP Ene-Sep</th>
+            <th>% vs BP</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+          <td class="td-country">🇲🇽 Mexico</td>
+          <td class="td-fc">$434,230</td>
+          <td class="td-num">$316,035</td>
+          <td class="td-pct pos">+37%</td>
+          <td class="td-num">$426,786</td>
+          <td class="td-pct pos">+2%</td>
+          <td class="td-fc">$4,088,257</td>
+          <td class="td-num">$3,162,657</td>
+          <td class="td-pct pos">+29%</td>
+          <td class="td-num">$3,845,351</td>
+          <td class="td-pct pos">+6%</td>
+        </tr><tr>
+          <td class="td-country">🇧🇷 Brasil</td>
+          <td class="td-fc">$120,000</td>
+          <td class="td-num">$199,759</td>
+          <td class="td-pct neg">-40%</td>
+          <td class="td-num">$132,420</td>
+          <td class="td-pct neg">-9%</td>
+          <td class="td-fc">$1,155,043</td>
+          <td class="td-num">$1,283,477</td>
+          <td class="td-pct neg">-10%</td>
+          <td class="td-num">$1,120,470</td>
+          <td class="td-pct pos">+3%</td>
+        </tr><tr>
+          <td class="td-country">🇦🇷 Argentina</td>
+          <td class="td-fc">$52,700</td>
+          <td class="td-num">$61,443</td>
+          <td class="td-pct neg">-14%</td>
+          <td class="td-num">$95,112</td>
+          <td class="td-pct neg">-45%</td>
+          <td class="td-fc">$940,444</td>
+          <td class="td-num">$666,618</td>
+          <td class="td-pct pos">+41%</td>
+          <td class="td-num">$826,757</td>
+          <td class="td-pct pos">+14%</td>
+        </tr><tr>
+          <td class="td-country">🇨🇴 Colombia</td>
+          <td class="td-fc">$33,800</td>
+          <td class="td-num">$31,107</td>
+          <td class="td-pct pos">+9%</td>
+          <td class="td-num">$31,266</td>
+          <td class="td-pct pos">+8%</td>
+          <td class="td-fc">$241,156</td>
+          <td class="td-num">$250,685</td>
+          <td class="td-pct neg">-4%</td>
+          <td class="td-num">$271,072</td>
+          <td class="td-pct neg">-11%</td>
+        </tr><tr>
+          <td class="td-country">🇨🇱 Chile</td>
+          <td class="td-fc">$7,350</td>
+          <td class="td-num">$4,081</td>
+          <td class="td-pct pos">+80%</td>
+          <td class="td-num">$8,000</td>
+          <td class="td-pct neg">-8%</td>
+          <td class="td-fc">$46,592</td>
+          <td class="td-num">$103,581</td>
+          <td class="td-pct neg">-55%</td>
+          <td class="td-num">$87,920</td>
+          <td class="td-pct neg">-47%</td>
+        </tr><tr>
+          <td class="td-country">🇵🇦 Panama</td>
+          <td class="td-fc">$11,800</td>
+          <td class="td-num">$59,465</td>
+          <td class="td-pct neg">-80%</td>
+          <td class="td-num">$87,500</td>
+          <td class="td-pct neg">-87%</td>
+          <td class="td-fc">$415,794</td>
+          <td class="td-num">$313,047</td>
+          <td class="td-pct pos">+33%</td>
+          <td class="td-num">$572,500</td>
+          <td class="td-pct neg">-27%</td>
+        </tr><tr>
+          <td class="td-country">🇵🇪 Peru</td>
+          <td class="td-fc">$3,900</td>
+          <td class="td-num">$2,537</td>
+          <td class="td-pct pos">+54%</td>
+          <td class="td-num">$4,118</td>
+          <td class="td-pct neg">-5%</td>
+          <td class="td-fc">$40,910</td>
+          <td class="td-num">$25,991</td>
+          <td class="td-pct pos">+57%</td>
+          <td class="td-num">$38,240</td>
+          <td class="td-pct pos">+7%</td>
+        </tr><tr class="total-row">
+      <td class="td-country">TOTAL LATAM</td>
+      <td class="td-fc">$663,780</td>
+      <td class="td-num">$674,426</td>
+      <td class="td-pct neg">-2%</td>
+      <td class="td-num">$785,202</td>
+      <td class="td-pct neg">-15%</td>
+      <td class="td-fc">$6,928,196</td>
+      <td class="td-num">$5,806,055</td>
+      <td class="td-pct pos">+19%</td>
+      <td class="td-num">$6,762,310</td>
+      <td class="td-pct pos">+2%</td>
+    </tr></tbody>
+      </table>
+      </div>
+    </div>
+  
+    <div class="table-block">
+      <div class="table-title">
+        <span class="mes-badge">Octubre 2026</span>
+        <span class="table-sub">Forecast mensual y acumulado anual</span>
+        <span class="acum-tag">Acum: Ene-Jan-Ago (real) + Sep + Oct</span>
+      </div>
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr class="th-group">
+            <th rowspan="2" class="th-country">País</th>
+            <th colspan="5" class="th-section">Mes: Octubre</th>
+            <th colspan="5" class="th-section sec2">Acumulado 2026 (proyectado)</th>
+          </tr>
+          <tr>
+            <th>Forecast Oct 26</th>
+            <th>Real Oct 25</th>
+            <th>%</th>
+            <th>BP Oct 26</th>
+            <th>% vs BP</th>
+            <th>Ene-Oct 26 (proy.)</th>
+            <th>Ene-Oct 25</th>
+            <th>%</th>
+            <th>BP Ene-Oct</th>
+            <th>% vs BP</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+          <td class="td-country">🇲🇽 Mexico</td>
+          <td class="td-fc">$444,270</td>
+          <td class="td-num">$284,810</td>
+          <td class="td-pct pos">+56%</td>
+          <td class="td-num">$436,654</td>
+          <td class="td-pct pos">+2%</td>
+          <td class="td-fc">$4,532,527</td>
+          <td class="td-num">$3,447,467</td>
+          <td class="td-pct pos">+31%</td>
+          <td class="td-num">$4,282,005</td>
+          <td class="td-pct pos">+6%</td>
+        </tr><tr>
+          <td class="td-country">🇧🇷 Brasil</td>
+          <td class="td-fc">$140,000</td>
+          <td class="td-num">$137,040</td>
+          <td class="td-pct pos">+2%</td>
+          <td class="td-num">$129,959</td>
+          <td class="td-pct pos">+8%</td>
+          <td class="td-fc">$1,295,043</td>
+          <td class="td-num">$1,420,517</td>
+          <td class="td-pct neg">-9%</td>
+          <td class="td-num">$1,250,429</td>
+          <td class="td-pct pos">+4%</td>
+        </tr><tr>
+          <td class="td-country">🇦🇷 Argentina</td>
+          <td class="td-fc">$53,900</td>
+          <td class="td-num">$76,251</td>
+          <td class="td-pct neg">-29%</td>
+          <td class="td-num">$102,200</td>
+          <td class="td-pct neg">-47%</td>
+          <td class="td-fc">$994,344</td>
+          <td class="td-num">$742,869</td>
+          <td class="td-pct pos">+34%</td>
+          <td class="td-num">$928,957</td>
+          <td class="td-pct pos">+7%</td>
+        </tr><tr>
+          <td class="td-country">🇨🇴 Colombia</td>
+          <td class="td-fc">$24,000</td>
+          <td class="td-num">$25,011</td>
+          <td class="td-pct neg">-4%</td>
+          <td class="td-num">$29,201</td>
+          <td class="td-pct neg">-18%</td>
+          <td class="td-fc">$265,156</td>
+          <td class="td-num">$275,696</td>
+          <td class="td-pct neg">-4%</td>
+          <td class="td-num">$300,273</td>
+          <td class="td-pct neg">-12%</td>
+        </tr><tr>
+          <td class="td-country">🇨🇱 Chile</td>
+          <td class="td-fc">$8,550</td>
+          <td class="td-num">$6,713</td>
+          <td class="td-pct pos">+27%</td>
+          <td class="td-num">$13,059</td>
+          <td class="td-pct neg">-35%</td>
+          <td class="td-fc">$55,142</td>
+          <td class="td-num">$110,294</td>
+          <td class="td-pct neg">-50%</td>
+          <td class="td-num">$100,979</td>
+          <td class="td-pct neg">-45%</td>
+        </tr><tr>
+          <td class="td-country">🇵🇦 Panama</td>
+          <td class="td-fc">$76,500</td>
+          <td class="td-num">$0</td>
+          <td class="td-pct ">—</td>
+          <td class="td-num">$53,500</td>
+          <td class="td-pct pos">+43%</td>
+          <td class="td-fc">$492,294</td>
+          <td class="td-num">$313,047</td>
+          <td class="td-pct pos">+57%</td>
+          <td class="td-num">$626,000</td>
+          <td class="td-pct neg">-21%</td>
+        </tr><tr>
+          <td class="td-country">🇵🇪 Peru</td>
+          <td class="td-fc">$3,600</td>
+          <td class="td-num">$2,429</td>
+          <td class="td-pct pos">+48%</td>
+          <td class="td-num">$4,118</td>
+          <td class="td-pct neg">-13%</td>
+          <td class="td-fc">$44,510</td>
+          <td class="td-num">$28,420</td>
+          <td class="td-pct pos">+57%</td>
+          <td class="td-num">$42,358</td>
+          <td class="td-pct pos">+5%</td>
+        </tr><tr class="total-row">
+      <td class="td-country">TOTAL LATAM</td>
+      <td class="td-fc">$750,820</td>
+      <td class="td-num">$532,254</td>
+      <td class="td-pct pos">+41%</td>
+      <td class="td-num">$768,692</td>
+      <td class="td-pct neg">-2%</td>
+      <td class="td-fc">$7,679,016</td>
+      <td class="td-num">$6,338,309</td>
+      <td class="td-pct pos">+21%</td>
+      <td class="td-num">$7,531,002</td>
+      <td class="td-pct pos">+2%</td>
+    </tr></tbody>
+      </table>
+      </div>
+    </div>
+  
+    <div class="table-block">
+      <div class="table-title">
+        <span class="mes-badge">Noviembre 2026</span>
+        <span class="table-sub">Forecast mensual y acumulado anual</span>
+        <span class="acum-tag">Acum: Ene-Jan-Ago (real) + Sep + Oct + Nov</span>
+      </div>
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr class="th-group">
+            <th rowspan="2" class="th-country">País</th>
+            <th colspan="5" class="th-section">Mes: Noviembre</th>
+            <th colspan="5" class="th-section sec2">Acumulado 2026 (proyectado)</th>
+          </tr>
+          <tr>
+            <th>Forecast Nov 26</th>
+            <th>Real Nov 25</th>
+            <th>%</th>
+            <th>BP Nov 26</th>
+            <th>% vs BP</th>
+            <th>Ene-Nov 26 (proy.)</th>
+            <th>Ene-Nov 25</th>
+            <th>%</th>
+            <th>BP Ene-Nov</th>
+            <th>% vs BP</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+          <td class="td-country">🇲🇽 Mexico</td>
+          <td class="td-fc">$565,090</td>
+          <td class="td-num">$392,069</td>
+          <td class="td-pct pos">+44%</td>
+          <td class="td-num">$555,406</td>
+          <td class="td-pct pos">+2%</td>
+          <td class="td-fc">$5,097,617</td>
+          <td class="td-num">$3,839,536</td>
+          <td class="td-pct pos">+33%</td>
+          <td class="td-num">$4,837,412</td>
+          <td class="td-pct pos">+5%</td>
+        </tr><tr>
+          <td class="td-country">🇧🇷 Brasil</td>
+          <td class="td-fc">$160,000</td>
+          <td class="td-num">$167,804</td>
+          <td class="td-pct neg">-5%</td>
+          <td class="td-num">$136,745</td>
+          <td class="td-pct pos">+17%</td>
+          <td class="td-fc">$1,455,043</td>
+          <td class="td-num">$1,588,321</td>
+          <td class="td-pct neg">-8%</td>
+          <td class="td-num">$1,387,174</td>
+          <td class="td-pct pos">+5%</td>
+        </tr><tr>
+          <td class="td-country">🇦🇷 Argentina</td>
+          <td class="td-fc">$53,500</td>
+          <td class="td-num">$75,511</td>
+          <td class="td-pct neg">-29%</td>
+          <td class="td-num">$109,446</td>
+          <td class="td-pct neg">-51%</td>
+          <td class="td-fc">$1,047,844</td>
+          <td class="td-num">$818,380</td>
+          <td class="td-pct pos">+28%</td>
+          <td class="td-num">$1,038,404</td>
+          <td class="td-pct pos">+1%</td>
+        </tr><tr>
+          <td class="td-country">🇨🇴 Colombia</td>
+          <td class="td-fc">$25,600</td>
+          <td class="td-num">$25,533</td>
+          <td class="td-pct pos">+0%</td>
+          <td class="td-num">$31,266</td>
+          <td class="td-pct neg">-18%</td>
+          <td class="td-fc">$290,756</td>
+          <td class="td-num">$301,229</td>
+          <td class="td-pct neg">-3%</td>
+          <td class="td-num">$331,539</td>
+          <td class="td-pct neg">-12%</td>
+        </tr><tr>
+          <td class="td-country">🇨🇱 Chile</td>
+          <td class="td-fc">$9,050</td>
+          <td class="td-num">$933</td>
+          <td class="td-pct pos">+870%</td>
+          <td class="td-num">$8,000</td>
+          <td class="td-pct pos">+13%</td>
+          <td class="td-fc">$64,192</td>
+          <td class="td-num">$111,227</td>
+          <td class="td-pct neg">-42%</td>
+          <td class="td-num">$108,979</td>
+          <td class="td-pct neg">-41%</td>
+        </tr><tr>
+          <td class="td-country">🇵🇦 Panama</td>
+          <td class="td-fc">$187,600</td>
+          <td class="td-num">$2,846</td>
+          <td class="td-pct pos">+6492%</td>
+          <td class="td-num">$71,500</td>
+          <td class="td-pct pos">+162%</td>
+          <td class="td-fc">$679,894</td>
+          <td class="td-num">$315,893</td>
+          <td class="td-pct pos">+115%</td>
+          <td class="td-num">$697,500</td>
+          <td class="td-pct neg">-3%</td>
+        </tr><tr>
+          <td class="td-country">🇵🇪 Peru</td>
+          <td class="td-fc">$4,200</td>
+          <td class="td-num">$2,093</td>
+          <td class="td-pct pos">+101%</td>
+          <td class="td-num">$4,563</td>
+          <td class="td-pct neg">-8%</td>
+          <td class="td-fc">$48,710</td>
+          <td class="td-num">$30,512</td>
+          <td class="td-pct pos">+60%</td>
+          <td class="td-num">$46,921</td>
+          <td class="td-pct pos">+4%</td>
+        </tr><tr class="total-row">
+      <td class="td-country">TOTAL LATAM</td>
+      <td class="td-fc">$1,005,040</td>
+      <td class="td-num">$666,789</td>
+      <td class="td-pct pos">+51%</td>
+      <td class="td-num">$916,927</td>
+      <td class="td-pct pos">+10%</td>
+      <td class="td-fc">$8,684,056</td>
+      <td class="td-num">$7,005,098</td>
+      <td class="td-pct pos">+24%</td>
+      <td class="td-num">$8,447,929</td>
+      <td class="td-pct pos">+3%</td>
+    </tr></tbody>
+      </table>
+      </div>
+    </div>
+  
+    <div class="table-block">
+      <div class="table-title">
+        <span class="mes-badge">Diciembre 2026</span>
+        <span class="table-sub">Forecast mensual y acumulado anual</span>
+        <span class="acum-tag">Acum: Ene-Jan-Ago (real) + Sep + Oct + Nov + Dic</span>
+      </div>
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr class="th-group">
+            <th rowspan="2" class="th-country">País</th>
+            <th colspan="5" class="th-section">Mes: Diciembre</th>
+            <th colspan="5" class="th-section sec2">Acumulado 2026 (proyectado)</th>
+          </tr>
+          <tr>
+            <th>Forecast Dic 26</th>
+            <th>Real Dic 25</th>
+            <th>%</th>
+            <th>BP Dic 26</th>
+            <th>% vs BP</th>
+            <th>Ene-Dic 26 (proy.)</th>
+            <th>Ene-Dic 25</th>
+            <th>%</th>
+            <th>BP Ene-Dic</th>
+            <th>% vs BP</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+          <td class="td-country">🇲🇽 Mexico</td>
+          <td class="td-fc">$468,630</td>
+          <td class="td-num">$482,508</td>
+          <td class="td-pct neg">-3%</td>
+          <td class="td-num">$460,597</td>
+          <td class="td-pct pos">+2%</td>
+          <td class="td-fc">$5,566,247</td>
+          <td class="td-num">$4,322,044</td>
+          <td class="td-pct pos">+29%</td>
+          <td class="td-num">$5,298,009</td>
+          <td class="td-pct pos">+5%</td>
+        </tr><tr>
+          <td class="td-country">🇧🇷 Brasil</td>
+          <td class="td-fc">$115,000</td>
+          <td class="td-num">$143,283</td>
+          <td class="td-pct neg">-20%</td>
+          <td class="td-num">$133,913</td>
+          <td class="td-pct neg">-14%</td>
+          <td class="td-fc">$1,570,043</td>
+          <td class="td-num">$1,731,604</td>
+          <td class="td-pct neg">-9%</td>
+          <td class="td-num">$1,521,087</td>
+          <td class="td-pct pos">+3%</td>
+        </tr><tr>
+          <td class="td-country">🇦🇷 Argentina</td>
+          <td class="td-fc">$82,000</td>
+          <td class="td-num">$74,454</td>
+          <td class="td-pct pos">+10%</td>
+          <td class="td-num">$105,151</td>
+          <td class="td-pct neg">-22%</td>
+          <td class="td-fc">$1,129,844</td>
+          <td class="td-num">$892,834</td>
+          <td class="td-pct pos">+27%</td>
+          <td class="td-num">$1,143,555</td>
+          <td class="td-pct neg">-1%</td>
+        </tr><tr>
+          <td class="td-country">🇨🇴 Colombia</td>
+          <td class="td-fc">$28,100</td>
+          <td class="td-num">$25,525</td>
+          <td class="td-pct pos">+10%</td>
+          <td class="td-num">$30,234</td>
+          <td class="td-pct neg">-7%</td>
+          <td class="td-fc">$318,856</td>
+          <td class="td-num">$326,754</td>
+          <td class="td-pct neg">-2%</td>
+          <td class="td-num">$361,773</td>
+          <td class="td-pct neg">-12%</td>
+        </tr><tr>
+          <td class="td-country">🇨🇱 Chile</td>
+          <td class="td-fc">$8,600</td>
+          <td class="td-num">$9,969</td>
+          <td class="td-pct neg">-14%</td>
+          <td class="td-num">$9,159</td>
+          <td class="td-pct neg">-6%</td>
+          <td class="td-fc">$72,792</td>
+          <td class="td-num">$121,196</td>
+          <td class="td-pct neg">-40%</td>
+          <td class="td-num">$118,138</td>
+          <td class="td-pct neg">-38%</td>
+        </tr><tr>
+          <td class="td-country">🇵🇦 Panama</td>
+          <td class="td-fc">$96,500</td>
+          <td class="td-num">$129,917</td>
+          <td class="td-pct neg">-26%</td>
+          <td class="td-num">$172,500</td>
+          <td class="td-pct neg">-44%</td>
+          <td class="td-fc">$776,394</td>
+          <td class="td-num">$445,810</td>
+          <td class="td-pct pos">+74%</td>
+          <td class="td-num">$870,000</td>
+          <td class="td-pct neg">-11%</td>
+        </tr><tr>
+          <td class="td-country">🇵🇪 Peru</td>
+          <td class="td-fc">$4,600</td>
+          <td class="td-num">$1,158</td>
+          <td class="td-pct pos">+297%</td>
+          <td class="td-num">$4,118</td>
+          <td class="td-pct pos">+12%</td>
+          <td class="td-fc">$53,310</td>
+          <td class="td-num">$31,670</td>
+          <td class="td-pct pos">+68%</td>
+          <td class="td-num">$51,039</td>
+          <td class="td-pct pos">+4%</td>
+        </tr><tr class="total-row">
+      <td class="td-country">TOTAL LATAM</td>
+      <td class="td-fc">$803,430</td>
+      <td class="td-num">$866,814</td>
+      <td class="td-pct neg">-7%</td>
+      <td class="td-num">$915,671</td>
+      <td class="td-pct neg">-12%</td>
+      <td class="td-fc">$9,487,486</td>
+      <td class="td-num">$7,871,912</td>
+      <td class="td-pct pos">+21%</td>
+      <td class="td-num">$9,363,600</td>
+      <td class="td-pct pos">+1%</td>
+    </tr></tbody>
+      </table>
+      </div>
+    </div>
+</div>
+<footer>&copy; 2026 <span>Travel Blue Ltd.</span> &mdash; Uso interno &middot; Proyección Anual LATAM 2026</footer>
+</body>
+</html>
