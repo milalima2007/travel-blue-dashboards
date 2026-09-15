@@ -20,3 +20,9 @@ desktop.ini
 
 # Node (if added later)
 node_modules/
+
+# contem chave admin do Supabase - nunca publicar
+backpack-lugagge/BACKPACKS&LUGGAGE.html
+backpack-lugagge/SALES-BL.html
+backpack-lugagge/SALES-BP.html
+upload_backpack_data.py
