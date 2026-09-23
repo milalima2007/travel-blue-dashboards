@@ -30,6 +30,13 @@ def newest(pattern):
     return max(files, key=os.path.getmtime) if files else None
 
 
+def newest_forecast():
+    """Forecast rolante de 2 meses - o nome muda todo mes (FORECAST_SEP_OCT_2026)."""
+    files = [f for f in glob.glob(os.path.join(REPO, "Relatorios Fechamento", "*", "FORECAST_*.html"))
+             if "ANUAL" not in os.path.basename(f).upper()]
+    return max(files, key=os.path.getmtime) if files else None
+
+
 def latest_closing_folder():
     folders = [d for d in glob.glob(os.path.join(REPO, "Relatorios Fechamento", "*_20*"))
                if glob.glob(os.path.join(d, "SALES_REPORT_LATAM_*.html"))]
@@ -65,6 +72,9 @@ def copy_sources():
         "global-ventas/aspac.html":    newest(os.path.join(DC, "ASPAC",   "aspac_*.html")),
         "global-ventas/consumption.html": newest(os.path.join(AT, "TB Consumption Dashboard*.html")),
         "fechamento-latam/forecast-anual.html": newest(os.path.join(REPO, "Relatorios Fechamento", "*", "FORECAST_ANUAL_*.html")),
+        # Forecast de 2 meses: o nome muda a cada mes (FORECAST_SEP_OCT_2026...),
+        # por isso pegamos sempre o mais recente que nao seja o anual.
+        "fechamento-latam/forecast.html": newest_forecast(),
     }
     folder = latest_closing_folder()
     if folder:
