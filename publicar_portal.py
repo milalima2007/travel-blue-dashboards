@@ -69,7 +69,7 @@ def copy_sources():
         "global-ventas/poland.html":   newest(os.path.join(DC, "POLAND",  "poland_*20*.html")),
         "global-ventas/uk.html":       newest(os.path.join(DC, "UK",      "uk_*20*.html")),
         "global-ventas/total.html":    newest(os.path.join(DC, "TOTAL",   "total_*.html")),
-        "global-ventas/aspac.html":    newest(os.path.join(DC, "ASPAC",   "aspac_*.html")),
+        "global-ventas/aspac.html":    newest(os.path.join(DC, "ASPAC",   "*pac_*20*.html")),
         "global-ventas/consumption.html": newest(os.path.join(AT, "TB Consumption Dashboard*.html")),
         "fechamento-latam/forecast-anual.html": newest(os.path.join(REPO, "Relatorios Fechamento", "*", "FORECAST_ANUAL_*.html")),
         # Forecast de 2 meses: o nome muda a cada mes (FORECAST_SEP_OCT_2026...),
