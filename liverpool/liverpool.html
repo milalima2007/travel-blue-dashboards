@@ -149,6 +149,29 @@ body.dark .table-search{background:#1f1f1f;color:#f0ede8;border-color:#444;}
 .btn-page{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;color:var(--text);font-family:var(--font);}
 .btn-page:disabled{opacity:.4;cursor:not-allowed;}
 
+/* TABLA SKU — compacta para que no haga falta deslizar */
+#tab-sku table:not(.mx){font-size:11px;}
+#tab-sku table:not(.mx) th{font-size:9px;padding:7px 6px;}
+#tab-sku table:not(.mx) td,#tab-sku table:not(.mx) tfoot td{padding:6px 6px;}
+#tab-sku table:not(.mx) tbody td:nth-child(2){max-width:200px;overflow:hidden;text-overflow:ellipsis;}
+
+/* MATRIZ SKU × MES — compacta, sin scroll horizontal */
+.mx-wrap{overflow-x:auto;}
+table.mx{width:100%;table-layout:fixed;font-size:10.5px;}
+table.mx th{padding:6px 4px;font-size:9px;letter-spacing:0;}
+table.mx td{padding:5px 3px;white-space:nowrap;}
+table.mx th:first-child,table.mx td:first-child{width:92px;}
+table.mx th:nth-child(2),table.mx td:nth-child(2){width:auto;max-width:0;overflow:hidden;text-overflow:ellipsis;}
+table.mx td:nth-child(2){color:var(--muted);}
+table.mx th.num,table.mx td.num{width:74px;font-size:10px;}
+table.mx td.tot,table.mx th.tot{width:82px;font-weight:700;border-left:2px solid var(--accent);}
+table.mx td.z{color:var(--muted);opacity:.45;}
+.mx-toggle{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.mx-toggle button{background:var(--card);border:none;padding:5px 12px;font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;font-family:var(--font);}
+.mx-toggle button.on{background:var(--accent);color:#fff;}
+body.dark .mx-toggle button{background:#1f1f1f;}
+body.dark .mx-toggle button.on{background:#b8955a;color:#1c1c1c;}
+
 /* INVENTORY TABLE — compact */
 #th-inv th{font-size:9px;padding:6px 7px;letter-spacing:.02em;}
 #tb-inv td,#tf-inv td{font-size:10.5px;padding:6px 7px;}
@@ -435,6 +458,26 @@ body.dark #tab-high{--hg:#4ade80;--hr:#f87171;--hw:#fbbf24;--hi:#60a5fa;}
       </div>
     </div>
   </div>
+  <div class="table-card">
+    <div class="table-header">
+      <div class="table-title">Matriz SKU &times; Mes <span id="mx-year-lbl" style="font-weight:400;color:var(--muted)"></span></div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <div class="mx-toggle"><button id="mx-btn-mxn" class="on" onclick="mxSetMeasure('mxn')">MXN</button><button id="mx-btn-und" onclick="mxSetMeasure('und')">Piezas</button></div>
+        <input class="table-search" id="srch-mx" placeholder="Buscar SKU..." oninput="renderMatrix()" style="width:160px">
+        <button class="btn-xls" onclick="exportMatrix()">&#8595; Excel</button>
+      </div>
+    </div>
+    <div class="mx-wrap"><table class="mx"><thead id="th-mx"></thead><tbody id="tb-mx"></tbody><tfoot id="tf-mx"></tfoot></table></div>
+    <div class="table-footer">
+      <span id="mx-count">&mdash;</span>
+      <div class="pagination">
+        <button class="btn-page" id="mx-prev" onclick="mxPage(-1)">&#8249;</button>
+        <span id="mx-pg">1/1</span>
+        <button class="btn-page" id="mx-next" onclick="mxPage(1)">&#8250;</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ═══ TAB: HIGHLIGHTS (análisis estático · cierre Ago 2026) ═══════════════ -->
@@ -1343,6 +1386,7 @@ function renderSkuTab(){
               tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${N(ctx.raw,true)}`}}}}
   });
   _skuPg=0; renderSkuTable();
+  buildMatrix();
 }
 
 window.renderSkuTable=function(){
@@ -1376,6 +1420,63 @@ window.renderSkuTable=function(){
   $('sku-prev').disabled=_skuPg===0; $('sku-next').disabled=_skuPg>=pages-1;
 };
 window.skuPage=function(d){_skuPg+=d;renderSkuTable();};
+
+// ════════════════════════════════════════════════════════════════════════════
+// MATRIZ SKU × MES  (columnas = meses del año más reciente seleccionado)
+// ════════════════════════════════════════════════════════════════════════════
+let _mxMeasure='mxn', _mxPg=0, _mxData=[], _mxMonths=[], _mxYear=null;
+const MX_PS=20;
+window.mxSetMeasure=function(m){ _mxMeasure=m;
+  $('mx-btn-mxn').classList.toggle('on',m==='mxn'); $('mx-btn-und').classList.toggle('on',m==='und');
+  renderMatrix(); };
+window.mxPage=function(d){ _mxPg+=d; renderMatrix(); };
+
+function buildMatrix(){
+  const years=[...F.years].sort(); _mxYear=years[years.length-1];
+  const months=(F.months.size>0?[...F.months]:[1,2,3,4,5,6,7,8,9,10,11,12]).sort((a,b)=>a-b);
+  _mxMonths=DD.months.map((mo,mi)=>({mi,...mo})).filter(mo=>mo.y===_mxYear&&months.includes(mo.m));
+  const idx={}; _mxMonths.forEach((mo,i)=>idx[mo.mi]=i);
+  const agg={};
+  for(const r of DD.rows){
+    const i=idx[r[2]]; if(i===undefined) continue;
+    if(!_skuOk.has(r[0])||!_tdaOk.has(r[1])) continue;
+    const a=agg[r[0]]||(agg[r[0]]={mxn:_mxMonths.map(()=>0),und:_mxMonths.map(()=>0)});
+    a.mxn[i]+=r[3]; a.und[i]+=r[4];
+  }
+  _mxData=Object.entries(agg).map(([si,a])=>{
+    const sk=DD.skus[+si];
+    return {sku2:sk.sku2,desc:sk.desc,brand:sk.brand,cat:sk.cat,mxn:a.mxn,und:a.und,
+            tMxn:a.mxn.reduce((x,y)=>x+y,0),tUnd:a.und.reduce((x,y)=>x+y,0)};
+  }).sort((a,b)=>b.tMxn-a.tMxn);
+  _mxPg=0; renderMatrix();
+}
+window.renderMatrix=function(){
+  if(!$('th-mx')) return;
+  const isM=_mxMeasure==='mxn';
+  $('mx-year-lbl').textContent=`· ${_mxYear} · ${isM?'MXN':'piezas'}`;
+  const srch=($('srch-mx')||{}).value.toLowerCase();
+  const rows=_mxData.filter(d=>!srch||d.sku2.toLowerCase().includes(srch)||(d.desc||'').toLowerCase().includes(srch));
+  const pages=Math.ceil(rows.length/MX_PS)||1; if(_mxPg>=pages)_mxPg=pages-1; if(_mxPg<0)_mxPg=0;
+  $('th-mx').innerHTML=`<tr><th>SKU</th><th>Descripción</th>${_mxMonths.map(mo=>`<th class="num">${MES_NAMES[mo.m-1]}</th>`).join('')}<th class="num tot">Total</th></tr>`;
+  const cell=v=>`<td class="num${v?'':' z'}">${v?N(isM?v:Math.round(v),isM):'—'}</td>`;
+  $('tb-mx').innerHTML=rows.slice(_mxPg*MX_PS,(_mxPg+1)*MX_PS).map(d=>{
+    const v=isM?d.mxn:d.und;
+    return `<tr><td><strong>${d.sku2}</strong></td><td title="${d.desc}">${d.desc}</td>${v.map(cell).join('')}<td class="num tot">${N(isM?d.tMxn:Math.round(d.tUnd),isM)}</td></tr>`;
+  }).join('')||`<tr><td colspan="${_mxMonths.length+3}" style="text-align:center;padding:20px;color:var(--muted)">Sin datos</td></tr>`;
+  const tot=_mxMonths.map((_,i)=>rows.reduce((s,d)=>s+(isM?d.mxn[i]:d.und[i]),0));
+  $('tf-mx').innerHTML=rows.length?`<tr><td colspan="2"><strong>TOTAL (${rows.length} SKU)</strong></td>${tot.map(v=>`<td class="num">${N(isM?v:Math.round(v),isM)}</td>`).join('')}<td class="num tot">${N(isM?tot.reduce((a,b)=>a+b,0):Math.round(tot.reduce((a,b)=>a+b,0)),isM)}</td></tr>`:'';
+  $('mx-count').textContent=`${rows.length} SKU · ${_mxMonths.length} meses`;
+  $('mx-pg').textContent=`${_mxPg+1}/${pages}`;
+  $('mx-prev').disabled=_mxPg===0; $('mx-next').disabled=_mxPg>=pages-1;
+};
+window.exportMatrix=function(){
+  const isM=_mxMeasure==='mxn';
+  const hdr=['SKU','Descripción','Marca','Categoría',..._mxMonths.map(mo=>`${MES_NAMES[mo.m-1]} ${mo.y}`),'Total'];
+  const rows=[hdr,..._mxData.map(d=>{const v=isM?d.mxn:d.und;
+    return [d.sku2,d.desc,d.brand,d.cat,...v.map(x=>Math.round(x)),Math.round(isM?d.tMxn:d.tUnd)];})];
+  _xlsDown(rows,`Matriz_${isM?'MXN':'Piezas'}`,`Liverpool_Matriz_SKU_Mes_${_mxYear}_${isM?'MXN':'Piezas'}.xlsx`);
+};
+
 
 // ════════════════════════════════════════════════════════════════════════════
 // INVENTARIO TAB
