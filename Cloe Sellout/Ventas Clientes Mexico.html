@@ -154,8 +154,8 @@ body.dark .table-search{background:#1f1f1f;color:#f0ede8;border-color:#444;}
 /* TABLA SKU — compacta para que no haga falta deslizar */
 #tab-sku table:not(.mx){font-size:11px;}
 #tab-sku table:not(.mx) th{font-size:9px;padding:7px 6px;}
-#tab-sku table:not(.mx) td,#tab-sku table:not(.mx) tfoot td{padding:6px 6px;}
-#tab-sku table:not(.mx) tbody td:nth-child(2){max-width:200px;overflow:hidden;text-overflow:ellipsis;}
+#tab-sku table:not(.mx) td,#tab-sku table:not(.mx) tfoot td{padding:6px 5px;}
+#tab-sku table:not(.mx) tbody td:nth-child(2){max-width:150px;overflow:hidden;text-overflow:ellipsis;}
 
 /* MATRIZ SKU × MES — compacta, sin scroll horizontal */
 .mx-wrap{overflow-x:auto;}
@@ -316,7 +316,6 @@ body.dark .cov.r{color:#f87171;} body.dark .cov.a{color:#fbbf24;} body.dark .cov
     <div class="tbl-wrap"><table><thead id="th-sk"></thead><tbody id="tb-sk"></tbody><tfoot id="tf-sk"></tfoot></table></div>
     <div class="table-footer"><span id="sk-count">—</span><div class="pagination"><button class="btn-page" id="sk-prev" onclick="pg('sk',-1)">&#8249;</button><span id="sk-pg">1/1</span><button class="btn-page" id="sk-next" onclick="pg('sk',1)">&#8250;</button></div></div>
   </div>
-</div>
   <div class="table-card">
     <div class="table-header">
       <div class="table-title">Matriz SKU &times; Mes <span id="mx-year-lbl" style="font-weight:400;color:var(--muted)"></span></div>
