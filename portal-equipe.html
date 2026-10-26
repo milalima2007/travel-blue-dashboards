@@ -148,30 +148,58 @@
     .chip:hover:not(.active) { border-color: #1B2A6B; color: #1B2A6B; }
     .filter-sep { width: 1px; height: 20px; background: #e5e5e5; margin: 0 4px; }
 
-    /* ── REPORT GRID ── */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 16px;
+    /* ── REPORT LIST ── */
+    .rlist {
+      background: #fff; border: 1px solid #eee; border-radius: 14px; overflow: hidden;
     }
-    .rcard {
-      background: #fff; border: 1px solid #eee; border-radius: 14px;
-      overflow: hidden; transition: box-shadow .15s, transform .15s;
+    .rrow {
+      display: flex; align-items: center; gap: 14px;
+      padding: 13px 18px; border-bottom: 1px solid #f2f2f2;
+      transition: background .12s;
     }
-    .rcard:hover { box-shadow: 0 6px 20px rgba(0,0,0,.08); transform: translateY(-1px); }
-    .rcard-accent { height: 3px; background: linear-gradient(90deg, #1B2A6B, #FFC72C); }
-    .rcard-body { padding: 16px; }
-    .rcard-icon { font-size: 24px; margin-bottom: 10px; }
-    .rcard-title { font-size: 14px; font-weight: 700; color: #1B2A6B; margin-bottom: 4px; }
-    .rcard-desc { font-size: 12px; color: #888; line-height: 1.5; margin-bottom: 10px; }
-    .rcard-links { display: flex; flex-direction: column; gap: 3px; margin-bottom: 10px; }
-    .rcard-links a { font-size: 11px; color: #1B2A6B; font-weight: 600; text-decoration: none; }
-    .rcard-links a:hover { text-decoration: underline; }
-    .rcard-meta { font-size: 11px; color: #bbb; }
-    .rcard-footer {
-      padding: 10px 16px; border-top: 1px solid #f0f0f0;
-      display: flex; align-items: center; justify-content: space-between;
+    .rrow:last-child { border-bottom: none; }
+    .rrow:hover { background: #f8faff; }
+    .rrow-icon { font-size: 20px; flex-shrink: 0; width: 26px; text-align: center; }
+    .rrow-main { flex: 1; min-width: 0; }
+    .rrow-title { font-size: 14px; font-weight: 700; color: #1B2A6B; }
+    .rrow-desc { font-size: 12px; color: #888; margin-top: 2px; }
+    .rrow-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .rrow-links a {
+      font-size: 11px; color: #1B2A6B; font-weight: 600; text-decoration: none;
+      background: #EEF2FF; padding: 2px 8px; border-radius: 10px;
     }
+    .rrow-links a:hover { background: #dde4ff; }
+    .rrow-tags {
+      display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+    }
+    .rrow-freq { font-size: 11px; color: #bbb; }
+    @media (max-width: 860px) {
+      .rrow { flex-wrap: wrap; }
+      .rrow-main { flex-basis: 100%; order: 2; }
+      .rrow-tags { order: 3; }
+      .btn-open { order: 4; margin-left: auto; }
+    }
+    /* ── PERMISOS ── */
+    .perm-table { font-size: 13px; }
+    .perm-table th.perm-col, .perm-table td.perm-col { text-align: center; width: 92px; }
+    .perm-table th.perm-col { font-size: 11px; color: #1B2A6B; }
+    .perm-table tr.perm-sec td {
+      background: #F4F5F7; font-size: 11px; font-weight: 700; color: #1B2A6B;
+      text-transform: uppercase; letter-spacing: .05em; padding: 7px 16px;
+    }
+    .perm-box { width: 16px; height: 16px; cursor: pointer; accent-color: #1B2A6B; }
+    .perm-box:disabled { cursor: not-allowed; opacity: .4; }
+    .perm-warn {
+      background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px;
+      padding: 11px 15px; font-size: 12px; color: #92400e; margin-bottom: 16px;
+    }
+    .perm-msg {
+      font-size: 12px; font-weight: 600; height: 18px; margin-bottom: 8px;
+      opacity: 0; transition: opacity .15s;
+    }
+    .perm-msg.ok  { color: #166534; opacity: 1; }
+    .perm-msg.err { color: #c0392b; opacity: 1; }
+
     .badge-row { display: flex; gap: 6px; align-items: center; }
     .badge {
       font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 5px;
@@ -385,6 +413,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         <span>Equipo</span>
       </button>
+      <button class="nav-item" data-page="permisos" id="nav-permisos" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span>Permisos</span>
+      </button>
       <button class="nav-item" data-page="accesos" id="nav-accesos" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         <span>Accesos</span>
@@ -422,7 +454,6 @@ var USER_PROFILES = {
   'soporte.latam@travel-blue.com': { name:'Camila Lima',         key:'camila',    role:'LATAM · BI Analyst',         access:'all', admin:true  },
   'milalima2007@gmail.com':        { name:'Camila Lima',         key:'camila',    role:'LATAM · BI Analyst',         access:'all', admin:true  },
   'guillermo@travel-blue.com':     { name:'Guillermo Benzaquen', key:'guillermo', role:'Director LATAM',             access:'all', admin:true  },
-  'pablo@travel-blue.com':         { name:'Pablo',               key:'pablo',     role:'LATAM · Gerente de Ventas',  access:'restricted', admin:false },
   'edgardo@travel-blue.com':       { name:'Edgardo',             key:'edgardo',   role:'LATAM',                      access:'restricted', admin:false },
   'noe@travel-blue.com':           { name:'Noe',                 key:'noe',       role:'México · Country Manager',   access:'restricted', admin:false },
   'javo@travel-blue.com':          { name:'Javo',                key:'javo',      role:'México · Gerente de Ventas', access:'restricted', admin:false },
@@ -438,30 +469,30 @@ var REPORTS = [
     desc:'Cierre de ventas por país — actualizado cada mes.',
     href:'fechamento-latam/latam.html',
     sublinks:[{n:'Brasil',h:'fechamento-latam/brasil.html'},{n:'México',h:'fechamento-latam/mexico.html'},{n:'Argentina',h:'fechamento-latam/argentina.html'},{n:'Chile',h:'fechamento-latam/chile.html'},{n:'Colombia',h:'fechamento-latam/colombia.html'},{n:'Panamá',h:'fechamento-latam/panama.html'},{n:'Perú',h:'fechamento-latam/peru.html'},{n:'Forecast 2 meses',h:'fechamento-latam/forecast.html'},{n:'Forecast Anual 2026',h:'fechamento-latam/forecast-anual.html'}],
-    allowed:['pablo','edgardo'] },
+    allowed:['edgardo'] },
   { id:'latam-bp',     icon:'🌎', name:'Business Review',           region:'latam',  theme:'ventas',      type:'HTML', freq:'Mensual', label:'LATAM',
     desc:'Business Review LATAM, Brasil y México.',
     href:'LATAM SALES_BP 26/Business Review LATAM 2026.html',
     sublinks:[{n:'Brasil',h:'LATAM SALES_BP 26/Business Review Brasil 2026.html'},{n:'México',h:'LATAM SALES_BP 26/Business Review Mexico 2026.html'}],
-    allowed:['pablo','edgardo'] },
+    allowed:['edgardo'] },
   { id:'margen',       icon:'💰', name:'Margen LATAM',              region:'latam',  theme:'ventas',      type:'HTML', freq:'Mensual', label:'LATAM',
     desc:'Margen y rentabilidad LATAM, México y Brasil.',
     href:'latam-profit/latam-profit.html',
     sublinks:[{n:'México',h:'latam-profit/mexico.html'},{n:'Brasil',h:'latam-profit/brazil.html'}],
-    allowed:['pablo','edgardo','noe'] },
+    allowed:['edgardo','noe'] },
   { id:'cloe',         icon:'📊', name:'Cloe Sellout',              region:'latam',  theme:'sellout',     type:'HTML', freq:'Mensual', label:'LATAM',
     desc:'Reporte ejecutivo y ventas Cloe (Ene–Jun).',
     href:'Cloe Sellout/CLOE Reporte Ejecutivo Ene-Jun (SELLIN).html',
     sublinks:[{n:'Cloe Ventas',h:'Cloe Sellout/CLOE Ventas Ene-Jun.html'}],
-    allowed:['pablo','noe','javo'] },
+    allowed:['noe','javo'] },
   { id:'shopgallery',  icon:'🛍️', name:'ShopGallery',              region:'latam',  theme:'sellout',     type:'HTML', freq:'Mensual', label:'LATAM',
     desc:'Análisis de sell-out ShopGallery.',
     href:'shopgallery/shopgallery.html', sublinks:[],
-    allowed:['pablo','edgardo'] },
+    allowed:['edgardo'] },
   { id:'ml',           icon:'🛒', name:'Mercado Libre',             region:'latam',  theme:'marketplace', type:'HTML', freq:'Mensual', label:'LATAM',
     desc:'Panel de ventas en Mercado Libre.',
     href:'mercado-libre/mercado-libre.html', sublinks:[],
-    allowed:['pablo','edgardo'] },
+    allowed:['edgardo'] },
   { id:'vendas-br',    icon:'🇧🇷', name:'Ventas Brasil',            region:'latam',  theme:'ventas',      type:'HTML', freq:'Diario',  label:'Brasil',
     desc:'Panel de ventas del mercado Brasil.',
     href:'vendas-brasil.html', sublinks:[],
@@ -473,7 +504,7 @@ var REPORTS = [
   { id:'contas',       icon:'🧾', name:'Cuentas por Cobrar TB',     region:'latam',  theme:'financiero',  type:'HTML', freq:'Diario',  label:'Brasil',
     desc:'Cuentas por cobrar Travel Blue Brasil.',
     href:'contas-receber.html', sublinks:[],
-    allowed:['pablo','itamar'] },
+    allowed:['itamar'] },
   { id:'contas-ag',    icon:'🧾', name:'Cuentas por Cobrar AG',     region:'latam',  theme:'financiero',  type:'HTML', freq:'Diario',  label:'Brasil',
     desc:'Cuentas por cobrar AG Brasil.',
     href:'contas-receber-ag.html', sublinks:[],
@@ -484,29 +515,29 @@ var REPORTS = [
     desc:'Sell-out Avolta — Total, EMEA, Américas, México y Brasil.',
     href:'avolta-sellout/avolta-sales-out-analysis.html',
     sublinks:[{n:'EMEA',h:'avolta-sellout/avolta-emea-analysis.html'},{n:'Américas & CEI',h:'avolta-sellout/avolta-ame-cei-analysis.html'},{n:'México',h:'avolta-sellout/avolta-mexico-analysis.html'},{n:'Brasil',h:'avolta-sellout/avolta-brazil-analysis.html'}],
-    allowed:['pablo','edgardo','noe','javo'] },
+    allowed:['edgardo','noe','javo'] },
   { id:'heinemann',    icon:'🛫', name:'Heinemann',                 region:'global', theme:'sellout',     type:'HTML', freq:'Mensual', label:'Global',
     desc:'Sell-out Heinemann (duty free).',
     href:'heinemann/HEINEMANN_DASHBOARD.html', sublinks:[],
-    allowed:['pablo','edgardo'] },
+    allowed:['edgardo'] },
   { id:'liverpool',    icon:'🏬', name:'Liverpool',                 region:'latam',  theme:'sellout',     type:'HTML', freq:'Mensual', label:'LATAM',
     desc:'Sell-out Liverpool.',
     href:'liverpool/liverpool.html', sublinks:[],
-    allowed:['pablo','noe','javo'] },
+    allowed:['noe','javo'] },
   { id:'clientes-mx',  icon:'🏪', name:'Ventas Clientes México',    region:'latam',  theme:'sellout',     type:'HTML', freq:'Mensual', label:'México',
     desc:'Sell-out por cliente — PH, Sears, Sanborns y Office Depot.',
     href:'Cloe Sellout/Ventas Clientes Mexico.html', sublinks:[],
-    allowed:['pablo','noe','javo'] },
+    allowed:['noe','javo'] },
 
   /* ─────────── GLOBAL · Ventas por región ─────────── */
   { id:'g-total',      icon:'🌐', name:'Total Group',               region:'global', theme:'ventas',      type:'HTML', freq:'Mensual', label:'Global',
     desc:'Ventas consolidadas de todo el grupo Travel Blue.',
     href:'global-ventas/total.html', sublinks:[],
-    allowed:['pablo','edgardo'] },
+    allowed:['edgardo'] },
   { id:'g-consumption',icon:'📦', name:'TB Consumption',            region:'global', theme:'ventas',      type:'HTML', freq:'Mensual', label:'Global',
     desc:'Consumo Travel Blue — grupo consolidado.',
     href:'global-ventas/consumption.html', sublinks:[],
-    allowed:['pablo','edgardo'] },
+    allowed:['edgardo'] },
   { id:'g-europe',     icon:'🇪🇺', name:'Europe',                   region:'global', theme:'ventas',      type:'HTML', freq:'Mensual', label:'Global',
     desc:'Ventas Europa.',
     href:'global-ventas/europe.html', sublinks:[],
@@ -514,7 +545,7 @@ var REPORTS = [
   { id:'g-uk',         icon:'🇬🇧', name:'UK',                       region:'global', theme:'ventas',      type:'HTML', freq:'Mensual', label:'Global',
     desc:'Ventas Reino Unido.',
     href:'global-ventas/uk.html', sublinks:[],
-    allowed:['pablo','edgardo'] },
+    allowed:['edgardo'] },
   { id:'g-germany',    icon:'🇩🇪', name:'Germany',                  region:'global', theme:'ventas',      type:'HTML', freq:'Mensual', label:'Global',
     desc:'Ventas Alemania.',
     href:'global-ventas/germany.html', sublinks:[],
@@ -548,16 +579,16 @@ var REPORTS = [
   { id:'total-latam-bi', icon:'📊', name:'Total Sales LATAM (BI)',  region:'latam',  theme:'ventas',      type:'BI',   freq:'Mensual', label:'LATAM',
     desc:'Power BI — ventas totales LATAM.',
     href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/157a9819-e7b6-4d2d-9cd2-dd8f56fe3f40/df9cff37e6476dd1f1ac?experience=power-bi',
-    sublinks:[], allowed:['pablo','edgardo'] },
+    sublinks:[], allowed:['edgardo'] },
   { id:'avolta-bi',    icon:'📈', name:'Avolta Sellout (BI)',       region:'global', theme:'sellout',     type:'BI',   freq:'Mensual', label:'Global',
     desc:'Power BI sell-out Avolta — Total, EMEA, Américas.',
     href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/6d761577-4066-41a2-b977-375d0541509c/2db2a22548c00a321997?experience=power-bi',
     sublinks:[{n:'EMEA',h:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/af81ff9c-7e53-4245-ae8a-aa9bc685435c/9a3b638e5f3007179f00?experience=power-bi'},{n:'Américas & CEI',h:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/545c1238-2954-4a37-93e2-cbab86060783/df9cff37e6476dd1f1ac?experience=power-bi'}],
-    allowed:['pablo','edgardo'] },
+    allowed:['edgardo'] },
   { id:'heinemann-bi', icon:'🛫', name:'Heinemann (BI)',            region:'global', theme:'sellout',     type:'BI',   freq:'Mensual', label:'Global',
     desc:'Power BI — Heinemann duty free.',
     href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/586d4808-37db-4f90-b8d8-3f8335b35824/ReportSectionca68202f1c161c265382?experience=power-bi',
-    sublinks:[], allowed:['pablo','edgardo'] },
+    sublinks:[], allowed:['edgardo'] },
   { id:'jackie-bi',    icon:'📋', name:'Jackie (BI)',               region:'global', theme:'ventas',      type:'BI',   freq:'Mensual', label:'Global',
     desc:'Power BI — cuenta Jackie.',
     href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/3d24fda9-1fcd-40ba-bca2-96e0377e914b?experience=power-bi',
@@ -565,7 +596,7 @@ var REPORTS = [
   { id:'total-group-bi', icon:'🌐', name:'Total Sales All Group (BI)', region:'global', theme:'ventas',   type:'BI',   freq:'Mensual', label:'Global',
     desc:'Power BI — ventas totales del grupo Travel Blue.',
     href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/99bff0a6-a529-4285-b3da-713e97dac9b5/a303c5c47baee718d256?experience=power-bi',
-    sublinks:[], allowed:['pablo','edgardo'] },
+    sublinks:[], allowed:['edgardo'] },
   { id:'apac-bi',      icon:'🌏', name:'APAC (BI)',                 region:'global', theme:'ventas',      type:'BI',   freq:'Mensual', label:'Global',
     desc:'Power BI — ventas APAC.',
     href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/d24e65f4-c045-4d60-90b1-c0e3d2dffd64/6fd55ede002d9bd27177?experience=power-bi',
@@ -589,7 +620,7 @@ var REPORTS = [
   { id:'uk-bi',        icon:'🇬🇧', name:'UK Sales (BI)',            region:'global', theme:'ventas',      type:'BI',   freq:'Mensual', label:'Global',
     desc:'Power BI — ventas UK.',
     href:'https://app.powerbi.com/groups/346a7fef-7852-41ca-85a0-f7d8aa0a2daa/reports/f941e9ef-3037-487d-b429-bb3c9fd83dfc?experience=power-bi',
-    sublinks:[], allowed:['pablo','edgardo'] },
+    sublinks:[], allowed:['edgardo'] },
 ];
 
 /* ══════════════════════════════════════════════════════
@@ -598,7 +629,6 @@ var REPORTS = [
 var TEAM = [
   { name:'Camila Lima',         email:'soporte.latam@travel-blue.com', cargo:'BI Analyst', region:'LATAM',  av:'CL', avc:'av-navy',   acc:'all' },
   { name:'Guillermo Benzaquen', email:'guillermo@travel-blue.com', cargo:'Director LATAM',  region:'Global',  av:'GB', avc:'av-navy',   acc:'all' },
-  { name:'Pablo',               email:'pablo@travel-blue.com',   cargo:'A confirmar',        region:'LATAM',   av:'PA', avc:'av-green',  acc:'all' },
   { name:'Edgardo',             email:'edgardo@travel-blue.com', cargo:'A confirmar',        region:'LATAM',   av:'ED', avc:'av-green',  acc:'all' },
   { name:'Noe',                 email:'noe@travel-blue.com',     cargo:'Country Manager',    region:'México',  av:'NO', avc:'av-orange', acc:'mexico' },
   { name:'Javo',                email:'javo@travel-blue.com',    cargo:'Gerente de Ventas',  region:'México',  av:'JV', avc:'av-orange', acc:'mexico' },
@@ -635,40 +665,96 @@ var sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
 var currentProfile = null;
 var activeFilters = { theme:'all', freq:'all' };
 
+/* ══════════════════════════════════════════════════════
+   PERMISOS
+   Se guardan en Supabase (tabla report_access) para que los
+   cambios valgan para todo el equipo. Si la tabla todavía no
+   existe, se usan los permisos escritos en cada reporte.
+══════════════════════════════════════════════════════ */
+var ACCESS = null;          // { reportId: [userKey, ...] }
+var ACCESS_ERROR = null;
+
+async function loadAccess() {
+  var res = await sb.from('report_access').select('report_id,user_key');
+  if (res.error) { ACCESS = null; ACCESS_ERROR = res.error.message; return; }
+  var map = {};
+  (res.data || []).forEach(function(row){
+    (map[row.report_id] = map[row.report_id] || []).push(row.user_key);
+  });
+  ACCESS = map;
+  ACCESS_ERROR = null;
+}
+
+function allowedFor(r) {
+  if (ACCESS) return ACCESS[r.id] || [];
+  return r.allowed || [];
+}
+
+async function setAccess(reportId, userKey, on) {
+  if (on) {
+    var ins = await sb.from('report_access').insert({ report_id: reportId, user_key: userKey });
+    if (ins.error) return ins.error.message;
+  } else {
+    var del = await sb.from('report_access').delete()
+      .eq('report_id', reportId).eq('user_key', userKey);
+    if (del.error) return del.error.message;
+  }
+  if (ACCESS) {
+    var list = ACCESS[reportId] || [];
+    ACCESS[reportId] = on
+      ? (list.indexOf(userKey) < 0 ? list.concat([userKey]) : list)
+      : list.filter(function(k){ return k !== userKey; });
+  }
+  return null;
+}
+
+/* Personas del equipo que no son administradoras */
+function teamKeys() {
+  var seen = {}, out = [];
+  Object.keys(USER_PROFILES).forEach(function(email){
+    var p = USER_PROFILES[email];
+    if (p.admin || seen[p.key]) return;
+    seen[p.key] = 1;
+    out.push({ key: p.key, name: p.name, role: p.role });
+  });
+  return out;
+}
+
 function canSee(r) {
   if (!currentProfile) return false;
   if (currentProfile.access === 'all') return true;
-  return r.allowed && r.allowed.indexOf(currentProfile.key) >= 0;
+  return allowedFor(r).indexOf(currentProfile.key) >= 0;
 }
 
 /* ══════════════════════════════════════════════════════
    RENDER HELPERS
 ══════════════════════════════════════════════════════ */
-function buildCard(r) {
+function buildRow(r) {
   var links = '';
   for (var i=0; i<r.sublinks.length; i++) {
-    links += '<a href="'+r.sublinks[i].h+'" target="_blank">→ '+r.sublinks[i].n+'</a>';
+    links += '<a href="'+r.sublinks[i].h+'" target="_blank">'+r.sublinks[i].n+'</a>';
   }
-  return '<div class="rcard">'
-    +'<div class="rcard-accent"></div>'
-    +'<div class="rcard-body">'
-    +'<div class="rcard-icon">'+r.icon+'</div>'
-    +'<div class="rcard-title">'+r.name+'</div>'
-    +'<div class="rcard-desc">'+r.desc+'</div>'
-    +(links ? '<div class="rcard-links">'+links+'</div>' : '')
-    +'<div class="rcard-meta">Frecuencia: '+r.freq+'</div>'
+  return '<div class="rrow">'
+    +'<div class="rrow-icon">'+r.icon+'</div>'
+    +'<div class="rrow-main">'
+      +'<div class="rrow-title">'+r.name+'</div>'
+      +'<div class="rrow-desc">'+r.desc+'</div>'
+      +(links ? '<div class="rrow-links">'+links+'</div>' : '')
     +'</div>'
-    +'<div class="rcard-footer">'
-    +'<div class="badge-row"><span class="badge badge-'+(r.type==='BI'?'bi':'html')+'">'+r.type+'</span><span class="badge badge-region">'+r.label+'</span></div>'
+    +'<div class="rrow-tags">'
+      +'<span class="badge badge-'+(r.type==='BI'?'bi':'html')+'">'+r.type+'</span>'
+      +'<span class="badge badge-region">'+r.label+'</span>'
+      +'<span class="rrow-freq">'+r.freq+'</span>'
+    +'</div>'
     +'<a href="'+r.href+'" target="_blank" class="btn-open">Abrir</a>'
-    +'</div></div>';
+    +'</div>';
 }
 
 function renderGrid(reports) {
   if (!reports.length) return '<div class="no-results">No hay reportes para los filtros seleccionados.</div>';
   var h = '';
-  for (var i=0; i<reports.length; i++) h += buildCard(reports[i]);
-  return h;
+  for (var i=0; i<reports.length; i++) h += buildRow(reports[i]);
+  return '<div class="rlist">'+h+'</div>';
 }
 
 /* Builds the filter bar from the reports actually available in this section,
@@ -729,8 +815,9 @@ var PAGES = {
             : '';
           var who = '';
           if (isAdmin) {
-            var names = r.allowed.length
-              ? 'Admins + ' + r.allowed.map(function(k){ return k.charAt(0).toUpperCase()+k.slice(1); }).join(', ')
+            var acc = allowedFor(r);
+            var names = acc.length
+              ? 'Admins + ' + acc.map(function(k){ return k.charAt(0).toUpperCase()+k.slice(1); }).join(', ')
               : 'Solo admins';
             who = '<td style="color:#888;font-size:12px;">'+names+'</td>';
           }
@@ -760,7 +847,7 @@ var PAGES = {
     sub: 'Dashboards de la región LATAM — Brasil, México y más',
     render: function() {
       var base = REPORTS.filter(function(r){ return r.region==='latam' && r.type==='HTML' && canSee(r); });
-      return filterBar(base)+'<div class="cards-grid" id="report-grid">'+renderGrid(base.filter(filterMatch))+'</div>';
+      return filterBar(base)+renderGrid(base.filter(filterMatch));
     }
   },
   'reportes-global': {
@@ -768,7 +855,7 @@ var PAGES = {
     sub: 'Dashboards globales — Todo el grupo Travel Blue',
     render: function() {
       var base = REPORTS.filter(function(r){ return r.region==='global' && r.type==='HTML' && canSee(r); });
-      return filterBar(base)+'<div class="cards-grid" id="report-grid">'+renderGrid(base.filter(filterMatch))+'</div>';
+      return filterBar(base)+renderGrid(base.filter(filterMatch));
     }
   },
   'reportes-bi': {
@@ -776,7 +863,58 @@ var PAGES = {
     sub: 'Paneles Power BI — acceso directo a los reportes interactivos',
     render: function() {
       var base = REPORTS.filter(function(r){ return r.type==='BI' && canSee(r); });
-      return filterBar(base)+'<div class="cards-grid" id="report-grid">'+renderGrid(base.filter(filterMatch))+'</div>';
+      return filterBar(base)+renderGrid(base.filter(filterMatch));
+    }
+  },
+  'permisos': {
+    title: 'Permisos',
+    sub: 'Marca qué reportes puede ver cada persona del equipo',
+    render: function() {
+      if (!currentProfile || !currentProfile.admin) return restricted();
+
+      var team = teamKeys();
+      if (!team.length) return '<div class="no-results">Todavía no hay personas del equipo registradas.</div>';
+
+      var warn = '';
+      if (ACCESS === null) {
+        warn = '<div class="perm-warn"><strong>Los cambios no se pueden guardar todavía.</strong> '
+             + 'Falta crear la tabla de permisos en Supabase. Mientras tanto se muestran los permisos '
+             + 'que están escritos en el portal.' + (ACCESS_ERROR ? '<br><small>'+ACCESS_ERROR+'</small>' : '') + '</div>';
+      }
+
+      var SECTIONS = [
+        ['LATAM',    function(r){ return r.region==='latam'  && r.type==='HTML'; }],
+        ['Global',   function(r){ return r.region==='global' && r.type==='HTML'; }],
+        ['Power BI', function(r){ return r.type==='BI'; }]
+      ];
+
+      var head = '<tr><th>Reporte</th>'
+        + team.map(function(p){ return '<th class="perm-col">'+p.name+'</th>'; }).join('')
+        + '</tr>';
+
+      var body = '';
+      SECTIONS.forEach(function(sec){
+        var list = REPORTS.filter(sec[1]);
+        if (!list.length) return;
+        body += '<tr class="perm-sec"><td colspan="'+(team.length+1)+'">'+sec[0]+'</td></tr>';
+        list.forEach(function(r){
+          var allowed = allowedFor(r);
+          body += '<tr><td><span style="margin-right:8px;">'+r.icon+'</span>'+r.name+'</td>'
+            + team.map(function(p){
+                var on = allowed.indexOf(p.key) >= 0 ? ' checked' : '';
+                return '<td class="perm-col"><input type="checkbox" class="perm-box"'
+                     + ' data-report="'+r.id+'" data-user="'+p.key+'"'+on
+                     + (ACCESS === null ? ' disabled' : '') + '></td>';
+              }).join('')
+            + '</tr>';
+        });
+      });
+
+      return warn
+        + '<p style="font-size:13px;color:#888;margin-bottom:16px;">Los administradores ven todos los reportes siempre. '
+        + 'Cada cambio se guarda al instante.</p>'
+        + '<div id="perm-msg" class="perm-msg"></div>'
+        + '<div class="table-card"><table class="perm-table"><thead>'+head+'</thead><tbody>'+body+'</tbody></table></div>';
     }
   },
   'actividades': {
@@ -887,8 +1025,28 @@ function navigate(page) {
       document.querySelectorAll('.chip[data-ft="'+ft+'"]').forEach(function(c){ c.classList.remove('active'); });
       chip.classList.add('active');
       activeFilters[ft] = chip.dataset.fv;
-      var grid = document.getElementById('report-grid');
-      if (grid) grid.innerHTML = renderGrid(getFilteredReports(page));
+      navigate(page);   // vuelve a dibujar la lista con el filtro aplicado
+    });
+  });
+
+  // Casillas de permisos (solo en la página Permisos)
+  document.querySelectorAll('.perm-box').forEach(function(box){
+    box.addEventListener('change', async function(){
+      var msg = document.getElementById('perm-msg');
+      var want = box.checked;
+      box.disabled = true;
+      var err = await setAccess(box.dataset.report, box.dataset.user, want);
+      box.disabled = false;
+      if (err) {
+        box.checked = !want;            // deshacer: no se guardó
+        msg.textContent = 'No se pudo guardar: ' + err;
+        msg.className = 'perm-msg err';
+      } else {
+        msg.textContent = 'Guardado';
+        msg.className = 'perm-msg ok';
+        clearTimeout(window._permT);
+        window._permT = setTimeout(function(){ msg.className = 'perm-msg'; }, 1800);
+      }
     });
   });
 }
@@ -1039,7 +1197,7 @@ function setupLogin() {
   });
 }
 
-function showApp(user) {
+async function showApp(user) {
   var email = user.email.toLowerCase();
   var profile = USER_PROFILES[email];
 
@@ -1051,6 +1209,7 @@ function showApp(user) {
   }
 
   currentProfile = profile;
+  await loadAccess();
   document.getElementById('sb-user-name').textContent = profile.name;
   document.getElementById('sb-user-role').textContent = profile.role;
   document.getElementById('app').classList.add('active');
@@ -1060,6 +1219,7 @@ function showApp(user) {
     document.getElementById('nav-actividades').style.display = 'flex';
     document.getElementById('nav-equipo').style.display = 'flex';
     document.getElementById('nav-accesos').style.display = 'flex';
+    document.getElementById('nav-permisos').style.display = 'flex';
   }
 
   // Nav clicks
