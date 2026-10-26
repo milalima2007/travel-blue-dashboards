@@ -405,10 +405,6 @@
       </button>
 
       <div class="nav-section-label" id="nav-label-admin" style="display:none;">Administración</div>
-      <button class="nav-item" data-page="actividades" id="nav-actividades" style="display:none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        <span>Actividades</span>
-      </button>
       <button class="nav-item" data-page="equipo" id="nav-equipo" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         <span>Equipo</span>
@@ -917,33 +913,6 @@ var PAGES = {
         + '<div class="table-card"><table class="perm-table"><thead>'+head+'</thead><tbody>'+body+'</tbody></table></div>';
     }
   },
-  'actividades': {
-    title: 'Actividades',
-    sub: 'Estado de tareas y proyectos en curso',
-    render: function() {
-      if (!currentProfile || !currentProfile.admin) return restricted();
-      // Main activities first, then the rest in their original order
-      var ordered = TASKS.filter(function(t){ return t.main; })
-                         .concat(TASKS.filter(function(t){ return !t.main; }));
-      var rows = '';
-      for (var i=0; i<ordered.length; i++) {
-        var t = ordered[i];
-        var badge = t.main
-          ? '<span style="background:#FFC72C;color:#1B2A6B;font-size:9px;font-weight:800;letter-spacing:.05em;padding:2px 7px;border-radius:10px;margin-right:8px;vertical-align:middle;">PRINCIPAL</span>'
-          : '';
-        rows += '<tr'+(t.main ? ' style="background:#FFFBEF;"' : '')+'>'
-          +'<td>'+badge+(t.main ? '<strong>'+t.act+'</strong>' : t.act)+'</td>'
-          +'<td style="color:#888;">'+t.proj+'</td>'
-          +'<td><span class="pill '+ST_CLASS[t.st]+'">'+t.stl+'</span></td>'
-          +'<td style="color:#888;">'+t.fecha+'</td>'
-          +'<td style="color:#aaa;font-size:12px;">'+t.obs+'</td>'
-          +'</tr>';
-      }
-      return '<div class="table-card"><table>'
-        +'<thead><tr><th>Actividad</th><th>Proyecto</th><th>Estado</th><th>Fecha límite</th><th>Observaciones</th></tr></thead>'
-        +'<tbody>'+rows+'</tbody></table></div>';
-    }
-  },
   'equipo': {
     title: 'Equipo',
     sub: 'Directorio del equipo LATAM',
@@ -1216,7 +1185,6 @@ async function showApp(user) {
 
   if (profile.admin) {
     document.getElementById('nav-label-admin').style.display = 'block';
-    document.getElementById('nav-actividades').style.display = 'flex';
     document.getElementById('nav-equipo').style.display = 'flex';
     document.getElementById('nav-accesos').style.display = 'flex';
     document.getElementById('nav-permisos').style.display = 'flex';
