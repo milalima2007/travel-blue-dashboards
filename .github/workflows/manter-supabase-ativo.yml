@@ -1,0 +1,38 @@
+name: Manter Supabase ativo
+
+# O plano gratuito do Supabase suspende o projeto apos 7 dias sem pedidos.
+# Este robo toca no projeto todos os dias para que isso nunca aconteca,
+# mantendo o login do Portal del Equipo sempre a funcionar.
+
+on:
+  schedule:
+    - cron: "17 9 * * *"    # todos os dias as 09:17 UTC
+  workflow_dispatch:         # permite correr a mao pelo separador Actions
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tocar no Supabase
+        env:
+          URL: https://llzwjuqhhmugljtwnlgl.supabase.co
+          KEY: sb_publishable_-O4p66gZWmuMwMxqU9L_xw_gxx8tBMz
+        run: |
+          set -e
+          falhou=0
+
+          for alvo in "auth/v1/settings" "rest/v1/"; do
+            codigo=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 \
+                      "$URL/$alvo" -H "apikey: $KEY")
+            echo "$alvo -> HTTP $codigo"
+            case "$codigo" in
+              2*|3*|4*) ;;            # respondeu: o projeto esta acordado
+              *) falhou=1 ;;          # 000/5xx: nao respondeu
+            esac
+          done
+
+          if [ "$falhou" = "1" ]; then
+            echo "::error::O Supabase nao respondeu. O projeto pode estar pausado - reative em supabase.com."
+            exit 1
+          fi
+          echo "Supabase acordado."
