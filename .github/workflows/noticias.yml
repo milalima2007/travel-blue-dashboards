@@ -1,0 +1,38 @@
+name: Atualizar noticias do sector
+
+# Recolhe as manchetes das fontes do sector e grava em noticias.json,
+# que o Portal del Equipo mostra na aba Mercado.
+
+on:
+  schedule:
+    - cron: "40 6 * * 1-5"   # dias uteis, 06:40 UTC (manha no Brasil/Mexico)
+  workflow_dispatch:          # permite correr a mao pelo separador Actions
+
+permissions:
+  contents: write
+
+jobs:
+  noticias:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Recolher manchetes
+        run: python coletar_noticias.py
+
+      - name: Publicar se houver novidades
+        run: |
+          if [ -z "$(git status --porcelain noticias.json)" ]; then
+            echo "Sem manchetes novas."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add noticias.json
+          git commit -m "chore: atualizar noticias do sector"
+          git push
+          echo "noticias.json atualizado."
