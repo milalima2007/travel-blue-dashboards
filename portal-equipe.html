@@ -404,6 +404,10 @@
         <span>Power BI</span>
       </button>
 
+      <button class="nav-item" data-page="mercado">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0V7h4"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
+        <span>Mercado</span>
+      </button>
       <div class="nav-section-label" id="nav-label-admin" style="display:none;">Administración</div>
       <button class="nav-item" data-page="equipo" id="nav-equipo" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -662,6 +666,36 @@ var currentProfile = null;
 var activeFilters = { theme:'all', freq:'all' };
 
 /* ══════════════════════════════════════════════════════
+   MERCADO — noticias y fuentes del sector
+   Enlaces externos, visibles para todo el equipo.
+══════════════════════════════════════════════════════ */
+var MARKET = [
+  { group:'Noticias travel retail & duty free', items:[
+    { n:'The Moodie Davitt Report', u:'https://moodiedavittreport.com',  d:'Noticias diarias de travel retail y duty free.' },
+    { n:'TRBusiness',               u:'https://www.trbusiness.com',      d:'Análisis y datos del canal travel retail.' },
+    { n:'DFNI',                     u:'https://www.dfnionline.com',      d:'Duty Free News International.' },
+  ]},
+  { group:'Clientes y operadores', items:[
+    { n:'Avolta',                   u:'https://www.avoltaworld.com',           d:'Sitio corporativo (ex Dufry + Autogrill).' },
+    { n:'Avolta · Inversores',      u:'https://www.avoltaworld.com/en/investors', d:'Resultados y presentaciones financieras.' },
+    { n:'Gebr. Heinemann',          u:'https://www.gebr-heinemann.de/en',      d:'Sitio corporativo del operador.' },
+    { n:'Lagardère Travel Retail',  u:'https://www.lagardere-tr.com',          d:'Operador global de travel retail.' },
+  ]},
+  { group:'Asociaciones del sector', items:[
+    { n:'ASUTIL',                   u:'https://www.asutil.org',      d:'Asociación de duty free de Sudamérica.' },
+    { n:'Duty Free World Council',  u:'https://dfworldcouncil.com',  d:'Entidad global del duty free.' },
+  ]},
+  { group:'Mercado aéreo', items:[
+    { n:'IATA · Pressroom',         u:'https://www.iata.org/en/pressroom/', d:'Comunicados y datos de tráfico aéreo.' },
+    { n:'IATA · Informes económicos', u:'https://www.iata.org/en/iata-repository/publications/economic-reports/', d:'Informes de demanda y carga.' },
+    { n:'ACI World',                u:'https://aci.aero',                   d:'Consejo Internacional de Aeropuertos.' },
+    { n:'ALTA',                     u:'https://alta.aero',                  d:'Transporte aéreo de América Latina y Caribe.' },
+    { n:'ABEAR',                    u:'https://www.abear.com.br',           d:'Empresas aéreas brasileñas.' },
+    { n:'ANAC Brasil',              u:'https://www.gov.br/anac/pt-br',      d:'Regulador aéreo brasileño.' },
+  ]},
+];
+
+/* ══════════════════════════════════════════════════════
    PERMISOS
    Se guardan en Supabase (tabla report_access) para que los
    cambios valgan para todo el equipo. Si la tabla todavía no
@@ -860,6 +894,30 @@ var PAGES = {
     render: function() {
       var base = REPORTS.filter(function(r){ return r.type==='BI' && canSee(r); });
       return filterBar(base)+renderGrid(base.filter(filterMatch));
+    }
+  },
+  'mercado': {
+    title: 'Mercado',
+    sub: 'Noticias y fuentes del sector — travel retail, duty free y aviación',
+    render: function() {
+      var h = '<p style="font-size:13px;color:#888;margin-bottom:18px;">'
+            + 'Fuentes externas de consulta. Se abren en una pestaña nueva.</p>';
+      MARKET.forEach(function(sec){
+        h += '<h3 style="font-size:13px;font-weight:700;color:#1B2A6B;margin:22px 0 10px;'
+           + 'text-transform:uppercase;letter-spacing:.05em;">'+sec.group+'</h3><div class="rlist">';
+        sec.items.forEach(function(it){
+          h += '<div class="rrow">'
+             +   '<div class="rrow-icon">🔗</div>'
+             +   '<div class="rrow-main">'
+             +     '<div class="rrow-title">'+it.n+'</div>'
+             +     '<div class="rrow-desc">'+it.d+'</div>'
+             +   '</div>'
+             +   '<a href="'+it.u+'" target="_blank" rel="noopener noreferrer" class="btn-open">Abrir</a>'
+             + '</div>';
+        });
+        h += '</div>';
+      });
+      return h;
     }
   },
   'permisos': {
