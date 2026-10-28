@@ -179,6 +179,30 @@
       .rrow-tags { order: 3; }
       .btn-open { order: 4; margin-left: auto; }
     }
+    /* ── NOTICIAS ── */
+    .news-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .news-head h3 {
+      font-size: 13px; font-weight: 700; color: #1B2A6B;
+      text-transform: uppercase; letter-spacing: .05em;
+    }
+    .news-head span { font-size: 11px; color: #bbb; }
+    .news-load { font-size: 13px; color: #bbb; padding: 18px 0; }
+    .news-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 18px; border-bottom: 1px solid #f2f2f2;
+      text-decoration: none; transition: background .12s;
+    }
+    .news-row:last-child { border-bottom: none; }
+    .news-row:hover { background: #f8faff; }
+    .news-main { flex: 1; min-width: 0; }
+    .news-title { font-size: 13px; color: #222; line-height: 1.45; }
+    .news-row:hover .news-title { color: #1B2A6B; }
+    .news-meta { font-size: 11px; color: #aaa; margin-top: 3px; }
+    .news-arrow { color: #ccc; font-size: 13px; flex-shrink: 0; }
+
     /* ── PERMISOS ── */
     .perm-table { font-size: 13px; }
     .perm-table th.perm-col, .perm-table td.perm-col { text-align: center; width: 92px; }
@@ -695,6 +719,48 @@ var MARKET = [
   ]},
 ];
 
+/* Titulares recogidos cada día por el robot (noticias.json). */
+async function cargarNoticias() {
+  var box = document.getElementById('news-box');
+  if (!box) return;
+
+  var data;
+  try {
+    var r = await fetch('noticias.json?v=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    data = await r.json();
+  } catch (e) {
+    box.innerHTML = '<div class="news-load">No se pudieron cargar los titulares.</div>';
+    return;
+  }
+
+  var lista = (data.noticias || []);
+  if (!lista.length) {
+    box.innerHTML = '<div class="news-load">Todavía no hay titulares.</div>';
+    return;
+  }
+
+  function cuando(iso) {
+    if (!iso) return '';
+    var dias = Math.floor((Date.now() - new Date(iso)) / 86400000);
+    if (dias <= 0) return 'hoy';
+    if (dias === 1) return 'ayer';
+    if (dias < 30) return 'hace ' + dias + ' días';
+    return new Date(iso).toLocaleDateString('es');
+  }
+
+  var h = '<div class="news-head"><h3>Titulares del sector</h3>'
+        + '<span>actualizado ' + cuando(data.atualizado) + '</span></div><div class="rlist">';
+  lista.forEach(function(n) {
+    h += '<a class="news-row" href="' + n.url + '" target="_blank" rel="noopener noreferrer">'
+       +   '<div class="news-main">'
+       +     '<div class="news-title">' + n.titulo + '</div>'
+       +     '<div class="news-meta">' + n.fonte + (n.data ? ' · ' + cuando(n.data) : '') + '</div>'
+       +   '</div><span class="news-arrow">↗</span></a>';
+  });
+  box.innerHTML = h + '</div>';
+}
+
 /* ══════════════════════════════════════════════════════
    PERMISOS
    Se guardan en Supabase (tabla report_access) para que los
@@ -900,7 +966,8 @@ var PAGES = {
     title: 'Mercado',
     sub: 'Noticias y fuentes del sector — travel retail, duty free y aviación',
     render: function() {
-      var h = '<p style="font-size:13px;color:#888;margin-bottom:18px;">'
+      var h = '<div id="news-box"><div class="news-load">Cargando titulares…</div></div>'
+            + '<p style="font-size:13px;color:#888;margin:26px 0 18px;">'
             + 'Fuentes externas de consulta. Se abren en una pestaña nueva.</p>';
       MARKET.forEach(function(sec){
         h += '<h3 style="font-size:13px;font-weight:700;color:#1B2A6B;margin:22px 0 10px;'
@@ -917,6 +984,7 @@ var PAGES = {
         });
         h += '</div>';
       });
+      setTimeout(cargarNoticias, 0);   // se dibuja primero, luego llegan los titulares
       return h;
     }
   },
