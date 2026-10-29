@@ -37,17 +37,44 @@ def newest_forecast():
     return max(files, key=os.path.getmtime) if files else None
 
 
-def latest_closing_folder():
-    folders = [d for d in glob.glob(os.path.join(REPO, "Relatorios Fechamento", "*_20*"))
-               if glob.glob(os.path.join(d, "SALES_REPORT_LATAM_*.html"))]
+COUNTRIES = ["latam", "brasil", "mexico", "argentina", "chile", "colombia", "panama", "peru"]
 
-    def key(d):
+
+def closing_folders_sorted():
+    """Pastas de fechamento, da mais recente para a mais antiga."""
+    out = []
+    for d in glob.glob(os.path.join(REPO, "Relatorios Fechamento", "*_20*")):
+        if not os.path.isdir(d):
+            continue
         name = os.path.basename(d).upper()
-        m = name.split("_")[0]
         year = re.search(r"20\d\d", name)
-        return (int(year.group()) if year else 0, MONTHS.index(m) if m in MONTHS else -1)
+        meses = [p for p in name.split("_") if p in MONTHS]
+        if not year or not meses:
+            continue
+        # AGO_SEP_2026 -> vale pelo ultimo mes citado
+        out.append((int(year.group()), MONTHS.index(meses[-1]), d))
+    return [d for _, _, d in sorted(out, reverse=True)]
 
-    return max(folders, key=key) if folders else None
+
+def latest_country_reports():
+    """Para cada pais, o relatorio do fechamento mais recente que ja exista.
+
+    Um mes parcial e normal: enquanto nem todos os paises fecharam Setembro,
+    cada um fica com o mes mais recente em que foi gerado, em vez de todos
+    voltarem para o mes anterior.
+
+    Procuramos por glob dentro da pasta porque o sufixo do ficheiro nem sempre
+    e igual ao nome da pasta (pasta SEP_2026, ficheiro ..._SET_2026.html).
+    """
+    found = {}
+    for d in closing_folders_sorted():
+        for c in COUNTRIES:
+            if c in found:
+                continue
+            cands = glob.glob(os.path.join(d, f"SALES_REPORT_{c.upper()}_*.html"))
+            if cands:
+                found[c] = max(cands, key=os.path.getmtime)
+    return found
 
 
 def copy_sources():
@@ -68,20 +95,21 @@ def copy_sources():
         "global-ventas/china.html":    newest(os.path.join(DC, "CHINA",   "china_*20*.html")),
         "global-ventas/poland.html":   newest(os.path.join(DC, "POLAND",  "poland_*20*.html")),
         "global-ventas/uk.html":       newest(os.path.join(DC, "UK",      "uk_*20*.html")),
+        "global-ventas/marketplace-europe.html": newest(os.path.join(DC, "UK", "marketplace_sales_europe_*.html")),
         "global-ventas/total.html":    newest(os.path.join(DC, "TOTAL",   "total_*.html")),
         "global-ventas/aspac.html":    newest(os.path.join(DC, "ASPAC",   "*pac_*20*.html")),
         "global-ventas/consumption.html": newest(os.path.join(AT, "TB Consumption Dashboard*.html")),
+        "global-ventas/online.html":   os.path.join(DC, "ONLINE", "online_2026.html"),
+        "global-ventas/memory-collections.html": os.path.join(DC, "MEMORY COLLECTIONS", "memory_collections_2026.html"),
         "fechamento-latam/forecast-anual.html": newest(os.path.join(REPO, "Relatorios Fechamento", "*", "FORECAST_ANUAL_*.html")),
         # Forecast de 2 meses: o nome muda a cada mes (FORECAST_SEP_OCT_2026...),
         # por isso pegamos sempre o mais recente que nao seja o anual.
         "fechamento-latam/forecast.html": newest_forecast(),
     }
-    folder = latest_closing_folder()
-    if folder:
-        tag = os.path.basename(folder)
-        for c in ["latam", "brasil", "mexico", "argentina", "chile", "colombia", "panama", "peru"]:
-            m[f"fechamento-latam/{c}.html"] = os.path.join(folder, f"SALES_REPORT_{c.upper()}_{tag}.html")
-    return m, folder
+    reports = latest_country_reports()
+    for c, src in reports.items():
+        m[f"fechamento-latam/{c}.html"] = src
+    return m, reports
 
 
 def md5(p):
@@ -111,8 +139,12 @@ def main():
     print("=" * 60)
 
     # 1. Atualizar copias
-    mapping, folder = copy_sources()
-    print(f"\nFechamento mais recente: {os.path.basename(folder) if folder else '-'}")
+    mapping, reports = copy_sources()
+    print("\nFechamento escolhido para cada pais:")
+    for c in COUNTRIES:
+        src = reports.get(c)
+        origem = os.path.basename(os.path.dirname(src)) if src else "- (nao gerado)"
+        print(f"   {c:10} {origem}")
     print("\n1) Atualizando copias dos paineis:")
     updated = 0
     for copy, src in mapping.items():
