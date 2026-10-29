@@ -212,7 +212,18 @@
     .rrow-tags {
       display: flex; align-items: center; gap: 6px; flex-shrink: 0;
     }
-    .rrow-freq { font-size: 11px; color: #bbb; }
+    .rrow-freq { font-size: 11.5px; color: var(--faint); }
+    .group-head {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; color: var(--faint);
+      text-transform: uppercase; letter-spacing: .07em;
+      margin: 26px 0 9px; padding-left: 2px;
+    }
+    .group-head:first-child { margin-top: 0; }
+    .group-head span {
+      font-size: 10px; font-weight: 700; color: #8b93a7;
+      background: #eceefa; padding: 1px 7px; border-radius: 10px; letter-spacing: 0;
+    }
     @media (max-width: 860px) {
       .rrow { flex-wrap: wrap; }
       .rrow-main { flex-basis: 100%; order: 2; }
@@ -639,6 +650,10 @@ var REPORTS = [
     desc:'Ventas del canal ONLINE en todo el grupo — 2024, 2025 y 2026.',
     href:'global-ventas/online.html', sublinks:[],
     allowed:[] },
+  { id:'g-marketplace',icon:'🛍️', name:'Marketplace Europe',       region:'global', theme:'marketplace', type:'HTML', freq:'Mensual', label:'Global',
+    desc:'Amazon EU y UK, Allegro y About You.',
+    href:'global-ventas/marketplace-europe.html', sublinks:[],
+    allowed:[] },
   { id:'g-memory',     icon:'🧳', name:'Memory Collections',        region:'global', theme:'ventas',      type:'HTML', freq:'Mensual', label:'Global',
     desc:'Ventas de la familia Memory Collections 2026 + sell-out Avolta.',
     href:'global-ventas/memory-collections.html', sublinks:[],
@@ -881,7 +896,9 @@ function canSee(r) {
 /* ══════════════════════════════════════════════════════
    RENDER HELPERS
 ══════════════════════════════════════════════════════ */
-function buildRow(r) {
+/* `conEtiqueta` solo es true cuando la sección mezcla regiones
+   (p.ej. LATAM + Brasil); si todas son iguales, la etiqueta sobra. */
+function buildRow(r, conEtiqueta) {
   var links = '';
   for (var i=0; i<r.sublinks.length; i++) {
     links += '<a href="'+r.sublinks[i].h+'" target="_blank">'+r.sublinks[i].n+'</a>';
@@ -894,8 +911,7 @@ function buildRow(r) {
       +(links ? '<div class="rrow-links">'+links+'</div>' : '')
     +'</div>'
     +'<div class="rrow-tags">'
-      +'<span class="badge badge-'+(r.type==='BI'?'bi':'html')+'">'+r.type+'</span>'
-      +'<span class="badge badge-region">'+r.label+'</span>'
+      +(conEtiqueta ? '<span class="badge badge-region">'+r.label+'</span>' : '')
       +'<span class="rrow-freq">'+r.freq+'</span>'
     +'</div>'
     +'<a href="'+r.href+'" target="_blank" class="btn-open">Abrir</a>'
@@ -904,9 +920,32 @@ function buildRow(r) {
 
 function renderGrid(reports) {
   if (!reports.length) return '<div class="no-results">No hay reportes para los filtros seleccionados.</div>';
-  var h = '';
-  for (var i=0; i<reports.length; i++) h += buildRow(reports[i]);
-  return '<div class="rlist">'+h+'</div>';
+
+  // la etiqueta de región solo aparece si hay más de una en la sección
+  var regiones = {};
+  reports.forEach(function(r){ regiones[r.label] = 1; });
+  var conEtiqueta = Object.keys(regiones).length > 1;
+
+  // agrupar por tema, en el orden de THEMES
+  var porTema = {};
+  reports.forEach(function(r){ (porTema[r.theme] = porTema[r.theme] || []).push(r); });
+  var temas = THEMES.filter(function(t){ return porTema[t]; });
+  Object.keys(porTema).forEach(function(t){ if (temas.indexOf(t) < 0) temas.push(t); });
+
+  // con un solo tema el subtítulo no aporta nada
+  if (temas.length < 2) {
+    return '<div class="rlist">'
+      + reports.map(function(r){ return buildRow(r, conEtiqueta); }).join('')
+      + '</div>';
+  }
+
+  return temas.map(function(t){
+    return '<div class="group-head">'+(THEME_LABEL[t] || t)
+         + '<span>'+porTema[t].length+'</span></div>'
+         + '<div class="rlist">'
+         + porTema[t].map(function(r){ return buildRow(r, conEtiqueta); }).join('')
+         + '</div>';
+  }).join('');
 }
 
 /* Builds the filter bar from the reports actually available in this section,
