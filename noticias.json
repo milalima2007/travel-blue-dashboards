@@ -1,9 +1,60 @@
 {
- "atualizado": "2026-10-29T19:07:22+00:00",
+ "atualizado": "2026-10-29T19:39:46+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
+ "travelblue": [
+  {
+   "fonte": "DFNI",
+   "titulo": "Travel Blue research highlights Essentials category opportunity",
+   "url": "https://www.dfnionline.com/brand-news/travel-essentials-convenience/travel-blue-research-highlights-travel-essentials-opportunity-21-09-2026/",
+   "data": "2026-09-21T10:27:22+00:00",
+   "tipo": "travelblue"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Travel Blue to unveil 3D-printed Airflow pillow",
+   "url": "https://www.dfnionline.com/brand-news/travel-essentials-convenience/travel-blue-to-unveil-3d-printed-airflow-travel-pillow-18-09-2026/",
+   "data": "2026-09-18T09:29:18+00:00",
+   "tipo": "travelblue"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Travel Blue launches fire-resistant power bank pouches",
+   "url": "https://www.dfnionline.com/latest-news/travel-blue-launches-fire-resistant-power-bank-pouches-14-09-2026/",
+   "data": "2026-09-14T10:24:07+00:00",
+   "tipo": "travelblue"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Travel Blue rolls out new Memory Collections range",
+   "url": "https://www.dfnionline.com/brand-news/travel-essentials-convenience/travel-blue-rolls-out-new-memory-collections-range-04-08-2026/",
+   "data": "2026-08-04T10:33:27+00:00",
+   "tipo": "travelblue"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Travel Blue urges GTR to rethink Essentials category",
+   "url": "https://www.dfnionline.com/brand-news/travel-essentials-convenience/travel-blue-urges-gtr-to-rethink-essentials-category-15-07-2026/",
+   "data": "2026-07-15T16:51:43+00:00",
+   "tipo": "travelblue"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Travel Blue and Heinemann debut eco backpack",
+   "url": "https://www.dfnionline.com/brand-news/travel-essentials-convenience/travel-blue-and-heinemann-debut-eco-backpack-29-05-2026/",
+   "data": "2026-05-29T12:36:24+00:00",
+   "tipo": "travelblue"
+  }
+ ],
  "noticias": [
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "London Supply Group Foundation wins global accolade for children’s health programme",
+   "url": "https://moodiedavittreport.com/london-supply-group-foundation-wins-global-accolade-for-childrens-health-programme/?utm_source=rss&utm_medium=rss&utm_campaign=london-supply-group-foundation-wins-global-accolade-for-childrens-health-programme",
+   "data": "2026-10-29T19:01:56+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "TRBusiness",
    "titulo": "Travel Retail Norway secures eight-year duty free contract with Avinor",
@@ -93,13 +144,6 @@
    "titulo": "Opening The Vault: Changi Airport and Lotte Duty Free bring rare and fine expressions to life at World of Wines & Spirits",
    "url": "https://moodiedavittreport.com/opening-the-vault-changi-airport-and-lotte-duty-free-bring-rare-and-fine-expressions-to-life-at-world-of-wines-spirits/?utm_source=rss&utm_medium=rss&utm_campaign=opening-the-vault-changi-airport-and-lotte-duty-free-bring-rare-and-fine-expressions-to-life-at-world-of-wines-spirits",
    "data": "2026-10-29T10:37:29+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Asia Pacific passenger numbers return to growth in September amid shifting travel patterns",
-   "url": "https://moodiedavittreport.com/asia-pacific-passenger-numbers-return-to-growth-in-september-amid-shifting-travel-patterns/?utm_source=rss&utm_medium=rss&utm_campaign=asia-pacific-passenger-numbers-return-to-growth-in-september-amid-shifting-travel-patterns",
-   "data": "2026-10-29T10:18:22+00:00",
    "tipo": "noticia"
   },
   {
@@ -248,7 +292,7 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-10-29T19:07:22.111100+00:00",
+   "data": "2026-10-29T19:39:46.135143+00:00",
    "tipo": "estudo"
   },
   {

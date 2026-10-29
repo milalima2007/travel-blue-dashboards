@@ -25,8 +25,18 @@ FONTES = [
     # Continua como atalho na aba Mercado.
 ]
 
-JANELA_NOTICIAS = 30     # dias que uma noticia fica no portal
-JANELA_ESTUDOS  = 365    # dias que um estudo/relatorio fica
+# Buscas dedicadas a "Travel Blue" (o feed normal so traz os ultimos dias,
+# e a marca aparece poucas vezes por mes)
+FONTES_TB = [
+    ("DFNI", 'https://www.dfnionline.com/?s=%22travel+blue%22&feed=rss2'),
+]
+
+JANELA_NOTICIAS   = 30    # dias que uma noticia fica no portal
+JANELA_ESTUDOS    = 365   # dias que um estudo/relatorio fica
+JANELA_TRAVELBLUE = 365   # mencoes a Travel Blue: guardar muito tempo
+
+# Mencoes a Travel Blue vao para uma seccao propria
+TRAVEL_BLUE = re.compile(r"travel\s*blue", re.I)
 POR_FONTE       = 15     # quantas ler de cada vez em cada fonte
 TIMEOUT         = 30
 
@@ -80,6 +90,13 @@ def ler_fonte(nome, url):
     with urllib.request.urlopen(pedido, timeout=TIMEOUT) as r:
         bruto = r.read()
 
+    # alguns sites mandam comentarios HTML antes do XML
+    corte = bruto.find(b"<rss")
+    if corte < 0:
+        corte = bruto.find(b"<?xml")
+    if corte > 0:
+        bruto = bruto[corte:]
+
     raiz = ET.fromstring(bruto)
     itens = raiz.findall(".//item") or raiz.findall(".//{http://www.w3.org/2005/Atom}entry")
 
@@ -94,13 +111,25 @@ def ler_fonte(nome, url):
         titulo = limpar(tit.text)[:180]
         if not titulo:
             continue
+
+        # o corpo so serve para procurar mencoes a Travel Blue
+        corpo = " ".join(limpar(el.text) for el in it
+                         if el.text and el.tag.lower().endswith(("description", "encoded", "summary")))
+
+        if TRAVEL_BLUE.search(titulo) or TRAVEL_BLUE.search(corpo):
+            tipo = "travelblue"
+        elif PALAVRAS_ESTUDO.search(titulo):
+            tipo = "estudo"
+        else:
+            tipo = "noticia"
+
         d = quando(it)
         saida.append({
             "fonte":  nome,
             "titulo": titulo,
             "url":    href.strip(),
             "data":   (d or AGORA).isoformat(),
-            "tipo":   "estudo" if PALAVRAS_ESTUDO.search(titulo) else "noticia",
+            "tipo":   tipo,
         })
     return saida
 
@@ -176,7 +205,8 @@ def dentro_da_janela(item):
         return False
     if d.tzinfo is None:
         d = d.replace(tzinfo=timezone.utc)
-    limite = JANELA_ESTUDOS if item.get("tipo") == "estudo" else JANELA_NOTICIAS
+    limite = {"estudo": JANELA_ESTUDOS,
+              "travelblue": JANELA_TRAVELBLUE}.get(item.get("tipo"), JANELA_NOTICIAS)
     return d >= AGORA - timedelta(days=limite)
 
 
@@ -192,6 +222,17 @@ def main():
         except Exception as e:
             problemas.append(nome)
             print(f"{nome}: FALHOU ({type(e).__name__}: {e})")
+
+    for nome, url in FONTES_TB:
+        try:
+            itens = [i for i in ler_fonte(nome, url) if TRAVEL_BLUE.search(i["titulo"])]
+            for i in itens:
+                i["tipo"] = "travelblue"
+            novos.extend(itens)
+            print(f"{nome} (Travel Blue): {len(itens)} itens")
+        except Exception as e:
+            problemas.append(f"{nome}/TravelBlue")
+            print(f"{nome} (Travel Blue): FALHOU ({type(e).__name__}: {e})")
 
     try:
         itens = ler_iata()
@@ -214,8 +255,9 @@ def main():
     vivos = [it for it in por_url.values() if dentro_da_janela(it)]
     vivos.sort(key=lambda n: n.get("data") or "", reverse=True)
 
-    noticias = [n for n in vivos if n.get("tipo") != "estudo"]
-    estudos  = [n for n in vivos if n.get("tipo") == "estudo"]
+    travelblue = [n for n in vivos if n.get("tipo") == "travelblue"]
+    estudos    = [n for n in vivos if n.get("tipo") == "estudo"]
+    noticias   = [n for n in vivos if n.get("tipo") not in ("estudo", "travelblue")]
 
     with open(SAIDA, "w", encoding="utf-8") as f:
         json.dump({
@@ -223,12 +265,13 @@ def main():
             "janela_noticias_dias": JANELA_NOTICIAS,
             "janela_estudos_dias": JANELA_ESTUDOS,
             "fontes_com_falha": problemas,
+            "travelblue": travelblue,
             "noticias": noticias,
             "estudos": estudos,
         }, f, ensure_ascii=False, indent=1)
 
     print(f"\nguardados: {len(noticias)} noticias (ultimos {JANELA_NOTICIAS} dias) "
-          f"+ {len(estudos)} estudos")
+          f"+ {len(estudos)} estudos + {len(travelblue)} sobre Travel Blue")
     if problemas:
         print("fontes com falha:", ", ".join(problemas))
     return 0
