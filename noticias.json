@@ -1,150 +1,318 @@
 {
- "atualizado": "2026-10-29T13:39:11+00:00",
+ "atualizado": "2026-10-29T19:07:22+00:00",
+ "janela_noticias_dias": 30,
+ "janela_estudos_dias": 365,
  "fontes_com_falha": [],
  "noticias": [
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Travel Retail Norway secures eight-year duty free contract with Avinor",
+   "url": "https://www.trbusiness.com/regional-news/international/travel-retail-norway-secures-eight-year-duty-free-contract-with-avinor/285218",
+   "data": "2026-10-29T16:24:02+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Sydney Airport expands premium passenger services with Hosts concierge offering",
+   "url": "https://moodiedavittreport.com/sydney-airport-expands-premium-passenger-services-with-hosts-concierge-offering/?utm_source=rss&utm_medium=rss&utm_campaign=sydney-airport-expands-premium-passenger-services-with-hosts-concierge-offering",
+   "data": "2026-10-29T16:04:58+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Travel Retail Norway secures duty-free contract at four Norwegian airports",
+   "url": "https://www.dfnionline.com/latest-news/travel-retail-norway-secures-duty-free-contract-at-four-norwegian-airports-29-10-2026/",
+   "data": "2026-10-29T15:00:17+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Gebr Heinemann partnership wins Norway duty-free tender and strikes contract to 2036",
+   "url": "https://moodiedavittreport.com/gebr-heinemann-led-travel-retail-norway-wins-norway-duty-free-tender-and-strikes-contract-to-2036/?utm_source=rss&utm_medium=rss&utm_campaign=gebr-heinemann-led-travel-retail-norway-wins-norway-duty-free-tender-and-strikes-contract-to-2036",
+   "data": "2026-10-29T14:52:14+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Air4casts identifies top terminals for Chinese Gen Z beauty growth",
+   "url": "https://www.dfnionline.com/latest-news/air4casts-identifies-top-terminals-for-chinese-gen-z-beauty-growth-29-10-2026/",
+   "data": "2026-10-29T14:42:23+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Diptyque puts woodcraft at the heart of holiday collection with artist Jean-Simon Roch",
+   "url": "https://moodiedavittreport.com/diptyque-puts-woodcraft-at-the-heart-of-holiday-collection-with-artist-jean-simon-roch/?utm_source=rss&utm_medium=rss&utm_campaign=diptyque-puts-woodcraft-at-the-heart-of-holiday-collection-with-artist-jean-simon-roch",
+   "data": "2026-10-29T14:35:48+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Adani Airports and IHCL sign eight-hotel agreement as Airport City strategy accelerates",
+   "url": "https://moodiedavittreport.com/adani-airports-and-ihcl-sign-eight-hotel-agreement-as-airport-city-strategy-accelerates/?utm_source=rss&utm_medium=rss&utm_campaign=adani-airports-and-ihcl-sign-eight-hotel-agreement-as-airport-city-strategy-accelerates",
+   "data": "2026-10-29T13:47:47+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Shiseido and SHIFT drive Max Mara fragrance discovery with digital campaign across Italian airports",
+   "url": "https://moodiedavittreport.com/shiseido-travel-retail-and-shift-drive-max-mara-fragrance-discovery-with-digital-campaign-across-italian-airports/?utm_source=rss&utm_medium=rss&utm_campaign=shiseido-travel-retail-and-shift-drive-max-mara-fragrance-discovery-with-digital-campaign-across-italian-airports",
+   "data": "2026-10-29T13:39:31+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "DFNI",
    "titulo": "Changi Airport and Lotte Duty Free showcase rare wines and spirits at WOWS 2026",
    "url": "https://www.dfnionline.com/brand-news/liquor-wines/changi-airport-and-lotte-duty-free-showcase-rare-wines-and-spirits-at-wows-2026-29-10-2026/",
-   "data": "2026-10-29T12:41:38+00:00"
+   "data": "2026-10-29T12:41:38+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "Perth’s commercial plans and Los Angeles’ dining transformation lead our latest airport F&B newsletter",
    "url": "https://moodiedavittreport.com/perths-commercial-plans-and-los-angeles-dining-transformation-lead-our-latest-airport-fb-newsletter/?utm_source=rss&utm_medium=rss&utm_campaign=perths-commercial-plans-and-los-angeles-dining-transformation-lead-our-latest-airport-fb-newsletter",
-   "data": "2026-10-29T12:40:54+00:00"
+   "data": "2026-10-29T12:40:54+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "Decision makers gather for key Chinese airport commercial and duty-free summit in Urumqi",
    "url": "https://moodiedavittreport.com/decision-makers-gather-for-key-chinese-airport-commercial-and-duty-free-summit-in-urumqi/?utm_source=rss&utm_medium=rss&utm_campaign=decision-makers-gather-for-key-chinese-airport-commercial-and-duty-free-summit-in-urumqi",
-   "data": "2026-10-29T12:23:42+00:00"
+   "data": "2026-10-29T12:23:42+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "DFNI",
    "titulo": "Marathon Burger and Kogi BBQ bring taste of Los Angeles to LAX",
    "url": "https://www.dfnionline.com/brand-news/food-beverage/marathon-burger-and-kogi-bbq-bring-taste-of-los-angeles-to-lax-29-10-2026/",
-   "data": "2026-10-29T10:57:46+00:00"
+   "data": "2026-10-29T10:57:46+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "Opening The Vault: Changi Airport and Lotte Duty Free bring rare and fine expressions to life at World of Wines & Spirits",
    "url": "https://moodiedavittreport.com/opening-the-vault-changi-airport-and-lotte-duty-free-bring-rare-and-fine-expressions-to-life-at-world-of-wines-spirits/?utm_source=rss&utm_medium=rss&utm_campaign=opening-the-vault-changi-airport-and-lotte-duty-free-bring-rare-and-fine-expressions-to-life-at-world-of-wines-spirits",
-   "data": "2026-10-29T10:37:29+00:00"
+   "data": "2026-10-29T10:37:29+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "Asia Pacific passenger numbers return to growth in September amid shifting travel patterns",
    "url": "https://moodiedavittreport.com/asia-pacific-passenger-numbers-return-to-growth-in-september-amid-shifting-travel-patterns/?utm_source=rss&utm_medium=rss&utm_campaign=asia-pacific-passenger-numbers-return-to-growth-in-september-amid-shifting-travel-patterns",
-   "data": "2026-10-29T10:18:22+00:00"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Images of the Day: Why Extime is always Paris Time at Charles de Gaulle Airport",
-   "url": "https://moodiedavittreport.com/images-of-the-day-why-extime-is-always-paris-time-at-charles-de-gaulle-airport/?utm_source=rss&utm_medium=rss&utm_campaign=images-of-the-day-why-extime-is-always-paris-time-at-charles-de-gaulle-airport",
-   "data": "2026-10-29T08:42:31+00:00"
+   "data": "2026-10-29T10:18:22+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "DFNI",
    "titulo": "Nohaca Tequila brings Nomads in Motion to life with Dubai Duty Free",
    "url": "https://www.dfnionline.com/latest-news/nohaca-tequila-brings-nomads-in-motion-to-life-with-dubai-duty-free-29-10-2026/",
-   "data": "2026-10-29T08:35:56+00:00"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Avolta accelerates revenue growth and improves margin in Q3 despite market headwinds",
-   "url": "https://moodiedavittreport.com/avolta-accelerates-revenue-growth-and-improves-margin-in-q3-despite-market-headwinds/?utm_source=rss&utm_medium=rss&utm_campaign=avolta-accelerates-revenue-growth-and-improves-margin-in-q3-despite-market-headwinds",
-   "data": "2026-10-29T08:13:57+00:00"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Avolta reports stronger growth in Q3 as new operations ramp up",
-   "url": "https://www.dfnionline.com/latest-news/avolta-reports-stronger-growth-in-q3-as-new-operations-ramp-up-29-10-2026/",
-   "data": "2026-10-29T08:00:41+00:00"
+   "data": "2026-10-29T08:35:56+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "TRBusiness",
    "titulo": "L’Oréal’s North Asia recovery bodes well for travel retail",
    "url": "https://www.trbusiness.com/regional-news/loreals-north-asia-recovery-bodes-well-for-travel-retail/285207",
-   "data": "2026-10-28T19:23:07+00:00"
+   "data": "2026-10-28T19:23:07+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "TRBusiness",
    "titulo": "International Beverage launches Balblair airport activations",
    "url": "https://www.trbusiness.com/regional-news/europe/international-beverage-launches-balblair-airport-activations/285200",
-   "data": "2026-10-28T16:52:54+00:00"
+   "data": "2026-10-28T16:52:54+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "DFNI",
    "titulo": "Armaf showcases travel retail-exclusive fragrance portfolio at TFWA Cannes",
    "url": "https://www.dfnionline.com/brand-news/fragrances/armaf-showcases-travel-retail-exclusive-fragrance-portfolio-at-tfwa-cannes-28-10-2026/",
-   "data": "2026-10-28T16:18:51+00:00"
+   "data": "2026-10-28T16:18:51+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "DFNI",
    "titulo": "Inter-African Marketing returns as Gold Sponsor for MEADFA Conference 2026",
    "url": "https://www.dfnionline.com/latest-news/inter-african-marketing-returns-as-gold-sponsor-for-meadfa-conference-2026-28-10-2026/",
-   "data": "2026-10-28T15:54:42+00:00"
+   "data": "2026-10-28T15:54:42+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Lindt & Sprüngli showcases travel retail-exclusive innovations at TFWA Cannes 2026",
+   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/lindt-sprungli-showcases-travel-retail-exclusive-innovations-at-tfwa-cannes-2026-28-10-2026/",
+   "data": "2026-10-28T15:37:33+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "TRBusiness",
    "titulo": "NOHACA launches experiential activation at Dubai Duty Free",
    "url": "https://www.trbusiness.com/regional-news/middle-east/nohaca-launches-experiential-activation-at-dubai-duty-free/285195",
-   "data": "2026-10-28T15:35:01+00:00"
+   "data": "2026-10-28T15:35:01+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "TRBusiness",
    "titulo": "Avolta opens two new F&B concepts at Palermo Airport",
    "url": "https://www.trbusiness.com/regional-news/europe/avolta-opens-two-new-fb-concepts-at-palermo-airport/285188",
-   "data": "2026-10-28T14:10:38+00:00"
+   "data": "2026-10-28T14:10:38+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "TRBusiness",
    "titulo": "Toblerone launches limited-edition Pistachio Gelato at Istanbul Airport",
    "url": "https://www.trbusiness.com/regional-news/europe/toblerone-launches-limited-edition-pistachio-gelato-at-istanbul-airport/285181",
-   "data": "2026-10-28T12:57:30+00:00"
+   "data": "2026-10-28T12:57:30+00:00",
+   "tipo": "noticia"
   },
   {
    "fonte": "TRBusiness",
    "titulo": "Lindt showcases new travel retail exclusives at TFWA Cannes",
    "url": "https://www.trbusiness.com/regional-news/international/lindt-showcases-new-travel-retail-exclusives-at-tfwa-cannes/285171",
-   "data": "2026-10-28T11:05:36+00:00"
+   "data": "2026-10-28T11:05:36+00:00",
+   "tipo": "noticia"
   },
   {
-   "fonte": "ABEAR",
-   "titulo": "Noman apresenta agenda da indústria para ministro de Portos e Aeroportos",
-   "url": "https://www.abear.com.br/blog-do-passageiro/news/noman-apresenta-agenda-da-industria-para-ministro-de-portos-e-aeroportos/",
-   "data": "2025-05-02T13:34:37+00:00"
+   "fonte": "TRBusiness",
+   "titulo": "Cartwright & Butler expands airport presence with Avolta activations",
+   "url": "https://www.trbusiness.com/regional-news/europe/cartwright-butler-expands-airport-presence-with-avolta-activations/285164",
+   "data": "2026-10-28T10:00:37+00:00",
+   "tipo": "noticia"
   },
   {
-   "fonte": "ABEAR",
-   "titulo": "Presidente da ABEAR apresenta desafios da indústria da aviação",
-   "url": "https://www.abear.com.br/blog-do-passageiro/news/presidente-da-abear-apresenta-desafios-da-industria-da-aviacao/",
-   "data": "2025-04-03T15:00:33+00:00"
+   "fonte": "DFNI",
+   "titulo": "Avolta opens locally-inspired F&B concepts at Palermo Airport",
+   "url": "https://www.dfnionline.com/latest-news/avolta-opens-locally-inspired-fb-concepts-at-palermo-airport-28-10-2026/",
+   "data": "2026-10-28T09:07:31+00:00",
+   "tipo": "noticia"
   },
   {
-   "fonte": "ABEAR",
-   "titulo": "Juliano Noman é o novo presidente da Seção V do Transporte Aéreo da CNT",
-   "url": "https://www.abear.com.br/blog-do-passageiro/news/juliano-noman-e-o-novo-presidente-da-secao-v-do-transporte-aereo-da-cnt/",
-   "data": "2025-03-26T16:53:28+00:00"
+   "fonte": "DFNI",
+   "titulo": "Mondelēz WTR launches limited-edition Toblerone Pistachio Gelato at Istanbul Airport",
+   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/mondelez-wtr-launches-limited-edition-toblerone-pistachio-gelato-at-istanbul-airport-28-10-2026/",
+   "data": "2026-10-28T05:00:07+00:00",
+   "tipo": "noticia"
   },
   {
-   "fonte": "ABEAR",
-   "titulo": "ABEAR promove seminário de segurança operacional em São Paulo",
-   "url": "https://www.abear.com.br/blog-do-passageiro/news/abear-promove-seminario-de-seguranca-operacional-em-sao-paulo/",
-   "data": "2025-03-26T16:10:17+00:00"
+   "fonte": "TRBusiness",
+   "titulo": "Travel Retail Awards ceremony – video highlights",
+   "url": "https://www.trbusiness.com/channel-news/other-stores/watch-the-travel-retail-awards-ceremony-video-highlights/285158",
+   "data": "2026-10-27T19:17:10+00:00",
+   "tipo": "noticia"
   },
   {
-   "fonte": "ABEAR",
-   "titulo": "O que é e como o bird strike impacta a aviação?",
-   "url": "https://www.abear.com.br/blog-do-passageiro/news/o-que-e-e-como-o-bird-strike-impacta-a-aviacao/",
-   "data": "2025-02-26T20:00:10+00:00"
+   "fonte": "TRBusiness",
+   "titulo": "The Glenlivet launches 12 Year Old exclusive at Changi",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/the-glenlivet-launches-12-year-old-exclusive-at-changi/285151",
+   "data": "2026-10-27T17:37:01+00:00",
+   "tipo": "noticia"
   },
   {
-   "fonte": "ABEAR",
-   "titulo": "Juliano Noman assume a presidência da ABEAR",
-   "url": "https://www.abear.com.br/blog-do-passageiro/news/juliano-noman-assume-a-presidencia-da-abear/",
-   "data": "2025-01-22T17:31:26+00:00"
+   "fonte": "DFNI",
+   "titulo": "Comment: Is HKIA’s liquor and tobacco concession still a must-win business?",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/comment-is-hkias-liquor-and-tobacco-concession-still-a-must-win-business-27-10-2026/",
+   "data": "2026-10-27T16:27:27+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "The Glenlivet launches 12yo travel retail exclusive at Changi Airport",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/the-glenlivet-launches-12yo-travel-retail-exclusive-at-changi-airport-27-10-2026/",
+   "data": "2026-10-27T12:44:23+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Perth Airport unveils New Terminal designs with 10,000sqm retail space",
+   "url": "https://www.dfnionline.com/latest-news/perth-airport-unveils-new-terminal-designs-with-10000sqm-retail-space-27-10-2026/",
+   "data": "2026-10-27T11:56:31+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Cartwright & Butler strengthens airport presence with Avolta activations",
+   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/cartwright-butler-strengthens-airport-presence-with-avolta-activations-27-10-2026/",
+   "data": "2026-10-27T10:57:53+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "ACI World",
+   "titulo": "ACI at ATConf/7",
+   "url": "https://aci.aero/2026/10/20/aci-at-atconf7/",
+   "data": "2026-10-20T21:15:27+00:00",
+   "tipo": "noticia"
+  }
+ ],
+ "estudos": [
+  {
+   "fonte": "IATA",
+   "titulo": "Value of air transport country reports",
+   "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
+   "data": "2026-10-29T19:07:22.111100+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Air4casts ranks airport terminal opportunities amid rise in Chinese Gen Z female beauty shoppers",
+   "url": "https://moodiedavittreport.com/incheon-leads-growth-in-chinese-gen-z-airport-beauty-shoppers-air4casts-research-shows/?utm_source=rss&utm_medium=rss&utm_campaign=incheon-leads-growth-in-chinese-gen-z-airport-beauty-shoppers-air4casts-research-shows",
+   "data": "2026-10-29T14:46:11+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Avolta reports stronger growth in Q3 as new operations ramp up",
+   "url": "https://www.dfnionline.com/latest-news/avolta-reports-stronger-growth-in-q3-as-new-operations-ramp-up-29-10-2026/",
+   "data": "2026-10-29T08:00:41+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Chart of the week 23 october 2026",
+   "url": "https://www.iata.org/en/publications/economics/chart-week/chart-of-the-week-23-october-2026/",
+   "data": "2026-10-23T00:00:00+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Chart of the week 16 october 2026",
+   "url": "https://www.iata.org/en/publications/economics/chart-week/chart-of-the-week-16-october-2026/",
+   "data": "2026-10-16T00:00:00+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Chart of the week 9 october 2026",
+   "url": "https://www.iata.org/en/publications/economics/chart-week/chart-of-the-week-9-october-2026/",
+   "data": "2026-10-09T00:00:00+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "ACI World",
+   "titulo": "Global Airport Passenger Traffic Reaches Record 9.8 Billion in 2025, Airports Council International World reports",
+   "url": "https://aci.aero/2026/09/23/global-airport-passenger-traffic-reaches-record-9-8-billion-in-2025-airports-council-international-world-reports/",
+   "data": "2026-09-23T04:30:50+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Air passenger market analysis august 2026",
+   "url": "https://www.iata.org/en/publications/economics/reports/air-passenger-market-analysis-august-2026/",
+   "data": "2026-08-01T00:00:00+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Quarterly air transport chartbook q2 2026",
+   "url": "https://www.iata.org/en/publications/economics/reports/quarterly-air-transport-chartbook-q2-2026/",
+   "data": "2026-06-01T00:00:00+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Global outlook for air transport june 2026",
+   "url": "https://www.iata.org/en/publications/economics/reports/global-outlook-for-air-transport-june-2026/",
+   "data": "2026-06-01T00:00:00+00:00",
+   "tipo": "estudo"
   }
  ]
 }
