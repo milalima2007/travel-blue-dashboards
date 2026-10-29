@@ -734,8 +734,9 @@ async function cargarNoticias() {
     return;
   }
 
-  var lista = (data.noticias || []);
-  if (!lista.length) {
+  var noticias = (data.noticias || []);
+  var estudios = (data.estudos  || []);
+  if (!noticias.length && !estudios.length) {
     box.innerHTML = '<div class="news-load">Todavía no hay titulares.</div>';
     return;
   }
@@ -749,16 +750,26 @@ async function cargarNoticias() {
     return new Date(iso).toLocaleDateString('es');
   }
 
-  var h = '<div class="news-head"><h3>Titulares del sector</h3>'
-        + '<span>actualizado ' + cuando(data.atualizado) + '</span></div><div class="rlist">';
-  lista.forEach(function(n) {
-    h += '<a class="news-row" href="' + n.url + '" target="_blank" rel="noopener noreferrer">'
-       +   '<div class="news-main">'
-       +     '<div class="news-title">' + n.titulo + '</div>'
-       +     '<div class="news-meta">' + n.fonte + (n.data ? ' · ' + cuando(n.data) : '') + '</div>'
-       +   '</div><span class="news-arrow">↗</span></a>';
-  });
-  box.innerHTML = h + '</div>';
+  function bloque(titulo, nota, items) {
+    if (!items.length) return '';
+    var h = '<div class="news-head"><h3>' + titulo + '</h3><span>' + nota + '</span></div>'
+          + '<div class="rlist">';
+    items.forEach(function(n) {
+      h += '<a class="news-row" href="' + n.url + '" target="_blank" rel="noopener noreferrer">'
+         +   '<div class="news-main">'
+         +     '<div class="news-title">' + n.titulo + '</div>'
+         +     '<div class="news-meta">' + n.fonte + (n.data ? ' · ' + cuando(n.data) : '') + '</div>'
+         +   '</div><span class="news-arrow">↗</span></a>';
+    });
+    return h + '</div>';
+  }
+
+  box.innerHTML =
+      bloque('Estudios e informes', 'se mantienen durante el año', estudios)
+    + (estudios.length ? '<div style="height:26px;"></div>' : '')
+    + bloque('Titulares del sector',
+             'últimos ' + (data.janela_noticias_dias || 30) + ' días · actualizado ' + cuando(data.atualizado),
+             noticias);
 }
 
 /* ══════════════════════════════════════════════════════
