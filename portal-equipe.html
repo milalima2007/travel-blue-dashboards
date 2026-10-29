@@ -243,6 +243,29 @@
       .rrow-tags { order: 3; }
       .btn-open { order: 4; margin-left: auto; }
     }
+    /* ── SUB-PESTAÑAS ── */
+    .subtabs {
+      display: flex; gap: 4px; margin-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+    .subtab {
+      display: flex; align-items: center; gap: 7px;
+      padding: 9px 15px; border: none; background: none; cursor: pointer;
+      font-family: inherit; font-size: 13.5px; font-weight: 500; color: var(--muted);
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+      transition: color .15s, border-color .15s;
+    }
+    .subtab:hover { color: var(--navy); }
+    .subtab.active { color: var(--navy); font-weight: 650; border-bottom-color: var(--navy); }
+    .subtab-n {
+      font-size: 10.5px; font-weight: 700; color: #8b93a7;
+      background: #eceefa; padding: 1px 6px; border-radius: 10px; min-width: 18px;
+    }
+    .subtab-n:empty { display: none; }
+    [data-theme="dark"] .subtabs { border-bottom-color: var(--line); }
+    [data-theme="dark"] .subtab.active { border-bottom-color: #8fa2e8; }
+    [data-theme="dark"] .subtab-n { background: #252a36; color: #8c94a6; }
+
     /* ── NOTICIAS ── */
     .news-head {
       display: flex; align-items: baseline; justify-content: space-between;
@@ -913,6 +936,19 @@ function iniciarTema() {
   });
 }
 
+/* Sub-pestaña abierta dentro de Mercado */
+var mercadoTab = 'tb';
+
+function abrirMercadoTab(id) {
+  mercadoTab = id;
+  document.querySelectorAll('.subtab').forEach(function(b){
+    b.classList.toggle('active', b.dataset.mk === id);
+  });
+  document.querySelectorAll('.mk-pane').forEach(function(p){
+    p.hidden = (p.id !== 'mk-' + id);
+  });
+}
+
 /* Un color por fuente, para reconocerlas de un vistazo. */
 var COLOR_FUENTE = {
   'The Moodie Davitt Report': '#c0392b',
@@ -925,8 +961,7 @@ function colorFuente(f) { return COLOR_FUENTE[f] || '#9ca3af'; }
 
 /* Titulares recogidos cada día por el robot (noticias.json). */
 async function cargarNoticias() {
-  var box = document.getElementById('news-box');
-  if (!box) return;
+  if (!document.getElementById('mk-titulos')) return;
 
   var data;
   try {
@@ -934,17 +969,16 @@ async function cargarNoticias() {
     if (!r.ok) throw new Error('HTTP ' + r.status);
     data = await r.json();
   } catch (e) {
-    box.innerHTML = '<div class="news-load">No se pudieron cargar los titulares.</div>';
+    ['tb','estudos','titulos'].forEach(function(id){
+      var p = document.getElementById('mk-' + id);
+      if (p) p.innerHTML = '<div class="no-results">No se pudieron cargar los titulares.</div>';
+    });
     return;
   }
 
   var noticias = (data.noticias   || []);
   var estudios = (data.estudos    || []);
   var sobreTB  = (data.travelblue || []);
-  if (!noticias.length && !estudios.length && !sobreTB.length) {
-    box.innerHTML = '<div class="news-load">Todavía no hay titulares.</div>';
-    return;
-  }
 
   function cuando(iso) {
     if (!iso) return '';
@@ -972,14 +1006,23 @@ async function cargarNoticias() {
     return h + '</div>';
   }
 
-  box.innerHTML =
-      bloque('Travel Blue en los medios', 'menciones de la marca', sobreTB)
-    + (sobreTB.length ? '<div style="height:26px;"></div>' : '')
-    + bloque('Estudios e informes', 'se mantienen durante el año', estudios)
-    + (estudios.length ? '<div style="height:26px;"></div>' : '')
-    + bloque('Titulares del sector',
-             'últimos ' + (data.janela_noticias_dias || 30) + ' días · actualizado ' + cuando(data.atualizado),
-             noticias);
+  function pintar(id, titulo, nota, items, vacio) {
+    var pane = document.getElementById('mk-' + id);
+    if (!pane) return;
+    pane.innerHTML = items.length
+      ? bloque(titulo, nota, items)
+      : '<div class="no-results">' + vacio + '</div>';
+    var n = document.getElementById('n-' + id);
+    if (n) n.textContent = items.length || '';
+  }
+
+  pintar('tb', 'Travel Blue en los medios', 'menciones de la marca', sobreTB,
+         'Todavía no hay menciones recientes de Travel Blue.');
+  pintar('estudos', 'Estudios e informes', 'se mantienen durante el año', estudios,
+         'Todavía no hay estudios.');
+  pintar('titulos', 'Titulares del sector',
+         'últimos ' + (data.janela_noticias_dias || 30) + ' días · actualizado ' + cuando(data.atualizado),
+         noticias, 'Todavía no hay titulares.');
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1158,15 +1201,15 @@ var PAGES = {
     title: 'Mercado',
     sub: 'Noticias y fuentes del sector — travel retail, duty free y aviación',
     render: function() {
-      var h = '<div id="news-box"><div class="news-load">Cargando titulares…</div></div>'
-            + '<p style="font-size:13px;color:#888;margin:26px 0 18px;">'
-            + 'Fuentes externas de consulta. Se abren en una pestaña nueva.</p>';
+      // enlaces a los sitios (no dependen de la carga de titulares)
+      var fuentes = '<p style="font-size:13px;color:var(--muted);margin-bottom:18px;">'
+                  + 'Fuentes externas de consulta. Se abren en una pestaña nueva.</p>';
       MARKET.forEach(function(sec){
-        h += '<h3 style="font-size:13px;font-weight:700;color:#1B2A6B;margin:22px 0 10px;'
-           + 'text-transform:uppercase;letter-spacing:.05em;">'+sec.group+'</h3><div class="rlist">';
+        fuentes += '<div class="group-head">'+sec.group+'<span>'+sec.items.length+'</span></div>'
+                 + '<div class="rlist">';
         sec.items.forEach(function(it){
           var ini = it.n.replace(/^(The|Gebr\.)\s+/i, '').trim().charAt(0).toUpperCase();
-          h += '<div class="rrow">'
+          fuentes += '<div class="rrow">'
              +   '<div class="rrow-icon src-ini" style="background:' + colorFuente(it.n)
              +     '18;color:' + colorFuente(it.n) + '">' + ini + '</div>'
              +   '<div class="rrow-main">'
@@ -1176,10 +1219,29 @@ var PAGES = {
              +   '<a href="'+it.u+'" target="_blank" rel="noopener noreferrer" class="btn-open">Abrir</a>'
              + '</div>';
         });
-        h += '</div>';
+        fuentes += '</div>';
       });
+
+      var tabs = [
+        ['tb',      'Travel Blue'],
+        ['estudos', 'Estudios'],
+        ['titulos', 'Titulares'],
+        ['fuentes', 'Fuentes']
+      ];
+      var barra = '<div class="subtabs">' + tabs.map(function(t){
+        return '<button class="subtab'+(t[0]===mercadoTab?' active':'')+'" data-mk="'+t[0]+'">'
+             + t[1] + '<span class="subtab-n" id="n-'+t[0]+'"></span></button>';
+      }).join('') + '</div>';
+
+      var panes = tabs.map(function(t){
+        var dentro = t[0]==='fuentes' ? fuentes
+                   : '<div class="news-load">Cargando…</div>';
+        return '<div class="mk-pane" id="mk-'+t[0]+'"'
+             + (t[0]===mercadoTab ? '' : ' hidden') + '>' + dentro + '</div>';
+      }).join('');
+
       setTimeout(cargarNoticias, 0);   // se dibuja primero, luego llegan los titulares
-      return h;
+      return barra + panes;
     }
   },
   'permisos': {
@@ -1316,6 +1378,11 @@ function navigate(page) {
       activeFilters[ft] = chip.dataset.fv;
       navigate(page);   // vuelve a dibujar la lista con el filtro aplicado
     });
+  });
+
+  // Sub-pestañas de Mercado
+  document.querySelectorAll('.subtab').forEach(function(b){
+    b.addEventListener('click', function(){ abrirMercadoTab(b.dataset.mk); });
   });
 
   // Casillas de permisos (solo en la página Permisos)
