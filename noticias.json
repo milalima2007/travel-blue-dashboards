@@ -1,5 +1,5 @@
 {
- "atualizado": "2026-10-29T19:39:46+00:00",
+ "atualizado": "2026-10-30T13:27:40+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
@@ -49,6 +49,104 @@
  ],
  "noticias": [
   {
+   "fonte": "TRBusiness",
+   "titulo": "Changi Airport Group’s World of Wines & Spirits returns with a fifth edition",
+   "url": "https://www.trbusiness.com/channel-news/airports/changi-airport-groups-world-of-wines-spirits-returns-with-a-fifth-edition/285236",
+   "data": "2026-10-30T13:25:08+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "CDFI partners with 52TOYS for global pop-up tour",
+   "url": "https://www.dfnionline.com/brand-news/gifts-electronics/cdfi-partners-with-52toys-for-global-pop-up-tour-30-10-2026/",
+   "data": "2026-10-30T12:25:46+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Interview: Mette Engell on curating Coty’s next chapter in travel retail",
+   "url": "https://moodiedavittreport.com/interview-mette-engell-on-curating-cotys-next-chapter-in-travel-retail/?utm_source=rss&utm_medium=rss&utm_campaign=interview-mette-engell-on-curating-cotys-next-chapter-in-travel-retail",
+   "data": "2026-10-30T11:47:11+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Marc Jacobs Beauty brings colour and ‘Joyride Sensoriality’ to Sydney Airport with Heinemann Oceania",
+   "url": "https://moodiedavittreport.com/marc-jacobs-beauty-brings-colour-and-joyride-sensoriality-to-sydney-airport-with-heinemann-oceania/?utm_source=rss&utm_medium=rss&utm_campaign=marc-jacobs-beauty-brings-colour-and-joyride-sensoriality-to-sydney-airport-with-heinemann-oceania",
+   "data": "2026-10-30T11:45:03+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Coty launches Marc Jacobs Beauty at Sydney Airport",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/coty-launches-marc-jacobs-beauty-at-sydney-airport/285238",
+   "data": "2026-10-30T11:38:47+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Images of the Day: Dubai Duty Free marks Diwali with colourful, culture-rich celebration",
+   "url": "https://moodiedavittreport.com/images-of-the-day-dubai-duty-free-marks-diwali-with-colourful-culture-rich-celebration/?utm_source=rss&utm_medium=rss&utm_campaign=images-of-the-day-dubai-duty-free-marks-diwali-with-colourful-culture-rich-celebration",
+   "data": "2026-10-30T11:36:35+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Dubai Duty Free strengthens accessibility through CDA partnership",
+   "url": "https://www.dfnionline.com/latest-news/dubai-duty-free-strengthens-accessibility-through-cda-partnership-30-10-2026/",
+   "data": "2026-10-30T11:30:24+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Hamburg Airport launches tenders for 11 retail and F&B outlets",
+   "url": "https://www.dfnionline.com/latest-news/hamburg-airport-launches-tenders-for-11-retail-and-fb-outlets-30-10-2026/",
+   "data": "2026-10-30T10:24:17+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Hamburg Airport issues EU-wide tenders for retail and food & beverage outlets",
+   "url": "https://moodiedavittreport.com/hamburg-airport-issues-eu-wide-tenders-for-retail-and-food-beverage-outlets/?utm_source=rss&utm_medium=rss&utm_campaign=hamburg-airport-issues-eu-wide-tenders-for-retail-and-food-beverage-outlets",
+   "data": "2026-10-30T10:00:41+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Dubai Duty Free strengthens shopping access and independence for People of Determination",
+   "url": "https://moodiedavittreport.com/dubai-duty-free-strengthens-shopping-access-and-independence-for-people-of-determination/?utm_source=rss&utm_medium=rss&utm_campaign=dubai-duty-free-strengthens-shopping-access-and-independence-for-people-of-determination",
+   "data": "2026-10-30T09:41:44+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "China Duty Free International expands China Chic focus with Hong Kong launch of 52TOYS global pop-up tour",
+   "url": "https://moodiedavittreport.com/china-duty-free-international-expands-china-chic-focus-with-hong-kong-launch-of-52toys-global-pop-up-tour/?utm_source=rss&utm_medium=rss&utm_campaign=china-duty-free-international-expands-china-chic-focus-with-hong-kong-launch-of-52toys-global-pop-up-tour",
+   "data": "2026-10-30T09:19:53+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Adani Airports buoyed by leap in first-half non-aeronautical revenue",
+   "url": "https://moodiedavittreport.com/adani-airports-buoyed-by-leap-in-first-half-non-aeronautical-revenue/?utm_source=rss&utm_medium=rss&utm_campaign=adani-airports-buoyed-by-leap-in-first-half-non-aeronautical-revenue",
+   "data": "2026-10-30T08:38:28+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "People Moves: Bonaire International Airport names Michiel Parent as Interim Commercial Manager",
+   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
+   "data": "2026-10-30T08:00:42+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Strong Q3 for Avolta but Pudong suffers tobacco setback",
+   "url": "https://www.trbusiness.com/regional-news/international/strong-q3-for-avolta-but-pudong-suffers-tobacco-setback/285222",
+   "data": "2026-10-29T23:52:55+00:00",
+   "tipo": "noticia"
+  },
+  {
    "fonte": "The Moodie Davitt Report",
    "titulo": "London Supply Group Foundation wins global accolade for children’s health programme",
    "url": "https://moodiedavittreport.com/london-supply-group-foundation-wins-global-accolade-for-childrens-health-programme/?utm_source=rss&utm_medium=rss&utm_campaign=london-supply-group-foundation-wins-global-accolade-for-childrens-health-programme",
@@ -57,7 +155,7 @@
   },
   {
    "fonte": "TRBusiness",
-   "titulo": "Travel Retail Norway secures eight-year duty free contract with Avinor",
+   "titulo": "Travel Retail Norway secures duty free contract with Avinor to 2036",
    "url": "https://www.trbusiness.com/regional-news/international/travel-retail-norway-secures-eight-year-duty-free-contract-with-avinor/285218",
    "data": "2026-10-29T16:24:02+00:00",
    "tipo": "noticia"
@@ -292,7 +390,14 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-10-29T19:39:46.135143+00:00",
+   "data": "2026-10-30T13:27:40.406972+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Chart of the week 30 october 2026",
+   "url": "https://www.iata.org/en/publications/economics/chart-week/chart-of-the-week-30-october-2026/",
+   "data": "2026-10-30T00:00:00+00:00",
    "tipo": "estudo"
   },
   {
@@ -335,6 +440,13 @@
    "titulo": "Global Airport Passenger Traffic Reaches Record 9.8 Billion in 2025, Airports Council International World reports",
    "url": "https://aci.aero/2026/09/23/global-airport-passenger-traffic-reaches-record-9-8-billion-in-2025-airports-council-international-world-reports/",
    "data": "2026-09-23T04:30:50+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Air passenger market analysis september 2026",
+   "url": "https://www.iata.org/en/publications/economics/reports/air-passenger-market-analysis-september-2026/",
+   "data": "2026-09-01T00:00:00+00:00",
    "tipo": "estudo"
   },
   {
