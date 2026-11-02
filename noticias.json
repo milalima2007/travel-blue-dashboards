@@ -1,57 +1,94 @@
 {
- "atualizado": "2026-10-30T13:27:40+00:00",
+ "atualizado": "2026-11-02T16:29:27+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
- "fontes_com_falha": [],
- "travelblue": [
-  {
-   "fonte": "DFNI",
-   "titulo": "Travel Blue research highlights Essentials category opportunity",
-   "url": "https://www.dfnionline.com/brand-news/travel-essentials-convenience/travel-blue-research-highlights-travel-essentials-opportunity-21-09-2026/",
-   "data": "2026-09-21T10:27:22+00:00",
-   "tipo": "travelblue"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Travel Blue to unveil 3D-printed Airflow pillow",
-   "url": "https://www.dfnionline.com/brand-news/travel-essentials-convenience/travel-blue-to-unveil-3d-printed-airflow-travel-pillow-18-09-2026/",
-   "data": "2026-09-18T09:29:18+00:00",
-   "tipo": "travelblue"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Travel Blue launches fire-resistant power bank pouches",
-   "url": "https://www.dfnionline.com/latest-news/travel-blue-launches-fire-resistant-power-bank-pouches-14-09-2026/",
-   "data": "2026-09-14T10:24:07+00:00",
-   "tipo": "travelblue"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Travel Blue rolls out new Memory Collections range",
-   "url": "https://www.dfnionline.com/brand-news/travel-essentials-convenience/travel-blue-rolls-out-new-memory-collections-range-04-08-2026/",
-   "data": "2026-08-04T10:33:27+00:00",
-   "tipo": "travelblue"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Travel Blue urges GTR to rethink Essentials category",
-   "url": "https://www.dfnionline.com/brand-news/travel-essentials-convenience/travel-blue-urges-gtr-to-rethink-essentials-category-15-07-2026/",
-   "data": "2026-07-15T16:51:43+00:00",
-   "tipo": "travelblue"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Travel Blue and Heinemann debut eco backpack",
-   "url": "https://www.dfnionline.com/brand-news/travel-essentials-convenience/travel-blue-and-heinemann-debut-eco-backpack-29-05-2026/",
-   "data": "2026-05-29T12:36:24+00:00",
-   "tipo": "travelblue"
-  }
+ "fontes_com_falha": [
+  "DFNI",
+  "DFNI/TravelBlue"
  ],
+ "travelblue": [],
  "noticias": [
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Chanel captures the spirit of St. Moritz in new Les Eaux fragrance",
+   "url": "https://moodiedavittreport.com/chanel-captures-the-spirit-of-st-moritz-in-new-les-eaux-fragrance/?utm_source=rss&utm_medium=rss&utm_campaign=chanel-captures-the-spirit-of-st-moritz-in-new-les-eaux-fragrance",
+   "data": "2026-11-02T15:35:27+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Oman Duty Free and China Duty Free International sign travel retail cooperation MoU",
+   "url": "https://moodiedavittreport.com/oman-duty-free-and-china-duty-free-international-sign-travel-retail-cooperation-agreement/?utm_source=rss&utm_medium=rss&utm_campaign=oman-duty-free-and-china-duty-free-international-sign-travel-retail-cooperation-agreement",
+   "data": "2026-11-02T15:32:08+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Global Blue establishes Cash Japan at Japanese airports as new tax-free shopping refund system kicks in",
+   "url": "https://moodiedavittreport.com/global-blue-establishes-cash-japan-at-japanese-airports-as-new-tax-free-shopping-refund-system-kicks-in/?utm_source=rss&utm_medium=rss&utm_campaign=global-blue-establishes-cash-japan-at-japanese-airports-as-new-tax-free-shopping-refund-system-kicks-in",
+   "data": "2026-11-02T15:05:15+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Plaza Premium expands African footprint with Dar es Salaam lounge",
+   "url": "https://moodiedavittreport.com/plaza-premium-expands-african-footprint-with-dar-es-salaam-lounge/?utm_source=rss&utm_medium=rss&utm_campaign=plaza-premium-expands-african-footprint-with-dar-es-salaam-lounge",
+   "data": "2026-11-02T15:04:06+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Interview: Thélios’ Alessandro Eucaliptus puts luxury service at the heart of eyewear growth",
+   "url": "https://moodiedavittreport.com/interview-thelios-alessandro-eucaliptus-puts-luxury-service-at-the-heart-of-eyewear-growth/?utm_source=rss&utm_medium=rss&utm_campaign=interview-thelios-alessandro-eucaliptus-puts-luxury-service-at-the-heart-of-eyewear-growth",
+   "data": "2026-11-02T12:17:47+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Pyd showcases Tous Kaos collection with Avolta at Madrid-Barajas Airport",
+   "url": "https://moodiedavittreport.com/pyd-showcases-tous-kaos-collection-with-avolta-at-madrid-barajas-airport/?utm_source=rss&utm_medium=rss&utm_campaign=pyd-showcases-tous-kaos-collection-with-avolta-at-madrid-barajas-airport",
+   "data": "2026-11-02T11:31:15+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Revenues soft but China Tourism Group Duty Free posts +25% rise in Q3 net profits",
+   "url": "https://moodiedavittreport.com/revenues-soft-but-china-tourism-group-duty-free-posts-25-rise-in-q3-net-profits/?utm_source=rss&utm_medium=rss&utm_campaign=revenues-soft-but-china-tourism-group-duty-free-posts-25-rise-in-q3-net-profits",
+   "data": "2026-11-02T10:44:30+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "‘Spirit of Excellence’ – Dubai Airports salutes commercial and airline partners",
+   "url": "https://moodiedavittreport.com/spirit-of-excellence-dubai-airports-salutes-commercial-and-airline-partners/?utm_source=rss&utm_medium=rss&utm_campaign=spirit-of-excellence-dubai-airports-salutes-commercial-and-airline-partners",
+   "data": "2026-11-02T09:03:13+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Strange Nature gains landmark Americas travel retail listing with 3Sixty Duty Free",
+   "url": "https://moodiedavittreport.com/strange-nature-gains-landmark-americas-listing-with-3sixty-duty-free/?utm_source=rss&utm_medium=rss&utm_campaign=strange-nature-gains-landmark-americas-listing-with-3sixty-duty-free",
+   "data": "2026-11-02T07:38:15+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Dubai Duty Free collaborates with CDA to boost accessibility",
+   "url": "https://www.trbusiness.com/regional-news/middle-east/dubai-duty-free-collaborates-with-cda-to-boost-accessibility/285254",
+   "data": "2026-10-30T15:18:55+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "TRBusiness",
    "titulo": "Changi Airport Group’s World of Wines & Spirits returns with a fifth edition",
    "url": "https://www.trbusiness.com/channel-news/airports/changi-airport-groups-world-of-wines-spirits-returns-with-a-fifth-edition/285236",
+   "data": "2026-10-30T13:25:08+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Changi Airport Group’s World of Wines & Spirits returns with a fifth edition",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/changi-airport-groups-world-of-wines-spirits-returns-with-a-fifth-edition/285236",
    "data": "2026-10-30T13:25:08+00:00",
    "tipo": "noticia"
   },
@@ -390,7 +427,14 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-10-30T13:27:40.406972+00:00",
+   "data": "2026-11-02T16:29:27.756778+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Asian travel retail rebounds as The Estée Lauder Companies delivers robust Q1 results",
+   "url": "https://moodiedavittreport.com/asian-travel-retail-rebound-as-the-estee-lauder-companies-delivers-robust-q1-results/?utm_source=rss&utm_medium=rss&utm_campaign=asian-travel-retail-rebound-as-the-estee-lauder-companies-delivers-robust-q1-results",
+   "data": "2026-11-02T15:33:23+00:00",
    "tipo": "estudo"
   },
   {
