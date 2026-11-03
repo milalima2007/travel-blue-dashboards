@@ -1,9 +1,16 @@
 {
- "atualizado": "2026-10-29T19:39:46+00:00",
+ "atualizado": "2026-11-03T12:26:29+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
  "travelblue": [
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "In Conversation: Travel Blue Managing Director Daniel Levin on tapping the great travel essentials opportunity",
+   "url": "https://moodiedavittreport.com/in-conversation-travel-blue-managing-director-daniel-levin-on-tapping-the-great-travel-essentials-opportunity/",
+   "data": "2026-10-31T04:03:30+00:00",
+   "tipo": "travelblue"
+  },
   {
    "fonte": "DFNI",
    "titulo": "Travel Blue research highlights Essentials category opportunity",
@@ -49,6 +56,328 @@
  ],
  "noticias": [
   {
+   "fonte": "TRBusiness",
+   "titulo": "Clare Achieng joins Beaute Luxe as Area Manager Africa Travel Retail",
+   "url": "https://www.trbusiness.com/regional-news/middle-east/clare-achieng-joins-beaute-luxe-as-area-manager-africa-travel-retail/285285",
+   "data": "2026-11-03T11:37:06+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Rituals commits €20 million to youth mental wellbeing programmes",
+   "url": "https://moodiedavittreport.com/rituals-commits-e20-million-to-youth-mental-wellbeing-programmes/?utm_source=rss&utm_medium=rss&utm_campaign=rituals-commits-e20-million-to-youth-mental-wellbeing-programmes",
+   "data": "2026-11-03T11:29:42+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Gebr. Heinemann Italia gets green light for new duty-free store at Bari Airport",
+   "url": "https://www.trbusiness.com/regional-news/europe/gebr-heinemann-italia-gets-green-light-for-new-duty-free-store-at-bari-airport/285278",
+   "data": "2026-11-03T11:24:19+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "In Conversation: Wella Company’s Luis Blanco Álvarez on unlocking nail and haircare potential in travel retail",
+   "url": "https://moodiedavittreport.com/in-conversation-wella-companys-luis-blanco-alvarez-on-unlocking-the-potential-of-nail-and-haircare-in-travel-retail/?utm_source=rss&utm_medium=rss&utm_campaign=in-conversation-wella-companys-luis-blanco-alvarez-on-unlocking-the-potential-of-nail-and-haircare-in-travel-retail",
+   "data": "2026-11-03T11:05:54+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Gebr. Heinemann extends Bari Airport contract with new duty-free store planned",
+   "url": "https://www.dfnionline.com/latest-news/gebr-heinemann-extends-bari-airport-contract-with-new-duty-free-store-planned-03-11-2026/",
+   "data": "2026-11-03T10:56:23+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "CTG Duty-Free and Oman sign travel retail cooperation agreement",
+   "url": "https://www.dfnionline.com/latest-news/ctg-duty-free-and-oman-sign-travel-retail-cooperation-agreement-03-11-2026/",
+   "data": "2026-11-03T10:23:23+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Earnings call: East meets west in improved travel retail showing for The Estée Lauder Companies",
+   "url": "https://moodiedavittreport.com/earnings-call-east-meets-west-in-improved-travel-retail-showing-for-the-estee-lauder-companies/?utm_source=rss&utm_medium=rss&utm_campaign=earnings-call-east-meets-west-in-improved-travel-retail-showing-for-the-estee-lauder-companies",
+   "data": "2026-11-03T10:21:55+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Don’t miss out: Two weeks to go before Travel Retail Superstars Awards 2026 entries close",
+   "url": "https://moodiedavittreport.com/two-weeks-to-go-before-travel-retail-superstars-awards-2026-entries-close/?utm_source=rss&utm_medium=rss&utm_campaign=two-weeks-to-go-before-travel-retail-superstars-awards-2026-entries-close",
+   "data": "2026-11-03T10:13:22+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Heinemann Italia secures Bari Airport duty-free contract extension and plans 1,000sq m-plus store",
+   "url": "https://moodiedavittreport.com/heinemann-italia-secures-bari-airport-duty-free-contract-extension-and-plans-1000sq-m-plus-store/?utm_source=rss&utm_medium=rss&utm_campaign=heinemann-italia-secures-bari-airport-duty-free-contract-extension-and-plans-1000sq-m-plus-store",
+   "data": "2026-11-03T10:09:23+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Plaza Premium Group reveals US$20 million Australian lounge investment",
+   "url": "https://moodiedavittreport.com/plaza-premium-group-unveils-us20-million-australian-lounge-investment/?utm_source=rss&utm_medium=rss&utm_campaign=plaza-premium-group-unveils-us20-million-australian-lounge-investment",
+   "data": "2026-11-03T09:34:58+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "APTRA North Asia Forum nears capacity ahead of Hong Kong event",
+   "url": "https://moodiedavittreport.com/aptra-north-asia-forum-nears-capacity-ahead-of-hong-kong-gathering/?utm_source=rss&utm_medium=rss&utm_campaign=aptra-north-asia-forum-nears-capacity-ahead-of-hong-kong-gathering",
+   "data": "2026-11-03T08:42:31+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Airports of Thailand considers downsizing Suvarnabhumi duty-free footprint under new masterplan",
+   "url": "https://moodiedavittreport.com/airports-of-thailand-plans-to-downsize-suvarnabhumi-duty-free-footprint-under-new-masterplan/?utm_source=rss&utm_medium=rss&utm_campaign=airports-of-thailand-plans-to-downsize-suvarnabhumi-duty-free-footprint-under-new-masterplan",
+   "data": "2026-11-03T08:32:10+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "New growth models and duty-free innovation in focus at key Chinese airport commercial summit",
+   "url": "https://moodiedavittreport.com/new-growth-models-and-duty-free-innovation-in-focus-at-key-chinese-airport-commercial-and-duty-free-summit/?utm_source=rss&utm_medium=rss&utm_campaign=new-growth-models-and-duty-free-innovation-in-focus-at-key-chinese-airport-commercial-and-duty-free-summit",
+   "data": "2026-11-03T08:18:43+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "All-star: Oriental Club Lounge supervisor Miao Shu-na wins global Priority Pass award",
+   "url": "https://moodiedavittreport.com/oriental-club-lounge-supervisor-miao-shu-na-wins-global-priority-pass-award/?utm_source=rss&utm_medium=rss&utm_campaign=oriental-club-lounge-supervisor-miao-shu-na-wins-global-priority-pass-award",
+   "data": "2026-11-03T07:07:39+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Chanel captures the spirit of St. Moritz in new Les Eaux fragrance",
+   "url": "https://moodiedavittreport.com/chanel-captures-the-spirit-of-st-moritz-in-new-les-eaux-fragrance/?utm_source=rss&utm_medium=rss&utm_campaign=chanel-captures-the-spirit-of-st-moritz-in-new-les-eaux-fragrance",
+   "data": "2026-11-02T15:35:27+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Oman Duty Free and China Duty Free International sign travel retail cooperation MoU",
+   "url": "https://moodiedavittreport.com/oman-duty-free-and-china-duty-free-international-sign-travel-retail-cooperation-agreement/?utm_source=rss&utm_medium=rss&utm_campaign=oman-duty-free-and-china-duty-free-international-sign-travel-retail-cooperation-agreement",
+   "data": "2026-11-02T15:32:08+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Global Blue establishes Cash Japan at Japanese airports as new tax-free shopping refund system kicks in",
+   "url": "https://moodiedavittreport.com/global-blue-establishes-cash-japan-at-japanese-airports-as-new-tax-free-shopping-refund-system-kicks-in/?utm_source=rss&utm_medium=rss&utm_campaign=global-blue-establishes-cash-japan-at-japanese-airports-as-new-tax-free-shopping-refund-system-kicks-in",
+   "data": "2026-11-02T15:05:15+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Plaza Premium expands African footprint with Dar es Salaam lounge",
+   "url": "https://moodiedavittreport.com/plaza-premium-expands-african-footprint-with-dar-es-salaam-lounge/?utm_source=rss&utm_medium=rss&utm_campaign=plaza-premium-expands-african-footprint-with-dar-es-salaam-lounge",
+   "data": "2026-11-02T15:04:06+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Interview: Thélios’ Alessandro Eucaliptus puts luxury service at the heart of eyewear growth",
+   "url": "https://moodiedavittreport.com/interview-thelios-alessandro-eucaliptus-puts-luxury-service-at-the-heart-of-eyewear-growth/?utm_source=rss&utm_medium=rss&utm_campaign=interview-thelios-alessandro-eucaliptus-puts-luxury-service-at-the-heart-of-eyewear-growth",
+   "data": "2026-11-02T12:17:47+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Gassan celebrates 21 years of signature diamond cut",
+   "url": "https://www.dfnionline.com/brand-news/jewellery-watches/gassan-celebrates-21-years-of-signature-diamond-cut-02-11-2026/",
+   "data": "2026-11-02T11:36:21+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Pyd showcases Tous Kaos collection with Avolta at Madrid-Barajas Airport",
+   "url": "https://moodiedavittreport.com/pyd-showcases-tous-kaos-collection-with-avolta-at-madrid-barajas-airport/?utm_source=rss&utm_medium=rss&utm_campaign=pyd-showcases-tous-kaos-collection-with-avolta-at-madrid-barajas-airport",
+   "data": "2026-11-02T11:31:15+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Revenues soft but China Tourism Group Duty Free posts +25% rise in Q3 net profits",
+   "url": "https://moodiedavittreport.com/revenues-soft-but-china-tourism-group-duty-free-posts-25-rise-in-q3-net-profits/?utm_source=rss&utm_medium=rss&utm_campaign=revenues-soft-but-china-tourism-group-duty-free-posts-25-rise-in-q3-net-profits",
+   "data": "2026-11-02T10:44:30+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Jägermeister unveils new travel retail-exclusive gift pack range",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/jagermeister-unveils-new-travel-retail-exclusive-gift-pack-range-02-11-2026/",
+   "data": "2026-11-02T10:42:51+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Coty Travel Retail launches Marc Jacobs Beauty at Sydney Airport",
+   "url": "https://www.dfnionline.com/brand-news/cosmetics/coty-travel-retail-launches-marc-jacobs-beauty-at-sydney-airport-02-11-2026/",
+   "data": "2026-11-02T10:25:42+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "CTG Duty Free lifts profit as revenue falls",
+   "url": "https://www.dfnionline.com/latest-news/ctg-duty-free-lifts-profit-as-revenue-falls-02-11-2026/",
+   "data": "2026-11-02T09:51:12+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "‘Spirit of Excellence’ – Dubai Airports salutes commercial and airline partners",
+   "url": "https://moodiedavittreport.com/spirit-of-excellence-dubai-airports-salutes-commercial-and-airline-partners/?utm_source=rss&utm_medium=rss&utm_campaign=spirit-of-excellence-dubai-airports-salutes-commercial-and-airline-partners",
+   "data": "2026-11-02T09:03:13+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Strange Nature gains landmark Americas travel retail listing with 3Sixty Duty Free",
+   "url": "https://moodiedavittreport.com/strange-nature-gains-landmark-americas-listing-with-3sixty-duty-free/?utm_source=rss&utm_medium=rss&utm_campaign=strange-nature-gains-landmark-americas-listing-with-3sixty-duty-free",
+   "data": "2026-11-02T07:38:15+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "ARI: Placing relevance at the heart of growth",
+   "url": "https://www.dfnionline.com/latest-news/ari-placing-relevance-at-the-heart-of-growth-30-10-2026/",
+   "data": "2026-10-30T17:57:13+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Dubai Duty Free collaborates with CDA to boost accessibility",
+   "url": "https://www.trbusiness.com/regional-news/middle-east/dubai-duty-free-collaborates-with-cda-to-boost-accessibility/285254",
+   "data": "2026-10-30T15:18:55+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Haribo and Avolta launch Halloween treasure hunt across Europe",
+   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/haribo-and-avolta-launch-halloween-treasure-hunt-across-europe-30-10-2026/",
+   "data": "2026-10-30T13:45:34+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Changi Airport Group’s World of Wines & Spirits returns with a fifth edition",
+   "url": "https://www.trbusiness.com/channel-news/airports/changi-airport-groups-world-of-wines-spirits-returns-with-a-fifth-edition/285236",
+   "data": "2026-10-30T13:25:08+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Changi Airport Group’s World of Wines & Spirits returns with a fifth edition",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/changi-airport-groups-world-of-wines-spirits-returns-with-a-fifth-edition/285236",
+   "data": "2026-10-30T13:25:08+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Dubai Duty Free marks Diwali with celebrations and prize draws",
+   "url": "https://www.dfnionline.com/latest-news/dubai-duty-free-marks-diwali-with-celebrations-and-prize-draws-30-10-2026/",
+   "data": "2026-10-30T13:17:23+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "CDFI partners with 52TOYS for global pop-up tour",
+   "url": "https://www.dfnionline.com/brand-news/gifts-electronics/cdfi-partners-with-52toys-for-global-pop-up-tour-30-10-2026/",
+   "data": "2026-10-30T12:25:46+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Interview: Mette Engell on curating Coty’s next chapter in travel retail",
+   "url": "https://moodiedavittreport.com/interview-mette-engell-on-curating-cotys-next-chapter-in-travel-retail/?utm_source=rss&utm_medium=rss&utm_campaign=interview-mette-engell-on-curating-cotys-next-chapter-in-travel-retail",
+   "data": "2026-10-30T11:47:11+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Marc Jacobs Beauty brings colour and ‘Joyride Sensoriality’ to Sydney Airport with Heinemann Oceania",
+   "url": "https://moodiedavittreport.com/marc-jacobs-beauty-brings-colour-and-joyride-sensoriality-to-sydney-airport-with-heinemann-oceania/?utm_source=rss&utm_medium=rss&utm_campaign=marc-jacobs-beauty-brings-colour-and-joyride-sensoriality-to-sydney-airport-with-heinemann-oceania",
+   "data": "2026-10-30T11:45:03+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Coty launches Marc Jacobs Beauty at Sydney Airport",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/coty-launches-marc-jacobs-beauty-at-sydney-airport/285238",
+   "data": "2026-10-30T11:38:47+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Images of the Day: Dubai Duty Free marks Diwali with colourful, culture-rich celebration",
+   "url": "https://moodiedavittreport.com/images-of-the-day-dubai-duty-free-marks-diwali-with-colourful-culture-rich-celebration/?utm_source=rss&utm_medium=rss&utm_campaign=images-of-the-day-dubai-duty-free-marks-diwali-with-colourful-culture-rich-celebration",
+   "data": "2026-10-30T11:36:35+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Dubai Duty Free strengthens accessibility through CDA partnership",
+   "url": "https://www.dfnionline.com/latest-news/dubai-duty-free-strengthens-accessibility-through-cda-partnership-30-10-2026/",
+   "data": "2026-10-30T11:30:24+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Hamburg Airport launches tenders for 11 retail and F&B outlets",
+   "url": "https://www.dfnionline.com/latest-news/hamburg-airport-launches-tenders-for-11-retail-and-fb-outlets-30-10-2026/",
+   "data": "2026-10-30T10:24:17+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Hamburg Airport issues EU-wide tenders for retail and food & beverage outlets",
+   "url": "https://moodiedavittreport.com/hamburg-airport-issues-eu-wide-tenders-for-retail-and-food-beverage-outlets/?utm_source=rss&utm_medium=rss&utm_campaign=hamburg-airport-issues-eu-wide-tenders-for-retail-and-food-beverage-outlets",
+   "data": "2026-10-30T10:00:41+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Dubai Duty Free strengthens shopping access and independence for People of Determination",
+   "url": "https://moodiedavittreport.com/dubai-duty-free-strengthens-shopping-access-and-independence-for-people-of-determination/?utm_source=rss&utm_medium=rss&utm_campaign=dubai-duty-free-strengthens-shopping-access-and-independence-for-people-of-determination",
+   "data": "2026-10-30T09:41:44+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "China Duty Free International expands China Chic focus with Hong Kong launch of 52TOYS global pop-up tour",
+   "url": "https://moodiedavittreport.com/china-duty-free-international-expands-china-chic-focus-with-hong-kong-launch-of-52toys-global-pop-up-tour/?utm_source=rss&utm_medium=rss&utm_campaign=china-duty-free-international-expands-china-chic-focus-with-hong-kong-launch-of-52toys-global-pop-up-tour",
+   "data": "2026-10-30T09:19:53+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Adani Airports buoyed by leap in first-half non-aeronautical revenue",
+   "url": "https://moodiedavittreport.com/adani-airports-buoyed-by-leap-in-first-half-non-aeronautical-revenue/?utm_source=rss&utm_medium=rss&utm_campaign=adani-airports-buoyed-by-leap-in-first-half-non-aeronautical-revenue",
+   "data": "2026-10-30T08:38:28+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "People Moves: Bonaire International Airport names Michiel Parent as Interim Commercial Manager",
+   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
+   "data": "2026-10-30T08:00:42+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Strong Q3 for Avolta but Pudong suffers tobacco setback",
+   "url": "https://www.trbusiness.com/regional-news/international/strong-q3-for-avolta-but-pudong-suffers-tobacco-setback/285222",
+   "data": "2026-10-29T23:52:55+00:00",
+   "tipo": "noticia"
+  },
+  {
    "fonte": "The Moodie Davitt Report",
    "titulo": "London Supply Group Foundation wins global accolade for children’s health programme",
    "url": "https://moodiedavittreport.com/london-supply-group-foundation-wins-global-accolade-for-childrens-health-programme/?utm_source=rss&utm_medium=rss&utm_campaign=london-supply-group-foundation-wins-global-accolade-for-childrens-health-programme",
@@ -57,7 +386,7 @@
   },
   {
    "fonte": "TRBusiness",
-   "titulo": "Travel Retail Norway secures eight-year duty free contract with Avinor",
+   "titulo": "Travel Retail Norway secures duty free contract with Avinor to 2036",
    "url": "https://www.trbusiness.com/regional-news/international/travel-retail-norway-secures-eight-year-duty-free-contract-with-avinor/285218",
    "data": "2026-10-29T16:24:02+00:00",
    "tipo": "noticia"
@@ -292,7 +621,35 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-10-29T19:39:46.135143+00:00",
+   "data": "2026-11-03T12:26:29.406222+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Asian travel retail rebounds as The Estée Lauder Companies delivers robust Q1 results",
+   "url": "https://moodiedavittreport.com/asian-travel-retail-rebound-as-the-estee-lauder-companies-delivers-robust-q1-results/?utm_source=rss&utm_medium=rss&utm_campaign=asian-travel-retail-rebound-as-the-estee-lauder-companies-delivers-robust-q1-results",
+   "data": "2026-11-02T15:33:23+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Estée Lauder raises fiscal 2027 outlook after strong first quarter",
+   "url": "https://www.dfnionline.com/brand-news/cosmetics/estee-lauder-raises-fiscal-2027-outlook-after-strong-first-quarter-02-11-2026/",
+   "data": "2026-11-02T11:31:10+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Shelftrak reports SKU growth outpacing shelf space in travel retail",
+   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/shelftrak-reports-sku-growth-outpacing-shelf-space-in-travel-retail-02-11-2026/",
+   "data": "2026-11-02T11:14:04+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Chart of the week 30 october 2026",
+   "url": "https://www.iata.org/en/publications/economics/chart-week/chart-of-the-week-30-october-2026/",
+   "data": "2026-10-30T00:00:00+00:00",
    "tipo": "estudo"
   },
   {
@@ -335,6 +692,13 @@
    "titulo": "Global Airport Passenger Traffic Reaches Record 9.8 Billion in 2025, Airports Council International World reports",
    "url": "https://aci.aero/2026/09/23/global-airport-passenger-traffic-reaches-record-9-8-billion-in-2025-airports-council-international-world-reports/",
    "data": "2026-09-23T04:30:50+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Air passenger market analysis september 2026",
+   "url": "https://www.iata.org/en/publications/economics/reports/air-passenger-market-analysis-september-2026/",
+   "data": "2026-09-01T00:00:00+00:00",
    "tipo": "estudo"
   },
   {

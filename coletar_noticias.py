@@ -31,6 +31,20 @@ FONTES_TB = [
     ("DFNI", 'https://www.dfnionline.com/?s=%22travel+blue%22&feed=rss2'),
 ]
 
+# Artigos sobre a Travel Blue acrescentados a mao.
+# Serve para fontes sem busca por feed (ex.: Moodie Davitt) ou para
+# recuperar materias antigas. Basta juntar uma linha nova.
+EXTRAS_TB = [
+    {
+        "fonte":  "The Moodie Davitt Report",
+        "titulo": "In Conversation: Travel Blue Managing Director Daniel Levin "
+                  "on tapping the great travel essentials opportunity",
+        "url":    "https://moodiedavittreport.com/in-conversation-travel-blue-managing-director-"
+                  "daniel-levin-on-tapping-the-great-travel-essentials-opportunity/",
+        "data":   "2026-10-31T04:03:30+00:00",
+    },
+]
+
 JANELA_NOTICIAS   = 30    # dias que uma noticia fica no portal
 JANELA_ESTUDOS    = 365   # dias que um estudo/relatorio fica
 JANELA_TRAVELBLUE = 365   # mencoes a Travel Blue: guardar muito tempo
@@ -193,7 +207,10 @@ def carregar_anteriores():
     try:
         with open(SAIDA, encoding="utf-8") as f:
             d = json.load(f)
-        return (d.get("noticias") or []) + (d.get("estudos") or [])
+        # travelblue TEM de entrar aqui: se faltar, uma falha momentanea
+        # de uma fonte apaga o historico da marca
+        return ((d.get("noticias") or []) + (d.get("estudos") or [])
+                + (d.get("travelblue") or []))
     except Exception:
         return []
 
@@ -233,6 +250,11 @@ def main():
         except Exception as e:
             problemas.append(f"{nome}/TravelBlue")
             print(f"{nome} (Travel Blue): FALHOU ({type(e).__name__}: {e})")
+
+    for e in EXTRAS_TB:
+        novos.append(dict(e, tipo="travelblue"))
+    if EXTRAS_TB:
+        print(f"Travel Blue (lista manual): {len(EXTRAS_TB)} itens")
 
     try:
         itens = ler_iata()
