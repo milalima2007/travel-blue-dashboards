@@ -1,5 +1,5 @@
 {
- "atualizado": "2026-11-03T12:26:29+00:00",
+ "atualizado": "2026-11-03T12:54:54+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
@@ -55,6 +55,13 @@
   }
  ],
  "noticias": [
+  {
+   "fonte": "DFNI",
+   "titulo": "APTRA North Asia Forum: Final tickets available ahead of Hong Kong event",
+   "url": "https://www.dfnionline.com/latest-news/aptra-north-asia-forum-final-tickets-available-ahead-of-hong-kong-event-03-11-2026/",
+   "data": "2026-11-03T12:03:39+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "TRBusiness",
    "titulo": "Clare Achieng joins Beaute Luxe as Area Manager Africa Travel Retail",
@@ -621,7 +628,14 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-03T12:26:29.406222+00:00",
+   "data": "2026-11-03T12:54:54.863307+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Make your voice count in our state-of-the-industry survey",
+   "url": "https://www.trbusiness.com/data-analysis/surveys/make-your-voice-count-in-our-state-of-the-industry-survey/285269",
+   "data": "2026-11-03T12:33:38+00:00",
    "tipo": "estudo"
   },
   {
