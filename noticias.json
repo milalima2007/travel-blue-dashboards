@@ -1,5 +1,5 @@
 {
- "atualizado": "2026-11-03T12:54:54+00:00",
+ "atualizado": "2026-11-03T14:36:53+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
@@ -55,6 +55,13 @@
   }
  ],
  "noticias": [
+  {
+   "fonte": "DFNI",
+   "titulo": "Bacardi GTR expands Patrón Ibiza activation across Europe and Dubai",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/bacardi-gtr-expands-patron-ibiza-activation-across-europe-and-dubai-03-11-2026/",
+   "data": "2026-11-03T13:32:22+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "DFNI",
    "titulo": "APTRA North Asia Forum: Final tickets available ahead of Hong Kong event",
@@ -628,7 +635,7 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-03T12:54:54.863307+00:00",
+   "data": "2026-11-03T14:36:53.182449+00:00",
    "tipo": "estudo"
   },
   {
