@@ -306,8 +306,25 @@
     .news-row:hover .news-arrow { color: var(--navy); transform: translate(2px,-2px); }
 
     /* ── PERMISOS ── */
+    .perm-pick {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .perm-pick label {
+      font-size: 11px; font-weight: 700; color: var(--faint);
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .perm-pick select {
+      font-family: inherit; font-size: 13.5px; color: var(--ink);
+      padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px;
+      background: var(--card); min-width: 320px; cursor: pointer;
+    }
+    .perm-pick select:focus { outline: none; border-color: var(--navy); }
+    .perm-role { font-size: 12.5px; color: var(--muted); }
+    [data-theme="dark"] .perm-pick select { background: var(--card); color: var(--ink); border-color: var(--line); }
+
     .perm-table { font-size: 13px; }
-    .perm-table th.perm-col, .perm-table td.perm-col { text-align: center; width: 92px; }
+    .perm-table th.perm-col, .perm-table td.perm-col { text-align: center; width: 56px; }
     .perm-table th.perm-col { font-size: 11px; color: #1B2A6B; }
     .perm-table tr.perm-sec td {
       background: #F4F5F7; font-size: 11px; font-weight: 700; color: #1B2A6B;
@@ -661,13 +678,41 @@
    PERFILES DE USUARIO
 ══════════════════════════════════════════════════════ */
 var USER_PROFILES = {
-  'soporte.latam@travel-blue.com': { name:'Camila Lima',         key:'camila',    role:'LATAM · BI Analyst',         access:'all', admin:true  },
-  'milalima2007@gmail.com':        { name:'Camila Lima',         key:'camila',    role:'LATAM · BI Analyst',         access:'all', admin:true  },
-  'guillermo@travel-blue.com':     { name:'Guillermo Benzaquen', key:'guillermo', role:'Director LATAM',             access:'all', admin:true  },
-  'edgardo@travel-blue.com':       { name:'Edgardo',             key:'edgardo',   role:'LATAM',                      access:'restricted', admin:false },
-  'noe@travel-blue.com':           { name:'Noe',                 key:'noe',       role:'México · Country Manager',   access:'restricted', admin:false },
-  'javo@travel-blue.com':          { name:'Javo',                key:'javo',      role:'México · Gerente de Ventas', access:'restricted', admin:false },
-  'itamar@travel-blue.com':        { name:'Itamar',              key:'itamar',    role:'Brasil · Country Manager',   access:'restricted', admin:false },
+  'soporte.latam@travel-blue.com': { name:'Camila Lima da Silva', key:'camila', role:'Latam · BI Consultant', access:'all', admin:true },
+  'milalima2007@gmail.com': { name:'Camila Lima', key:'camila', role:'LATAM · BI Consultant', access:'all', admin:true },
+  'guillermo@travel-blue.com': { name:'Guillermo Benzaquen', key:'guillermo', role:'Latam · Latam Director', access:'all', admin:true },
+  'alanb@travel-blue.com': { name:'Alan Brennan', key:'alan', role:'Europe · Global Commercial Director', access:'restricted', admin:false },
+  'china.accounts@travel-blue.com': { name:'Alice GAO', key:'alice', role:'China · Finace Manager', access:'restricted', admin:false },
+  'andy@travel-blue.com': { name:'Andy KING', key:'andy', role:'China · Managing Director', access:'restricted', admin:false },
+  'financeiro.brasil@travel-blue.com': { name:'Cristiane Pereira Martins', key:'cristiane', role:'Brasil · Financial & Consulting Analyst', access:'restricted', admin:false },
+  'daniel@travel-blue.com': { name:'Daniel Levin', key:'daniel', role:'Europe · Manager Director', access:'restricted', admin:false },
+  'finanzasmx@travel-blue.com': { name:'Dayne Isabel López Molina', key:'dayne', role:'Mexico · Accountant', access:'restricted', admin:false },
+  'edgardo@travel-blue.com': { name:'Edgardo', key:'edgardo', role:'Latam', access:'restricted', admin:false },
+  'comercial@travel-blue.com': { name:'Elisabet Arnau', key:'elisabet', role:'Europe · Office Manager', access:'restricted', admin:false },
+  'ezequiel@travel-blue.com': { name:'Ezequiel', key:'ezequiel', role:'Latam · Regional Ecom Manager', access:'restricted', admin:false },
+  'federico@travel-blue.com': { name:'Federico Marin', key:'federico', role:'Latam · Export Sales Manager', access:'restricted', admin:false },
+  'ventas2.mexico@travel-blue.com': { name:'Fernando Javier Espinoza Pérez', key:'fernando', role:'Mexico · Commercial Analyst', access:'restricted', admin:false },
+  'javo@travel-blue.com': { name:'Francisco Javier González Villaseñor', key:'javo', role:'Mexico · Sales Manager', access:'restricted', admin:false },
+  'gilson@travel-blue.com': { name:'Gilson', key:'gilson', role:'Brasil · Sales Manager', access:'restricted', admin:false },
+  'guilherme@travel-blue.com': { name:'Guilherme Henrique Sanchez de Almeida', key:'guilherme', role:'Brasil · Sales Manager', access:'restricted', admin:false },
+  'ioana@travel-blue.com': { name:'Ioana Diaconescu', key:'ioana', role:'Europe · Regional Manager', access:'restricted', admin:false },
+  'itamar@travel-blue.com': { name:'Itamar Teixeira da Silva Lazarini', key:'itamar', role:'Brasil · Country Manager', access:'restricted', admin:false },
+  'jackie@travel-blue.com': { name:'Jackie Hernandez', key:'jackie', role:'Europe · Regional Manager', access:'restricted', admin:false },
+  'julieta@travel-blue.com': { name:'Julieta Estrella', key:'julieta', role:'Mexico · Administrative & Logistics Analyst', access:'restricted', admin:false },
+  'karin@travel-blue.com': { name:'Karin Christgau', key:'karin', role:'Europe · Account Manager', access:'restricted', admin:false },
+  'loanarusciano12@gmail.com': { name:'Loana Rusciano Evelyn', key:'loana', role:'Latam · Customer Service Analyst', access:'restricted', admin:false },
+  'lucas@travel-blue.com': { name:'Lucas Matías Villarruel', key:'lucas', role:'Brasil · Supply Chain Manager', access:'restricted', admin:false },
+  'marcela@travel-blue.com': { name:'Marcela Tavares Martinez', key:'marcela', role:'Brasil · Office Manager', access:'restricted', admin:false },
+  'logistica.latam@travel-blue.com': { name:'Matias Pardo Feijoo', key:'matias', role:'Latam · Comex', access:'restricted', admin:false },
+  'ventas1.mexico@travel-blue.com': { name:'Mauricio Sánchez', key:'mauricio', role:'Mexico · Institutional Sales', access:'restricted', admin:false },
+  'mohammed@travel-blue.com': { name:'Mohammed Bagasrawala', key:'mohammed', role:'Europe · Regional Ecom Manager', access:'restricted', admin:false },
+  'nikunjdavda5@gmail.com': { name:'Nikunj Krishnakant Davda', key:'nikunj', role:'India · Sales Head India', access:'restricted', admin:false },
+  'bhisenitish23@gmail.com': { name:'Nitish Shirish Bhise', key:'nitish', role:'India · Key Accounts Manager', access:'restricted', admin:false },
+  'noe@travel-blue.com': { name:'Noé Barrera Bravo', key:'noe', role:'Mexico · Country Manager', access:'restricted', admin:false },
+  'piotr@travel-blue.com': { name:'Piotr Byzia', key:'piotr', role:'Europe · Regional Manager CEE', access:'restricted', admin:false },
+  'leonard@travelblue.com': { name:'Poh Tzu Wei Leonard', key:'poh', role:'Singapore · Director', access:'restricted', admin:false },
+  'pradeep@travel-blue.com': { name:'Pradeep Singh Parmar', key:'pradeep', role:'India · Director', access:'restricted', admin:false },
+  'sylviaw@travel-blue.com': { name:'Sylvia Wilson', key:'sylvia', role:'Europe', access:'restricted', admin:false },
 };
 
 /* ══════════════════════════════════════════════════════
@@ -841,12 +886,40 @@ var REPORTS = [
    EQUIPO
 ══════════════════════════════════════════════════════ */
 var TEAM = [
-  { name:'Camila Lima',         email:'soporte.latam@travel-blue.com', cargo:'BI Analyst', region:'LATAM',  av:'CL', avc:'av-navy',   acc:'all' },
-  { name:'Guillermo Benzaquen', email:'guillermo@travel-blue.com', cargo:'Director LATAM',  region:'Global',  av:'GB', avc:'av-navy',   acc:'all' },
-  { name:'Edgardo',             email:'edgardo@travel-blue.com', cargo:'A confirmar',        region:'LATAM',   av:'ED', avc:'av-green',  acc:'all' },
-  { name:'Noe',                 email:'noe@travel-blue.com',     cargo:'Country Manager',    region:'México',  av:'NO', avc:'av-orange', acc:'mexico' },
-  { name:'Javo',                email:'javo@travel-blue.com',    cargo:'Gerente de Ventas',  region:'México',  av:'JV', avc:'av-orange', acc:'mexico' },
-  { name:'Itamar',              email:'itamar@travel-blue.com',  cargo:'Country Manager',    region:'Brasil',  av:'IT', avc:'av-purple', acc:'brasil' },
+  { name:'Cristiane Pereira Martins', email:'financeiro.brasil@travel-blue.com', cargo:'Financial & Consulting Analyst', region:'Brasil', av:'CP', avc:'av-purple' },
+  { name:'Gilson', email:'gilson@travel-blue.com', cargo:'Sales Manager', region:'Brasil', av:'G', avc:'av-purple' },
+  { name:'Guilherme Henrique Sanchez de Almeida', email:'guilherme@travel-blue.com', cargo:'Sales Manager', region:'Brasil', av:'GH', avc:'av-purple' },
+  { name:'Itamar Teixeira da Silva Lazarini', email:'itamar@travel-blue.com', cargo:'Country Manager', region:'Brasil', av:'IT', avc:'av-purple' },
+  { name:'Lucas Matías Villarruel', email:'lucas@travel-blue.com', cargo:'Supply Chain Manager', region:'Brasil', av:'LM', avc:'av-purple' },
+  { name:'Marcela Tavares Martinez', email:'marcela@travel-blue.com', cargo:'Office Manager', region:'Brasil', av:'MT', avc:'av-purple' },
+  { name:'Alice GAO', email:'china.accounts@travel-blue.com', cargo:'Finace Manager', region:'China', av:'AG', avc:'av-orange' },
+  { name:'Andy KING', email:'andy@travel-blue.com', cargo:'Managing Director', region:'China', av:'AK', avc:'av-orange' },
+  { name:'Alan Brennan', email:'alanb@travel-blue.com', cargo:'Global Commercial Director', region:'Europe', av:'AB', avc:'av-green' },
+  { name:'Daniel Levin', email:'daniel@travel-blue.com', cargo:'Manager Director', region:'Europe', av:'DL', avc:'av-green' },
+  { name:'Elisabet Arnau', email:'comercial@travel-blue.com', cargo:'Office Manager', region:'Europe', av:'EA', avc:'av-green' },
+  { name:'Ioana Diaconescu', email:'ioana@travel-blue.com', cargo:'Regional Manager', region:'Europe', av:'ID', avc:'av-green' },
+  { name:'Jackie Hernandez', email:'jackie@travel-blue.com', cargo:'Regional Manager', region:'Europe', av:'JH', avc:'av-green' },
+  { name:'Karin Christgau', email:'karin@travel-blue.com', cargo:'Account Manager', region:'Europe', av:'KC', avc:'av-green' },
+  { name:'Mohammed Bagasrawala', email:'mohammed@travel-blue.com', cargo:'Regional Ecom Manager', region:'Europe', av:'MB', avc:'av-green' },
+  { name:'Piotr Byzia', email:'piotr@travel-blue.com', cargo:'Regional Manager CEE', region:'Europe', av:'PB', avc:'av-green' },
+  { name:'Sylvia Wilson', email:'sylviaw@travel-blue.com', cargo:'A confirmar', region:'Europe', av:'SW', avc:'av-green' },
+  { name:'Nikunj Krishnakant Davda', email:'nikunjdavda5@gmail.com', cargo:'Sales Head India', region:'India', av:'NK', avc:'av-green' },
+  { name:'Nitish Shirish Bhise', email:'bhisenitish23@gmail.com', cargo:'Key Accounts Manager', region:'India', av:'NS', avc:'av-green' },
+  { name:'Pradeep Singh Parmar', email:'pradeep@travel-blue.com', cargo:'Director', region:'India', av:'PS', avc:'av-green' },
+  { name:'Camila Lima da Silva', email:'soporte.latam@travel-blue.com', cargo:'BI Consultant', region:'Latam', av:'CL', avc:'av-navy' },
+  { name:'Edgardo', email:'edgardo@travel-blue.com', cargo:'A confirmar', region:'Latam', av:'E', avc:'av-navy' },
+  { name:'Ezequiel', email:'ezequiel@travel-blue.com', cargo:'Regional Ecom Manager', region:'Latam', av:'E', avc:'av-navy' },
+  { name:'Federico Marin', email:'federico@travel-blue.com', cargo:'Export Sales Manager', region:'Latam', av:'FM', avc:'av-navy' },
+  { name:'Guillermo Benzaquen', email:'guillermo@travel-blue.com', cargo:'Latam Director', region:'Latam', av:'GB', avc:'av-navy' },
+  { name:'Loana Rusciano Evelyn', email:'loanarusciano12@gmail.com', cargo:'Customer Service Analyst', region:'Latam', av:'LR', avc:'av-navy' },
+  { name:'Matias Pardo Feijoo', email:'logistica.latam@travel-blue.com', cargo:'Comex', region:'Latam', av:'MP', avc:'av-navy' },
+  { name:'Dayne Isabel López Molina', email:'finanzasmx@travel-blue.com', cargo:'Accountant', region:'Mexico', av:'DI', avc:'av-orange' },
+  { name:'Fernando Javier Espinoza Pérez', email:'ventas2.mexico@travel-blue.com', cargo:'Commercial Analyst', region:'Mexico', av:'FJ', avc:'av-orange' },
+  { name:'Francisco Javier González Villaseñor', email:'javo@travel-blue.com', cargo:'Sales Manager', region:'Mexico', av:'FJ', avc:'av-orange' },
+  { name:'Julieta Estrella', email:'julieta@travel-blue.com', cargo:'Administrative & Logistics Analyst', region:'Mexico', av:'JE', avc:'av-orange' },
+  { name:'Mauricio Sánchez', email:'ventas1.mexico@travel-blue.com', cargo:'Institutional Sales', region:'Mexico', av:'MS', avc:'av-orange' },
+  { name:'Noé Barrera Bravo', email:'noe@travel-blue.com', cargo:'Country Manager', region:'Mexico', av:'NB', avc:'av-orange' },
+  { name:'Poh Tzu Wei Leonard', email:'leonard@travelblue.com', cargo:'Director', region:'Singapore', av:'PT', avc:'av-purple' },
 ];
 
 /* ══════════════════════════════════════════════════════
@@ -935,6 +1008,9 @@ function iniciarTema() {
     aplicarTema(actual === 'dark' ? 'light' : 'dark');
   });
 }
+
+/* Persona seleccionada en la pestaña Permisos */
+var permPersona = null;
 
 /* Sub-pestaña abierta dentro de Mercado */
 var mercadoTab = 'tb';
@@ -1260,58 +1336,84 @@ var PAGES = {
              + 'que están escritos en el portal.' + (ACCESS_ERROR ? '<br><small>'+ACCESS_ERROR+'</small>' : '') + '</div>';
       }
 
+      // una persona a la vez: con 30+ personas una matriz sería ilegible
+      if (!team.some(function(p){ return p.key === permPersona; })) permPersona = team[0].key;
+      var persona = team.filter(function(p){ return p.key === permPersona; })[0];
+
+      var selector = '<div class="perm-pick">'
+        + '<label for="perm-user">Persona</label>'
+        + '<select id="perm-user">'
+        + team.map(function(p){
+            var n = REPORTS.filter(function(r){ return allowedFor(r).indexOf(p.key) >= 0; }).length;
+            return '<option value="'+p.key+'"'+(p.key===permPersona?' selected':'')+'>'
+                 + p.name + ' — ' + (n ? n + ' reporte' + (n>1?'s':'') : 'sin acceso') + '</option>';
+          }).join('')
+        + '</select>'
+        + '<span class="perm-role">'+(persona.role||'')+'</span>'
+        + '</div>';
+
       var SECTIONS = [
         ['LATAM',    function(r){ return r.region==='latam'  && r.type==='HTML'; }],
         ['Global',   function(r){ return r.region==='global' && r.type==='HTML'; }],
         ['Power BI', function(r){ return r.type==='BI'; }]
       ];
 
-      var head = '<tr><th>Reporte</th>'
-        + team.map(function(p){ return '<th class="perm-col">'+p.name+'</th>'; }).join('')
-        + '</tr>';
-
       var body = '';
       SECTIONS.forEach(function(sec){
         var list = REPORTS.filter(sec[1]);
         if (!list.length) return;
-        body += '<tr class="perm-sec"><td colspan="'+(team.length+1)+'">'+sec[0]+'</td></tr>';
+        body += '<tr class="perm-sec"><td colspan="2">'+sec[0]+'</td></tr>';
         list.forEach(function(r){
-          var allowed = allowedFor(r);
-          body += '<tr><td><span style="margin-right:8px;">'+r.icon+'</span>'+r.name+'</td>'
-            + team.map(function(p){
-                var on = allowed.indexOf(p.key) >= 0 ? ' checked' : '';
-                return '<td class="perm-col"><input type="checkbox" class="perm-box"'
-                     + ' data-report="'+r.id+'" data-user="'+p.key+'"'+on
-                     + (ACCESS === null ? ' disabled' : '') + '></td>';
-              }).join('')
+          var on = allowedFor(r).indexOf(permPersona) >= 0 ? ' checked' : '';
+          body += '<tr>'
+            + '<td class="perm-col"><input type="checkbox" class="perm-box"'
+            +   ' data-report="'+r.id+'" data-user="'+permPersona+'"'+on
+            +   (ACCESS === null ? ' disabled' : '') + '></td>'
+            + '<td><span style="margin-right:8px;">'+r.icon+'</span>'+r.name
+            +   '<span style="color:var(--faint);font-size:12px;margin-left:8px;">'+r.label+'</span></td>'
             + '</tr>';
         });
       });
 
-      return warn
-        + '<p style="font-size:13px;color:#888;margin-bottom:16px;">Los administradores ven todos los reportes siempre. '
-        + 'Cada cambio se guarda al instante.</p>'
+      return warn + selector
+        + '<p style="font-size:13px;color:var(--muted);margin-bottom:14px;">'
+        + 'Marca los reportes que <strong>'+persona.name+'</strong> puede ver. '
+        + 'Cada cambio se guarda al instante. Los administradores ven todo siempre.</p>'
         + '<div id="perm-msg" class="perm-msg"></div>'
-        + '<div class="table-card"><table class="perm-table"><thead>'+head+'</thead><tbody>'+body+'</tbody></table></div>';
+        + '<div class="table-card"><table class="perm-table"><tbody>'+body+'</tbody></table></div>';
     }
   },
   'equipo': {
     title: 'Equipo',
-    sub: 'Directorio del equipo LATAM',
+    sub: 'Directorio del equipo Travel Blue',
     render: function() {
       if (!currentProfile || !currentProfile.admin) return restricted();
       var rows = '';
       for (var i=0; i<TEAM.length; i++) {
         var m = TEAM[i];
+        var perfil = USER_PROFILES[m.email];
+        var pill;
+        if (perfil && perfil.admin) {
+          pill = '<span class="pill pill-done">Administrador</span>';
+        } else if (perfil) {
+          var n = REPORTS.filter(function(r){ return allowedFor(r).indexOf(perfil.key) >= 0; }).length;
+          pill = n
+            ? '<span class="pill pill-ok">'+n+' reporte'+(n>1?'s':'')+'</span>'
+            : '<span class="pill pill-pending">Sin acceso</span>';
+        } else {
+          pill = '<span class="pill pill-pending">Sin perfil</span>';
+        }
         rows += '<tr>'
           +'<td><div class="name-cell"><span class="avatar '+m.avc+'">'+m.av+'</span>'+m.name+'</div></td>'
-          +'<td style="color:#888;">'+m.email+'</td>'
-          +'<td style="color:#555;">'+m.cargo+'</td>'
-          +'<td style="color:#555;">'+m.region+'</td>'
-          +'<td><span class="pill '+ACC_PILL[m.acc]+'">'+ACC_LABEL[m.acc]+'</span></td>'
+          +'<td style="color:var(--muted);">'+m.email+'</td>'
+          +'<td style="color:var(--muted);">'+m.cargo+'</td>'
+          +'<td style="color:var(--muted);">'+m.region+'</td>'
+          +'<td>'+pill+'</td>'
           +'</tr>';
       }
-      return '<div class="table-card"><table>'
+      return '<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">'
+        + TEAM.length + ' personas. Los accesos se gestionan en la pestaña <strong>Permisos</strong>.</p>'
+        + '<div class="table-card"><table>'
         +'<thead><tr><th>Nombre</th><th>Correo</th><th>Cargo</th><th>Región</th><th>Acceso</th></tr></thead>'
         +'<tbody>'+rows+'</tbody></table></div>';
     }
@@ -1321,9 +1423,16 @@ var PAGES = {
     sub: 'Credenciales de acceso al portal por usuario',
     render: function() {
       if (!currentProfile || !currentProfile.admin) return restricted();
-      var h = '<p style="font-size:13px;color:#aaa;margin-bottom:20px;">Contraseña inicial de todos: <code style="background:#F4F5F7;padding:3px 8px;border-radius:6px;font-size:13px;">TravelBlue2026!</code> — Se recomienda que cada usuario la cambie al ingresar por primera vez.</p>';
+      var h = '<div class="perm-warn" style="background:#eef1fc;border-color:#c7cde0;color:#3c4ea8;">'
+        + '<strong>Cómo entra cada persona.</strong> No hay contraseña inicial: cada uno crea la suya. '
+        + 'En la pantalla de acceso hace clic en <em>«¿Olvidaste tu contraseña?»</em>, escribe su correo '
+        + 'y recibe un enlace para definirla. El mismo camino sirve si la olvida más adelante.'
+        + '</div>'
+        + '<p style="font-size:13px;color:var(--muted);margin-bottom:18px;">'
+        + 'Qué reportes ve cada persona se decide en la pestaña <strong>Permisos</strong>.</p>';
       for (var i=0; i<TEAM.length; i++) {
         var m = TEAM[i];
+        var p = USER_PROFILES[m.email];
         h += '<div class="access-card">'
           +'<div style="display:flex;align-items:center;gap:12px;">'
           +'<span class="avatar '+m.avc+'">'+m.av+'</span>'
@@ -1331,7 +1440,7 @@ var PAGES = {
           +'</div>'
           +'<div class="access-cred">'
           +'<code>'+m.email+'</code>'
-          +'<small>Acceso: '+ACC_LABEL[m.acc]+'</small>'
+          +'<small>'+(p && p.admin ? 'Administrador' : 'Acceso según permisos')+'</small>'
           +'</div>'
           +'</div>';
       }
@@ -1383,6 +1492,13 @@ function navigate(page) {
   // Sub-pestañas de Mercado
   document.querySelectorAll('.subtab').forEach(function(b){
     b.addEventListener('click', function(){ abrirMercadoTab(b.dataset.mk); });
+  });
+
+  // Selector de persona en Permisos
+  var selPersona = document.getElementById('perm-user');
+  if (selPersona) selPersona.addEventListener('change', function(){
+    permPersona = selPersona.value;
+    navigate('permisos');
   });
 
   // Casillas de permisos (solo en la página Permisos)
