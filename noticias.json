@@ -1,5 +1,5 @@
 {
- "atualizado": "2026-11-04T14:50:41+00:00",
+ "atualizado": "2026-11-05T14:55:20+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
@@ -55,6 +55,160 @@
   }
  ],
  "noticias": [
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Africa’s first ultra-premium multi-category IQOS SIS opens at CAI",
+   "url": "https://www.trbusiness.com/regional-news/africa/africas-first-ultra-premium-multi-category-iqos-sis-opens-at-cairo-airport/285355",
+   "data": "2026-11-05T14:37:56+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Airport International Group launches Master Commercial Concessions RFQ at Queen Alia Airport",
+   "url": "https://moodiedavittreport.com/airport-international-group-launches-master-commercial-concessions-rfq-at-queen-alia-airport/?utm_source=rss&utm_medium=rss&utm_campaign=airport-international-group-launches-master-commercial-concessions-rfq-at-queen-alia-airport",
+   "data": "2026-11-05T14:33:25+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Indian travellers get a 10% discount at DDF by paying through UPI",
+   "url": "https://www.trbusiness.com/regional-news/middle-east/indian-travellers-get-a-10-discount-at-ddf-by-paying-through-upi/285351",
+   "data": "2026-11-05T14:14:27+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Oman Duty Free and CTG Duty-Free sign MOU for travel retail",
+   "url": "https://www.trbusiness.com/channel-news/airports/oman-duty-free-and-ctg-duty-free-sign-mou-for-travel-retail/285345",
+   "data": "2026-11-05T13:46:26+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "FRA places Diwali in the spotlight with airport retail campaign",
+   "url": "https://www.trbusiness.com/regional-news/indian-sub-cont/fra-places-diwali-in-the-spotlight-with-airport-retail-campaign/285339",
+   "data": "2026-11-05T13:16:32+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Posca Hydrate opens investment round to fund next phase of growth",
+   "url": "https://moodiedavittreport.com/posca-hydrate-opens-investment-round-to-fund-next-phase-of-growth/?utm_source=rss&utm_medium=rss&utm_campaign=posca-hydrate-opens-investment-round-to-fund-next-phase-of-growth",
+   "data": "2026-11-05T12:47:57+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Dates announced for TR Consumer Forum 2027 in Frankfurt",
+   "url": "https://www.trbusiness.com/regional-news/international/dates-announced-for-tr-consumer-forum-2027-in-frankfurt/285306",
+   "data": "2026-11-05T12:45:40+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Glenfiddich and Aston Martin unveil 28 Year Old expression with travel retail-led launch",
+   "url": "https://moodiedavittreport.com/glenfiddich-and-aston-martin-unveil-28-year-old-expression-with-travel-retail-led-launch/?utm_source=rss&utm_medium=rss&utm_campaign=glenfiddich-and-aston-martin-unveil-28-year-old-expression-with-travel-retail-led-launch",
+   "data": "2026-11-05T12:24:11+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Frankfurt Airport launches first Diwali retail campaign",
+   "url": "https://www.dfnionline.com/latest-news/frankfurt-airport-launches-first-diwali-retail-campaign-05-11-2026/",
+   "data": "2026-11-05T11:51:05+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Smartseller wins 10-year contract for retail and F&B at Bremen Airport",
+   "url": "https://www.trbusiness.com/regional-news/europe/smartseller-wins-10-year-contract-for-retail-and-fb-at-bremen-airport/285326",
+   "data": "2026-11-05T11:07:07+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "smartseller secures ten-year retail and F&B contract at Bremen Airport",
+   "url": "https://www.dfnionline.com/brand-news/food-beverage/smartseller-secures-ten-year-retail-and-fb-contract-at-bremen-airport-05-11-2026/",
+   "data": "2026-11-05T11:05:49+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Dubai Duty Free offers Indian travellers 10% discount through UPI payments",
+   "url": "https://www.dfnionline.com/latest-news/dubai-duty-free-offers-indian-travellers-10-discount-through-upi-payments-05-11-2026/",
+   "data": "2026-11-05T10:37:12+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Smartseller bolsters German footprint with ten-year Bremen Airport retail and F&B contract",
+   "url": "https://moodiedavittreport.com/smartseller-bolsters-german-footprint-with-ten-year-bremen-airport-retail-and-fb-contract/?utm_source=rss&utm_medium=rss&utm_campaign=smartseller-bolsters-german-footprint-with-ten-year-bremen-airport-retail-and-fb-contract",
+   "data": "2026-11-05T10:11:13+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Interview: Enrique Urioste – “People look for the wow effect”",
+   "url": "https://www.dfnionline.com/dfni-blog-comment/interview-enrique-urioste-people-look-for-the-wow-effect-05-11-2026/",
+   "data": "2026-11-05T10:04:06+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "PMI GTR opens Africa’s first multi-category IQOS shop-in-shop at Cairo Airport",
+   "url": "https://www.dfnionline.com/brand-news/tobacco-new-gen-products/pmi-gtr-opens-africas-first-multi-category-iqos-shop-in-shop-at-cairo-airport-05-11-2026/",
+   "data": "2026-11-05T10:00:36+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Teacher’s launches first range of single malts heading for GTR in 2027",
+   "url": "https://www.trbusiness.com/product-news/wine-spirits/teachers-launches-first-range-of-single-malts-heading-for-gtr-in-2027/285322",
+   "data": "2026-11-05T09:37:28+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Dubai Duty Free and NIPL advance UPI adoption with exclusive shopping rewards for Indian travellers",
+   "url": "https://moodiedavittreport.com/dubai-duty-free-and-nipl-advance-upi-adoption-with-exclusive-shopping-rewards-for-indian-travellers/?utm_source=rss&utm_medium=rss&utm_campaign=dubai-duty-free-and-nipl-advance-upi-adoption-with-exclusive-shopping-rewards-for-indian-travellers",
+   "data": "2026-11-05T09:10:01+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Images of the Day: Vietnam Duty Free brings “a little more to discover” at Phu Quoc Airport",
+   "url": "https://moodiedavittreport.com/images-of-the-day-vietnam-duty-free-brings-a-little-more-to-discover-at-phu-quoc-international-airport/?utm_source=rss&utm_medium=rss&utm_campaign=images-of-the-day-vietnam-duty-free-brings-a-little-more-to-discover-at-phu-quoc-international-airport",
+   "data": "2026-11-05T08:44:08+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Bacardi taps Ibiza nightlife appeal to engage travellers with Patrón El Alto this summer",
+   "url": "https://moodiedavittreport.com/bacardi-taps-ibiza-nightlife-appeal-to-engage-travellers-with-patron-el-alto-this-summer/?utm_source=rss&utm_medium=rss&utm_campaign=bacardi-taps-ibiza-nightlife-appeal-to-engage-travellers-with-patron-el-alto-this-summer",
+   "data": "2026-11-05T08:31:53+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Coco & Sebas spotlights festive gifting with dedicated pop-up at Amsterdam Airport Schiphol",
+   "url": "https://moodiedavittreport.com/coco-sebas-spotlights-festive-gifting-with-dedicated-pop-up-at-amsterdam-airport-schiphol/?utm_source=rss&utm_medium=rss&utm_campaign=coco-sebas-spotlights-festive-gifting-with-dedicated-pop-up-at-amsterdam-airport-schiphol",
+   "data": "2026-11-05T08:17:57+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Guest article: Is this the end for downtown duty-free shopping in Australia?",
+   "url": "https://moodiedavittreport.com/guest-article-is-this-the-end-for-downtown-duty-free-in-australia/?utm_source=rss&utm_medium=rss&utm_campaign=guest-article-is-this-the-end-for-downtown-duty-free-in-australia",
+   "data": "2026-11-05T02:22:20+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Downtown duty-free’s woes continue as Lotte prepares to shutter its Sydney store",
+   "url": "https://moodiedavittreport.com/downtown-duty-frees-woes-continue-as-lotte-prepares-to-shutter-sydney-store/?utm_source=rss&utm_medium=rss&utm_campaign=downtown-duty-frees-woes-continue-as-lotte-prepares-to-shutter-sydney-store",
+   "data": "2026-11-04T23:26:37+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "A new chapter for IQOS in Africa: PMI Global Travel Retail debuts multi-category concept at Cairo International Airport",
@@ -151,13 +305,6 @@
    "titulo": "‘Crowning achievement’ – Beaucastel claims World’s Best Wine 2026 title from James Suckling",
    "url": "https://moodiedavittreport.com/a-crowning-achievement-beaucastel-claims-worlds-best-wine-2026-title-from-international-wine-critic/?utm_source=rss&utm_medium=rss&utm_campaign=a-crowning-achievement-beaucastel-claims-worlds-best-wine-2026-title-from-international-wine-critic",
    "data": "2026-11-04T08:49:51+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Downtown duty-free’s woes continue as Lotte prepares to shutter its Sydney store",
-   "url": "https://moodiedavittreport.com/downtown-duty-frees-woes-continue-as-lotte-prepares-to-shutter-sydney-store/?utm_source=rss&utm_medium=rss&utm_campaign=downtown-duty-frees-woes-continue-as-lotte-prepares-to-shutter-sydney-store",
-   "data": "2026-11-04T00:26:37+00:00",
    "tipo": "noticia"
   },
   {
@@ -761,7 +908,7 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-04T14:50:41.984822+00:00",
+   "data": "2026-11-05T14:55:20.029898+00:00",
    "tipo": "estudo"
   },
   {
