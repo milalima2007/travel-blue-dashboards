@@ -8,12 +8,13 @@ Usage:
 """
 
 import os, sys, argparse, tempfile, webbrowser
+sys.stdout.reconfigure(encoding='utf-8')
 import pandas as pd
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 
-PERIOD     = "Enero-Septiembre 2026"
-PERIOD_SHORT = "Ene–Set 2026"
+PERIOD     = "Enero-Octubre 2026"
+PERIOD_SHORT = "Ene–Oct 2026"
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DASHBOARD_DIR = os.path.normpath(os.path.join(HERE, r"..\..\DASHBOARDS CAMINHO NOVO"))
@@ -67,7 +68,7 @@ def load_kpis():
     df = pd.read_excel(ANALISE, sheet_name='SALES_SYSTEM_DATABASE', dtype=str)
     df['NET AMOUNT (USD)'] = pd.to_numeric(df['NET AMOUNT (USD)'], errors='coerce').fillna(0)
     df['YEAR']  = pd.to_numeric(df['YEAR'],  errors='coerce')
-    months_ytd  = ['jan','fev','mar','abr','mai','jun','jul','ago','set']
+    months_ytd  = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out']
 
     real26 = df[(df['YEAR']==2026) & (df['MONTH'].str.strip().isin(months_ytd)) & (df['TYPE']=='REAL')]
     real25 = df[(df['YEAR']==2025) & (df['MONTH'].str.strip().isin(months_ytd)) & (df['TYPE']=='REAL')]
@@ -145,7 +146,7 @@ def build_body(cfg: dict, kpis: dict) -> str:
           <thead>
             <tr style="background:#f8fafc">
               <th style="padding:8px 12px;font-size:12px;text-align:left;color:#64748b;font-weight:600">País</th>
-              <th style="padding:8px 12px;font-size:12px;text-align:right;color:#64748b;font-weight:600">Real Ene–Set</th>
+              <th style="padding:8px 12px;font-size:12px;text-align:right;color:#64748b;font-weight:600">Real Ene–Oct</th>
               <th style="padding:8px 12px;font-size:12px;text-align:right;color:#64748b;font-weight:600">vs BP</th>
               <th style="padding:8px 12px;font-size:12px;text-align:right;color:#64748b;font-weight:600">vs 2025</th>
             </tr>
@@ -159,7 +160,7 @@ def build_body(cfg: dict, kpis: dict) -> str:
         top3 = k.get('top3', [])
         top3_html = ""
         if top3:
-            top3_html = "<p style='color:#334155;font-size:13px;margin-top:12px'><strong>Top clientes (Real Ene–Set):</strong></p><ul style='color:#334155;font-size:13px;line-height:1.9;padding-left:20px;margin:4px 0 0'>"
+            top3_html = "<p style='color:#334155;font-size:13px;margin-top:12px'><strong>Top clientes (Real Ene–Oct):</strong></p><ul style='color:#334155;font-size:13px;line-height:1.9;padding-left:20px;margin:4px 0 0'>"
             for cu, v in top3:
                 top3_html += f"<li>{cu} — {fmt_usd(v)}</li>"
             top3_html += "</ul>"
@@ -174,11 +175,11 @@ def build_body(cfg: dict, kpis: dict) -> str:
           </thead>
           <tbody>
             <tr style="border-top:1px solid #e2e8f0">
-              <td style="padding:9px 16px;font-size:13px;color:#334155">Real Enero–Septiembre 2026</td>
+              <td style="padding:9px 16px;font-size:13px;color:#334155">Real Enero–Octubre 2026</td>
               <td style="padding:9px 16px;font-size:14px;font-weight:700;text-align:right;color:#1e293b">{fmt_usd(k.get('r26',0))}</td>
             </tr>
             <tr style="border-top:1px solid #e2e8f0;background:#f8fafc">
-              <td style="padding:9px 16px;font-size:13px;color:#334155">Business Plan 2026 (Ene–Set)</td>
+              <td style="padding:9px 16px;font-size:13px;color:#334155">Business Plan 2026 (Ene–Oct)</td>
               <td style="padding:9px 16px;font-size:14px;font-weight:700;text-align:right;color:#1e293b">{fmt_usd(k.get('bp',0))}</td>
             </tr>
             <tr style="border-top:1px solid #e2e8f0">
@@ -231,7 +232,7 @@ def build_body(cfg: dict, kpis: dict) -> str:
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
               <td style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 18px;text-align:center;width:33%">
-                <p style="margin:0;font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.5px">Real Ene–Set 2026</p>
+                <p style="margin:0;font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.5px">Real Ene–Oct 2026</p>
                 <p style="margin:6px 0 0;font-size:22px;font-weight:800;color:#0f172a">{fmt_usd(r26)}</p>
               </td>
               <td style="width:8px"></td>
