@@ -1,5 +1,5 @@
 {
- "atualizado": "2026-11-05T14:55:20+00:00",
+ "atualizado": "2026-11-06T14:33:22+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
@@ -55,6 +55,139 @@
   }
  ],
  "noticias": [
+  {
+   "fonte": "TRBusiness",
+   "titulo": "“Give travellers a retail experience that feels distinctive & worth investing in”",
+   "url": "https://www.trbusiness.com/channel-news/other-stores/give-travellers-a-retail-experience-that-feels-distinctive-worth-investing-in/285393",
+   "data": "2026-11-06T14:22:31+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Frankfurt Airport lights up with first Diwali seasonal campaign",
+   "url": "https://moodiedavittreport.com/frankfurt-airport-lights-up-with-first-diwali-seasonal-campaign/?utm_source=rss&utm_medium=rss&utm_campaign=frankfurt-airport-lights-up-with-first-diwali-seasonal-campaign",
+   "data": "2026-11-06T14:16:49+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Asia Pacific travel retail picks up for Diageo in first quarter",
+   "url": "https://moodiedavittreport.com/asia-pacific-travel-retail-picks-up-for-diageo-in-first-quarter/?utm_source=rss&utm_medium=rss&utm_campaign=asia-pacific-travel-retail-picks-up-for-diageo-in-first-quarter",
+   "data": "2026-11-06T13:57:53+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "In Conversation: Lindt & Sprüngli’s Andres Chaveyriat on driving discovery through flavour innovation",
+   "url": "https://moodiedavittreport.com/in-conversation-lindt-sprunglis-andres-chaveyriat-on-driving-discovery-through-flavour-innovation/?utm_source=rss&utm_medium=rss&utm_campaign=in-conversation-lindt-sprunglis-andres-chaveyriat-on-driving-discovery-through-flavour-innovation",
+   "data": "2026-11-06T11:47:07+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Flemingo Duty Free opens new store at Las Palmas Cruise Port",
+   "url": "https://www.dfnionline.com/latest-news/flemingo-duty-free-opens-new-store-at-las-palmas-cruise-port-06-11-2026/",
+   "data": "2026-11-06T10:52:59+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Fortnum & Mason opens new store at Heathrow Terminal 2",
+   "url": "https://www.dfnionline.com/latest-news/fortnum-mason-opens-new-store-at-heathrow-terminal-2-06-11-2026/",
+   "data": "2026-11-06T10:35:43+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Chanel and Lotte Duty Free bring festive flair to Incheon Airport with immersive beauty activation",
+   "url": "https://moodiedavittreport.com/chanel-and-lotte-duty-free-bring-festive-flair-to-incheon-airport-with-immersive-beauty-activation/?utm_source=rss&utm_medium=rss&utm_campaign=chanel-and-lotte-duty-free-bring-festive-flair-to-incheon-airport-with-immersive-beauty-activation",
+   "data": "2026-11-06T08:24:20+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Images of the Day: On location as Teremana brings its story of provenance, people and the power of nature to life",
+   "url": "https://moodiedavittreport.com/images-of-the-day-on-location-as-teremanas-story-of-provenance-people-and-the-power-of-nature-comes-to-life/?utm_source=rss&utm_medium=rss&utm_campaign=images-of-the-day-on-location-as-teremanas-story-of-provenance-people-and-the-power-of-nature-comes-to-life",
+   "data": "2026-11-06T08:23:29+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Queen Alia Airport RFP; Glenfiddich-Aston Martin launch; and Lark whisky video lead latest newsletter",
+   "url": "https://moodiedavittreport.com/major-queen-alia-airport-concession-opportunity-glenfiddich-aston-martin-launch-and-lark-whisky-showcase-lead-latest-newsletter/?utm_source=rss&utm_medium=rss&utm_campaign=major-queen-alia-airport-concession-opportunity-glenfiddich-aston-martin-launch-and-lark-whisky-showcase-lead-latest-newsletter",
+   "data": "2026-11-06T08:22:46+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "NeoLumo and Sportsbar take top honours at Düsseldorf Airport’s DUS Excellence Awards",
+   "url": "https://moodiedavittreport.com/neolumo-and-sportsbar-take-top-honours-at-dusseldorf-airports-dus-excellence-awards/?utm_source=rss&utm_medium=rss&utm_campaign=neolumo-and-sportsbar-take-top-honours-at-dusseldorf-airports-dus-excellence-awards",
+   "data": "2026-11-06T08:20:34+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Shanghai Hongqiao Airport and SAMDecaux give cultural storytelling a digital stage in ‘Gilded Theatre’",
+   "url": "https://moodiedavittreport.com/shanghai-hongqiao-airport-and-samdecaux-give-cultural-storytelling-a-digital-stage-in-gilded-theatre/?utm_source=rss&utm_medium=rss&utm_campaign=shanghai-hongqiao-airport-and-samdecaux-give-cultural-storytelling-a-digital-stage-in-gilded-theatre",
+   "data": "2026-11-06T08:08:11+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Aena’s F&B surges versus duty-free in Q3 2026 as average spends fall",
+   "url": "https://www.trbusiness.com/regional-news/europe/aenas-fb-surges-versus-duty-free-in-q3-2026-as-average-spends-fall/285388",
+   "data": "2026-11-06T08:04:59+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Lessons from Harding+: Why cruise retail runs to a different clock",
+   "url": "https://www.dfnionline.com/dfni-blog-comment/interviews-2/lessons-from-harding-why-cruise-retail-runs-to-a-different-clock-06-11-2026/",
+   "data": "2026-11-06T06:00:58+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Chocolate Box celebrates a 68-year journey from local shop to travel retail",
+   "url": "https://moodiedavittreport.com/the-chocolate-box-celebrates-a-68-year-journey-from-local-shop-to-travel-retail/?utm_source=rss&utm_medium=rss&utm_campaign=the-chocolate-box-celebrates-a-68-year-journey-from-local-shop-to-travel-retail",
+   "data": "2026-11-06T01:02:49+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The TREX Factor: Tasting a trio of Tasmania’s finest single malt whiskies from Lark Distillery",
+   "url": "https://moodiedavittreport.com/the-trex-factor-tasting-a-trio-of-tasmanias-finest-single-malt-whiskies-from-lark-distillery/?utm_source=rss&utm_medium=rss&utm_campaign=the-trex-factor-tasting-a-trio-of-tasmanias-finest-single-malt-whiskies-from-lark-distillery",
+   "data": "2026-11-05T23:59:09+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Jägermeister introduces lighter, leaner GTR-exclusive gift pack range",
+   "url": "https://www.trbusiness.com/sustainability/jagermeister-introduces-lighter-leaner-gtr-exclusive-gift-pack-range/285384",
+   "data": "2026-11-05T17:52:36+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Air4casts identifies key destinations for Indian Diwali travel",
+   "url": "https://www.dfnionline.com/latest-news/air4casts-identifies-key-destinations-for-indian-diwali-travel-05-11-2026/",
+   "data": "2026-11-05T17:47:43+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Glenfiddich & Aston Martin unveil 28YO expression with GTR-centric rollout",
+   "url": "https://www.trbusiness.com/regional-news/international/glenfiddich-and-aston-martin-unveil-28yo-expression-with-gtr-centric-rollout/285364",
+   "data": "2026-11-05T17:40:11+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Teacher’s unveils first single malt range ahead of GTR launch",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/teachers-unveils-first-single-malt-range-ahead-of-gtr-launch-05-11-2026/",
+   "data": "2026-11-05T16:28:20+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "TRBusiness",
    "titulo": "Africa’s first ultra-premium multi-category IQOS SIS opens at CAI",
@@ -127,7 +260,7 @@
   },
   {
    "fonte": "DFNI",
-   "titulo": "smartseller secures ten-year retail and F&B contract at Bremen Airport",
+   "titulo": "Smartseller secures ten-year retail and F&B contract at Bremen Airport",
    "url": "https://www.dfnionline.com/brand-news/food-beverage/smartseller-secures-ten-year-retail-and-fb-contract-at-bremen-airport-05-11-2026/",
    "data": "2026-11-05T11:05:49+00:00",
    "tipo": "noticia"
@@ -908,7 +1041,14 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-05T14:55:20.029898+00:00",
+   "data": "2026-11-06T14:33:22.944557+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Chart of the week 6 november 2026",
+   "url": "https://www.iata.org/en/publications/economics/chart-week/chart-of-the-week-6-november-2026/",
+   "data": "2026-11-06T00:00:00+00:00",
    "tipo": "estudo"
   },
   {
