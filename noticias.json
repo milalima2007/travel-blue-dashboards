@@ -1,8 +1,11 @@
 {
- "atualizado": "2026-11-06T14:33:22+00:00",
+ "atualizado": "2026-11-09T16:48:36+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
- "fontes_com_falha": [],
+ "fontes_com_falha": [
+  "DFNI",
+  "DFNI/TravelBlue"
+ ],
  "travelblue": [
   {
    "fonte": "The Moodie Davitt Report",
@@ -55,6 +58,139 @@
   }
  ],
  "noticias": [
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Lagardère enters Munich Airport with Aichinger Gastro acquisition",
+   "url": "https://www.trbusiness.com/regional-news/europe/lagardere-enters-munich-airport-with-aichinger-gastro-acquisition/285447",
+   "data": "2026-11-09T16:42:01+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Speakers added to TR Wellbeing Week – sign up today for access all areas",
+   "url": "https://www.trbusiness.com/sustainability/speakers-added-to-tr-wellbeing-week-sign-up-today-for-access-all-areas/285437",
+   "data": "2026-11-09T16:23:01+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Flemingo opens cruise retail store in Las Palmas",
+   "url": "https://www.trbusiness.com/regional-news/europe/flemingo-opens-cruise-retail-store-in-las-palmas/285438",
+   "data": "2026-11-09T15:39:18+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Kering Eyewear and L’Oréal unite Valentino eyewear and fragrance at Istanbul Airport",
+   "url": "https://moodiedavittreport.com/kering-eyewear-and-loreal-unite-valentino-eyewear-and-fragrance-at-istanbul-airport/?utm_source=rss&utm_medium=rss&utm_campaign=kering-eyewear-and-loreal-unite-valentino-eyewear-and-fragrance-at-istanbul-airport",
+   "data": "2026-11-09T15:34:06+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Interview: EviDenS de Beauté on selective travel retail growth and a 20th anniversary party",
+   "url": "https://moodiedavittreport.com/interview-evidens-de-beaute-on-selective-travel-retail-growth-and-a-20th-anniversary-party/?utm_source=rss&utm_medium=rss&utm_campaign=interview-evidens-de-beaute-on-selective-travel-retail-growth-and-a-20th-anniversary-party",
+   "data": "2026-11-09T14:31:26+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Lotte Duty Free unveils Chanel holiday pop-up at Incheon Airport",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/lotte-duty-free-unveils-chanel-holiday-pop-up-at-incheon-airport/285428",
+   "data": "2026-11-09T14:03:15+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "People Moves: Maureen Bannerman and Hani Ezra Hussin step into lead Malaysia Airports commercial roles",
+   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
+   "data": "2026-11-09T13:50:42+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Flemingo steps up cruise retail expansion with first Canary Islands opening at Las Palmas",
+   "url": "https://moodiedavittreport.com/flemingo-steps-up-cruise-retail-expansion-with-first-canary-islands-opening-at-las-palmas/?utm_source=rss&utm_medium=rss&utm_campaign=flemingo-steps-up-cruise-retail-expansion-with-first-canary-islands-opening-at-las-palmas",
+   "data": "2026-11-09T12:00:22+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Lagardère Travel Retail makes Munich Airport debut with swoop to acquire Aichinger Gastro",
+   "url": "https://moodiedavittreport.com/lagardere-travel-retail-makes-munich-airport-debut-with-swoop-to-acquire-aichinger-gastro/?utm_source=rss&utm_medium=rss&utm_campaign=lagardere-travel-retail-makes-munich-airport-debut-with-swoop-to-acquire-aichinger-gastro",
+   "data": "2026-11-09T11:54:06+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Final call for entries: One week left until Travel Retail Superstars 2026 nominations close",
+   "url": "https://moodiedavittreport.com/final-call-for-entries-one-week-left-until-travel-retail-superstars-2026-nominations-close/?utm_source=rss&utm_medium=rss&utm_campaign=final-call-for-entries-one-week-left-until-travel-retail-superstars-2026-nominations-close",
+   "data": "2026-11-09T11:31:36+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Joan Moreno joins Ricola to lead travel retail business",
+   "url": "https://moodiedavittreport.com/joan-moreno-joins-ricola-to-lead-travel-retail-business/?utm_source=rss&utm_medium=rss&utm_campaign=joan-moreno-joins-ricola-to-lead-travel-retail-business",
+   "data": "2026-11-09T11:20:07+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "SSP America extends Bradley International Airport dining offer with dual openings",
+   "url": "https://moodiedavittreport.com/ssp-america-extends-bradley-international-airport-dining-offer-with-dual-openings/?utm_source=rss&utm_medium=rss&utm_campaign=ssp-america-extends-bradley-international-airport-dining-offer-with-dual-openings",
+   "data": "2026-11-09T10:49:48+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Bacardi expands Patrón Ibiza activation across Europe and Dubai",
+   "url": "https://www.trbusiness.com/regional-news/international/bacardi-expands-patron-ibiza-activation-across-europe-and-dubai/285411",
+   "data": "2026-11-09T10:45:39+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Hainan’s offshore duty-free sales climb +12.5% in first ten months as policy enhancement spurs spending",
+   "url": "https://moodiedavittreport.com/hainans-offshore-duty-free-sales-climb-12-5-in-first-ten-months-as-policy-enhancement-spurs-spending/?utm_source=rss&utm_medium=rss&utm_campaign=hainans-offshore-duty-free-sales-climb-12-5-in-first-ten-months-as-policy-enhancement-spurs-spending",
+   "data": "2026-11-09T09:49:41+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Rémy Cointreau launches Cointreau Spicy in GTR",
+   "url": "https://www.trbusiness.com/regional-news/international/remy-cointreau-launches-cointreau-spicy-in-gtr/285404",
+   "data": "2026-11-09T09:39:32+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Auckland Coffee Exports makes debut as SSP accelerates airport dining roll-out",
+   "url": "https://moodiedavittreport.com/auckland-coffee-exports-makes-debut-as-ssp-accelerates-airport-dining-roll-out/?utm_source=rss&utm_medium=rss&utm_campaign=auckland-coffee-exports-makes-debut-as-ssp-accelerates-airport-dining-roll-out",
+   "data": "2026-11-09T08:54:14+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "China’s CDFG sees net attributable profit surge in Q3 and 9M",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/chinas-cdfg-sees-net-attributable-profit-surge-in-q3-and-9m/285401",
+   "data": "2026-11-09T05:42:51+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Inside Teremana: Building a global tequila brand from the ground up",
+   "url": "https://www.trbusiness.com/regional-news/international/inside-teremana-building-a-global-tequila-brand-from-the-ground-up/285365",
+   "data": "2026-11-06T16:24:24+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "BAT: Collaborate to better understand and map the customer journey",
+   "url": "https://www.trbusiness.com/regional-news/international/bat-collaborate-to-better-understand-and-map-the-customer-journey/285397",
+   "data": "2026-11-06T16:12:38+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "TRBusiness",
    "titulo": "“Give travellers a retail experience that feels distinctive & worth investing in”",
@@ -784,13 +920,6 @@
    "tipo": "noticia"
   },
   {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "People Moves: Bonaire International Airport names Michiel Parent as Interim Commercial Manager",
-   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
-   "data": "2026-10-30T08:00:42+00:00",
-   "tipo": "noticia"
-  },
-  {
    "fonte": "TRBusiness",
    "titulo": "Strong Q3 for Avolta but Pudong suffers tobacco setback",
    "url": "https://www.trbusiness.com/regional-news/international/strong-q3-for-avolta-but-pudong-suffers-tobacco-setback/285222",
@@ -1041,7 +1170,7 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-06T14:33:22.944557+00:00",
+   "data": "2026-11-09T16:48:36.738476+00:00",
    "tipo": "estudo"
   },
   {
