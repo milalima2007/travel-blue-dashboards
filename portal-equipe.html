@@ -1101,7 +1101,7 @@ function iniciarTema() {
 var permPersona = null;
 
 /* Sub-pestaña abierta dentro de Mercado */
-var mercadoTab = 'tb';
+var mercadoTab = 'titulos';
 
 function abrirMercadoTab(id) {
   mercadoTab = id;
@@ -1143,6 +1143,7 @@ async function cargarNoticias() {
   var noticias = (data.noticias   || []);
   var estudios = (data.estudos    || []);
   var sobreTB  = (data.travelblue || []);
+  var clientes = (data.clientes   || []);
 
   function cuando(iso) {
     if (!iso) return '';
@@ -1182,6 +1183,8 @@ async function cargarNoticias() {
 
   pintar('tb', 'Travel Blue in the media', 'brand mentions', sobreTB,
          'No recent Travel Blue mentions yet.');
+  pintar('clientes', 'Customers & competitors', 'operators and retailers', clientes,
+         'No recent news about customers or competitors.');
   pintar('estudos', 'Studies and reports', 'kept for a year', estudios,
          'No studies yet.');
   pintar('titulos', 'Industry headlines',
@@ -1387,10 +1390,11 @@ var PAGES = {
       });
 
       var tabs = [
-        ['tb',      'Travel Blue'],
-        ['estudos', 'Studies'],
-        ['titulos', 'Headlines'],
-        ['fuentes', 'Sources']
+        ['titulos',  'Headlines'],
+        ['clientes', 'Customers & competitors'],
+        ['tb',       'Travel Blue'],
+        ['estudos',  'Studies'],
+        ['fuentes',  'Sources']
       ];
       var barra = '<div class="subtabs">' + tabs.map(function(t){
         return '<button class="subtab'+(t[0]===mercadoTab?' active':'')+'" data-mk="'+t[0]+'">'
