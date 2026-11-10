@@ -31,6 +31,13 @@ FONTES_TB = [
     ("DFNI", 'https://www.dfnionline.com/?s=%22travel+blue%22&feed=rss2'),
 ]
 
+# Buscas dedicadas por cliente/concorrente. O feed normal so traz os ultimos
+# artigos do dia; estas garantem que nada sobre estas marcas passa ao lado.
+MARCAS_BUSCA = ["avolta", "heinemann", "lagardere", "liverpool", "cloe",
+                "shop+gallery", "palacio+de+hierro", "le+postiche", "mercado+libre"]
+FONTES_CLIENTES = [("DFNI", 'https://www.dfnionline.com/?s=%%22%s%%22&feed=rss2' % m)
+                   for m in MARCAS_BUSCA]
+
 # Artigos sobre a Travel Blue acrescentados a mao.
 # Serve para fontes sem busca por feed (ex.: Moodie Davitt) ou para
 # recuperar materias antigas. Basta juntar uma linha nova.
@@ -60,7 +67,9 @@ CLIENTES = re.compile(
     r"the\s*shilla|shilla\s*duty\s*free|duty\s*free\s*americas|dfa\b|"
     r"aer\s*rianta|ari\s*duty\s*free|motta\s*internacional|neutral|"
     r"attenza|dufry\s*shops|china\s*duty\s*free|cdfg|sunrise\s*duty\s*free|"
-    r"liverpool|el\s*palacio\s*de\s*hierro|sanborns|mercado\s*libre|shopgallery)\b",
+    # clientes da Travel Blue
+    r"liverpool|palacio\s*de\s*hierro|sanborns|mercado\s*libre|"
+    r"shop\s*gallery|shopgallery|clo[eé]|le\s*postiche|postiche)\b",
     re.I)
 POR_FONTE       = 15     # quantas ler de cada vez em cada fonte
 TIMEOUT         = 30
@@ -241,8 +250,28 @@ def dentro_da_janela(item):
     return d >= AGORA - timedelta(days=limite)
 
 
+def reclassificar(itens):
+    """Aplica as regras de clientes/concorrentes aos itens ja guardados.
+
+    So mexe entre 'noticia' e 'clientes': nao toca no que ja e estudo
+    nem nas mencoes a Travel Blue.
+    """
+    mudou = 0
+    for it in itens:
+        if it.get("tipo") in ("estudo", "travelblue"):
+            continue
+        novo = "clientes" if CLIENTES.search(it.get("titulo", "")) else "noticia"
+        if novo != it.get("tipo"):
+            it["tipo"] = novo
+            mudou += 1
+    return mudou
+
+
 def main():
     antigos = carregar_anteriores()
+    n = reclassificar(antigos)
+    if n:
+        print(f"reclassificados {n} itens guardados")
     novos, problemas = [], []
 
     for nome, url in FONTES:
@@ -264,6 +293,24 @@ def main():
         except Exception as e:
             problemas.append(f"{nome}/TravelBlue")
             print(f"{nome} (Travel Blue): FALHOU ({type(e).__name__}: {e})")
+
+    vistos_cli = set()
+    for nome, url in FONTES_CLIENTES:
+        try:
+            for i in ler_fonte(nome, url):
+                # Travel Blue tem seccao propria; nao duplicar aqui
+                if i["url"] in vistos_cli or i["tipo"] == "travelblue":
+                    continue
+                vistos_cli.add(i["url"])
+                if CLIENTES.search(i["titulo"]):
+                    i["tipo"] = "clientes"
+                    novos.append(i)
+        except Exception as e:
+            problemas.append("DFNI/clientes")
+            print(f"busca de clientes falhou: {type(e).__name__}: {e}")
+            break
+    if vistos_cli:
+        print(f"buscas por cliente/concorrente: {len(vistos_cli)} artigos lidos")
 
     for e in EXTRAS_TB:
         novos.append(dict(e, tipo="travelblue"))

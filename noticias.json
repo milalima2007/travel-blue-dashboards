@@ -1,5 +1,5 @@
 {
- "atualizado": "2026-11-10T19:14:44+00:00",
+ "atualizado": "2026-11-10T19:26:36+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
@@ -91,6 +91,20 @@
    "tipo": "clientes"
   },
   {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Lotte Duty Free fuels year-end travel shopping with Black Friday promotional push",
+   "url": "https://moodiedavittreport.com/lotte-duty-free-fuels-year-end-travel-shopping-with-black-friday-promotional-push/?utm_source=rss&utm_medium=rss&utm_campaign=lotte-duty-free-fuels-year-end-travel-shopping-with-black-friday-promotional-push",
+   "data": "2026-11-10T03:54:45+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Lagardère Travel Retail makes Munich Airport debut with swoop to acquire Aichinger Gastro",
+   "url": "https://moodiedavittreport.com/lagardere-travel-retail-makes-munich-airport-debut-with-swoop-to-acquire-aichinger-gastro/?utm_source=rss&utm_medium=rss&utm_campaign=lagardere-travel-retail-makes-munich-airport-debut-with-swoop-to-acquire-aichinger-gastro",
+   "data": "2026-11-09T23:54:06+00:00",
+   "tipo": "clientes"
+  },
+  {
    "fonte": "TRBusiness",
    "titulo": "Lagardère enters Munich Airport with Aichinger Gastro acquisition",
    "url": "https://www.trbusiness.com/regional-news/europe/lagardere-enters-munich-airport-with-aichinger-gastro-acquisition/285447",
@@ -116,6 +130,202 @@
    "titulo": "Lagardère Travel Retail enters Munich Airport with Aichinger Gastro acquisition",
    "url": "https://www.dfnionline.com/brand-news/food-beverage/lagardere-travel-retail-enters-munich-airport-with-aichinger-gastro-acquisition-09-11-2026/",
    "data": "2026-11-09T10:35:12+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "China’s CDFG sees net attributable profit surge in Q3 and 9M",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/chinas-cdfg-sees-net-attributable-profit-surge-in-q3-and-9m/285401",
+   "data": "2026-11-09T05:42:51+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Chanel and Lotte Duty Free bring festive flair to Incheon Airport with immersive beauty activation",
+   "url": "https://moodiedavittreport.com/chanel-and-lotte-duty-free-bring-festive-flair-to-incheon-airport-with-immersive-beauty-activation/?utm_source=rss&utm_medium=rss&utm_campaign=chanel-and-lotte-duty-free-bring-festive-flair-to-incheon-airport-with-immersive-beauty-activation",
+   "data": "2026-11-06T08:24:20+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Lagardère debuts at Bristol Airport with five-store Travel Essentials concession",
+   "url": "https://www.trbusiness.com/regional-news/europe/lagardere-travel-retail-debuts-at-bristol-airport-with-five-store-travel-essentials-concession/285292",
+   "data": "2026-11-03T15:47:41+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Lagardère Travel Retail secures five-store contract at Bristol Airport",
+   "url": "https://www.dfnionline.com/latest-news/lagardere-travel-retail-secures-five-store-contract-at-bristol-airport-03-11-2026/",
+   "data": "2026-11-03T15:04:24+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Gebr. Heinemann Italia gets green light for new duty-free store at Bari Airport",
+   "url": "https://www.trbusiness.com/regional-news/europe/gebr-heinemann-italia-gets-green-light-for-new-duty-free-store-at-bari-airport/285278",
+   "data": "2026-11-03T11:24:19+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Gebr. Heinemann extends Bari Airport contract ahead of new store opening",
+   "url": "https://www.dfnionline.com/latest-news/gebr-heinemann-extends-bari-airport-contract-with-new-duty-free-store-planned-03-11-2026/",
+   "data": "2026-11-03T10:56:23+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Heinemann Italia secures Bari Airport duty-free contract extension and plans 1,000sq m-plus store",
+   "url": "https://moodiedavittreport.com/heinemann-italia-secures-bari-airport-duty-free-contract-extension-and-plans-1000sq-m-plus-store/?utm_source=rss&utm_medium=rss&utm_campaign=heinemann-italia-secures-bari-airport-duty-free-contract-extension-and-plans-1000sq-m-plus-store",
+   "data": "2026-11-03T10:09:23+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Oman Duty Free and China Duty Free International sign travel retail cooperation MoU",
+   "url": "https://moodiedavittreport.com/oman-duty-free-and-china-duty-free-international-sign-travel-retail-cooperation-agreement/?utm_source=rss&utm_medium=rss&utm_campaign=oman-duty-free-and-china-duty-free-international-sign-travel-retail-cooperation-agreement",
+   "data": "2026-11-02T15:32:08+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Pyd showcases Tous Kaos collection with Avolta at Madrid-Barajas Airport",
+   "url": "https://moodiedavittreport.com/pyd-showcases-tous-kaos-collection-with-avolta-at-madrid-barajas-airport/?utm_source=rss&utm_medium=rss&utm_campaign=pyd-showcases-tous-kaos-collection-with-avolta-at-madrid-barajas-airport",
+   "data": "2026-11-02T11:31:15+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Haribo and Avolta launch Halloween treasure hunt across Europe",
+   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/haribo-and-avolta-launch-halloween-treasure-hunt-across-europe-30-10-2026/",
+   "data": "2026-10-30T13:45:34+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Marc Jacobs Beauty brings colour and ‘Joyride Sensoriality’ to Sydney Airport with Heinemann Oceania",
+   "url": "https://moodiedavittreport.com/marc-jacobs-beauty-brings-colour-and-joyride-sensoriality-to-sydney-airport-with-heinemann-oceania/?utm_source=rss&utm_medium=rss&utm_campaign=marc-jacobs-beauty-brings-colour-and-joyride-sensoriality-to-sydney-airport-with-heinemann-oceania",
+   "data": "2026-10-30T11:45:03+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "China Duty Free International expands China Chic focus with Hong Kong launch of 52TOYS global pop-up tour",
+   "url": "https://moodiedavittreport.com/china-duty-free-international-expands-china-chic-focus-with-hong-kong-launch-of-52toys-global-pop-up-tour/?utm_source=rss&utm_medium=rss&utm_campaign=china-duty-free-international-expands-china-chic-focus-with-hong-kong-launch-of-52toys-global-pop-up-tour",
+   "data": "2026-10-30T09:19:53+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Strong Q3 for Avolta but Pudong suffers tobacco setback",
+   "url": "https://www.trbusiness.com/regional-news/international/strong-q3-for-avolta-but-pudong-suffers-tobacco-setback/285222",
+   "data": "2026-10-29T23:52:55+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Gebr Heinemann partnership wins Norway duty-free tender and strikes contract to 2036",
+   "url": "https://moodiedavittreport.com/gebr-heinemann-led-travel-retail-norway-wins-norway-duty-free-tender-and-strikes-contract-to-2036/?utm_source=rss&utm_medium=rss&utm_campaign=gebr-heinemann-led-travel-retail-norway-wins-norway-duty-free-tender-and-strikes-contract-to-2036",
+   "data": "2026-10-29T14:52:14+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Changi Airport and Lotte Duty Free showcase rare wines and spirits at WOWS 2026",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/changi-airport-and-lotte-duty-free-showcase-rare-wines-and-spirits-at-wows-2026-29-10-2026/",
+   "data": "2026-10-29T12:41:38+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Opening The Vault: Changi Airport and Lotte Duty Free bring rare and fine expressions to life at World of Wines & Spirits",
+   "url": "https://moodiedavittreport.com/opening-the-vault-changi-airport-and-lotte-duty-free-bring-rare-and-fine-expressions-to-life-at-world-of-wines-spirits/?utm_source=rss&utm_medium=rss&utm_campaign=opening-the-vault-changi-airport-and-lotte-duty-free-bring-rare-and-fine-expressions-to-life-at-world-of-wines-spirits",
+   "data": "2026-10-29T10:37:29+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Avolta reports stronger growth in Q3 as new operations ramp up",
+   "url": "https://www.dfnionline.com/latest-news/avolta-reports-stronger-growth-in-q3-as-new-operations-ramp-up-29-10-2026/",
+   "data": "2026-10-29T08:00:41+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Avolta opens two new F&B concepts at Palermo Airport",
+   "url": "https://www.trbusiness.com/regional-news/europe/avolta-opens-two-new-fb-concepts-at-palermo-airport/285188",
+   "data": "2026-10-28T14:10:38+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Cartwright & Butler expands airport presence with Avolta activations",
+   "url": "https://www.trbusiness.com/regional-news/europe/cartwright-butler-expands-airport-presence-with-avolta-activations/285164",
+   "data": "2026-10-28T10:00:37+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Avolta opens locally-inspired F&B concepts at Palermo Airport",
+   "url": "https://www.dfnionline.com/latest-news/avolta-opens-locally-inspired-fb-concepts-at-palermo-airport-28-10-2026/",
+   "data": "2026-10-28T09:07:31+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Cartwright & Butler strengthens airport presence with Avolta activations",
+   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/cartwright-butler-strengthens-airport-presence-with-avolta-activations-27-10-2026/",
+   "data": "2026-10-27T10:57:53+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Diageo Global Travel unveils limited-edition Don Julio 1942 with Avolta",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/diageo-global-travel-unveils-limited-edition-don-julio-1942-with-avolta-27-10-2026/",
+   "data": "2026-10-27T10:30:00+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Hudson unveils hybrid dining and retail concept at Oakland Airport",
+   "url": "https://www.dfnionline.com/brand-news/food-beverage/hudson-unveils-hybrid-dining-and-retail-concept-at-oakland-airport-20-10-2026/",
+   "data": "2026-10-20T10:54:51+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Lagardère Travel Retail posts record Q3 revenue despite North Asia decline",
+   "url": "https://www.dfnionline.com/latest-news/lagardere-travel-retail-posts-record-q3-revenue-despite-north-asia-decline-16-10-2026/",
+   "data": "2026-10-16T10:17:40+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Avolta celebrates multiple wins at Frontier Awards 2026",
+   "url": "https://www.dfnionline.com/latest-news/avolta-celebrates-multiple-wins-at-frontier-awards-2026-15-10-2026/",
+   "data": "2026-10-15T11:18:30+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "L’Oréal Travel Retail and Avolta join forces to accelerate sustainability",
+   "url": "https://www.dfnionline.com/brand-news/cosmetics/loreal-travel-retail-and-avolta-join-forces-to-accelerate-sustainability-12-10-2026/",
+   "data": "2026-10-12T08:52:59+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Avolta’s Hudson extends Seattle-Tacoma duty-free contract with expanded 20-year deal",
+   "url": "https://www.dfnionline.com/latest-news/retail/airports/avoltas-hudson-extends-seattle-tacoma-duty-free-contract-with-expanded-20-year-deal-07-10-2026/",
+   "data": "2026-10-07T08:11:02+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Walker’s Shortbread launches Queen’s commemorative tin with Avolta",
+   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/walkers-shortbread-launches-queens-commemorative-tin-with-avolta-24-09-2026/",
+   "data": "2026-09-24T11:36:21+00:00",
    "tipo": "clientes"
   }
  ],
@@ -234,23 +444,9 @@
   },
   {
    "fonte": "The Moodie Davitt Report",
-   "titulo": "Lotte Duty Free fuels year-end travel shopping with Black Friday promotional push",
-   "url": "https://moodiedavittreport.com/lotte-duty-free-fuels-year-end-travel-shopping-with-black-friday-promotional-push/?utm_source=rss&utm_medium=rss&utm_campaign=lotte-duty-free-fuels-year-end-travel-shopping-with-black-friday-promotional-push",
-   "data": "2026-11-10T03:54:45+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
    "titulo": "In Conversation: Michael Kors’ Chris Amplo on redefining the jet set lifestyle",
    "url": "https://moodiedavittreport.com/in-conversation-michael-kors-chris-amplo-on-redefining-the-jet-set-lifestyle/?utm_source=rss&utm_medium=rss&utm_campaign=in-conversation-michael-kors-chris-amplo-on-redefining-the-jet-set-lifestyle",
    "data": "2026-11-10T02:05:39+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Lagardère Travel Retail makes Munich Airport debut with swoop to acquire Aichinger Gastro",
-   "url": "https://moodiedavittreport.com/lagardere-travel-retail-makes-munich-airport-debut-with-swoop-to-acquire-aichinger-gastro/?utm_source=rss&utm_medium=rss&utm_campaign=lagardere-travel-retail-makes-munich-airport-debut-with-swoop-to-acquire-aichinger-gastro",
-   "data": "2026-11-09T23:54:06+00:00",
    "tipo": "noticia"
   },
   {
@@ -366,13 +562,6 @@
    "tipo": "noticia"
   },
   {
-   "fonte": "TRBusiness",
-   "titulo": "China’s CDFG sees net attributable profit surge in Q3 and 9M",
-   "url": "https://www.trbusiness.com/regional-news/asia-pacific/chinas-cdfg-sees-net-attributable-profit-surge-in-q3-and-9m/285401",
-   "data": "2026-11-09T05:42:51+00:00",
-   "tipo": "noticia"
-  },
-  {
    "fonte": "DFNI",
    "titulo": "Middle East: Gulf travel retail’s uneven recovery",
    "url": "https://www.dfnionline.com/comment-insight/insight/middle-east-gulf-travel-retails-uneven-recovery-06-11-2026/",
@@ -433,13 +622,6 @@
    "titulo": "Fortnum & Mason opens new store at Heathrow Terminal 2",
    "url": "https://www.dfnionline.com/latest-news/fortnum-mason-opens-new-store-at-heathrow-terminal-2-06-11-2026/",
    "data": "2026-11-06T10:35:43+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Chanel and Lotte Duty Free bring festive flair to Incheon Airport with immersive beauty activation",
-   "url": "https://moodiedavittreport.com/chanel-and-lotte-duty-free-bring-festive-flair-to-incheon-airport-with-immersive-beauty-activation/?utm_source=rss&utm_medium=rss&utm_campaign=chanel-and-lotte-duty-free-bring-festive-flair-to-incheon-airport-with-immersive-beauty-activation",
-   "data": "2026-11-06T08:24:20+00:00",
    "tipo": "noticia"
   },
   {
@@ -786,20 +968,6 @@
    "tipo": "noticia"
   },
   {
-   "fonte": "TRBusiness",
-   "titulo": "Lagardère debuts at Bristol Airport with five-store Travel Essentials concession",
-   "url": "https://www.trbusiness.com/regional-news/europe/lagardere-travel-retail-debuts-at-bristol-airport-with-five-store-travel-essentials-concession/285292",
-   "data": "2026-11-03T15:47:41+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Lagardère Travel Retail secures five-store contract at Bristol Airport",
-   "url": "https://www.dfnionline.com/latest-news/lagardere-travel-retail-secures-five-store-contract-at-bristol-airport-03-11-2026/",
-   "data": "2026-11-03T15:04:24+00:00",
-   "tipo": "noticia"
-  },
-  {
    "fonte": "DFNI",
    "titulo": "Bacardi GTR expands Patrón Ibiza activation across Europe and Dubai",
    "url": "https://www.dfnionline.com/brand-news/liquor-wines/bacardi-gtr-expands-patron-ibiza-activation-across-europe-and-dubai-03-11-2026/",
@@ -828,24 +996,10 @@
    "tipo": "noticia"
   },
   {
-   "fonte": "TRBusiness",
-   "titulo": "Gebr. Heinemann Italia gets green light for new duty-free store at Bari Airport",
-   "url": "https://www.trbusiness.com/regional-news/europe/gebr-heinemann-italia-gets-green-light-for-new-duty-free-store-at-bari-airport/285278",
-   "data": "2026-11-03T11:24:19+00:00",
-   "tipo": "noticia"
-  },
-  {
    "fonte": "The Moodie Davitt Report",
    "titulo": "In Conversation: Wella Company’s Luis Blanco Álvarez on unlocking nail and haircare potential in travel retail",
    "url": "https://moodiedavittreport.com/in-conversation-wella-companys-luis-blanco-alvarez-on-unlocking-the-potential-of-nail-and-haircare-in-travel-retail/?utm_source=rss&utm_medium=rss&utm_campaign=in-conversation-wella-companys-luis-blanco-alvarez-on-unlocking-the-potential-of-nail-and-haircare-in-travel-retail",
    "data": "2026-11-03T11:05:54+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Gebr. Heinemann extends Bari Airport contract ahead of new store opening",
-   "url": "https://www.dfnionline.com/latest-news/gebr-heinemann-extends-bari-airport-contract-with-new-duty-free-store-planned-03-11-2026/",
-   "data": "2026-11-03T10:56:23+00:00",
    "tipo": "noticia"
   },
   {
@@ -867,13 +1021,6 @@
    "titulo": "Don’t miss out: Two weeks to go before Travel Retail Superstars Awards 2026 entries close",
    "url": "https://moodiedavittreport.com/two-weeks-to-go-before-travel-retail-superstars-awards-2026-entries-close/?utm_source=rss&utm_medium=rss&utm_campaign=two-weeks-to-go-before-travel-retail-superstars-awards-2026-entries-close",
    "data": "2026-11-03T10:13:22+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Heinemann Italia secures Bari Airport duty-free contract extension and plans 1,000sq m-plus store",
-   "url": "https://moodiedavittreport.com/heinemann-italia-secures-bari-airport-duty-free-contract-extension-and-plans-1000sq-m-plus-store/?utm_source=rss&utm_medium=rss&utm_campaign=heinemann-italia-secures-bari-airport-duty-free-contract-extension-and-plans-1000sq-m-plus-store",
-   "data": "2026-11-03T10:09:23+00:00",
    "tipo": "noticia"
   },
   {
@@ -920,13 +1067,6 @@
   },
   {
    "fonte": "The Moodie Davitt Report",
-   "titulo": "Oman Duty Free and China Duty Free International sign travel retail cooperation MoU",
-   "url": "https://moodiedavittreport.com/oman-duty-free-and-china-duty-free-international-sign-travel-retail-cooperation-agreement/?utm_source=rss&utm_medium=rss&utm_campaign=oman-duty-free-and-china-duty-free-international-sign-travel-retail-cooperation-agreement",
-   "data": "2026-11-02T15:32:08+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
    "titulo": "Global Blue establishes Cash Japan at Japanese airports as new tax-free shopping refund system kicks in",
    "url": "https://moodiedavittreport.com/global-blue-establishes-cash-japan-at-japanese-airports-as-new-tax-free-shopping-refund-system-kicks-in/?utm_source=rss&utm_medium=rss&utm_campaign=global-blue-establishes-cash-japan-at-japanese-airports-as-new-tax-free-shopping-refund-system-kicks-in",
    "data": "2026-11-02T15:05:15+00:00",
@@ -951,13 +1091,6 @@
    "titulo": "Gassan celebrates 21 years of signature diamond cut",
    "url": "https://www.dfnionline.com/brand-news/jewellery-watches/gassan-celebrates-21-years-of-signature-diamond-cut-02-11-2026/",
    "data": "2026-11-02T11:36:21+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Pyd showcases Tous Kaos collection with Avolta at Madrid-Barajas Airport",
-   "url": "https://moodiedavittreport.com/pyd-showcases-tous-kaos-collection-with-avolta-at-madrid-barajas-airport/?utm_source=rss&utm_medium=rss&utm_campaign=pyd-showcases-tous-kaos-collection-with-avolta-at-madrid-barajas-airport",
-   "data": "2026-11-02T11:31:15+00:00",
    "tipo": "noticia"
   },
   {
@@ -1017,13 +1150,6 @@
    "tipo": "noticia"
   },
   {
-   "fonte": "DFNI",
-   "titulo": "Haribo and Avolta launch Halloween treasure hunt across Europe",
-   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/haribo-and-avolta-launch-halloween-treasure-hunt-across-europe-30-10-2026/",
-   "data": "2026-10-30T13:45:34+00:00",
-   "tipo": "noticia"
-  },
-  {
    "fonte": "TRBusiness",
    "titulo": "Changi Airport Group’s World of Wines & Spirits returns with a fifth edition",
    "url": "https://www.trbusiness.com/channel-news/airports/changi-airport-groups-world-of-wines-spirits-returns-with-a-fifth-edition/285236",
@@ -1056,13 +1182,6 @@
    "titulo": "Interview: Mette Engell on curating Coty’s next chapter in travel retail",
    "url": "https://moodiedavittreport.com/interview-mette-engell-on-curating-cotys-next-chapter-in-travel-retail/?utm_source=rss&utm_medium=rss&utm_campaign=interview-mette-engell-on-curating-cotys-next-chapter-in-travel-retail",
    "data": "2026-10-30T11:47:11+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Marc Jacobs Beauty brings colour and ‘Joyride Sensoriality’ to Sydney Airport with Heinemann Oceania",
-   "url": "https://moodiedavittreport.com/marc-jacobs-beauty-brings-colour-and-joyride-sensoriality-to-sydney-airport-with-heinemann-oceania/?utm_source=rss&utm_medium=rss&utm_campaign=marc-jacobs-beauty-brings-colour-and-joyride-sensoriality-to-sydney-airport-with-heinemann-oceania",
-   "data": "2026-10-30T11:45:03+00:00",
    "tipo": "noticia"
   },
   {
@@ -1109,23 +1228,9 @@
   },
   {
    "fonte": "The Moodie Davitt Report",
-   "titulo": "China Duty Free International expands China Chic focus with Hong Kong launch of 52TOYS global pop-up tour",
-   "url": "https://moodiedavittreport.com/china-duty-free-international-expands-china-chic-focus-with-hong-kong-launch-of-52toys-global-pop-up-tour/?utm_source=rss&utm_medium=rss&utm_campaign=china-duty-free-international-expands-china-chic-focus-with-hong-kong-launch-of-52toys-global-pop-up-tour",
-   "data": "2026-10-30T09:19:53+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
    "titulo": "Adani Airports buoyed by leap in first-half non-aeronautical revenue",
    "url": "https://moodiedavittreport.com/adani-airports-buoyed-by-leap-in-first-half-non-aeronautical-revenue/?utm_source=rss&utm_medium=rss&utm_campaign=adani-airports-buoyed-by-leap-in-first-half-non-aeronautical-revenue",
    "data": "2026-10-30T08:38:28+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "TRBusiness",
-   "titulo": "Strong Q3 for Avolta but Pudong suffers tobacco setback",
-   "url": "https://www.trbusiness.com/regional-news/international/strong-q3-for-avolta-but-pudong-suffers-tobacco-setback/285222",
-   "data": "2026-10-29T23:52:55+00:00",
    "tipo": "noticia"
   },
   {
@@ -1157,13 +1262,6 @@
    "tipo": "noticia"
   },
   {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Gebr Heinemann partnership wins Norway duty-free tender and strikes contract to 2036",
-   "url": "https://moodiedavittreport.com/gebr-heinemann-led-travel-retail-norway-wins-norway-duty-free-tender-and-strikes-contract-to-2036/?utm_source=rss&utm_medium=rss&utm_campaign=gebr-heinemann-led-travel-retail-norway-wins-norway-duty-free-tender-and-strikes-contract-to-2036",
-   "data": "2026-10-29T14:52:14+00:00",
-   "tipo": "noticia"
-  },
-  {
    "fonte": "DFNI",
    "titulo": "Air4casts identifies top terminals for Chinese Gen Z beauty growth",
    "url": "https://www.dfnionline.com/latest-news/air4casts-identifies-top-terminals-for-chinese-gen-z-beauty-growth-29-10-2026/",
@@ -1192,13 +1290,6 @@
    "tipo": "noticia"
   },
   {
-   "fonte": "DFNI",
-   "titulo": "Changi Airport and Lotte Duty Free showcase rare wines and spirits at WOWS 2026",
-   "url": "https://www.dfnionline.com/brand-news/liquor-wines/changi-airport-and-lotte-duty-free-showcase-rare-wines-and-spirits-at-wows-2026-29-10-2026/",
-   "data": "2026-10-29T12:41:38+00:00",
-   "tipo": "noticia"
-  },
-  {
    "fonte": "The Moodie Davitt Report",
    "titulo": "Perth’s commercial plans and Los Angeles’ dining transformation lead our latest airport F&B newsletter",
    "url": "https://moodiedavittreport.com/perths-commercial-plans-and-los-angeles-dining-transformation-lead-our-latest-airport-fb-newsletter/?utm_source=rss&utm_medium=rss&utm_campaign=perths-commercial-plans-and-los-angeles-dining-transformation-lead-our-latest-airport-fb-newsletter",
@@ -1217,13 +1308,6 @@
    "titulo": "Marathon Burger and Kogi BBQ bring taste of Los Angeles to LAX",
    "url": "https://www.dfnionline.com/brand-news/food-beverage/marathon-burger-and-kogi-bbq-bring-taste-of-los-angeles-to-lax-29-10-2026/",
    "data": "2026-10-29T10:57:46+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Opening The Vault: Changi Airport and Lotte Duty Free bring rare and fine expressions to life at World of Wines & Spirits",
-   "url": "https://moodiedavittreport.com/opening-the-vault-changi-airport-and-lotte-duty-free-bring-rare-and-fine-expressions-to-life-at-world-of-wines-spirits/?utm_source=rss&utm_medium=rss&utm_campaign=opening-the-vault-changi-airport-and-lotte-duty-free-bring-rare-and-fine-expressions-to-life-at-world-of-wines-spirits",
-   "data": "2026-10-29T10:37:29+00:00",
    "tipo": "noticia"
   },
   {
@@ -1277,13 +1361,6 @@
   },
   {
    "fonte": "TRBusiness",
-   "titulo": "Avolta opens two new F&B concepts at Palermo Airport",
-   "url": "https://www.trbusiness.com/regional-news/europe/avolta-opens-two-new-fb-concepts-at-palermo-airport/285188",
-   "data": "2026-10-28T14:10:38+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "TRBusiness",
    "titulo": "Toblerone launches limited-edition Pistachio Gelato at Istanbul Airport",
    "url": "https://www.trbusiness.com/regional-news/europe/toblerone-launches-limited-edition-pistachio-gelato-at-istanbul-airport/285181",
    "data": "2026-10-28T12:57:30+00:00",
@@ -1294,20 +1371,6 @@
    "titulo": "Lindt showcases new travel retail exclusives at TFWA Cannes",
    "url": "https://www.trbusiness.com/regional-news/international/lindt-showcases-new-travel-retail-exclusives-at-tfwa-cannes/285171",
    "data": "2026-10-28T11:05:36+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "TRBusiness",
-   "titulo": "Cartwright & Butler expands airport presence with Avolta activations",
-   "url": "https://www.trbusiness.com/regional-news/europe/cartwright-butler-expands-airport-presence-with-avolta-activations/285164",
-   "data": "2026-10-28T10:00:37+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Avolta opens locally-inspired F&B concepts at Palermo Airport",
-   "url": "https://www.dfnionline.com/latest-news/avolta-opens-locally-inspired-fb-concepts-at-palermo-airport-28-10-2026/",
-   "data": "2026-10-28T09:07:31+00:00",
    "tipo": "noticia"
   },
   {
@@ -1353,13 +1416,6 @@
    "tipo": "noticia"
   },
   {
-   "fonte": "DFNI",
-   "titulo": "Cartwright & Butler strengthens airport presence with Avolta activations",
-   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/cartwright-butler-strengthens-airport-presence-with-avolta-activations-27-10-2026/",
-   "data": "2026-10-27T10:57:53+00:00",
-   "tipo": "noticia"
-  },
-  {
    "fonte": "ACI World",
    "titulo": "ACI at ATConf/7",
    "url": "https://aci.aero/2026/10/20/aci-at-atconf7/",
@@ -1372,7 +1428,7 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-10T19:14:44.806405+00:00",
+   "data": "2026-11-10T19:26:36.793219+00:00",
    "tipo": "estudo"
   },
   {
@@ -1422,13 +1478,6 @@
    "titulo": "Air4casts ranks airport terminal opportunities amid rise in Chinese Gen Z female beauty shoppers",
    "url": "https://moodiedavittreport.com/incheon-leads-growth-in-chinese-gen-z-airport-beauty-shoppers-air4casts-research-shows/?utm_source=rss&utm_medium=rss&utm_campaign=incheon-leads-growth-in-chinese-gen-z-airport-beauty-shoppers-air4casts-research-shows",
    "data": "2026-10-29T14:46:11+00:00",
-   "tipo": "estudo"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Avolta reports stronger growth in Q3 as new operations ramp up",
-   "url": "https://www.dfnionline.com/latest-news/avolta-reports-stronger-growth-in-q3-as-new-operations-ramp-up-29-10-2026/",
-   "data": "2026-10-29T08:00:41+00:00",
    "tipo": "estudo"
   },
   {
