@@ -305,6 +305,124 @@
     }
     .news-row:hover .news-arrow { color: var(--navy); transform: translate(2px,-2px); }
 
+    /* ── ORG CHART ── */
+    .org-stats { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+    .org-stat {
+      background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+      padding: 11px 18px; box-shadow: var(--shadow); min-width: 108px;
+    }
+    .org-stat strong {
+      display: block; font-size: 21px; font-weight: 700;
+      color: var(--navy); letter-spacing: -.02em; line-height: 1.1;
+    }
+    .org-stat span {
+      font-size: 11px; color: var(--faint); text-transform: uppercase;
+      letter-spacing: .06em; font-weight: 600;
+    }
+
+    .org-wrap {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 16px; box-shadow: var(--shadow);
+      padding: 24px 26px; overflow-x: auto;
+    }
+    .org-tree, .org-children { list-style: none; margin: 0; padding: 0; }
+    .org-node { position: relative; }
+
+    .org-children {
+      margin-left: 26px; padding-left: 26px; position: relative;
+    }
+    /* tronco vertical: para no centro do ultimo cartao */
+    .org-children::before {
+      content: ''; position: absolute; left: 0; top: 0;
+      bottom: calc(100% - 37px); width: 2px;
+      background: #dde1ef; border-radius: 2px;
+    }
+    .org-children:has(> .org-node:last-child)::before { bottom: 0; }
+    .org-children > .org-node:last-child::after {
+      content: ''; position: absolute; left: -26px; top: 37px; bottom: 0;
+      width: 2px; background: var(--card);
+    }
+    /* ramo curvo ate ao centro de cada cartao */
+    .org-children > .org-node::before {
+      content: ''; position: absolute; left: -26px; top: 0; width: 20px; height: 37px;
+      border-left: 2px solid #dde1ef; border-bottom: 2px solid #dde1ef;
+      border-bottom-left-radius: 12px;
+    }
+    .org-node.collapsed > .org-children { display: none; }
+
+    .org-card {
+      display: inline-flex; align-items: center; gap: 11px;
+      padding: 10px 15px 10px 12px; margin: 5px 0;
+      background: var(--card); border: 1px solid var(--line); border-radius: 13px;
+      min-width: 290px; position: relative;
+      box-shadow: 0 1px 2px rgba(16,24,40,.04);
+      transition: border-color .16s, box-shadow .16s, transform .16s;
+    }
+    .org-card:hover {
+      border-color: #c3cae2; box-shadow: 0 6px 18px rgba(16,24,40,.09);
+      transform: translateY(-1px);
+    }
+    .org-card.is-mgr { padding-left: 34px; }
+    .org-card.org-top {
+      background: linear-gradient(135deg, #1B2A6B 0%, #2b3f91 100%);
+      border-color: transparent; min-width: 330px;
+      box-shadow: 0 8px 22px rgba(27,42,107,.28);
+    }
+    .org-card.org-top::after {
+      content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px;
+      background: var(--gold); border-radius: 0 3px 3px 0;
+    }
+    .org-card.org-top .org-name { color: #fff; }
+    .org-card.org-top .org-role { color: rgba(255,255,255,.7); }
+    .org-card.org-top .org-avatar {
+      background: rgba(255,255,255,.16) !important; color: #fff !important;
+    }
+    .org-card.org-top .org-toggle { color: rgba(255,255,255,.75); }
+
+    .org-toggle {
+      position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
+      width: 18px; height: 18px; padding: 0; border: none; background: none;
+      color: #aab1c6; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; transition: transform .18s, color .15s;
+    }
+    .org-toggle svg { width: 11px; height: 11px; }
+    .org-toggle:hover { color: var(--navy); }
+    .org-node.collapsed > .org-card > .org-toggle { transform: translateY(-50%) rotate(-90deg); }
+
+    .org-avatar {
+      width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; letter-spacing: -.01em;
+    }
+    .org-info { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+    .org-name { font-size: 13.5px; font-weight: 650; color: var(--ink); letter-spacing: -.01em; }
+    .org-role { font-size: 11.5px; color: var(--muted); margin-top: 1px; }
+    .org-tags { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .org-country {
+      font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+      background: #eefaf2; color: #15803d; padding: 3px 7px; border-radius: 6px;
+    }
+    .org-count {
+      font-size: 10px; font-weight: 700; color: #6b7390;
+      background: #eceefa; padding: 2px 8px; border-radius: 10px;
+    }
+    .org-card.org-top .org-country { background: rgba(255,255,255,.18); color: #fff; }
+    .org-card.org-top .org-count   { background: rgba(255,255,255,.18); color: #fff; }
+
+    [data-theme="dark"] .org-stat { background: var(--card); border-color: var(--line); }
+    [data-theme="dark"] .org-stat strong { color: #a8b6f2; }
+    [data-theme="dark"] .org-wrap { background: var(--card); border-color: var(--line); }
+    [data-theme="dark"] .org-card { background: #1f232d; border-color: var(--line); box-shadow: none; }
+    [data-theme="dark"] .org-card:hover { border-color: #3f4760; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+    [data-theme="dark"] .org-card.org-top {
+      background: linear-gradient(135deg, #39456e 0%, #4a5891 100%); border-color: transparent;
+    }
+    [data-theme="dark"] .org-name { color: var(--ink); }
+    [data-theme="dark"] .org-children::before { background: linear-gradient(180deg,#333a4d,#262b38); }
+    [data-theme="dark"] .org-children > .org-node::before { border-color: #333a4d; }
+    [data-theme="dark"] .org-country { background: #1b3326; color: #6ee7a0; }
+    [data-theme="dark"] .org-count { background: #252a36; color: #9aa1b1; }
+
     /* ── PERMISOS ── */
     .perm-pick {
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
@@ -629,6 +747,10 @@
       <button class="nav-item" data-page="mercado">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0V7h4"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
         <span>Market</span>
+      </button>
+      <button class="nav-item" data-page="organigrama">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="16" width="6" height="5" rx="1"/><rect x="16" y="16" width="6" height="5" rx="1"/><path d="M12 7v5M5 16v-2h14v2"/></svg>
+        <span>Org Chart</span>
       </button>
       <div class="nav-section-label" id="nav-label-admin" style="display:none;">Administration</div>
       <button class="nav-item" data-page="equipo" id="nav-equipo" style="display:none;">
@@ -1097,6 +1219,9 @@ function iniciarTema() {
   });
 }
 
+/* Region abierta en el Org Chart */
+var orgRegion = 'LATAM';
+
 /* Persona seleccionada en la pestaña Permisos */
 var permPersona = null;
 
@@ -1191,6 +1316,9 @@ async function cargarNoticias() {
          'last ' + (data.janela_noticias_dias || 30) + ' days · updated ' + cuando(data.atualizado),
          noticias, 'No headlines yet.');
 }
+
+/* Organograma por regiao (so leitura) */
+var ORG = {"LATAM":[{"n":"Guillermo Benzaquen","c":"Latam Director","p":"Latam","f":[{"n":"Camila Lima da Silva","c":"BI Consultant","p":"Latam"},{"n":"Edgardo","c":"Latam Logistic Manager","p":"Latam"},{"n":"Ezequiel","c":"Regional Ecom Manager","p":"Latam","f":[{"n":"Irina","c":"","p":"Latam"},{"n":"Jaqueline","c":"","p":"Latam"},{"n":"Jose","c":"","p":"Latam"}]},{"n":"Federico Marin","c":"Export Sales Manager","p":"Latam","f":[{"n":"Loana Rusciano Evelyn","c":"Customer Service Analyst","p":"Latam"}]},{"n":"Itamar Teixeira da Silva Lazarini","c":"Country Manager","p":"Brasil","f":[{"n":"Cristiane Pereira Martins","c":"Financial & Consulting Analyst","p":"Brasil"},{"n":"Gilson","c":"Sales Manager","p":"Brasil"},{"n":"Guilherme Henrique Sanchez de Almeida","c":"Sales Manager","p":"Brasil"},{"n":"Lucas Matías Villarruel","c":"Supply Chain Manager","p":"Brasil"}]},{"n":"Marcela Tavares Martinez","c":"Office Manager","p":"Brasil"},{"n":"Maria Villarreal","c":"Regional Sales Manager","p":"Latam"},{"n":"Matias Pardo Feijoo","c":"Comex","p":"Latam"},{"n":"Noé Barrera Bravo","c":"Country Manager","p":"Mexico","f":[{"n":"Carlos Armando Casarrubias Duarte","c":"Supervisor","p":"Mexico"},{"n":"Dayne Isabel López Molina","c":"Accountant","p":"Mexico","f":[{"n":"Jessica Elena González Padrón","c":"Financial Analyst","p":"Mexico"}]},{"n":"Diana Patricia González Salazar","c":"Admin & Financial Manager","p":"Mexico"},{"n":"Francisco Javier González Villaseñor","c":"Sales Manager","p":"Mexico","f":[{"n":"Fernando Javier Espinoza Pérez","c":"Commercial Analyst","p":"Mexico","f":[{"n":"Antonio Gonzalez Rivero","c":"Promoter","p":"Mexico"},{"n":"Francisco Quintanilla Diaz","c":"Promoter","p":"Mexico"},{"n":"Irma Barrientos Alcantara","c":"Promoter","p":"Mexico"},{"n":"José Carlos Gomez Hernandez","c":"Promoter","p":"Mexico"},{"n":"Karina Márquez Vázquez","c":"Promoter","p":"Mexico"},{"n":"Maria Margarita Cerda Torres","c":"Promoter","p":"Mexico"},{"n":"Susana Espinoza Quero","c":"Promoter","p":"Mexico"}]},{"n":"Viridiana Espinosa Rosales","c":"Sales Analyst","p":"Mexico"}]},{"n":"Gabriela Morales Rubio","c":"Designer","p":"Mexico"},{"n":"Ingrid Marlene Romero Palomino","c":"Online Sales Advisor","p":"Mexico"},{"n":"Irma Martínez Guzman","c":"","p":"Mexico"},{"n":"Jose Rafael Barcenas Ramírez","c":"","p":"Mexico"},{"n":"José Eduardo Pérez Nicia","c":"Control and Logistics Desk","p":"Mexico","f":[{"n":"Patricia Guadarrama Sánchez","c":"Logistics Analyst","p":"Mexico"}]},{"n":"José Manuel Montemayor Flores","c":"Sales Manager","p":"Mexico"},{"n":"Julieta Estrella","c":"Administrative & Logistics Analyst","p":"Mexico","f":[{"n":"Luz Vianney Vargas Ojeda","c":"Administrative & Logistics Analyst","p":"Mexico"}]},{"n":"Karen Elizabeth Nuñez Niño","c":"Office Manager","p":"Mexico"}]}]}],"Europe":[{"n":"Daniel Levin","c":"Manager Director","p":"Europe","f":[{"n":"Alan Brennan","c":"Global Commercial Director","p":"Europe"},{"n":"Elisabet Arnau","c":"Office Manager","p":"Europe"},{"n":"Hetal Mandalia","c":"Financial Manager","p":"Europe"},{"n":"Ioana Diaconescu","c":"Regional Manager","p":"Europe"},{"n":"Isabela","c":"Warehouse Manager","p":"Europe"},{"n":"Jackie Hernandez","c":"Regional Manager","p":"Europe"},{"n":"Karin Christgau","c":"Account Manager","p":"Europe"},{"n":"Kasia Kczmar","c":"Sales Representative","p":"Europe"},{"n":"Mohammed Bagasrawala","c":"Regional Ecom Manager","p":"Europe"},{"n":"Piotr Byzia","c":"Regional Manager CEE","p":"Europe"},{"n":"Saranya","c":"Bookkeeping","p":"Europe"},{"n":"Sylvia Wilson","c":"Global Financial Manager","p":"Europe"},{"n":"Tasos Apostoli","c":"Financial Controller","p":"Europe"},{"n":"Vai Ahilan","c":"Assistant Accountant","p":"Europe"}]}],"China":[{"n":"Andy KING","c":"Managing Director","p":"China","f":[{"n":"Alice GAO","c":"Finace Manager","p":"China","f":[{"n":"Doris GUO","c":"Finace Assistant","p":"China"}]},{"n":"CICI CAO","c":"Sales Assistant","p":"China"},{"n":"Eason LEE","c":"Senior Sales Manager","p":"China","f":[{"n":"Mikea RONG","c":"Sales Assistant","p":"China"},{"n":"Sea SONG","c":"Key Account Manager","p":"China"}]},{"n":"Eric CHIU","c":"Senior Sales Manager","p":"China","f":[{"n":"Linda CHOU","c":"Sales Executive","p":"China"}]},{"n":"Kimi ZHANG","c":"Operation Manager","p":"China","f":[{"n":"Cindy YANG","c":"Designer","p":"China"},{"n":"JOE WU","c":"Operation Specialist","p":"China"}]},{"n":"LORIA LIU","c":"HR & ADMIN Executive","p":"China"},{"n":"Simon LEE","c":"Senior Operation Manager","p":"China","f":[{"n":"ANGELFEI ZHU","c":"Designer","p":"China"},{"n":"CORA XU","c":"Operation Specialist","p":"China"},{"n":"Fanny YU","c":"Sales Assistant","p":"China"},{"n":"Vicky XU","c":"Key Account Manager","p":"China"}]}]}],"India":[{"n":"Kalpana Chintan Joshi","c":"Director","p":"India","f":[{"n":"Asavari Anand Pawar","c":"Sales Cordinator cum customer supporter","p":"India"},{"n":"Gaurav Kumar","c":"Office boy","p":"India"},{"n":"Kamlesh D Kachekar","c":"Warehouse Manager","p":"India","f":[{"n":"Abhay Shantaram Sonavale","c":"Supervisor","p":"India"},{"n":"Amol Vasant Pawar","c":"Packer Boy","p":"India"},{"n":"Arun Kumar","c":"Packer Boy","p":"India"},{"n":"Bhushan Dattaram Chavan","c":"Packer Boy","p":"India"},{"n":"Chandrashekhar Patil","c":"Supervisor","p":"India"},{"n":"Ganesh Sakpal","c":"Senior Packer Boy","p":"India"},{"n":"Gitali Varvatkar","c":"Computer Operator","p":"India"},{"n":"Keshav Kumar","c":"Packer Boy","p":"India"},{"n":"Lahu Dattatray Varkhade","c":"Packer Boy","p":"India"},{"n":"Mahesh Vasant Kadam","c":"Packer Boy","p":"India"},{"n":"Rajnish Kumar Saroj","c":"Packer Boy","p":"India"},{"n":"Rohit Rajaram Raut","c":"Packer Boy","p":"India"},{"n":"Sachin Thange","c":"Senior Packer Boy","p":"India"},{"n":"Santosh Kumar Pandey","c":"Packer Boy","p":"India"}]},{"n":"Pramod Kumar","c":"Office boy","p":"India"},{"n":"Swati Rupesh Mayekar","c":"Senior Accounts Assistant","p":"India"},{"n":"Vaijanta Bhagwan Sanas","c":"Accounts Assistant","p":"India"},{"n":"Vishakha Vijay Date","c":"Sales Cordinator","p":"India"}]},{"n":"Pradeep Singh Parmar","c":"Director","p":"India","f":[{"n":"Akshay Ankush Nivalkar","c":"Accounts Head","p":"India"},{"n":"Apurva Shriram Kakirde","c":"Receivable Manager and Accounts Assistant","p":"India"},{"n":"Leena Bharat Mestry","c":"Accounts Assistant","p":"India"},{"n":"Nikunj Krishnakant Davda","c":"Sales Head India","p":"India","f":[{"n":"Huzefa Mohammed Sarabar","c":"Sales Manager","p":"India"},{"n":"Mamta Mahadev Khake","c":"Sales Cordinator","p":"India"},{"n":"Nitish Shirish Bhise","c":"Key Accounts Manager","p":"India"},{"n":"Ramesh Bajirao Sanas","c":"Sales Manager","p":"India"},{"n":"Sumeet Suryakant Rewale","c":"Sales Manager","p":"India","f":[{"n":"Aarti Mohan Thathera","c":"Brand Staff","p":"India"},{"n":"Abdul Rahman Bin Sayeed","c":"ASM","p":"India"},{"n":"Abhijit Pramanik","c":"Brand Staff","p":"India"},{"n":"Amit Kumar","c":"Brand Staff","p":"India"},{"n":"Amit Roy","c":"Brand Staff","p":"India"},{"n":"Amit Yadav","c":"Brand Staff","p":"India"},{"n":"Amol Chandrakant Sanas","c":"ASM","p":"India"},{"n":"Aniket Kumar","c":"Brand Staff","p":"India"},{"n":"Chandrajeet Kumar","c":"ASM","p":"India"},{"n":"Deepali Nikam","c":"Brand Staff","p":"India"},{"n":"Gaurav Prasad","c":"Brand Staff","p":"India"},{"n":"Gurtej Singh","c":"Brand Staff","p":"India"},{"n":"Hanuman Ray","c":"Brand Staff","p":"India"},{"n":"Harmeet Singh","c":"Brand Staff","p":"India"},{"n":"Javed Usman Shaikh","c":"Brand Staff","p":"India"},{"n":"Jogendra Pal","c":"Brand Staff","p":"India"},{"n":"Jyoti Kala","c":"Brand Staff","p":"India"},{"n":"Madhumay Hemraj Maurya","c":"Brand Staff","p":"India"},{"n":"Mahesh Naika S R","c":"Brand Staff","p":"India"},{"n":"Maksudkhan Yasinkhan Pathan","c":"Brand Staff","p":"India"},{"n":"Manmohan Singh Rajput","c":"Brand Staff","p":"India"},{"n":"Md Moinuddin","c":"ASM","p":"India"},{"n":"Mohammed Saheb Khan","c":"Brand Staff","p":"India"},{"n":"Nidhi Kumari","c":"Brand Staff","p":"India"},{"n":"Nikita Narwariya","c":"Brand Staff","p":"India"},{"n":"Pravin Dattaram Khanvilkar","c":"ASM","p":"India"},{"n":"Rajneesh Sharma","c":"Brand Staff","p":"India"},{"n":"Ranjeet Singh Lodhi","c":"Brand Staff","p":"India"},{"n":"Rohit Bali","c":"Brand Staff","p":"India"},{"n":"Rohit Kumar","c":"Brand Staff","p":"India"},{"n":"Ruksana Khatoon","c":"Brand Staff","p":"India"},{"n":"Rutika Ramesh Raut","c":"Brand Staff","p":"India"},{"n":"S Narendran Immanuel Raj","c":"ASM","p":"India"},{"n":"Sahil Dindore","c":"Brand Staff","p":"India"},{"n":"Sapna","c":"Brand Staff","p":"India"},{"n":"Satpal Singh","c":"ASM","p":"India"},{"n":"Saurabh Rajesh Yadav","c":"Brand Staff","p":"India"},{"n":"Sherly S.N","c":"Brand Staff","p":"India"},{"n":"Sonu Garg","c":"Brand Staff","p":"India"},{"n":"Sourav Kumar","c":"Brand Staff","p":"India"},{"n":"Sourav Yadav","c":"Brand Staff","p":"India"},{"n":"Sudip Das","c":"Brand Staff","p":"India"},{"n":"Supriya Singh","c":"Brand Staff","p":"India"},{"n":"Suryadev C","c":"Brand Staff","p":"India"},{"n":"T Anirudh Menon","c":"Brand Staff","p":"India"},{"n":"Tanveer Ahmad","c":"Brand Staff","p":"India"},{"n":"Viswalekshmy G","c":"Brand Staff","p":"India"},{"n":"Waseem Akram","c":"Brand Staff","p":"India"},{"n":"Yogendra Pratap Singh","c":"Brand Staff","p":"India"},{"n":"Zafar Nawaz Habib Nawaz Sayyed","c":"Brand Staff","p":"India"}]},{"n":"Sunil Gupta","c":"Sales Manager","p":"India"}]}]}],"APAC":[{"n":"Poh Tzu Wei Leonard","c":"Director","p":"Singapore","f":[{"n":"Cyrah Artates-Puzon","c":"E-Commerce Manager","p":"Philippines","f":[{"n":"Albert Ryan Jasareno","c":"Graphic Artist","p":"Philippines"},{"n":"Angela Hernadez","c":"3D Visual Designer","p":"Philippines"},{"n":"Bea Cristela Talato","c":"Graphic Artist","p":"Philippines"},{"n":"John Paul Mariano","c":"Graphic Artist","p":"Philippines"}]},{"n":"Dita Majarani","c":"Sales Manager Indonesia","p":"Indonesia","f":[{"n":"Ananggadipa Yuripratomo","c":"Senior Bookkeeper","p":"Indonesia"},{"n":"Irma Yulianti","c":"Finance & Admin Executive","p":"Indonesia"},{"n":"Rizky Adhitya","c":"Sales Ass. Manager Domestic","p":"Indonesia","f":[{"n":"Aa Sagung Mirah Putri Wirawan","c":"Sales Executive","p":"Indonesia"},{"n":"Muhammad Zia Hullhak","c":"Sales Executive","p":"Indonesia"},{"n":"Ni Nyoman Anditya Putri Pratiwi","c":"Merchandiser","p":"Indonesia"},{"n":"Rio Shandy Permana","c":"Merchandiser","p":"Indonesia"},{"n":"Wisnu Anjar Priyono","c":"Merchandiser","p":"Indonesia"}]},{"n":"Tisa Kumaraputri","c":"Sales Ass. Manager Ecommerce","p":"Indonesia","f":[{"n":"Deti Rulitasari","c":"Admin Executive","p":"Indonesia"}]}]},{"n":"Dustin Tang","c":"Country Manager","p":"Taiwan","f":[{"n":"Candy Kao","c":"Sales Admin","p":"Taiwan"},{"n":"Johnny Hao","c":"Sales Assistant Manager (DM & TR)","p":"Taiwan","f":[{"n":"Yuki Chen","c":"Sales Representative (DM & TR)","p":"Taiwan"}]},{"n":"Lincy Tsai","c":"Sales Admin","p":"Taiwan"},{"n":"Wade Chen","c":"Sales Assistant Manager (EC)","p":"Taiwan","f":[{"n":"Sylvia Huang","c":"Sales Representative (EC)","p":"Taiwan"}]}]},{"n":"Huang Huiyi","c":"Sales Support Executive","p":"Singapore"},{"n":"John Patrick Marcayda","c":"Sales Manager","p":"Philippines","f":[{"n":"John Kenneth Capiral","c":"Sales Officer","p":"Philippines"},{"n":"Kristine Anne Erodistan","c":"Admin & Executive Assistant","p":"Philippines"},{"n":"Maria Teressa Bautista","c":"Roving Coordinator","p":"Philippines"}]},{"n":"Kan Yen Ping Cindy","c":"Sales Support Executive","p":"Singapore"},{"n":"Lee Mei Ying Elizabeth","c":"Director","p":"Singapore"},{"n":"Lee Wei Qi Millie","c":"Sales Support Executive","p":"Singapore"},{"n":"Lim Jun En","c":"Stock Planner","p":"Singapore"},{"n":"Sharon Philomena Lee Mei Yen","c":"Assistant Sales Manager","p":"Singapore"},{"n":"Sow You Chong","c":"Sales Merchandiser","p":"Singapore"},{"n":"Tan Bee Ling","c":"Accounts","p":"Singapore"},{"n":"Tan Song Shyan","c":"E-Commerce Sales Manager","p":"Singapore"},{"n":"Tan Yin Yin","c":"Sales Support Executive","p":"Singapore"},{"n":"Toh Eng Peng","c":"Sales Support Executive","p":"Singapore"},{"n":"Vanessa Tan Chun Looi","c":"Sales Support Executive","p":"Singapore"},{"n":"Wam Boon Hao","c":"Sales Merchandiser","p":"Singapore"}]}]};
 
 /* ══════════════════════════════════════════════════════
    PERMISOS
@@ -1412,6 +1540,99 @@ var PAGES = {
       return barra + panes;
     }
   },
+  'organigrama': {
+    title: 'Org Chart',
+    sub: 'Reporting structure by region',
+    render: function() {
+      var regiones = Object.keys(ORG);
+      if (!regiones.length) return '<div class="no-results">No org chart data.</div>';
+      if (regiones.indexOf(orgRegion) < 0) orgRegion = regiones[0];
+
+      function contar(nodos) {
+        var n = 0;
+        nodos.forEach(function(x){ n += 1 + contar(x.f || []); });
+        return n;
+      }
+
+      var selector = '<div class="perm-pick">'
+        + '<label for="org-region">Region</label>'
+        + '<select id="org-region">'
+        + regiones.map(function(r){
+            return '<option value="'+r+'"'+(r===orgRegion?' selected':'')+'>'
+                 + r + ' — ' + contar(ORG[r]) + ' people</option>';
+          }).join('')
+        + '</select></div>';
+
+      // um pais so vale a pena marcar quando a regiao junta varios
+      var paises = {};
+      (function recolhe(nodos){
+        nodos.forEach(function(x){ paises[x.p] = 1; recolhe(x.f || []); });
+      })(ORG[orgRegion]);
+      var mostrarPais = Object.keys(paises).length > 1;
+
+      function iniciales(n) {
+        var p = n.split(/\s+/).filter(Boolean);
+        return ((p[0]||'')[0] + ((p[1]||'')[0]||'')).toUpperCase();
+      }
+      var TONOS = ['#3c4ea8','#0f766e','#b45309','#7c3aed','#be123c','#0369a1','#15803d'];
+      function tono(s) {
+        var h = 0;
+        for (var i=0; i<s.length; i++) h = (h*31 + s.charCodeAt(i)) % 997;
+        return TONOS[h % TONOS.length];
+      }
+
+      function nodo(x, nivel) {
+        var kids = x.f || [];
+        var equipo = contar(kids);
+        // abiertos los dos primeros niveles; el resto se despliega al pulsar
+        var abierto = nivel < 2;
+        var col = tono(x.p || x.n);
+
+        var h = '<li class="org-node'+(kids.length?' has-kids':'')+(abierto?'':' collapsed')+'">'
+              + '<div class="org-card'+(nivel===0?' org-top':'')+(kids.length?' is-mgr':'')+'">'
+              +   (kids.length
+                    ? '<button class="org-toggle" aria-label="expand">'
+                      + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">'
+                      + '<polyline points="6 9 12 15 18 9"/></svg></button>'
+                    : '')
+              +   '<span class="org-avatar" style="background:'+col+'1a;color:'+col+';">'
+              +     iniciales(x.n) + '</span>'
+              +   '<span class="org-info">'
+              +     '<span class="org-name">'+x.n+'</span>'
+              +     '<span class="org-role">'+(x.c || '—')+'</span>'
+              +   '</span>'
+              +   '<span class="org-tags">'
+              +     (mostrarPais && x.p ? '<span class="org-country">'+x.p+'</span>' : '')
+              +     (equipo ? '<span class="org-count" title="team size">'+equipo+'</span>' : '')
+              +   '</span>'
+              + '</div>';
+        if (kids.length) {
+          h += '<ul class="org-children">'
+             + kids.map(function(c){ return nodo(c, nivel+1); }).join('')
+             + '</ul>';
+        }
+        return h + '</li>';
+      }
+
+      var total = contar(ORG[orgRegion]);
+      var lideres = 0;
+      (function cuenta(nodos){
+        nodos.forEach(function(x){ if (x.f && x.f.length) lideres++; cuenta(x.f || []); });
+      })(ORG[orgRegion]);
+
+      var resumen = '<div class="org-stats">'
+        + '<div class="org-stat"><strong>'+total+'</strong><span>people</span></div>'
+        + '<div class="org-stat"><strong>'+lideres+'</strong><span>with a team</span></div>'
+        + '<div class="org-stat"><strong>'+Object.keys(paises).length+'</strong><span>'
+        +   (Object.keys(paises).length > 1 ? 'countries' : 'country') + '</span></div>'
+        + '</div>';
+
+      return selector + resumen
+        + '<div class="org-wrap"><ul class="org-tree">'
+        + ORG[orgRegion].map(function(x){ return nodo(x, 0); }).join('')
+        + '</ul></div>';
+    }
+  },
   'permisos': {
     title: 'Permissions',
     sub: 'Tick which reports each team member can see',
@@ -1584,6 +1805,21 @@ function navigate(page) {
   // Sub-pestañas de Mercado
   document.querySelectorAll('.subtab').forEach(function(b){
     b.addEventListener('click', function(){ abrirMercadoTab(b.dataset.mk); });
+  });
+
+  // Abrir y cerrar ramas del Org Chart
+  document.querySelectorAll('.org-toggle').forEach(function(b){
+    b.addEventListener('click', function(e){
+      e.stopPropagation();
+      b.closest('.org-node').classList.toggle('collapsed');
+    });
+  });
+
+  // Selector de región en el Org Chart
+  var selRegion = document.getElementById('org-region');
+  if (selRegion) selRegion.addEventListener('change', function(){
+    orgRegion = selRegion.value;
+    navigate('organigrama');
   });
 
   // Selector de persona en Permisos
