@@ -48,9 +48,20 @@ EXTRAS_TB = [
 JANELA_NOTICIAS   = 30    # dias que uma noticia fica no portal
 JANELA_ESTUDOS    = 365   # dias que um estudo/relatorio fica
 JANELA_TRAVELBLUE = 365   # mencoes a Travel Blue: guardar muito tempo
+JANELA_CLIENTES   = 60    # clientes e concorrentes
 
 # Mencoes a Travel Blue vao para uma seccao propria
 TRAVEL_BLUE = re.compile(r"travel\s*blue", re.I)
+
+# Clientes e concorrentes: operadores de travel retail e duty free
+CLIENTES = re.compile(
+    r"\b(avolta|dufry|autogrill|gebr\.?\s*heinemann|heinemann|lagard[eè]re|"
+    r"dufrybrasil|hudson|wh\s*smith|whsmith|king\s*power|lotte\s*duty\s*free|"
+    r"the\s*shilla|shilla\s*duty\s*free|duty\s*free\s*americas|dfa\b|"
+    r"aer\s*rianta|ari\s*duty\s*free|motta\s*internacional|neutral|"
+    r"attenza|dufry\s*shops|china\s*duty\s*free|cdfg|sunrise\s*duty\s*free|"
+    r"liverpool|el\s*palacio\s*de\s*hierro|sanborns|mercado\s*libre|shopgallery)\b",
+    re.I)
 POR_FONTE       = 15     # quantas ler de cada vez em cada fonte
 TIMEOUT         = 30
 
@@ -134,6 +145,8 @@ def ler_fonte(nome, url):
             tipo = "travelblue"
         elif PALAVRAS_ESTUDO.search(titulo):
             tipo = "estudo"
+        elif CLIENTES.search(titulo):
+            tipo = "clientes"
         else:
             tipo = "noticia"
 
@@ -210,7 +223,7 @@ def carregar_anteriores():
         # travelblue TEM de entrar aqui: se faltar, uma falha momentanea
         # de uma fonte apaga o historico da marca
         return ((d.get("noticias") or []) + (d.get("estudos") or [])
-                + (d.get("travelblue") or []))
+                + (d.get("travelblue") or []) + (d.get("clientes") or []))
     except Exception:
         return []
 
@@ -223,7 +236,8 @@ def dentro_da_janela(item):
     if d.tzinfo is None:
         d = d.replace(tzinfo=timezone.utc)
     limite = {"estudo": JANELA_ESTUDOS,
-              "travelblue": JANELA_TRAVELBLUE}.get(item.get("tipo"), JANELA_NOTICIAS)
+              "travelblue": JANELA_TRAVELBLUE,
+              "clientes": JANELA_CLIENTES}.get(item.get("tipo"), JANELA_NOTICIAS)
     return d >= AGORA - timedelta(days=limite)
 
 
@@ -279,7 +293,8 @@ def main():
 
     travelblue = [n for n in vivos if n.get("tipo") == "travelblue"]
     estudos    = [n for n in vivos if n.get("tipo") == "estudo"]
-    noticias   = [n for n in vivos if n.get("tipo") not in ("estudo", "travelblue")]
+    clientes   = [n for n in vivos if n.get("tipo") == "clientes"]
+    noticias   = [n for n in vivos if n.get("tipo") not in ("estudo", "travelblue", "clientes")]
 
     with open(SAIDA, "w", encoding="utf-8") as f:
         json.dump({
@@ -288,12 +303,14 @@ def main():
             "janela_estudos_dias": JANELA_ESTUDOS,
             "fontes_com_falha": problemas,
             "travelblue": travelblue,
+            "clientes": clientes,
             "noticias": noticias,
             "estudos": estudos,
         }, f, ensure_ascii=False, indent=1)
 
     print(f"\nguardados: {len(noticias)} noticias (ultimos {JANELA_NOTICIAS} dias) "
-          f"+ {len(estudos)} estudos + {len(travelblue)} sobre Travel Blue")
+          f"+ {len(estudos)} estudos + {len(clientes)} clientes/concorrentes"
+          f" + {len(travelblue)} sobre Travel Blue")
     if problemas:
         print("fontes com falha:", ", ".join(problemas))
     return 0
