@@ -542,6 +542,7 @@ img.flag-img{{border-radius:2px;box-shadow:0 0 2px rgba(0,0,0,.35);vertical-alig
 .pill.new-item{{background:#1e3a5f;color:#60a5fa}}
 .light-mode .pill.new-item{{background:#dbeafe;color:#1d4ed8}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
 <div class="hdr">
@@ -563,7 +564,10 @@ img.flag-img{{border-radius:2px;box-shadow:0 0 2px rgba(0,0,0,.35);vertical-alig
     <button class="vbtn" id="vbtnQTY" onclick="setViewMode('qty')"><i class="bi bi-box-seam"></i> QTY</button>
     <button class="vbtn" id="vbtnAVG" onclick="setViewMode('avg')"><i class="bi bi-calculator"></i> AVG</button>
   </div>
-  <button id="pdfBtn" onclick="exportPDF()" style="margin-left:auto;padding:3px 13px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:.72rem;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:all .15s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+  <button onclick="exportExcel()" style="margin-left:auto;padding:3px 13px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:.72rem;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:all .15s" onmouseover="this.style.borderColor='#16a34a';this.style.color='#16a34a'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+    <i class="bi bi-file-earmark-excel"></i> Export Excel
+  </button>
+  <button id="pdfBtn" onclick="exportPDF()" style="padding:3px 13px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:.72rem;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:all .15s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
     <i class="bi bi-file-earmark-pdf"></i> Export PDF
   </button>
 </div>
@@ -1517,6 +1521,31 @@ function exportPDF(){{
     btn.innerHTML='<i class="bi bi-file-earmark-pdf"></i> Export PDF';
     btn.disabled=false;
   }});
+}}
+
+// ── EXPORT EXCEL ─────────────────────────────────────────────────────────────
+function exportExcel() {{
+  const TAB_LABELS = {{
+    'tab-overview':'Overview','tab-historical':'Historical',
+    'tab-channels':'Channels','tab-brands':'Brands',
+    'tab-family':'Family','tab-products':'Products',
+    'tab-customers':'Customers','tab-salescust':'Sales x Cust',
+    'tab-custbrand':'Cust x Brand'
+  }};
+  const wb = XLSX.utils.book_new();
+  let sheetCount = 0;
+  document.querySelectorAll('.tab-content').forEach(panel => {{
+    const label = TAB_LABELS[panel.id] || panel.id.replace('tab-','');
+    panel.querySelectorAll('table').forEach((tbl, i) => {{
+      const tbls = panel.querySelectorAll('table');
+      const name = (tbls.length > 1 ? label.slice(0,27) + '_' + (i+1) : label).slice(0,31);
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.table_to_sheet(tbl), name);
+      sheetCount++;
+    }});
+  }});
+  if (!sheetCount) {{ alert('No tables found.'); return; }}
+  const title = document.title.replace(/[^a-z0-9]/gi,'_').replace(/_+/g,'_');
+  XLSX.writeFile(wb, title + '.xlsx');
 }}
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
