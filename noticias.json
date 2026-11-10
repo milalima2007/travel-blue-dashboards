@@ -1,11 +1,8 @@
 {
- "atualizado": "2026-11-09T16:48:36+00:00",
+ "atualizado": "2026-11-10T15:11:02+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
- "fontes_com_falha": [
-  "DFNI",
-  "DFNI/TravelBlue"
- ],
+ "fontes_com_falha": [],
  "travelblue": [
   {
    "fonte": "The Moodie Davitt Report",
@@ -59,6 +56,132 @@
  ],
  "noticias": [
   {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "L’OCCITANE Group strikes deal to sell Elemis brand to PAI Partners",
+   "url": "https://moodiedavittreport.com/loccitane-group-strikes-deal-to-sell-elemis-brand-to-pai-partners/?utm_source=rss&utm_medium=rss&utm_campaign=loccitane-group-strikes-deal-to-sell-elemis-brand-to-pai-partners",
+   "data": "2026-11-10T14:33:02+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Lotte Duty Free launches Black Friday sale",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/lotte-duty-free-launches-black-friday-sale/285473",
+   "data": "2026-11-10T13:46:04+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Glen Moray launches Diwali travel retail exclusive in UAE",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/glen-moray-launches-diwali-travel-retail-exclusive-in-uae-10-11-2026/",
+   "data": "2026-11-10T10:52:14+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Estée Lauder Companies holds high-level Hainan talks to explore new growth opportunities",
+   "url": "https://moodiedavittreport.com/the-estee-lauder-companies-holds-high-level-hainan-talks-to-explore-new-growth-opportunities/?utm_source=rss&utm_medium=rss&utm_campaign=the-estee-lauder-companies-holds-high-level-hainan-talks-to-explore-new-growth-opportunities",
+   "data": "2026-11-10T10:49:41+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Lotte Duty Free announces Black Friday sale",
+   "url": "https://www.dfnionline.com/latest-news/lotte-duty-free-announces-black-friday-sale-10-11-2026/",
+   "data": "2026-11-10T10:46:12+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Nestlé International Travel Retail appoints Roberto Fernandez as CDT Manager",
+   "url": "https://www.dfnionline.com/latest-news/nestle-international-travel-retail-appoints-roberto-fernandez-as-cdt-manager-10-11-2026/",
+   "data": "2026-11-10T10:28:07+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Kamiki Single Malt expands Japanese whisky offering in travel retail",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/kamiki-single-malt-expands-japanese-whisky-offering-in-travel-retail/285457",
+   "data": "2026-11-10T10:27:01+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Brunello Cucinelli unveils permanent space with Qatar Duty Free",
+   "url": "https://www.dfnionline.com/latest-news/brunello-cucinelli-unveils-permanent-space-with-qatar-duty-free-at-hamad-10-11-2026/",
+   "data": "2026-11-10T10:06:36+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Brunello Cucinelli opens new boutique at DOH following pop-up success",
+   "url": "https://www.trbusiness.com/regional-news/middle-east/brunello-cucinelli-opens-permanent-boutique-at-doh-following-pop-up-success/285465",
+   "data": "2026-11-10T09:56:25+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Interview: Puig’s Felipe Grant on niche fragrance in travel retail",
+   "url": "https://www.dfnionline.com/brand-news/fragrances/interview-puigs-felipe-grant-on-niche-fragrance-in-travel-retail-10-11-2026/",
+   "data": "2026-11-10T09:39:21+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Qatar Duty Free boosts luxury allure with Brunello Cucinelli boutique opening",
+   "url": "https://moodiedavittreport.com/qatar-duty-free-boosts-luxury-allure-with-brunello-cucinelli-boutique-opening/?utm_source=rss&utm_medium=rss&utm_campaign=qatar-duty-free-boosts-luxury-allure-with-brunello-cucinelli-boutique-opening",
+   "data": "2026-11-10T08:25:19+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Ferrero Travel Market adds to growing industry support for The Trinity Forum 2027 as Coffee Break Partner",
+   "url": "https://moodiedavittreport.com/ferrero-travel-market-adds-to-growing-industry-support-for-the-trinity-forum-2027-as-coffee-break-partner/?utm_source=rss&utm_medium=rss&utm_campaign=ferrero-travel-market-adds-to-growing-industry-support-for-the-trinity-forum-2027-as-coffee-break-partner",
+   "data": "2026-11-10T08:00:04+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Lotte Duty Free adds a luxury touch to the festive season with Chanel Fragrance and Beauty pop-up at Da Nang Airport",
+   "url": "https://moodiedavittreport.com/chanel-and-lotte-duty-free-add-a-luxury-touch-to-the-festive-season-with-da-nang-airport-pop-up/?utm_source=rss&utm_medium=rss&utm_campaign=chanel-and-lotte-duty-free-add-a-luxury-touch-to-the-festive-season-with-da-nang-airport-pop-up",
+   "data": "2026-11-10T07:33:55+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Images of the Day: TWG Tea Gallery steeps Changi Airport in grandeur",
+   "url": "https://moodiedavittreport.com/images-of-the-day-twg-tea-gallery-steeps-changi-airport-in-grandeur/?utm_source=rss&utm_medium=rss&utm_campaign=images-of-the-day-twg-tea-gallery-steeps-changi-airport-in-grandeur",
+   "data": "2026-11-10T07:02:03+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Travel Hub enhances Manila International Airport retail offer with one-stop shopping concept",
+   "url": "https://moodiedavittreport.com/travel-hub-enhances-manila-international-airport-retail-offer-with-one-stop-shopping-concept/?utm_source=rss&utm_medium=rss&utm_campaign=travel-hub-enhances-manila-international-airport-retail-offer-with-one-stop-shopping-concept",
+   "data": "2026-11-10T04:20:23+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Lotte Duty Free fuels year-end travel shopping with Black Friday promotional push",
+   "url": "https://moodiedavittreport.com/lotte-duty-free-fuels-year-end-travel-shopping-with-black-friday-promotional-push/?utm_source=rss&utm_medium=rss&utm_campaign=lotte-duty-free-fuels-year-end-travel-shopping-with-black-friday-promotional-push",
+   "data": "2026-11-10T03:54:45+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "In Conversation: Michael Kors’ Chris Amplo on redefining the jet set lifestyle",
+   "url": "https://moodiedavittreport.com/in-conversation-michael-kors-chris-amplo-on-redefining-the-jet-set-lifestyle/?utm_source=rss&utm_medium=rss&utm_campaign=in-conversation-michael-kors-chris-amplo-on-redefining-the-jet-set-lifestyle",
+   "data": "2026-11-10T02:05:39+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Lagardère Travel Retail makes Munich Airport debut with swoop to acquire Aichinger Gastro",
+   "url": "https://moodiedavittreport.com/lagardere-travel-retail-makes-munich-airport-debut-with-swoop-to-acquire-aichinger-gastro/?utm_source=rss&utm_medium=rss&utm_campaign=lagardere-travel-retail-makes-munich-airport-debut-with-swoop-to-acquire-aichinger-gastro",
+   "data": "2026-11-09T23:54:06+00:00",
+   "tipo": "noticia"
+  },
+  {
    "fonte": "TRBusiness",
    "titulo": "Lagardère enters Munich Airport with Aichinger Gastro acquisition",
    "url": "https://www.trbusiness.com/regional-news/europe/lagardere-enters-munich-airport-with-aichinger-gastro-acquisition/285447",
@@ -67,7 +190,7 @@
   },
   {
    "fonte": "TRBusiness",
-   "titulo": "Speakers added to TR Wellbeing Week – sign up today for access all areas",
+   "titulo": "Speakers added to TR Wellbeing Week",
    "url": "https://www.trbusiness.com/sustainability/speakers-added-to-tr-wellbeing-week-sign-up-today-for-access-all-areas/285437",
    "data": "2026-11-09T16:23:01+00:00",
    "tipo": "noticia"
@@ -108,17 +231,31 @@
    "tipo": "noticia"
   },
   {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Flemingo steps up cruise retail expansion with first Canary Islands opening at Las Palmas",
-   "url": "https://moodiedavittreport.com/flemingo-steps-up-cruise-retail-expansion-with-first-canary-islands-opening-at-las-palmas/?utm_source=rss&utm_medium=rss&utm_campaign=flemingo-steps-up-cruise-retail-expansion-with-first-canary-islands-opening-at-las-palmas",
-   "data": "2026-11-09T12:00:22+00:00",
+   "fonte": "DFNI",
+   "titulo": "Heineken and MSC Cruises launch Formula 1 collaboration",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/heineken-and-msc-cruises-launch-formula-1-collaboration-09-11-2026/",
+   "data": "2026-11-09T13:11:53+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Ricola appoints Joan Moreno as Head of Global Travel Retail",
+   "url": "https://www.dfnionline.com/latest-news/ricola-appoints-joan-moreno-as-head-of-global-travel-retail-09-11-2026/",
+   "data": "2026-11-09T12:34:40+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Lotte Duty Free and Chanel unveil holiday podium at Incheon Airport",
+   "url": "https://www.dfnionline.com/latest-news/lotte-duty-free-and-chanel-unveil-holiday-podium-at-incheon-airport-09-11-2026/",
+   "data": "2026-11-09T12:02:26+00:00",
    "tipo": "noticia"
   },
   {
    "fonte": "The Moodie Davitt Report",
-   "titulo": "Lagardère Travel Retail makes Munich Airport debut with swoop to acquire Aichinger Gastro",
-   "url": "https://moodiedavittreport.com/lagardere-travel-retail-makes-munich-airport-debut-with-swoop-to-acquire-aichinger-gastro/?utm_source=rss&utm_medium=rss&utm_campaign=lagardere-travel-retail-makes-munich-airport-debut-with-swoop-to-acquire-aichinger-gastro",
-   "data": "2026-11-09T11:54:06+00:00",
+   "titulo": "Flemingo steps up cruise retail expansion with first Canary Islands opening at Las Palmas",
+   "url": "https://moodiedavittreport.com/flemingo-steps-up-cruise-retail-expansion-with-first-canary-islands-opening-at-las-palmas/?utm_source=rss&utm_medium=rss&utm_campaign=flemingo-steps-up-cruise-retail-expansion-with-first-canary-islands-opening-at-las-palmas",
+   "data": "2026-11-09T12:00:22+00:00",
    "tipo": "noticia"
   },
   {
@@ -136,6 +273,13 @@
    "tipo": "noticia"
   },
   {
+   "fonte": "DFNI",
+   "titulo": "Estée Lauder strengthens Hainan commitment as China sales rebound",
+   "url": "https://www.dfnionline.com/brand-news/cosmetics/estee-lauder-strengthens-hainan-commitment-as-china-sales-rebound-09-11-2026/",
+   "data": "2026-11-09T11:14:42+00:00",
+   "tipo": "noticia"
+  },
+  {
    "fonte": "The Moodie Davitt Report",
    "titulo": "SSP America extends Bradley International Airport dining offer with dual openings",
    "url": "https://moodiedavittreport.com/ssp-america-extends-bradley-international-airport-dining-offer-with-dual-openings/?utm_source=rss&utm_medium=rss&utm_campaign=ssp-america-extends-bradley-international-airport-dining-offer-with-dual-openings",
@@ -147,6 +291,13 @@
    "titulo": "Bacardi expands Patrón Ibiza activation across Europe and Dubai",
    "url": "https://www.trbusiness.com/regional-news/international/bacardi-expands-patron-ibiza-activation-across-europe-and-dubai/285411",
    "data": "2026-11-09T10:45:39+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Lagardère Travel Retail enters Munich Airport with Aichinger Gastro acquisition",
+   "url": "https://www.dfnionline.com/brand-news/food-beverage/lagardere-travel-retail-enters-munich-airport-with-aichinger-gastro-acquisition-09-11-2026/",
+   "data": "2026-11-09T10:35:12+00:00",
    "tipo": "noticia"
   },
   {
@@ -175,6 +326,13 @@
    "titulo": "China’s CDFG sees net attributable profit surge in Q3 and 9M",
    "url": "https://www.trbusiness.com/regional-news/asia-pacific/chinas-cdfg-sees-net-attributable-profit-surge-in-q3-and-9m/285401",
    "data": "2026-11-09T05:42:51+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Middle East: Gulf travel retail’s uneven recovery",
+   "url": "https://www.dfnionline.com/comment-insight/insight/middle-east-gulf-travel-retails-uneven-recovery-06-11-2026/",
+   "data": "2026-11-06T19:17:22+00:00",
    "tipo": "noticia"
   },
   {
@@ -1170,7 +1328,7 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-09T16:48:36.738476+00:00",
+   "data": "2026-11-10T15:11:02.654066+00:00",
    "tipo": "estudo"
   },
   {
