@@ -1,5 +1,5 @@
 {
- "atualizado": "2026-11-10T19:26:36+00:00",
+ "atualizado": "2026-11-11T14:40:34+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
@@ -55,6 +55,34 @@
   }
  ],
  "clientes": [
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Macallan and Avolta put whisky discovery in the spotlight with limited-edition Heathrow launch",
+   "url": "https://moodiedavittreport.com/the-macallan-and-avolta-put-whisky-discovery-in-the-spotlight-with-limited-edition-heathrow-launch/?utm_source=rss&utm_medium=rss&utm_campaign=the-macallan-and-avolta-put-whisky-discovery-in-the-spotlight-with-limited-edition-heathrow-launch",
+   "data": "2026-11-11T13:24:55+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Avolta expands Barbados Airport presence with new beauty store",
+   "url": "https://www.dfnionline.com/latest-news/avolta-expands-barbados-airport-presence-with-new-beauty-store-11-11-2026/",
+   "data": "2026-11-11T10:49:51+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Avolta claims Franchise Excellence Award for global F&B partnerships",
+   "url": "https://moodiedavittreport.com/avolta-claims-franchise-excellence-award-for-global-fb-partnerships/?utm_source=rss&utm_medium=rss&utm_campaign=avolta-claims-franchise-excellence-award-for-global-fb-partnerships",
+   "data": "2026-11-11T08:51:18+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Gebr. Heinemann introduces Kaulitz brothers’ KAA DOS Tequila to travel retail",
+   "url": "https://moodiedavittreport.com/gebr-heinemann-introduces-kaulitz-brothers-kaa-dos-tequila-to-travel-retail/?utm_source=rss&utm_medium=rss&utm_campaign=gebr-heinemann-introduces-kaulitz-brothers-kaa-dos-tequila-to-travel-retail",
+   "data": "2026-11-11T08:16:45+00:00",
+   "tipo": "clientes"
+  },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "Avolta bolsters Caribbean footprint with airport beauty boutique in Barbados",
@@ -330,6 +358,90 @@
   }
  ],
  "noticias": [
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "In Conversation: Time Products CEO Pete Ogley on Sekonda’s next chapter in watches and wearables",
+   "url": "https://moodiedavittreport.com/in-conversation-time-products-ceo-pete-ogley-on-sekondas-next-chapter-in-watches-and-wearables/?utm_source=rss&utm_medium=rss&utm_campaign=in-conversation-time-products-ceo-pete-ogley-on-sekondas-next-chapter-in-watches-and-wearables",
+   "data": "2026-11-11T12:50:18+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "reisenthel enters travel retail at Frankfurt and Munich airports",
+   "url": "https://www.dfnionline.com/brand-news/fashion-leathergoods/reisenthel-enters-travel-retail-at-frankfurt-and-munich-airports-11-11-2026/",
+   "data": "2026-11-11T12:10:15+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "The Macallan unveils exclusive single cask whisky at Heathrow",
+   "url": "https://www.dfnionline.com/latest-news/the-macallan-unveils-exclusive-single-cask-whisky-at-heathrow-11-11-2026/",
+   "data": "2026-11-11T11:37:33+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "DFNI Diary: Brian Kinsman on Glenfiddich’s bold new TREX 28yo",
+   "url": "https://www.dfnionline.com/dfni-blog-comment/dfni-diary-brian-kinsman-on-glenfiddichs-bold-new-trex-28yo-11-11-2026/",
+   "data": "2026-11-11T11:03:15+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Airport Dimensions extends its support for The Trinity Forum 2027 as Hospitality and Sustainable Bag Partner",
+   "url": "https://moodiedavittreport.com/airport-dimensions-extends-its-support-for-the-trinity-forum-2027-as-hospitality-and-sustainable-bag-partner/?utm_source=rss&utm_medium=rss&utm_campaign=airport-dimensions-extends-its-support-for-the-trinity-forum-2027-as-hospitality-and-sustainable-bag-partner",
+   "data": "2026-11-11T11:01:59+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Bric’s unveils SS27 travel and accessories collections",
+   "url": "https://www.trbusiness.com/regional-news/international/brics-unveils-ss27-travel-and-accessories-collections/285500",
+   "data": "2026-11-11T11:00:26+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Singles’ Day shopping extravaganza takes flight across travel retail",
+   "url": "https://moodiedavittreport.com/singles-day-shopping-extravaganza-takes-flight-across-travel-retail/?utm_source=rss&utm_medium=rss&utm_campaign=singles-day-shopping-extravaganza-takes-flight-across-travel-retail",
+   "data": "2026-11-11T10:49:41+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "In Conversation – Talking travel retail transformation",
+   "url": "https://moodiedavittreport.com/in-conversation-talking-travel-retail-transformation/?utm_source=rss&utm_medium=rss&utm_campaign=in-conversation-talking-travel-retail-transformation",
+   "data": "2026-11-11T10:37:14+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Dubai Duty Free celebrates Diwali with festivities and prize draws",
+   "url": "https://www.trbusiness.com/regional-news/middle-east/dubai-duty-free-celebrates-diwali-with-festivities-and-prize-draws/285489",
+   "data": "2026-11-11T10:27:53+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Dewar’s launches Diwali gifting campaign across almost 30 airports",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/dewars-launches-diwali-gifting-campaign-across-almost-30-airports-11-11-2026/",
+   "data": "2026-11-11T10:15:05+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Registration opens for Summit of the Americas 2027 in Palm Beach",
+   "url": "https://moodiedavittreport.com/registration-opens-for-summit-of-the-americas-2027-in-palm-beach/?utm_source=rss&utm_medium=rss&utm_campaign=registration-opens-for-summit-of-the-americas-2027-in-palm-beach",
+   "data": "2026-11-11T08:47:54+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Bacardi taps festive gifting demand with Dewar’s Diwali travel retail-exclusive collection",
+   "url": "https://moodiedavittreport.com/bacardi-taps-festive-gifting-demand-with-dewars-diwali-travel-retail-exclusive-collection/?utm_source=rss&utm_medium=rss&utm_campaign=bacardi-taps-festive-gifting-demand-with-dewars-diwali-travel-retail-exclusive-collection",
+   "data": "2026-11-11T08:00:50+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "TRBusiness",
    "titulo": "Fortnum & Mason expands Heathrow presence with two new openings",
@@ -1428,7 +1540,14 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-10T19:26:36.793219+00:00",
+   "data": "2026-11-11T14:40:34.158084+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Heathrow Airport posts marginal decline in October passenger traffic",
+   "url": "https://moodiedavittreport.com/heathrow-airport-posts-marginal-decline-in-october-passenger-traffic/?utm_source=rss&utm_medium=rss&utm_campaign=heathrow-airport-posts-marginal-decline-in-october-passenger-traffic",
+   "data": "2026-11-11T07:22:58+00:00",
    "tipo": "estudo"
   },
   {
