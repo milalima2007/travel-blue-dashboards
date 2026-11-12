@@ -1,5 +1,5 @@
 {
- "atualizado": "2026-11-11T14:40:34+00:00",
+ "atualizado": "2026-11-12T15:32:34+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
@@ -55,6 +55,34 @@
   }
  ],
  "clientes": [
+  {
+   "fonte": "DFNI",
+   "titulo": "Gebr. Heinemann launches KAA DOS tequila in travel retail",
+   "url": "https://www.dfnionline.com/latest-news/gebr-heinemann-launches-kaa-dos-tequila-in-travel-retail-12-11-2026/",
+   "data": "2026-11-12T10:42:03+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Gebr. Heinemann brings Kaulitz brothers’ KAA DOS Tequila to TR",
+   "url": "https://www.trbusiness.com/regional-news/europe/gebr-heinemann-brings-kaulitz-brothers-kaa-dos-tequila-to-tr/285528",
+   "data": "2026-11-12T09:23:01+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "WHSmith full-year revenues climb but profits fall amid “fundamental reset”",
+   "url": "https://moodiedavittreport.com/whsmith-full-year-revenues-climb-but-profits-fall-amid-fundamental-reset/?utm_source=rss&utm_medium=rss&utm_campaign=whsmith-full-year-revenues-climb-but-profits-fall-amid-fundamental-reset",
+   "data": "2026-11-12T08:29:54+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Avolta opens dedicated beauty store at Barbados airport",
+   "url": "https://www.trbusiness.com/regional-news/the-americas/avolta-opens-dedicated-beauty-store-at-barbados-airport/285512",
+   "data": "2026-11-11T16:11:43+00:00",
+   "tipo": "clientes"
+  },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "The Macallan and Avolta put whisky discovery in the spotlight with limited-edition Heathrow launch",
@@ -358,6 +386,104 @@
   }
  ],
  "noticias": [
+  {
+   "fonte": "DFNI",
+   "titulo": "Babor unveils new travel retail displays at five European airports",
+   "url": "https://www.dfnionline.com/latest-news/babor-unveils-new-travel-retail-displays-at-five-european-airports-12-11-2026/",
+   "data": "2026-11-12T14:15:23+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "World of Patria International enters administration",
+   "url": "https://www.dfnionline.com/latest-news/world-of-patria-international-enters-administration-12-11-2026/",
+   "data": "2026-11-12T13:53:19+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Zhuhai Duty Free to be reintegrated into Gree Group amid consolidation play",
+   "url": "https://moodiedavittreport.com/zhuhai-duty-free-set-for-reintegration-into-gree-group-ecosystem-amid-consolidation-play/?utm_source=rss&utm_medium=rss&utm_campaign=zhuhai-duty-free-set-for-reintegration-into-gree-group-ecosystem-amid-consolidation-play",
+   "data": "2026-11-12T13:36:25+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "In Conversation: KOSÉ Travel Retail’s Hiroto Kitaki on connecting travellers to lifelong beauty",
+   "url": "https://moodiedavittreport.com/in-conversation-kose-travel-retails-hiroto-kitaki-on-connecting-travellers-to-lifelong-beauty/?utm_source=rss&utm_medium=rss&utm_campaign=in-conversation-kose-travel-retails-hiroto-kitaki-on-connecting-travellers-to-lifelong-beauty",
+   "data": "2026-11-12T12:51:57+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Art meets whisky as The Balvenie, EVERRICH and Tasa Meng host bottle signing with Daniel Arsham",
+   "url": "https://moodiedavittreport.com/art-meets-whisky-as-the-balvenie-everrich-and-tasa-meng-host-bottle-signing-with-daniel-arsham/?utm_source=rss&utm_medium=rss&utm_campaign=art-meets-whisky-as-the-balvenie-everrich-and-tasa-meng-host-bottle-signing-with-daniel-arsham",
+   "data": "2026-11-12T12:37:24+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "The Balvenie celebrates Daniel Arsham collaboration at Taipei Airport",
+   "url": "https://www.dfnionline.com/latest-news/the-balvenie-celebrates-daniel-arsham-collaboration-at-taipei-airport-12-11-2026/",
+   "data": "2026-11-12T12:32:47+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "North America recovery buoys Safilo performance in Q3",
+   "url": "https://moodiedavittreport.com/north-america-recovery-buoys-safilo-performance-in-q3/?utm_source=rss&utm_medium=rss&utm_campaign=north-america-recovery-buoys-safilo-performance-in-q3",
+   "data": "2026-11-12T12:30:42+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Interview: Bvlgari’s Valentina Colombo talks the brand’s new maison strategy",
+   "url": "https://www.dfnionline.com/uncategorized/bvlgari-interview-12-11-2026/",
+   "data": "2026-11-12T11:15:20+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "ACI Europe releases updated Tender Code as a blueprint for tenders, transparency and partnership",
+   "url": "https://moodiedavittreport.com/aci-europe-releases-updated-tender-code-as-a-blueprint-for-tenders-transparency-and-partnership/?utm_source=rss&utm_medium=rss&utm_campaign=aci-europe-releases-updated-tender-code-as-a-blueprint-for-tenders-transparency-and-partnership",
+   "data": "2026-11-12T09:00:35+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Unifree Duty Free taps rising K-beauty demand with dedicated concept at Istanbul Airport",
+   "url": "https://moodiedavittreport.com/unifree-duty-free-taps-rising-k-beauty-demand-with-dedicated-concept-at-istanbul-airport/?utm_source=rss&utm_medium=rss&utm_campaign=unifree-duty-free-taps-rising-k-beauty-demand-with-dedicated-concept-at-istanbul-airport",
+   "data": "2026-11-12T08:28:18+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Eight weeks left: TREX Awards 2027 gathers momentum as entry deadline draws closer",
+   "url": "https://moodiedavittreport.com/eight-weeks-left-trex-awards-2027-gathers-momentum-as-entry-deadline-draws-closer/?utm_source=rss&utm_medium=rss&utm_campaign=eight-weeks-left-trex-awards-2027-gathers-momentum-as-entry-deadline-draws-closer",
+   "data": "2026-11-12T08:25:09+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Airport Authority Hong Kong opens tender for T1 lifestyle accessories concession",
+   "url": "https://moodiedavittreport.com/airport-authority-hong-kong-opens-tender-for-t1-lifestyle-accessories-concession/?utm_source=rss&utm_medium=rss&utm_campaign=airport-authority-hong-kong-opens-tender-for-t1-lifestyle-accessories-concession",
+   "data": "2026-11-12T08:24:07+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Images of the Day: Taking Tequila showcasing to new heights in Guadalajara",
+   "url": "https://moodiedavittreport.com/images-of-the-day-taking-tequila-showcasing-to-new-heights-in-guadalajara/?utm_source=rss&utm_medium=rss&utm_campaign=images-of-the-day-taking-tequila-showcasing-to-new-heights-in-guadalajara",
+   "data": "2026-11-12T07:25:30+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Heineken and MSC Cruises launch limited-edition F1 can",
+   "url": "https://www.trbusiness.com/channel-news/ferries-cruise-ships/heineken-and-msc-cruises-launch-limited-edition-f1-can/285490",
+   "data": "2026-11-11T14:52:28+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "In Conversation: Time Products CEO Pete Ogley on Sekonda’s next chapter in watches and wearables",
@@ -1540,7 +1666,7 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-11T14:40:34.158084+00:00",
+   "data": "2026-11-12T15:32:34.200664+00:00",
    "tipo": "estudo"
   },
   {
