@@ -1,8 +1,10 @@
 {
- "atualizado": "2026-11-13T14:52:02+00:00",
+ "atualizado": "2026-11-16T16:20:14+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
- "fontes_com_falha": [],
+ "fontes_com_falha": [
+  "DFNI/clientes"
+ ],
  "travelblue": [
   {
    "fonte": "The Moodie Davitt Report",
@@ -55,6 +57,69 @@
   }
  ],
  "clientes": [
+  {
+   "fonte": "DFNI",
+   "titulo": "Cadbury launches dedicated Heathrow pop-up with Avolta",
+   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/cadbury-launches-dedicated-heathrow-pop-up-with-avolta-16-11-2026/",
+   "data": "2026-11-16T13:26:02+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Lagardère unveils revamped Relay store at Madinah Airport",
+   "url": "https://www.trbusiness.com/regional-news/middle-east/lagardere-unveils-revamped-relay-store-at-madinah-airport/285655",
+   "data": "2026-11-16T13:13:10+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Avolta on growth, local relevance and the future of Middle East and Africa travel retail",
+   "url": "https://www.dfnionline.com/dfni-blog-comment/avolta-on-growth-local-relevance-and-the-future-of-middle-east-and-africa-travel-retail-16-11-2026/",
+   "data": "2026-11-16T12:33:06+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "ELC and DFA launch three-brand beauty store at Miami Intl. Airport",
+   "url": "https://www.trbusiness.com/regional-news/the-americas/elc-and-dfa-launch-three-brand-beauty-store-at-miami-intl-airport/285631",
+   "data": "2026-11-16T09:03:57+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Estée Lauder Companies and Duty Free Americas mark renewed partnership with first Miami store",
+   "url": "https://www.dfnionline.com/brand-news/cosmetics/estee-lauder-companies-and-duty-free-americas-mark-renewed-partnership-with-first-miami-store-16-11-2026/",
+   "data": "2026-11-16T08:47:23+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Lotte Duty Free deepens community support with KRW110 million donation to charitable groups",
+   "url": "https://moodiedavittreport.com/lotte-duty-free-deepens-community-support-with-krw110-million-donation-to-charitable-groups/?utm_source=rss&utm_medium=rss&utm_campaign=lotte-duty-free-deepens-community-support-with-krw110-million-donation-to-charitable-groups",
+   "data": "2026-11-16T07:33:44+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "WHSmith on ‘self-help’ drive after -30% profit slide in FY26",
+   "url": "https://www.trbusiness.com/regional-news/international/whsmith-on-self-help-drive-after-30-profit-slide-in-fy26/285623",
+   "data": "2026-11-16T06:08:00+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Estée Lauder Companies and Duty Free Americas mark renewed global retail partnership with Miami Airport launch",
+   "url": "https://moodiedavittreport.com/the-estee-lauder-companies-and-duty-free-americas-mark-renewed-global-retail-partnership-with-miami-airport-launch/?utm_source=rss&utm_medium=rss&utm_campaign=the-estee-lauder-companies-and-duty-free-americas-mark-renewed-global-retail-partnership-with-miami-airport-launch",
+   "data": "2026-11-16T06:00:35+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "People Moves: WHSmith names Dan O’Brien as Commercial Director – Europe; Diageo appoints Gina Kothari as Global Head of Avolta",
+   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
+   "data": "2026-11-15T16:20:42+00:00",
+   "tipo": "clientes"
+  },
   {
    "fonte": "DFNI",
    "titulo": "Freda Cheung: Avolta’s Asia Pacific growth starts with the traveller",
@@ -394,6 +459,118 @@
  ],
  "noticias": [
   {
+   "fonte": "TRBusiness",
+   "titulo": "Brisbane Airport announces major retail expansion",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/brisbane-airport-announces-major-retail-expansion/285661",
+   "data": "2026-11-16T14:17:08+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Cartier and ATÜ Duty Free curate an enhanced luxury experience at Istanbul Airport",
+   "url": "https://moodiedavittreport.com/cartier-and-atu-duty-free-curate-an-enhanced-luxury-experience-at-istanbul-airport/?utm_source=rss&utm_medium=rss&utm_campaign=cartier-and-atu-duty-free-curate-an-enhanced-luxury-experience-at-istanbul-airport",
+   "data": "2026-11-16T13:09:35+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Lotte becomes first duty free retailer to achieve top shared growth rating",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/lotte-becomes-first-duty-free-retailer-to-achieve-top-shared-growth-rating/285651",
+   "data": "2026-11-16T12:03:12+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Cartier and ATU Duty Free expand Istanbul Airport boutique",
+   "url": "https://www.dfnionline.com/brand-news/fashion-leathergoods/cartier-and-atu-duty-free-expand-istanbul-airport-boutique-16-11-2026/",
+   "data": "2026-11-16T11:02:12+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Chivas Regal and Gaurav Gupta unveil new TREX gift box",
+   "url": "https://www.trbusiness.com/regional-news/middle-east/chivas-regal-and-gaurav-gupta-unveil-new-trex-gift-box/285644",
+   "data": "2026-11-16T10:39:50+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "On location at the MEADFA Conference in Rabat",
+   "url": "https://moodiedavittreport.com/on-location-at-the-meadfa-conference-in-rabat/?utm_source=rss&utm_medium=rss&utm_campaign=on-location-at-the-meadfa-conference-in-rabat",
+   "data": "2026-11-16T09:36:30+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Live from Rabat: MEADFA Conference 2026",
+   "url": "https://www.dfnionline.com/dfni-blog-comment/live-from-rabat-meadfa-conference-2026-16-11-2026/",
+   "data": "2026-11-16T09:18:21+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Hamad International Airport gives Qatari cinema a global stage with Screening Room",
+   "url": "https://moodiedavittreport.com/hamad-international-airport-gives-qatari-cinema-a-global-stage-with-screening-room/?utm_source=rss&utm_medium=rss&utm_campaign=hamad-international-airport-gives-qatari-cinema-a-global-stage-with-screening-room",
+   "data": "2026-11-16T07:37:58+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Coeur de Lion and Harding+ bring Meet the Designer experience aboard P&O Cruises’ Iona",
+   "url": "https://moodiedavittreport.com/coeur-de-lion-and-harding-bring-meet-the-designer-experience-aboard-po-cruises-iona/?utm_source=rss&utm_medium=rss&utm_campaign=coeur-de-lion-and-harding-bring-meet-the-designer-experience-aboard-po-cruises-iona",
+   "data": "2026-11-16T07:35:42+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "ACI World",
+   "titulo": "Airports to governments at ICAO’s Air Transport Conference: back airports for strong economies and communities",
+   "url": "https://aci.aero/2026/11/16/airports-to-governments-at-icaos-air-transport-conference-back-airports-for-strong-economies-and-communities/",
+   "data": "2026-11-16T05:30:19+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "JCDecaux UK rolls out new ‘attention’ aligned ad offering for TR brands",
+   "url": "https://www.trbusiness.com/regional-news/international/jcdecaux-uk-rolls-out-new-attention-aligned-ad-offering-for-tr-brands/285617",
+   "data": "2026-11-15T18:11:57+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "VIEW NOW: November issue – MEADFA show edition",
+   "url": "https://www.trbusiness.com/regional-news/international/view-now-november-issue-meadfa-show-edition/285520",
+   "data": "2026-11-15T16:04:39+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Trieste Airport and Aeroforma Studio pay homage to heritage",
+   "url": "https://moodiedavittreport.com/trieste-airport-and-aeroforma-studio-pay-homage-to-heritage/?utm_source=rss&utm_medium=rss&utm_campaign=trieste-airport-and-aeroforma-studio-pay-homage-to-heritage",
+   "data": "2026-11-15T12:59:02+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Unifree Duty Free introduces dedicated K-Beauty area at IST",
+   "url": "https://www.trbusiness.com/channel-news/airports/unifree-duty-free-introduces-dedicated-k-beauty-area-at-ist/285611",
+   "data": "2026-11-15T12:16:34+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Duty Free World Council Q3 Monitor: Travel retail exclusives and new product discovery gain ground",
+   "url": "https://moodiedavittreport.com/duty-free-world-council-q3-monitor-travel-retail-exclusives-and-new-product-discovery-gain-ground/?utm_source=rss&utm_medium=rss&utm_campaign=duty-free-world-council-q3-monitor-travel-retail-exclusives-and-new-product-discovery-gain-ground",
+   "data": "2026-11-15T11:33:56+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Moodie Davitt eZine: ACI Europe’s revised Tender Code puts long-term value in focus",
+   "url": "https://moodiedavittreport.com/the-moodie-davitt-ezine-aci-europes-revised-tender-code-puts-long-term-value-in-focus/?utm_source=rss&utm_medium=rss&utm_campaign=the-moodie-davitt-ezine-aci-europes-revised-tender-code-puts-long-term-value-in-focus",
+   "data": "2026-11-15T11:19:54+00:00",
+   "tipo": "noticia"
+  },
+  {
    "fonte": "The Moodie Davitt Report",
    "titulo": "Airport Hospitality World: Virgin Australia reveals Perth and Brisbane plans; Swiss to open two lounges at Zurich in Q1 2027",
    "url": "https://moodiedavittreport.com/airport-hospitality-world-virgin-australia-reveals-perth-and-brisbane-plans-swiss-to-open-two-lounges-at-zurich-in-q1-2027/?utm_source=rss&utm_medium=rss&utm_campaign=airport-hospitality-world-virgin-australia-reveals-perth-and-brisbane-plans-swiss-to-open-two-lounges-at-zurich-in-q1-2027",
@@ -419,13 +596,6 @@
    "titulo": "APTRA North Asia Forum creates stimulating debate and places spotlight on Hong Kong Airport’s ‘Playground on the Runway’ Terminal 2",
    "url": "https://moodiedavittreport.com/aptra-north-asia-forum-creates-stimulating-debate-and-places-spotlight-on-hong-kong-airports-playground-on-the-runway-terminal-2/?utm_source=rss&utm_medium=rss&utm_campaign=aptra-north-asia-forum-creates-stimulating-debate-and-places-spotlight-on-hong-kong-airports-playground-on-the-runway-terminal-2",
    "data": "2026-11-13T11:29:10+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "People Moves: Umair Ansari moves from travel retail into key leadership role with The Estée Lauder Companies UK & Ireland",
-   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
-   "data": "2026-11-13T09:45:42+00:00",
    "tipo": "noticia"
   },
   {
@@ -1771,7 +1941,21 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-13T14:52:02.175596+00:00",
+   "data": "2026-11-16T16:20:14.947849+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "DFNI x Air4casts Traffic Tracker: A weak September exposes an uneven passenger recovery",
+   "url": "https://www.dfnionline.com/comment-insight/dfni-x-air4casts-traffic-tracker-a-weak-september-exposes-an-uneven-passenger-recovery-16-11-2026/",
+   "data": "2026-11-16T13:01:30+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Malaysia Airports targets stronger revenues through data and AI",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/malaysia-airports-targets-stronger-commercial-revenues-through-data-and-ai/285638",
+   "data": "2026-11-16T09:54:17+00:00",
    "tipo": "estudo"
   },
   {
@@ -1869,6 +2053,13 @@
    "fonte": "IATA",
    "titulo": "Air passenger market analysis september 2026",
    "url": "https://www.iata.org/en/publications/economics/reports/air-passenger-market-analysis-september-2026/",
+   "data": "2026-09-01T00:00:00+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Quarterly air transport chartbook q3 2026",
+   "url": "https://www.iata.org/en/publications/economics/reports/quarterly-air-transport-chartbook-q3-2026/",
    "data": "2026-09-01T00:00:00+00:00",
    "tipo": "estudo"
   },
