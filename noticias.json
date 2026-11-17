@@ -1,10 +1,8 @@
 {
- "atualizado": "2026-11-16T16:20:14+00:00",
+ "atualizado": "2026-11-17T16:25:36+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
- "fontes_com_falha": [
-  "DFNI/clientes"
- ],
+ "fontes_com_falha": [],
  "travelblue": [
   {
    "fonte": "The Moodie Davitt Report",
@@ -58,6 +56,55 @@
  ],
  "clientes": [
   {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "“A true sense of place” – Mondelez and Avolta bring Cadbury’s British heritage to life at Heathrow Airport",
+   "url": "https://moodiedavittreport.com/a-true-sense-of-place-mondelez-and-avolta-bring-cadburys-british-heritage-to-life-at-heathrow-airport/?utm_source=rss&utm_medium=rss&utm_campaign=a-true-sense-of-place-mondelez-and-avolta-bring-cadburys-british-heritage-to-life-at-heathrow-airport",
+   "data": "2026-11-17T15:47:46+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "JTI and Lagardère Travel Retail create dedicated Ploom discovery experience at Rome Fiumicino Airport",
+   "url": "https://moodiedavittreport.com/jti-and-lagardere-travel-retail-create-dedicated-ploom-discovery-experience-at-rome-fiumicino-airport/?utm_source=rss&utm_medium=rss&utm_campaign=jti-and-lagardere-travel-retail-create-dedicated-ploom-discovery-experience-at-rome-fiumicino-airport",
+   "data": "2026-11-17T15:34:43+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Areas and Avolta lead winners in third Enjoy Aena Awards",
+   "url": "https://moodiedavittreport.com/areas-and-avolta-lead-winners-in-third-enjoy-aena-awards/?utm_source=rss&utm_medium=rss&utm_campaign=areas-and-avolta-lead-winners-in-third-enjoy-aena-awards",
+   "data": "2026-11-17T13:31:50+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Bowmore and Avolta debut exclusive Heathrow edition",
+   "url": "https://www.dfnionline.com/brand-news/bowmore-and-avolta-debut-exclusive-heathrow-edition-17-11-2026/",
+   "data": "2026-11-17T13:03:55+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Avolta & Le Damas bring The Chocolate Journey to life",
+   "url": "https://www.dfnionline.com/latest-news/avolta-le-damas-bring-the-chocolate-journey-to-life-17-11-2026/",
+   "data": "2026-11-17T10:26:15+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Estée Lauder Companies and Duty Free Americas mark renewed global retail partnership with Miami Airport launch",
+   "url": "https://moodiedavittreport.com/the-estee-lauder-companies-and-duty-free-americas-mark-renewed-global-retail-partnership-with-miami-airport-launch/?utm_source=rss&utm_medium=rss&utm_campaign=the-estee-lauder-companies-and-duty-free-americas-mark-renewed-global-retail-partnership-with-miami-airport-launch",
+   "data": "2026-11-16T23:59:35+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Le Damas and Avolta bring ‘The Chocolate Journey’ to key Middle East and North Africa markets",
+   "url": "https://moodiedavittreport.com/le-damas-and-avolta-launch-the-chocolate-journey-across-three-locations-in-the-middle-east-and-north-africa/?utm_source=rss&utm_medium=rss&utm_campaign=le-damas-and-avolta-launch-the-chocolate-journey-across-three-locations-in-the-middle-east-and-north-africa",
+   "data": "2026-11-16T23:58:29+00:00",
+   "tipo": "clientes"
+  },
+  {
    "fonte": "DFNI",
    "titulo": "Cadbury launches dedicated Heathrow pop-up with Avolta",
    "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/cadbury-launches-dedicated-heathrow-pop-up-with-avolta-16-11-2026/",
@@ -104,13 +151,6 @@
    "titulo": "WHSmith on ‘self-help’ drive after -30% profit slide in FY26",
    "url": "https://www.trbusiness.com/regional-news/international/whsmith-on-self-help-drive-after-30-profit-slide-in-fy26/285623",
    "data": "2026-11-16T06:08:00+00:00",
-   "tipo": "clientes"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "The Estée Lauder Companies and Duty Free Americas mark renewed global retail partnership with Miami Airport launch",
-   "url": "https://moodiedavittreport.com/the-estee-lauder-companies-and-duty-free-americas-mark-renewed-global-retail-partnership-with-miami-airport-launch/?utm_source=rss&utm_medium=rss&utm_campaign=the-estee-lauder-companies-and-duty-free-americas-mark-renewed-global-retail-partnership-with-miami-airport-launch",
-   "data": "2026-11-16T06:00:35+00:00",
    "tipo": "clientes"
   },
   {
@@ -460,16 +500,86 @@
  "noticias": [
   {
    "fonte": "TRBusiness",
-   "titulo": "Brisbane Airport announces major retail expansion",
-   "url": "https://www.trbusiness.com/regional-news/asia-pacific/brisbane-airport-announces-major-retail-expansion/285661",
-   "data": "2026-11-16T14:17:08+00:00",
+   "titulo": "Le Damas launches chocolate experience across three markets",
+   "url": "https://www.trbusiness.com/regional-news/middle-east/le-damas-launches-chocolate-experience-across-three-markets/285692",
+   "data": "2026-11-17T15:51:29+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Moodies 2026: Deadline for travel retail social and digital excellence awards nears",
+   "url": "https://moodiedavittreport.com/the-moodies-2026-search-for-travel-retail-social-and-digital-excellence-continues-with-two-months-left-to-enter/?utm_source=rss&utm_medium=rss&utm_campaign=the-moodies-2026-search-for-travel-retail-social-and-digital-excellence-continues-with-two-months-left-to-enter",
+   "data": "2026-11-17T13:28:36+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Putting people first when navigating a crisis – and continuing to invest",
+   "url": "https://www.trbusiness.com/channel-news/other-stores/putting-people-first-when-navigating-a-crisis-and-continuing-to-invest/285686",
+   "data": "2026-11-17T11:02:38+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Chivas Regal rolls out Gaurav Gupta-designed XV gift box in global travel retail",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/chivas-regal-rolls-out-gaurav-gupta-designed-xv-gift-box-in-global-travel-retail-17-11-2026/",
+   "data": "2026-11-17T10:07:52+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Nice Côte d’Azur Airport selects Moment to power online retail platform",
+   "url": "https://www.dfnionline.com/latest-news/nice-cote-dazur-airport-selects-moment-to-power-online-retail-platform-17-11-2026/",
+   "data": "2026-11-17T09:56:17+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "ACI World",
+   "titulo": "What do travellers want from airports in 2027? To know what happens next.",
+   "url": "https://aci.aero/2026/11/17/what-do-travellers-want-from-airports-in-2027-to-know-what-happens-next/",
+   "data": "2026-11-17T05:30:05+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Nice Côte d’Azur Airport taps Moment’s retail platform to power Nice Airport Shopping online service",
+   "url": "https://moodiedavittreport.com/nice-cote-dazur-airport-taps-moments-retail-platform-to-power-nice-airport-shopping-online-service/?utm_source=rss&utm_medium=rss&utm_campaign=nice-cote-dazur-airport-taps-moments-retail-platform-to-power-nice-airport-shopping-online-service",
+   "data": "2026-11-17T00:41:27+00:00",
    "tipo": "noticia"
   },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "Cartier and ATÜ Duty Free curate an enhanced luxury experience at Istanbul Airport",
    "url": "https://moodiedavittreport.com/cartier-and-atu-duty-free-curate-an-enhanced-luxury-experience-at-istanbul-airport/?utm_source=rss&utm_medium=rss&utm_campaign=cartier-and-atu-duty-free-curate-an-enhanced-luxury-experience-at-istanbul-airport",
-   "data": "2026-11-16T13:09:35+00:00",
+   "data": "2026-11-16T22:09:35+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "TAV Airports unveils revamped Almaty Airport domestic terminal with expanded passenger facilities",
+   "url": "https://moodiedavittreport.com/tav-airports-unveils-revamped-almaty-airport-domestic-terminal-with-expanded-passenger-facilities/?utm_source=rss&utm_medium=rss&utm_campaign=tav-airports-unveils-revamped-almaty-airport-domestic-terminal-with-expanded-passenger-facilities",
+   "data": "2026-11-16T16:49:54+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "MEADFA President: “We are having to learn some tough lessons”",
+   "url": "https://www.trbusiness.com/regional-news/middle-east/meadfa-president-we-are-having-to-learn-some-tough-lessons/285667",
+   "data": "2026-11-16T16:43:59+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "MEADFA 2026: Travel retail leaders urge continued investment amid regional uncertainty",
+   "url": "https://www.dfnionline.com/latest-news/meadfa-2026-travel-retail-leaders-urge-continued-investment-amid-regional-uncertainty-16-11-2026/",
+   "data": "2026-11-16T16:29:01+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Brisbane Airport announces major retail expansion",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/brisbane-airport-announces-major-retail-expansion/285661",
+   "data": "2026-11-16T14:17:08+00:00",
    "tipo": "noticia"
   },
   {
@@ -1941,7 +2051,14 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-16T16:20:14.947849+00:00",
+   "data": "2026-11-17T16:25:36.900049+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Demand for travel retail exclusives rises in Q3, DFWC reports",
+   "url": "https://www.trbusiness.com/regional-news/international/demand-for-travel-retail-exclusives-rises-in-q3-dfwc-reports/285677",
+   "data": "2026-11-16T17:01:48+00:00",
    "tipo": "estudo"
   },
   {
