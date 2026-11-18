@@ -1,0 +1,39 @@
+# Ficheiros que NAO precisam de ir para o site.
+# Continuam no repositorio; apenas nao entram em cada publicacao,
+# o que reduz o espaco ocupado no Vercel.
+
+# bases e ficheiros de trabalho
+*.xlsx
+*.xls
+*.xlsm
+*.csv
+*.zip
+
+# scripts e automacao (correm no teu PC, nao no site)
+*.py
+*.bat
+*.ps1
+*.spec
+*.sql
+*.log
+*.txt
+*.docx
+__pycache__/
+build/
+dist/
+.claude/
+.github/
+
+# paginas antigas que o portal ja nao usa
+index.html
+home.html
+dashboard.html
+central-camila.html
+avolta-share.html
+avolta-standalone.html
+admin/
+project/
+backpacks-and-luggage/
+total-sales-bp-latam/
+lexingham/
+_netlify_tmp/
