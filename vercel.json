@@ -1,5 +1,5 @@
 {
-  "buildCommand": "python3 generate-config.py && python3 backpack-lugagge/build_viewer.py",
+  "buildCommand": "",
   "outputDirectory": ".",
   "headers": [
     {
