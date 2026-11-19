@@ -1,10 +1,8 @@
 {
- "atualizado": "2026-11-18T15:56:17+00:00",
+ "atualizado": "2026-11-19T16:00:06+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
- "fontes_com_falha": [
-  "ACI World"
- ],
+ "fontes_com_falha": [],
  "travelblue": [
   {
    "fonte": "The Moodie Davitt Report",
@@ -57,6 +55,27 @@
   }
  ],
  "clientes": [
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "China Duty Free Group opens Hainan’s first arrivals duty-free store at Haikou Meilan Airport",
+   "url": "https://moodiedavittreport.com/china-duty-free-group-opens-hainans-first-arrivals-duty-free-store-at-haikou-meilan-airport/?utm_source=rss&utm_medium=rss&utm_campaign=china-duty-free-group-opens-hainans-first-arrivals-duty-free-store-at-haikou-meilan-airport",
+   "data": "2026-11-19T12:30:43+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Brown-Forman GTR and Avolta serve up travel retail debut for Woodford Reserve Old Fashioned Month",
+   "url": "https://moodiedavittreport.com/brown-forman-gtr-and-avolta-serve-up-travel-retail-debut-for-woodford-reserve-old-fashioned-month/?utm_source=rss&utm_medium=rss&utm_campaign=brown-forman-gtr-and-avolta-serve-up-travel-retail-debut-for-woodford-reserve-old-fashioned-month",
+   "data": "2026-11-19T07:37:28+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Mondelēz and Avolta launch immersive Cadbury pop-up at Heathrow",
+   "url": "https://www.trbusiness.com/regional-news/europe/mondelez-and-avolta-launch-immersive-cadbury-pop-up-at-heathrow/285732",
+   "data": "2026-11-18T16:32:14+00:00",
+   "tipo": "clientes"
+  },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "CDFG champions Chinese craftsmanship with China-chic concept at Shenzhen downtown store",
@@ -514,6 +533,125 @@
   }
  ],
  "noticias": [
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "From temptation to transaction: Bengaluru Airport serves up larger-than-life F&B marketing campaign",
+   "url": "https://moodiedavittreport.com/from-temptation-to-transaction-bengaluru-airport-serves-up-larger-than-life-fb-marketing-campaign/?utm_source=rss&utm_medium=rss&utm_campaign=from-temptation-to-transaction-bengaluru-airport-serves-up-larger-than-life-fb-marketing-campaign",
+   "data": "2026-11-19T15:18:40+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Unifree doubles down on K-Culture appeal at Istanbul",
+   "url": "https://www.dfnionline.com/latest-news/unifree-doubles-down-on-k-culture-appeal-at-istanbul-19-11-2026/",
+   "data": "2026-11-19T14:51:37+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Hershey and Eraman fly high with ‘First Class Selfie’ pop-up delivering +8% sales uplift in Kuala Lumpur",
+   "url": "https://moodiedavittreport.com/hershey-and-eraman-fly-high-with-first-class-selfie-campaign-delivering-8-sales-uplift-in-kuala-lumpur/?utm_source=rss&utm_medium=rss&utm_campaign=hershey-and-eraman-fly-high-with-first-class-selfie-campaign-delivering-8-sales-uplift-in-kuala-lumpur",
+   "data": "2026-11-19T14:28:09+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Gourmets & Co champions multi-brand approach to travel retail",
+   "url": "https://www.dfnionline.com/brand-news/gourmets-co-champions-multi-brand-approach-to-travel-retail-19-11-2026/",
+   "data": "2026-11-19T13:18:19+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "‘Significant opportunities’: MEADFA Conference focuses on adaptability & collaboration",
+   "url": "https://www.dfnionline.com/latest-news/significant-opportunities-meadfa-conference-focuses-on-adaptability-collaboration-19-11-2026/",
+   "data": "2026-11-19T13:15:54+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Images of the Day: Bacha Coffee adds flair and flavour to Hong Kong Airport",
+   "url": "https://moodiedavittreport.com/images-of-the-day-bacha-coffee-adds-flair-and-flavour-to-hong-kong-airports-dining-scene/?utm_source=rss&utm_medium=rss&utm_campaign=images-of-the-day-bacha-coffee-adds-flair-and-flavour-to-hong-kong-airports-dining-scene",
+   "data": "2026-11-19T12:49:54+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Hershey’s First Class Selfie campaign takes off at KLIA",
+   "url": "https://www.dfnionline.com/latest-news/hersheys-first-class-selfie-campaign-takes-off-at-klia-19-11-2026/",
+   "data": "2026-11-19T11:44:24+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "In Conversation: Gianluca Toniolo on Dolce & Gabbana Beauty’s next chapter in travel retail",
+   "url": "https://moodiedavittreport.com/in-conversation-gianluca-toniolo-on-dolce-gabbana-beautys-next-chapter-in-travel-retail/?utm_source=rss&utm_medium=rss&utm_campaign=in-conversation-gianluca-toniolo-on-dolce-gabbana-beautys-next-chapter-in-travel-retail",
+   "data": "2026-11-19T10:39:33+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "QDF: When duty-free performs, the entire ecosystem benefits",
+   "url": "https://www.trbusiness.com/regional-news/middle-east/qdf-when-duty-free-performs-the-entire-ecosystem-benefits/285737",
+   "data": "2026-11-19T09:44:14+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Ballantine’s unveils second Golden Hour release for Korea duty free",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/ballantines-unveils-second-golden-hour-release-for-korea-duty-free/285775",
+   "data": "2026-11-19T08:53:25+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Western Sydney Airport elevates services offer with The Rayleigh Lounge debut",
+   "url": "https://moodiedavittreport.com/western-sydney-airport-elevates-services-offer-with-the-rayleigh-lounge-debut/?utm_source=rss&utm_medium=rss&utm_campaign=western-sydney-airport-elevates-services-offer-with-the-rayleigh-lounge-debut",
+   "data": "2026-11-19T08:26:18+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Jewel Changi Airport unveils festive retail pop-ups and experiences",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/jewel-changi-airport-unveils-festive-retail-pop-ups-and-experiences/285767",
+   "data": "2026-11-19T08:24:28+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Reisenthel enters travel retail at Frankfurt and Munich airports",
+   "url": "https://www.trbusiness.com/regional-news/europe/reisenthel-enters-travel-retail-at-frankfurt-and-munich-airports/285762",
+   "data": "2026-11-19T08:00:52+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "CEETRA Forum explores travel retail growth opportunities",
+   "url": "https://www.trbusiness.com/regional-news/europe/ceetra-forum-explores-travel-retail-growth-opportunities/285752",
+   "data": "2026-11-19T07:33:22+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Diageo bolsters high-profile industry supporter line-up for The Trinity Forum 2027 as Platinum Partner",
+   "url": "https://moodiedavittreport.com/diageo-bolsters-high-profile-industry-supporter-line-up-for-the-trinity-forum-2027-as-platinum-partner/?utm_source=rss&utm_medium=rss&utm_campaign=diageo-bolsters-high-profile-industry-supporter-line-up-for-the-trinity-forum-2027-as-platinum-partner",
+   "data": "2026-11-19T07:30:26+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Adani Airports raises the stakes in digital engagement with next-generation loyalty programme",
+   "url": "https://moodiedavittreport.com/adani-airports-raises-the-stakes-in-digital-engagement-with-next-generation-loyalty-programme/?utm_source=rss&utm_medium=rss&utm_campaign=adani-airports-raises-the-stakes-in-digital-engagement-with-next-generation-loyalty-programme",
+   "data": "2026-11-19T01:08:39+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Nice Airport launches online shopping platform with Moment",
+   "url": "https://www.trbusiness.com/regional-news/europe/nice-airport-launches-online-shopping-platform-with-moment/285727",
+   "data": "2026-11-18T16:19:46+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "SSP America arrives in Music City with dual Nashville debut",
@@ -2158,7 +2296,14 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-18T15:56:17.065800+00:00",
+   "data": "2026-11-19T16:00:06.162300+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Jessica’s Secret Index cross-category ratings for October",
+   "url": "https://moodiedavittreport.com/the-jessicas-secret-index-cross-category-ratings-for-october-wip/?utm_source=rss&utm_medium=rss&utm_campaign=the-jessicas-secret-index-cross-category-ratings-for-october-wip",
+   "data": "2026-11-19T12:42:41+00:00",
    "tipo": "estudo"
   },
   {
