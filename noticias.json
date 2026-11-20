@@ -1,5 +1,5 @@
 {
- "atualizado": "2026-11-19T16:00:06+00:00",
+ "atualizado": "2026-11-20T15:43:21+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
@@ -56,6 +56,41 @@
  ],
  "clientes": [
   {
+   "fonte": "DFNI",
+   "titulo": "Avolta wins first F&B contract at São Paulo Guarulhos Airport",
+   "url": "https://www.dfnionline.com/latest-news/avolta-wins-first-fb-contract-at-sao-paulo-guarulhos-airport-20-11-2026/",
+   "data": "2026-11-20T11:11:43+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Lotte Duty Free & Dior host exclusive makeup masterclass",
+   "url": "https://www.dfnionline.com/latest-news/lotte-duty-free-dior-host-exclusive-makeup-masterclass-20-11-2026/",
+   "data": "2026-11-20T10:50:37+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Freixenet and Avolta bring festive sparkle to Barcelona-El Prat Airport with gifting activation",
+   "url": "https://moodiedavittreport.com/freixenet-and-avolta-bring-festive-sparkle-to-barcelona-el-prat-airport-with-gifting-activation/?utm_source=rss&utm_medium=rss&utm_campaign=freixenet-and-avolta-bring-festive-sparkle-to-barcelona-el-prat-airport-with-gifting-activation",
+   "data": "2026-11-20T09:33:20+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Avolta set to make food & beverage debut at São Paulo Guarulhos after contract award",
+   "url": "https://moodiedavittreport.com/avolta-set-to-make-food-beverage-debut-at-sao-paulo-guarulhos-after-contract-award/?utm_source=rss&utm_medium=rss&utm_campaign=avolta-set-to-make-food-beverage-debut-at-sao-paulo-guarulhos-after-contract-award",
+   "data": "2026-11-20T07:57:01+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Lotte Duty Free and Dior showcase seasonal makeup collection with beauty masterclass",
+   "url": "https://moodiedavittreport.com/lotte-duty-free-and-dior-showcase-seasonal-makeup-collection-with-beauty-masterclass/?utm_source=rss&utm_medium=rss&utm_campaign=lotte-duty-free-and-dior-showcase-seasonal-makeup-collection-with-beauty-masterclass",
+   "data": "2026-11-20T07:18:46+00:00",
+   "tipo": "clientes"
+  },
+  {
    "fonte": "The Moodie Davitt Report",
    "titulo": "China Duty Free Group opens Hainan’s first arrivals duty-free store at Haikou Meilan Airport",
    "url": "https://moodiedavittreport.com/china-duty-free-group-opens-hainans-first-arrivals-duty-free-store-at-haikou-meilan-airport/?utm_source=rss&utm_medium=rss&utm_campaign=china-duty-free-group-opens-hainans-first-arrivals-duty-free-store-at-haikou-meilan-airport",
@@ -81,13 +116,6 @@
    "titulo": "CDFG champions Chinese craftsmanship with China-chic concept at Shenzhen downtown store",
    "url": "https://moodiedavittreport.com/cdfg-champions-chinese-craftsmanship-with-china-chic-concept-at-shenzhen-downtown-store/?utm_source=rss&utm_medium=rss&utm_campaign=cdfg-champions-chinese-craftsmanship-with-china-chic-concept-at-shenzhen-downtown-store",
    "data": "2026-11-18T13:13:02+00:00",
-   "tipo": "clientes"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "People Moves: Imperial Brands appoints experienced travel retail executive Marcus Hudson as Sales & Trade Director Europe",
-   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
-   "data": "2026-11-18T12:20:42+00:00",
    "tipo": "clientes"
   },
   {
@@ -533,6 +561,118 @@
   }
  ],
  "noticias": [
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Cartwright & Butler marks Heathrow’s 80th anniversary with exclusive tins",
+   "url": "https://www.trbusiness.com/product-news/confectionery-fine-food/cartwright-butler-marks-heathrows-80th-anniversary-with-exclusive-biscuit-tins/285808",
+   "data": "2026-11-20T14:59:37+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Villars brings Swiss Christmas collection to travel retail",
+   "url": "https://www.trbusiness.com/product-news/confectionery-fine-food/villars-brings-swiss-christmas-collection-to-travel-retail/285812",
+   "data": "2026-11-20T14:53:46+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Bowmore launches single-cask whisky exclusively at Heathrow",
+   "url": "https://www.trbusiness.com/product-news/wine-spirits/bowmore-launches-single-cask-whisky-exclusively-at-heathrow/285816",
+   "data": "2026-11-20T14:39:03+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "‘The engine of airport income’: Qatar Duty Free’s Thabet Musleh highlights travel retails opportunities in MEA",
+   "url": "https://www.dfnionline.com/latest-news/events/the-engine-of-airport-income-qatar-duty-frees-thabet-musleh-highlights-travel-retails-opportunities-in-mea-20-11-2026/",
+   "data": "2026-11-20T12:48:57+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Fast-growing Zhuhai Duty Free opens arrivals store at Qingmao Checkpoint",
+   "url": "https://moodiedavittreport.com/fast-growing-zhuhai-duty-free-opens-arrivals-store-at-qingmao-checkpoint/?utm_source=rss&utm_medium=rss&utm_campaign=fast-growing-zhuhai-duty-free-opens-arrivals-store-at-qingmao-checkpoint",
+   "data": "2026-11-20T11:32:06+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "MEADFA Conference in Rabat attracts 460 delegates; view session highlights",
+   "url": "https://www.trbusiness.com/regional-news/meadfa-conference-in-rabat-attracts-460-delegates-view-session-highlights/285822",
+   "data": "2026-11-20T10:31:13+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Serpent’s Cask whisky shares GTR expansion plan",
+   "url": "https://www.dfnionline.com/brand-news/serpents-cask-whisky-shares-gtr-expansion-plan-20-11-2026/",
+   "data": "2026-11-20T09:49:20+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Moodie Dialogues: Eleni Kalapoda on passenger flow, commercial space and the ‘thinking terminal’",
+   "url": "https://moodiedavittreport.com/the-moodie-dialogues-eleni-stefania-kalapoda-on-passenger-flow-commercial-space-and-the-thinking-terminal/?utm_source=rss&utm_medium=rss&utm_campaign=the-moodie-dialogues-eleni-stefania-kalapoda-on-passenger-flow-commercial-space-and-the-thinking-terminal",
+   "data": "2026-11-20T08:05:25+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Godiva unwraps travel retail-exclusive Souvenir Collection with global omnichannel campaign",
+   "url": "https://moodiedavittreport.com/godiva-unwraps-travel-retail-exclusive-souvenir-collection-with-global-omnichannel-campaign/?utm_source=rss&utm_medium=rss&utm_campaign=godiva-unwraps-travel-retail-exclusive-souvenir-collection-with-global-omnichannel-campaign",
+   "data": "2026-11-20T08:00:19+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "ARI brings Killowen’s limited-edition festive whiskey to Dublin and Cork Airport Duty Free",
+   "url": "https://moodiedavittreport.com/ari-brings-killowens-limited-edition-festive-whiskey-to-dublin-and-cork-airport-duty-free/?utm_source=rss&utm_medium=rss&utm_campaign=ari-brings-killowens-limited-edition-festive-whiskey-to-dublin-and-cork-airport-duty-free",
+   "data": "2026-11-20T07:20:13+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Estée Lauder Companies’ CEO optimistic on travel retail momentum",
+   "url": "https://www.trbusiness.com/product-news/beauty/estee-lauder-companies-ceo-optimistic-on-positive-travel-retail-momentum/285796",
+   "data": "2026-11-19T18:52:40+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Africa is a market of opportunity – the time to engage is now",
+   "url": "https://www.trbusiness.com/regional-news/africa/africa-is-a-market-of-opportunity-the-time-to-engage-is-now/285786",
+   "data": "2026-11-19T17:34:29+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "People Moves: Santiago Airport introduces Laurent Cavrois as Board Chairman; Venchi names Marco Galimberti as Chief Executive Officer",
+   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
+   "data": "2026-11-19T16:40:42+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Carrasco International Airport reveals expanded VIP departures lounge",
+   "url": "https://moodiedavittreport.com/carrasco-international-airport-reveals-expanded-vip-departures-lounge/?utm_source=rss&utm_medium=rss&utm_campaign=carrasco-international-airport-reveals-expanded-vip-departures-lounge",
+   "data": "2026-11-19T16:08:41+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "On Location: Heathrow and Assouline turn the page on 80 years of aviation history",
+   "url": "https://moodiedavittreport.com/on-location-heathrow-and-assouline-turn-the-page-on-80-years-of-aviation-history/?utm_source=rss&utm_medium=rss&utm_campaign=on-location-heathrow-and-assouline-turn-the-page-on-80-years-of-aviation-history",
+   "data": "2026-11-19T15:58:56+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Woodford Reserve Old Fashioned Month makes travel retail debut",
+   "url": "https://www.dfnionline.com/latest-news/woodford-reserve-old-fashioned-month-makes-travel-retail-debut-19-11-2026/",
+   "data": "2026-11-19T15:47:45+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "From temptation to transaction: Bengaluru Airport serves up larger-than-life F&B marketing campaign",
@@ -2282,13 +2422,6 @@
    "url": "https://www.dfnionline.com/latest-news/perth-airport-unveils-new-terminal-designs-with-10000sqm-retail-space-27-10-2026/",
    "data": "2026-10-27T11:56:31+00:00",
    "tipo": "noticia"
-  },
-  {
-   "fonte": "ACI World",
-   "titulo": "ACI at ATConf/7",
-   "url": "https://aci.aero/2026/10/20/aci-at-atconf7/",
-   "data": "2026-10-20T21:15:27+00:00",
-   "tipo": "noticia"
   }
  ],
  "estudos": [
@@ -2296,7 +2429,21 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-19T16:00:06.162300+00:00",
+   "data": "2026-11-20T15:43:21.251826+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Quantifying international catering waste",
+   "url": "https://www.iata.org/en/publications/economics/reports/quantifying-international-catering-waste/",
+   "data": "2026-11-20T15:43:21.251826+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Chart of the week 20 november 2026",
+   "url": "https://www.iata.org/en/publications/economics/chart-week/chart-of-the-week-20-november-2026/",
+   "data": "2026-11-20T00:00:00+00:00",
    "tipo": "estudo"
   },
   {
