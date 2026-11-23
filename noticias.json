@@ -1,9 +1,16 @@
 {
- "atualizado": "2026-11-20T15:43:21+00:00",
+ "atualizado": "2026-11-23T18:41:11+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
  "travelblue": [
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Unlocking the power of travel essentials to drive footfall and conversion",
+   "url": "https://www.trbusiness.com/channel-news/other-stores/unlocking-the-power-of-travel-essentials-to-drive-footfall-and-conversion/285863",
+   "data": "2026-11-20T17:58:36+00:00",
+   "tipo": "travelblue"
+  },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "In Conversation: Travel Blue Managing Director Daniel Levin on tapping the great travel essentials opportunity",
@@ -55,6 +62,48 @@
   }
  ],
  "clientes": [
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Avolta secures first F&B contract at São Paulo Guarulhos Airport",
+   "url": "https://www.trbusiness.com/regional-news/the-americas/avolta-secures-first-fb-contract-at-sao-paulo-guarulhos-airport/285914",
+   "data": "2026-11-23T14:16:16+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Freixenet and Avolta bring festive gifting activation to Barcelona Airport",
+   "url": "https://www.trbusiness.com/regional-news/europe/freixenet-and-avolta-bring-festive-gifting-activation-to-barcelona-airport/285916",
+   "data": "2026-11-23T13:55:15+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Lotte Duty Free and Dior Beauty host exclusive VIP makeup classes",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/lotte-duty-free-and-dior-beauty-host-exclusive-vip-makeup-classes/285904",
+   "data": "2026-11-23T13:10:42+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Avolta to open PDL Coffee Co. outlet at Dubai Airport",
+   "url": "https://www.dfnionline.com/brand-news/food-beverage/avolta-to-open-pdl-coffee-co-outlet-at-dubai-airport-23-11-2026/",
+   "data": "2026-11-23T12:20:15+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Woodford Reserve and Avolta launch global airport cocktail campaign",
+   "url": "https://www.trbusiness.com/regional-news/international/woodford-reserve-and-avolta-launch-global-airport-cocktail-campaign/285886",
+   "data": "2026-11-23T11:40:07+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "In Pictures: Lagardère unveils revamped Relay store in Madinah",
+   "url": "https://www.dfnionline.com/latest-news/in-pictures-lagardere-unveils-revamped-relay-store-in-madinah-20-11-2026/",
+   "data": "2026-11-20T17:31:33+00:00",
+   "tipo": "clientes"
+  },
   {
    "fonte": "DFNI",
    "titulo": "Avolta wins first F&B contract at São Paulo Guarulhos Airport",
@@ -551,16 +600,135 @@
    "url": "https://www.dfnionline.com/latest-news/retail/airports/avoltas-hudson-extends-seattle-tacoma-duty-free-contract-with-expanded-20-year-deal-07-10-2026/",
    "data": "2026-10-07T08:11:02+00:00",
    "tipo": "clientes"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Walker’s Shortbread launches Queen’s commemorative tin with Avolta",
-   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/walkers-shortbread-launches-queens-commemorative-tin-with-avolta-24-09-2026/",
-   "data": "2026-09-24T11:36:21+00:00",
-   "tipo": "clientes"
   }
  ],
  "noticias": [
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Loacker backs “cross-sector progress” at The Trinity Forum 2027 as Coffee Break Partner",
+   "url": "https://moodiedavittreport.com/loacker-backs-cross-sector-progress-at-the-trinity-forum-2027-as-coffee-break-partner/?utm_source=rss&utm_medium=rss&utm_campaign=loacker-backs-cross-sector-progress-at-the-trinity-forum-2027-as-coffee-break-partner",
+   "data": "2026-11-23T17:10:13+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "People Moves: GMR Airports names Saurav Chopra as Head of Retail Business; Adrien Robin takes Red Sea Airport Head of Commercial role",
+   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
+   "data": "2026-11-23T16:40:42+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Villars launches festive chocolate collection in Switzerland and Dubai",
+   "url": "https://moodiedavittreport.com/villars-launches-festive-chocolate-collection-in-switzerland-and-dubai/?utm_source=rss&utm_medium=rss&utm_campaign=villars-launches-festive-chocolate-collection-in-switzerland-and-dubai",
+   "data": "2026-11-23T16:24:17+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "‘Spirit of Legacy’ – Maurice and Marie Hennessy honour nine generations of Cognac heritage with private dinner series",
+   "url": "https://moodiedavittreport.com/spirit-of-legacy-maurice-and-marie-hennessy-honour-nine-generations-of-cognac-heritage-with-private-dinner-series/?utm_source=rss&utm_medium=rss&utm_campaign=spirit-of-legacy-maurice-and-marie-hennessy-honour-nine-generations-of-cognac-heritage-with-private-dinner-series",
+   "data": "2026-11-23T15:33:55+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "ACI World",
+   "titulo": "ACI Airports Innovate 2026 kicks off in Barcelona with focus on AI, Net-Zero, and operational efficiency",
+   "url": "https://aci.aero/2026/11/23/aci-airports-innovate-2026-kicks-off-in-barcelona-with-focus-on-ai-net-zero-and-operational-efficiency/",
+   "data": "2026-11-23T14:54:12+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Jivago 24K Gold showcases fragrance collection at MEADFA 2026",
+   "url": "https://www.trbusiness.com/regional-news/international/jivago-24k-gold-showcases-fragrance-collection-at-meadfa-2026/285912",
+   "data": "2026-11-23T14:04:15+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Live sessions update – register today!",
+   "url": "https://www.trbusiness.com/sustainability/tr-wellbeing-week-live-sessions-update-register-today/285828",
+   "data": "2026-11-23T13:52:10+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Mawgif captures car parking concession at Madinah Airport",
+   "url": "https://moodiedavittreport.com/mawgif-captures-car-parking-concession-at-madinah-international-airport/?utm_source=rss&utm_medium=rss&utm_campaign=mawgif-captures-car-parking-concession-at-madinah-international-airport",
+   "data": "2026-11-23T13:23:23+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Marcolin unveils Tom Ford Eyewear travel retail-exclusive collection",
+   "url": "https://www.dfnionline.com/latest-news/marcolin-unveils-tom-ford-eyewear-travel-retail-exclusive-collection-23-11-2026/",
+   "data": "2026-11-23T12:56:06+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Marcolin puts travel retail in focus with channel-exclusive Tom Ford Eyewear duo",
+   "url": "https://moodiedavittreport.com/marcolin-puts-travel-retail-in-focus-with-channel-exclusive-tom-ford-eyewear-duo/?utm_source=rss&utm_medium=rss&utm_campaign=marcolin-puts-travel-retail-in-focus-with-channel-exclusive-tom-ford-eyewear-duo",
+   "data": "2026-11-23T12:12:22+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Jewel Changi Airport marks the festive season with BTS light show and retail pop-ups",
+   "url": "https://moodiedavittreport.com/jewel-changi-airport-marks-the-festive-season-with-bts-light-show-and-retail-pop-ups/?utm_source=rss&utm_medium=rss&utm_campaign=jewel-changi-airport-marks-the-festive-season-with-bts-light-show-and-retail-pop-ups",
+   "data": "2026-11-23T11:42:47+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Cartwright & Butler marks Heathrow’s 80th birthday with exclusive biscuit tins",
+   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/cartwright-butler-marks-heathrows-80th-birthday-with-exclusive-biscuit-tins-23-11-2026/",
+   "data": "2026-11-23T11:30:44+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Plaza Premium Group strikes landmark 19-lounge agreement in Zambia",
+   "url": "https://moodiedavittreport.com/plaza-premium-group-strikes-landmark-19-lounge-agreement-in-zambia/?utm_source=rss&utm_medium=rss&utm_campaign=plaza-premium-group-strikes-landmark-19-lounge-agreement-in-zambia",
+   "data": "2026-11-23T11:10:07+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Freixenet brings festive gifting activation to Barcelona Airport",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/freixenet-brings-festive-gifting-activation-to-barcelona-airport-23-11-2026/",
+   "data": "2026-11-23T11:05:07+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Dubai Duty Free scoops two awards at MEADFA 2026",
+   "url": "https://www.dfnionline.com/latest-news/dubai-duty-free-scoops-two-awards-at-meadfa-2026-23-11-2026/",
+   "data": "2026-11-23T10:27:23+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "ACI World",
+   "titulo": "States back airports as strategic assets at ICAO’s ATConf/7",
+   "url": "https://aci.aero/2026/11/20/states-back-airports-as-strategic-assets-at-icaos-atconf-7/",
+   "data": "2026-11-20T23:31:09+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Coty’s sharper focus on six brands is working as Gucci exit nears",
+   "url": "https://www.trbusiness.com/product-news/beauty/cotys-sharper-focus-on-six-brands-is-working-as-gucci-exit-nears/285867",
+   "data": "2026-11-20T19:28:59+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "The Balvenie and Daniel Arsham showcase 1931 Collection at TPE",
+   "url": "https://www.trbusiness.com/product-news/wine-spirits/the-balvenie-and-daniel-arsham-showcase-1931-collection-at-taiwan-taoyuan/285803",
+   "data": "2026-11-20T15:55:49+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "TRBusiness",
    "titulo": "Cartwright & Butler marks Heathrow’s 80th anniversary with exclusive tins",
@@ -584,7 +752,7 @@
   },
   {
    "fonte": "DFNI",
-   "titulo": "‘The engine of airport income’: Qatar Duty Free’s Thabet Musleh highlights travel retails opportunities in MEA",
+   "titulo": "‘The engine of airport income’: Qatar Duty Free’s Thabet Musleh outlines travel retail’s MEA opportunity",
    "url": "https://www.dfnionline.com/latest-news/events/the-engine-of-airport-income-qatar-duty-frees-thabet-musleh-highlights-travel-retails-opportunities-in-mea-20-11-2026/",
    "data": "2026-11-20T12:48:57+00:00",
    "tipo": "noticia"
@@ -643,13 +811,6 @@
    "titulo": "Africa is a market of opportunity – the time to engage is now",
    "url": "https://www.trbusiness.com/regional-news/africa/africa-is-a-market-of-opportunity-the-time-to-engage-is-now/285786",
    "data": "2026-11-19T17:34:29+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "People Moves: Santiago Airport introduces Laurent Cavrois as Board Chairman; Venchi names Marco Galimberti as Chief Executive Officer",
-   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
-   "data": "2026-11-19T16:40:42+00:00",
    "tipo": "noticia"
   },
   {
@@ -2429,14 +2590,35 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-20T15:43:21.251826+00:00",
+   "data": "2026-11-23T18:41:11.392153+00:00",
    "tipo": "estudo"
   },
   {
    "fonte": "IATA",
    "titulo": "Quantifying international catering waste",
    "url": "https://www.iata.org/en/publications/economics/reports/quantifying-international-catering-waste/",
-   "data": "2026-11-20T15:43:21.251826+00:00",
+   "data": "2026-11-23T18:41:11.392153+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Moodie Davitt Report and tRetailLabs set to launch Passenger Experience Intelligence Report series",
+   "url": "https://moodiedavittreport.com/the-moodie-davitt-report-and-tretaillabs-set-to-launch-passenger-experience-intelligence-report-series/?utm_source=rss&utm_medium=rss&utm_campaign=the-moodie-davitt-report-and-tretaillabs-set-to-launch-passenger-experience-intelligence-report-series",
+   "data": "2026-11-23T16:16:54+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Airports of Thailand full-year results hit by declining concession revenues",
+   "url": "https://moodiedavittreport.com/airports-of-thailand-full-year-results-hit-by-declining-concession-revenues/?utm_source=rss&utm_medium=rss&utm_campaign=airports-of-thailand-full-year-results-hit-by-declining-concession-revenues",
+   "data": "2026-11-23T11:41:47+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Hershey reports 8% sales uplift from KLIA activation",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/hershey-reports-8-sales-uplift-from-klia-activation/285880",
+   "data": "2026-11-23T11:26:01+00:00",
    "tipo": "estudo"
   },
   {
