@@ -1,8 +1,12 @@
 {
- "atualizado": "2026-11-23T18:41:11+00:00",
+ "atualizado": "2026-11-24T18:12:45+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
- "fontes_com_falha": [],
+ "fontes_com_falha": [
+  "DFNI",
+  "DFNI/TravelBlue",
+  "DFNI/clientes"
+ ],
  "travelblue": [
   {
    "fonte": "TRBusiness",
@@ -62,6 +66,13 @@
   }
  ],
  "clientes": [
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Avolta delivers new experiences and enhanced assortment in Birmingham Airport duty-free transformation",
+   "url": "https://moodiedavittreport.com/avolta-delivers-enhanced-assortment-and-new-experiences-with-birmingham-airport-duty-free-transformation/?utm_source=rss&utm_medium=rss&utm_campaign=avolta-delivers-enhanced-assortment-and-new-experiences-with-birmingham-airport-duty-free-transformation",
+   "data": "2026-11-24T13:04:33+00:00",
+   "tipo": "clientes"
+  },
   {
    "fonte": "TRBusiness",
    "titulo": "Avolta secures first F&B contract at São Paulo Guarulhos Airport",
@@ -605,16 +616,72 @@
  "noticias": [
   {
    "fonte": "The Moodie Davitt Report",
-   "titulo": "Loacker backs “cross-sector progress” at The Trinity Forum 2027 as Coffee Break Partner",
-   "url": "https://moodiedavittreport.com/loacker-backs-cross-sector-progress-at-the-trinity-forum-2027-as-coffee-break-partner/?utm_source=rss&utm_medium=rss&utm_campaign=loacker-backs-cross-sector-progress-at-the-trinity-forum-2027-as-coffee-break-partner",
-   "data": "2026-11-23T17:10:13+00:00",
+   "titulo": "People Moves: ÍSLAND Duty Free names Edda Blumenstein as MD from April; GMR Airports appoints Saurav Chopra as Head of Retail Business",
+   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
+   "data": "2026-11-24T16:40:42+00:00",
    "tipo": "noticia"
   },
   {
    "fonte": "The Moodie Davitt Report",
-   "titulo": "People Moves: GMR Airports names Saurav Chopra as Head of Retail Business; Adrien Robin takes Red Sea Airport Head of Commercial role",
-   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
-   "data": "2026-11-23T16:40:42+00:00",
+   "titulo": "Mars Wrigley and Ospree Duty Free introduce M&M’s Experience at Mumbai Airport",
+   "url": "https://moodiedavittreport.com/mars-wrigley-and-ospree-duty-free-introduce-mms-experience-at-mumbai-airport/?utm_source=rss&utm_medium=rss&utm_campaign=mars-wrigley-and-ospree-duty-free-introduce-mms-experience-at-mumbai-airport",
+   "data": "2026-11-24T15:18:24+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Moodies winners in profile: KOSÉ Travel Retail connects conservation and digital engagement with ‘Mangrove to Ocean’",
+   "url": "https://moodiedavittreport.com/the-moodies-2025-winners-kose-travel-retail-connects-conservation-and-digital-engagement-with-mangrove-to-ocean/?utm_source=rss&utm_medium=rss&utm_campaign=the-moodies-2025-winners-kose-travel-retail-connects-conservation-and-digital-engagement-with-mangrove-to-ocean",
+   "data": "2026-11-24T13:12:56+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Revised China Customs rules for cosmetics labels boost traditional (but not offshore) duty free",
+   "url": "https://moodiedavittreport.com/revised-china-customs-requirements-for-cosmetics-labelling-exempt-traditional-but-not-offshore-duty-freeexempt/?utm_source=rss&utm_medium=rss&utm_campaign=revised-china-customs-requirements-for-cosmetics-labelling-exempt-traditional-but-not-offshore-duty-freeexempt",
+   "data": "2026-11-24T13:11:12+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Cartwright & Butler marks Heathrow’s 80th anniversary with World Duty Free exclusive",
+   "url": "https://moodiedavittreport.com/cartwright-butler-marks-heathrows-80th-anniversary-with-world-duty-free-exclusive/?utm_source=rss&utm_medium=rss&utm_campaign=cartwright-butler-marks-heathrows-80th-anniversary-with-world-duty-free-exclusive",
+   "data": "2026-11-24T11:50:36+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Brewing up new business: Evolvending enters airport coffee category with Florida debut",
+   "url": "https://moodiedavittreport.com/brewing-up-new-business-evolvending-enters-airport-coffee-category-with-florida-debut/?utm_source=rss&utm_medium=rss&utm_campaign=brewing-up-new-business-evolvending-enters-airport-coffee-category-with-florida-debut",
+   "data": "2026-11-24T11:44:43+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Travelex extends airport footprint across Australia and New Zealand",
+   "url": "https://moodiedavittreport.com/travelex-extends-airport-footprint-across-australia-and-new-zealand/?utm_source=rss&utm_medium=rss&utm_campaign=travelex-extends-airport-footprint-across-australia-and-new-zealand",
+   "data": "2026-11-24T11:32:51+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Emirates reveals new First Class Lounge at Dubai Airport amid AED400 million transformation",
+   "url": "https://moodiedavittreport.com/emirates-reveals-new-first-class-lounge-at-dubai-airport-amid-aed400-million-transformation/?utm_source=rss&utm_medium=rss&utm_campaign=emirates-reveals-new-first-class-lounge-at-dubai-airport-amid-aed400-million-transformation",
+   "data": "2026-11-24T11:00:35+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "JIVAGO 24K Gold targets Middle East and Africa travel retail growth with Liberty campaign",
+   "url": "https://moodiedavittreport.com/jivago-24k-gold-targets-middle-east-and-africa-travel-retail-growth-with-liberty-campaign/?utm_source=rss&utm_medium=rss&utm_campaign=jivago-24k-gold-targets-middle-east-and-africa-travel-retail-growth-with-liberty-campaign",
+   "data": "2026-11-24T10:01:34+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Loacker backs “cross-sector progress” at The Trinity Forum 2027 as Coffee Break Partner",
+   "url": "https://moodiedavittreport.com/loacker-backs-cross-sector-progress-at-the-trinity-forum-2027-as-coffee-break-partner/?utm_source=rss&utm_medium=rss&utm_campaign=loacker-backs-cross-sector-progress-at-the-trinity-forum-2027-as-coffee-break-partner",
+   "data": "2026-11-23T17:10:13+00:00",
    "tipo": "noticia"
   },
   {
@@ -2590,14 +2657,14 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-23T18:41:11.392153+00:00",
+   "data": "2026-11-24T18:12:45.018366+00:00",
    "tipo": "estudo"
   },
   {
    "fonte": "IATA",
    "titulo": "Quantifying international catering waste",
    "url": "https://www.iata.org/en/publications/economics/reports/quantifying-international-catering-waste/",
-   "data": "2026-11-23T18:41:11.392153+00:00",
+   "data": "2026-11-24T18:12:45.018366+00:00",
    "tipo": "estudo"
   },
   {
