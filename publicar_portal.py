@@ -9,7 +9,7 @@ e publica no site (GitHub -> Vercel).
 
 Rodar com dois cliques em "PUBLICAR PORTAL.bat".
 """
-import glob, hashlib, os, re, shutil, subprocess, sys
+import glob, hashlib, json, os, re, shutil, subprocess, sys
 
 REPO = os.path.dirname(os.path.abspath(__file__))
 DC   = os.path.dirname(REPO)              # Dashboards Camila
@@ -95,6 +95,7 @@ def copy_sources():
         "global-ventas/china.html":    newest(os.path.join(DC, "CHINA",   "china_*20*.html")),
         "global-ventas/poland.html":   newest(os.path.join(DC, "POLAND",  "poland_*20*.html")),
         "global-ventas/uk.html":       newest(os.path.join(DC, "UK",      "uk_*20*.html")),
+        "global-ventas/uk-jackie.html": os.path.join(DC, "UK", "MANAGERS", "uk_jackie_2026.html"),
         "global-ventas/marketplace-europe.html": newest(os.path.join(DC, "UK", "marketplace_sales_europe_*.html")),
         "global-ventas/total.html":    newest(os.path.join(DC, "TOTAL",   "total_*.html")),
         "global-ventas/aspac.html":    newest(os.path.join(DC, "ASPAC",   "*pac_*20*.html")),
@@ -104,12 +105,65 @@ def copy_sources():
         "fechamento-latam/forecast-anual.html": newest(os.path.join(REPO, "Relatorios Fechamento", "*", "FORECAST_ANUAL_*.html")),
         # Forecast de 2 meses: o nome muda a cada mes (FORECAST_SEP_OCT_2026...),
         # por isso pegamos sempre o mais recente que nao seja o anual.
-        "fechamento-latam/forecast.html": newest_forecast(),
+        # o forecast de 2 meses foi retirado do portal; fica so o anual
     }
     reports = latest_country_reports()
     for c, src in reports.items():
         m[f"fechamento-latam/{c}.html"] = src
     return m, reports
+
+
+MARCA_SEM_SENHA = "<!-- tb:sem-senha -->"
+DESBLOQUEIO = (MARCA_SEM_SENHA +
+               "<script>(function(){var o=document.getElementById('pw-overlay');"
+               "if(o&&o.parentNode)o.parentNode.removeChild(o);})();</script>")
+
+
+def tirar_senha(caminho):
+    """Remove o ecra de senha dos dashboards que ainda o trazem.
+
+    Os geradores continuam a produzi-lo; aqui garantimos que o que vai
+    para o portal abre sempre, sem pedir nada.
+    """
+    try:
+        with open(caminho, encoding="utf-8", errors="replace") as f:
+            t = f.read()
+    except Exception:
+        return False
+    if "pw-overlay" not in t or MARCA_SEM_SENHA in t:
+        return False
+    i = t.rfind("</body>")
+    t = (t[:i] + DESBLOQUEIO + "\n" + t[i:]) if i > 0 else (t + DESBLOQUEIO)
+    with open(caminho, "w", encoding="utf-8", newline="") as f:
+        f.write(t)
+    return True
+
+
+FICHEIRO_DATAS = "atualizacoes.json"
+
+
+def gravar_datas(files):
+    """Grava a data de cada dashboard para o portal mostrar a idade."""
+    import datetime
+    datas = {}
+    for f in files:
+        if not f.endswith(".html") or f == "portal-equipe.html":
+            continue
+        caminho = os.path.join(REPO, f)
+        if os.path.exists(caminho):
+            d = datetime.datetime.fromtimestamp(os.path.getmtime(caminho))
+            datas[f.replace("\\", "/")] = d.strftime("%Y-%m-%d")
+    alvo = os.path.join(REPO, FICHEIRO_DATAS)
+    novo = json.dumps({"gerado": datetime.datetime.now().strftime("%Y-%m-%d"),
+                       "datas": datas}, ensure_ascii=False, indent=1)
+    antigo = ""
+    if os.path.exists(alvo):
+        with open(alvo, encoding="utf-8") as fh:
+            antigo = fh.read()
+    if novo != antigo:
+        with open(alvo, "w", encoding="utf-8", newline="") as fh:
+            fh.write(novo)
+    return len(datas)
 
 
 def md5(p):
@@ -121,8 +175,10 @@ def portal_files():
     """Todos os ficheiros locais linkados no portal + o proprio portal."""
     html = open(PORTAL, encoding="utf-8").read()
     links = re.findall(r"(?:href|h):'([^']+)'", html)
-    local = {l for l in links if not l.startswith(("http", "#"))}
-    return sorted(local | {"portal-equipe.html"})
+    # imagens usadas pelo portal (logotipo, etc.)
+    links += re.findall(r'src="([^"]+\.(?:png|jpg|jpeg|svg|webp))"', html)
+    local = {l for l in links if not l.startswith(("http", "#", "data:"))}
+    return sorted(local | {"portal-equipe.html", FICHEIRO_DATAS, "noticias.json"})
 
 
 def git(*args, check=True):
@@ -160,6 +216,20 @@ def main():
         print(f"   atualizado: {copy}  <-  {os.path.basename(src)}")
     if not updated:
         print("   todas as copias ja estavam em dia")
+
+    # 1b. Garantir que nenhum dashboard do portal pede senha
+    files = [f for f in portal_files() if os.path.exists(os.path.join(REPO, f))]
+    abertos = [f for f in files if f.endswith(".html")
+               and tirar_senha(os.path.join(REPO, f))]
+    if abertos:
+        print(f"\n   senha removida de {len(abertos)} dashboard(s):")
+        for f in abertos:
+            print(f"     - {f}")
+
+    # 1c. Registar a data de cada dashboard (o portal mostra a idade)
+    n_datas = gravar_datas([f for f in portal_files()
+                            if os.path.exists(os.path.join(REPO, f))])
+    print(f"\n   datas registadas: {n_datas} dashboards")
 
     # 2. Selecionar apenas ficheiros do portal que mudaram
     files = [f for f in portal_files() if os.path.exists(os.path.join(REPO, f))]
