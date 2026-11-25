@@ -1,5 +1,5 @@
 {
- "atualizado": "2026-11-24T18:12:45+00:00",
+ "atualizado": "2026-11-25T17:33:50+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [
@@ -66,6 +66,41 @@
   }
  ],
  "clientes": [
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Avolta unveils refurbished duty-free store at Birmingham Airport",
+   "url": "https://www.trbusiness.com/regional-news/europe/avolta-unveils-refurbished-duty-free-store-at-birmingham-airport/285971",
+   "data": "2026-11-25T16:08:07+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Bowmore and Avolta spotlight Islay craftsmanship with Heathrow-exclusive release",
+   "url": "https://moodiedavittreport.com/bowmore-and-avolta-spotlight-islay-craftsmanship-with-heathrow-exclusive-release/?utm_source=rss&utm_medium=rss&utm_campaign=bowmore-and-avolta-spotlight-islay-craftsmanship-with-heathrow-exclusive-release",
+   "data": "2026-11-25T11:52:52+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Penhaligon’s brings ‘The Who’s Who of London’ to Haitang Bay with China Duty Free Group",
+   "url": "https://moodiedavittreport.com/penhaligons-brings-the-whos-who-of-london-to-haitang-bay-with-china-duty-free-group/?utm_source=rss&utm_medium=rss&utm_campaign=penhaligons-brings-the-whos-who-of-london-to-haitang-bay-with-china-duty-free-group",
+   "data": "2026-11-25T11:08:55+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Sanrio characters take centre stage in The Shilla Duty Free’s festive campaign at Singapore Changi",
+   "url": "https://moodiedavittreport.com/sanrio-characters-take-centre-stage-in-the-shilla-duty-frees-festive-campaign-at-singapore-changi-airport/?utm_source=rss&utm_medium=rss&utm_campaign=sanrio-characters-take-centre-stage-in-the-shilla-duty-frees-festive-campaign-at-singapore-changi-airport",
+   "data": "2026-11-25T11:01:35+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Shilla Duty Free partners with Sanrio for festive Changi activation",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/shilla-duty-free-partners-with-sanrio-for-festive-changi-activation/285947",
+   "data": "2026-11-25T10:38:30+00:00",
+   "tipo": "clientes"
+  },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "Avolta delivers new experiences and enhanced assortment in Birmingham Airport duty-free transformation",
@@ -614,6 +649,83 @@
   }
  ],
  "noticias": [
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Mars Wrigley and Ospree debut M&M’S Experience in India",
+   "url": "https://www.trbusiness.com/channel-news/mars-wrigley-and-ospree-debut-mms-experience-in-india/285978",
+   "data": "2026-11-25T16:47:59+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Frankfurt Airport puts fine dining centre stage with ‘The Grand Taste at FRA’ campaign",
+   "url": "https://moodiedavittreport.com/frankfurt-airport-puts-fine-dining-centre-stage-with-the-grand-taste-at-fra-campaign/?utm_source=rss&utm_medium=rss&utm_campaign=frankfurt-airport-puts-fine-dining-centre-stage-with-the-grand-taste-at-fra-campaign",
+   "data": "2026-11-25T16:20:33+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Teacher’s expands Scotch portfolio with trio of Highland single malts",
+   "url": "https://moodiedavittreport.com/teachers-expands-scotch-portfolio-with-trio-of-highland-single-malts/?utm_source=rss&utm_medium=rss&utm_campaign=teachers-expands-scotch-portfolio-with-trio-of-highland-single-malts",
+   "data": "2026-11-25T15:31:11+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "ACI World",
+   "titulo": "ACI brings the world’s airport innovators to Montréal in 2027",
+   "url": "https://aci.aero/2026/11/25/aci-brings-the-worlds-airport-innovators-to-montreal-in-2027/",
+   "data": "2026-11-25T15:30:15+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "m1nd-set identifies key opportunities in duty free gifting",
+   "url": "https://www.trbusiness.com/regional-news/international/m1nd-set-identifies-key-opportunities-in-duty-free-gifting/285961",
+   "data": "2026-11-25T13:44:29+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "From consumer expectations to creating value – Mapping the future at Dubai Airports",
+   "url": "https://moodiedavittreport.com/from-consumer-expectations-to-creating-value-mapping-the-future-at-dubai-airports/?utm_source=rss&utm_medium=rss&utm_campaign=from-consumer-expectations-to-creating-value-mapping-the-future-at-dubai-airports",
+   "data": "2026-11-25T12:01:03+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Choices by DL makes travel retail debut at Changi Airport",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/choices-by-dl-makes-travel-retail-debut-at-changi-airport/285954",
+   "data": "2026-11-25T11:37:26+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "BTA expands Central Asian footprint with ten-year Manas International Airport F&B contract",
+   "url": "https://moodiedavittreport.com/bta-expands-central-asian-footprint-with-ten-year-manas-international-airport-fb-contract/?utm_source=rss&utm_medium=rss&utm_campaign=bta-expands-central-asian-footprint-with-ten-year-manas-international-airport-fb-contract",
+   "data": "2026-11-25T11:24:33+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Rémy Cointreau underlines high ambitions for travel retail amid encouraging first-half performance",
+   "url": "https://moodiedavittreport.com/remy-cointreau-underlines-high-ambitions-for-travel-retail-amid-encouraging-first-half-performance/?utm_source=rss&utm_medium=rss&utm_campaign=remy-cointreau-underlines-high-ambitions-for-travel-retail-amid-encouraging-first-half-performance",
+   "data": "2026-11-25T10:55:39+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Airports of Thailand concession revenue falls by -11% in FY2026",
+   "url": "https://www.trbusiness.com/regional-news/asia-pacific/airports-of-thailand-concession-revenue-falls-by-11-in-fy2026/285941",
+   "data": "2026-11-25T04:17:33+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "ACI World",
+   "titulo": "ACI World names the world’s most innovative airports of 2026",
+   "url": "https://aci.aero/2026/11/24/aci-world-names-the-worlds-most-innovative-airports-of-2026/",
+   "data": "2026-11-24T20:00:54+00:00",
+   "tipo": "noticia"
+  },
   {
    "fonte": "The Moodie Davitt Report",
    "titulo": "People Moves: ÍSLAND Duty Free names Edda Blumenstein as MD from April; GMR Airports appoints Saurav Chopra as Head of Retail Business",
@@ -2657,14 +2769,28 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-24T18:12:45.018366+00:00",
+   "data": "2026-11-25T17:33:50.511077+00:00",
    "tipo": "estudo"
   },
   {
    "fonte": "IATA",
    "titulo": "Quantifying international catering waste",
    "url": "https://www.iata.org/en/publications/economics/reports/quantifying-international-catering-waste/",
-   "data": "2026-11-24T18:12:45.018366+00:00",
+   "data": "2026-11-25T17:33:50.511077+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Indian Traveller Report 2026/27 – Announcing a new study into one of travel retail’s most dynamic consumer groups",
+   "url": "https://moodiedavittreport.com/the-indian-traveller-report-2026-27-announcing-a-new-study-into-one-of-travel-retails-most-dynamic-consumer-groups/?utm_source=rss&utm_medium=rss&utm_campaign=the-indian-traveller-report-2026-27-announcing-a-new-study-into-one-of-travel-retails-most-dynamic-consumer-groups",
+   "data": "2026-11-25T16:18:48+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Moodie Davitt Report stands with the global movement to end violence against women",
+   "url": "https://moodiedavittreport.com/the-moodie-davitt-report-stands-with-the-global-movement-to-end-violence-against-women/?utm_source=rss&utm_medium=rss&utm_campaign=the-moodie-davitt-report-stands-with-the-global-movement-to-end-violence-against-women",
+   "data": "2026-11-25T12:05:12+00:00",
    "tipo": "estudo"
   },
   {
