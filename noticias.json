@@ -1,12 +1,8 @@
 {
- "atualizado": "2026-11-25T17:33:50+00:00",
+ "atualizado": "2026-11-26T17:15:25+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
- "fontes_com_falha": [
-  "DFNI",
-  "DFNI/TravelBlue",
-  "DFNI/clientes"
- ],
+ "fontes_com_falha": [],
  "travelblue": [
   {
    "fonte": "TRBusiness",
@@ -67,10 +63,31 @@
  ],
  "clientes": [
   {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Chow Tai Fook and CDFG focus on Chinese jewellery heritage with dual Hainan openings",
+   "url": "https://moodiedavittreport.com/chow-tai-fook-and-cdfg-bring-chinese-jewellery-heritage-to-the-fore-with-dual-hainan-openings/?utm_source=rss&utm_medium=rss&utm_campaign=chow-tai-fook-and-cdfg-bring-chinese-jewellery-heritage-to-the-fore-with-dual-hainan-openings",
+   "data": "2026-11-26T13:52:36+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Chow Tai Fook strengthens Hainan presence with China Duty Free Group",
+   "url": "https://www.dfnionline.com/brand-news/jewellery-watches/chow-tai-fook-strengthens-hainan-presence-with-china-duty-free-group-26-11-2026/",
+   "data": "2026-11-26T11:37:08+00:00",
+   "tipo": "clientes"
+  },
+  {
    "fonte": "TRBusiness",
    "titulo": "Avolta unveils refurbished duty-free store at Birmingham Airport",
    "url": "https://www.trbusiness.com/regional-news/europe/avolta-unveils-refurbished-duty-free-store-at-birmingham-airport/285971",
    "data": "2026-11-25T16:08:07+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Mondelēz WTR, Avolta and WiTR+ host festive networking event in Madrid",
+   "url": "https://www.dfnionline.com/latest-news/mondelez-wtr-avolta-and-witr-host-festive-networking-event-in-madrid-25-11-2026/",
+   "data": "2026-11-25T12:27:51+00:00",
    "tipo": "clientes"
   },
   {
@@ -99,6 +116,13 @@
    "titulo": "Shilla Duty Free partners with Sanrio for festive Changi activation",
    "url": "https://www.trbusiness.com/regional-news/asia-pacific/shilla-duty-free-partners-with-sanrio-for-festive-changi-activation/285947",
    "data": "2026-11-25T10:38:30+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Avolta’s HMSHost secures 10-year F&B contract at Nashville International Airport",
+   "url": "https://www.dfnionline.com/latest-news/avoltas-hmshost-secures-10-year-fb-contract-at-nashville-international-airport-25-11-2026/",
+   "data": "2026-11-25T10:09:10+00:00",
    "tipo": "clientes"
   },
   {
@@ -650,6 +674,104 @@
  ],
  "noticias": [
   {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "From Islay to Iona: Bunnahabhain makes waves with Harding+ and P&O Cruises exclusive",
+   "url": "https://moodiedavittreport.com/from-islay-to-iona-bunnahabhain-makes-waves-with-harding-and-po-cruises-exclusive/?utm_source=rss&utm_medium=rss&utm_campaign=from-islay-to-iona-bunnahabhain-makes-waves-with-harding-and-po-cruises-exclusive",
+   "data": "2026-11-26T15:45:50+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Dubai Duty Free named Retail Company of the Year at Arabian Business Industry Awards",
+   "url": "https://www.dfnionline.com/latest-news/events/dubai-duty-free-named-retail-company-of-the-year-at-arabian-business-industry-awards-26-11-2026/",
+   "data": "2026-11-26T13:35:41+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "P&O Cruises, Harding+ and Bunnahabhain launch exclusive 17yo whisky",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/po-cruises-harding-and-bunnahabhain-launch-exclusive-17yo-whisky-26-11-2026/",
+   "data": "2026-11-26T13:03:29+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Estée Lauder unveils destination-inspired Advanced Night Repair editions across Asia Pacific",
+   "url": "https://www.dfnionline.com/brand-news/cosmetics/estee-lauder-unveils-destination-inspired-advanced-night-repair-editions-across-asia-pacific-26-11-2026/",
+   "data": "2026-11-26T12:30:46+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "The Macallan brings holiday magic to Heathrow with debut Christmas tree activation in travel retail",
+   "url": "https://moodiedavittreport.com/the-macallan-brings-holiday-magic-to-heathrow-with-debut-christmas-tree-activation-in-travel-retail/?utm_source=rss&utm_medium=rss&utm_campaign=the-macallan-brings-holiday-magic-to-heathrow-with-debut-christmas-tree-activation-in-travel-retail",
+   "data": "2026-11-26T12:18:43+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "People Moves: Tailwind names Michael Rosen as VP of Culinary and Procurement; No1 Lounges appoints Will Blackwell to lead F&B role",
+   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
+   "data": "2026-11-26T12:16:42+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Carrasco International Airport bolsters passenger experience ahead of CONMEBOL Libertadores final",
+   "url": "https://moodiedavittreport.com/carrasco-international-airport-bolsters-passenger-experience-ahead-of-conmebol-libertadores-final/?utm_source=rss&utm_medium=rss&utm_campaign=carrasco-international-airport-bolsters-passenger-experience-ahead-of-conmebol-libertadores-final",
+   "data": "2026-11-26T11:43:16+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Estée Lauder puts a local stamp on Advanced Night Repair with Asia Pacific TREX campaign",
+   "url": "https://moodiedavittreport.com/estee-lauder-puts-a-local-stamp-on-advanced-night-repair-with-asia-pacific-trex-campaign/?utm_source=rss&utm_medium=rss&utm_campaign=estee-lauder-puts-a-local-stamp-on-advanced-night-repair-with-asia-pacific-trex-campaign",
+   "data": "2026-11-26T11:24:36+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "FRA brings fine dining to the terminal with The Grand Taste",
+   "url": "https://www.trbusiness.com/regional-news/europe/fra-brings-fine-dining-to-the-terminal-with-the-grand-taste/285966",
+   "data": "2026-11-26T11:19:23+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "The Macallan debuts Christmas tree activation in travel retail at Heathrow",
+   "url": "https://www.dfnionline.com/latest-news/the-macallan-debuts-christmas-tree-activation-in-travel-retail-at-heathrow-26-11-2026/",
+   "data": "2026-11-26T11:13:56+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Gary Bowerman explores the forces reshaping China’s tourism and technology landscape in new book",
+   "url": "https://moodiedavittreport.com/gary-bowerman-explores-the-forces-reshaping-chinas-tourism-and-technology-landscape-in-new-book/?utm_source=rss&utm_medium=rss&utm_campaign=gary-bowerman-explores-the-forces-reshaping-chinas-tourism-and-technology-landscape-in-new-book",
+   "data": "2026-11-26T08:53:15+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "‘Always on, Always new’ – Shanghai Pudong Airport sets the commercial stage for visionary Terminal 3",
+   "url": "https://moodiedavittreport.com/shanghai-pudong-airport-sets-the-stage-for-new-era-of-commercial-development-in-terminal-3/?utm_source=rss&utm_medium=rss&utm_campaign=shanghai-pudong-airport-sets-the-stage-for-new-era-of-commercial-development-in-terminal-3",
+   "data": "2026-11-26T08:25:50+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "JCDecaux highlights strength of Dubai Airports partnership with Spirit of Excellence Award",
+   "url": "https://moodiedavittreport.com/jcdecaux-highlights-strength-of-dubai-airports-partnership-with-spirit-of-excellence-award/?utm_source=rss&utm_medium=rss&utm_campaign=jcdecaux-highlights-strength-of-dubai-airports-partnership-with-spirit-of-excellence-award",
+   "data": "2026-11-26T06:44:17+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Harding+ amplifies cruise firsts and high-profile activations in elevated beauty offer",
+   "url": "https://moodiedavittreport.com/harding-amplifies-cruise-firsts-and-high-profile-activations-in-elevated-beauty-offer/?utm_source=rss&utm_medium=rss&utm_campaign=harding-amplifies-cruise-firsts-and-high-profile-activations-in-elevated-beauty-offer",
+   "data": "2026-11-26T06:41:43+00:00",
+   "tipo": "noticia"
+  },
+  {
    "fonte": "TRBusiness",
    "titulo": "Mars Wrigley and Ospree debut M&M’S Experience in India",
    "url": "https://www.trbusiness.com/channel-news/mars-wrigley-and-ospree-debut-mms-experience-in-india/285978",
@@ -678,6 +800,13 @@
    "tipo": "noticia"
   },
   {
+   "fonte": "DFNI",
+   "titulo": "Frankfurt Airport brings fine dining and retail together with The Grand Taste campaign",
+   "url": "https://www.dfnionline.com/latest-news/frankfurt-airport-brings-fine-dining-and-retail-together-with-the-grand-taste-campaign-25-11-2026/",
+   "data": "2026-11-25T13:55:15+00:00",
+   "tipo": "noticia"
+  },
+  {
    "fonte": "TRBusiness",
    "titulo": "m1nd-set identifies key opportunities in duty free gifting",
    "url": "https://www.trbusiness.com/regional-news/international/m1nd-set-identifies-key-opportunities-in-duty-free-gifting/285961",
@@ -699,6 +828,13 @@
    "tipo": "noticia"
   },
   {
+   "fonte": "DFNI",
+   "titulo": "Mars Wrigley ITR and Ospree Duty Free unveil India’s first M&M’S Experience",
+   "url": "https://www.dfnionline.com/uncategorized/mars-wrigley-itr-and-ospree-duty-free-unveil-indias-first-mms-experience-25-11-2026/",
+   "data": "2026-11-25T11:34:28+00:00",
+   "tipo": "noticia"
+  },
+  {
    "fonte": "The Moodie Davitt Report",
    "titulo": "BTA expands Central Asian footprint with ten-year Manas International Airport F&B contract",
    "url": "https://moodiedavittreport.com/bta-expands-central-asian-footprint-with-ten-year-manas-international-airport-fb-contract/?utm_source=rss&utm_medium=rss&utm_campaign=bta-expands-central-asian-footprint-with-ten-year-manas-international-airport-fb-contract",
@@ -713,6 +849,13 @@
    "tipo": "noticia"
   },
   {
+   "fonte": "DFNI",
+   "titulo": "In Pictures: Flemingo Duty Free celebrates 15 years in Sri Lanka",
+   "url": "https://www.dfnionline.com/latest-news/in-pictures-flemingo-duty-free-celebrates-15-years-in-sri-lanka-25-11-2026/",
+   "data": "2026-11-25T10:50:49+00:00",
+   "tipo": "noticia"
+  },
+  {
    "fonte": "TRBusiness",
    "titulo": "Airports of Thailand concession revenue falls by -11% in FY2026",
    "url": "https://www.trbusiness.com/regional-news/asia-pacific/airports-of-thailand-concession-revenue-falls-by-11-in-fy2026/285941",
@@ -724,13 +867,6 @@
    "titulo": "ACI World names the world’s most innovative airports of 2026",
    "url": "https://aci.aero/2026/11/24/aci-world-names-the-worlds-most-innovative-airports-of-2026/",
    "data": "2026-11-24T20:00:54+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "People Moves: ÍSLAND Duty Free names Edda Blumenstein as MD from April; GMR Airports appoints Saurav Chopra as Head of Retail Business",
-   "url": "https://moodiedavittreport.com/people-moves-tracking-the-latest-industry-personnel-announcements/?utm_source=rss&utm_medium=rss&utm_campaign=people-moves-tracking-the-latest-industry-personnel-announcements",
-   "data": "2026-11-24T16:40:42+00:00",
    "tipo": "noticia"
   },
   {
@@ -762,6 +898,13 @@
    "tipo": "noticia"
   },
   {
+   "fonte": "DFNI",
+   "titulo": "Moët Hennessy Travel Retail brings Cognac heritage to life across Asia",
+   "url": "https://www.dfnionline.com/brand-news/liquor-wines/moet-hennessy-travel-retail-celebrates-hennessys-heritage-with-exclusive-events-across-asia-24-11-2026/",
+   "data": "2026-11-24T11:49:24+00:00",
+   "tipo": "noticia"
+  },
+  {
    "fonte": "The Moodie Davitt Report",
    "titulo": "Brewing up new business: Evolvending enters airport coffee category with Florida debut",
    "url": "https://moodiedavittreport.com/brewing-up-new-business-evolvending-enters-airport-coffee-category-with-florida-debut/?utm_source=rss&utm_medium=rss&utm_campaign=brewing-up-new-business-evolvending-enters-airport-coffee-category-with-florida-debut",
@@ -776,10 +919,31 @@
    "tipo": "noticia"
   },
   {
+   "fonte": "DFNI",
+   "titulo": "China excludes Hainan offshore duty-free cosmetics from new labelling exemption",
+   "url": "https://www.dfnionline.com/brand-news/cosmetics/china-excludes-hainan-offshore-duty-free-cosmetics-from-new-labelling-exemption-24-11-2026/",
+   "data": "2026-11-24T11:21:04+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Choices by DL expands travel retail presence with Changi Airport debut",
+   "url": "https://www.dfnionline.com/brand-news/jewellery-watches/choices-by-dl-expands-travel-retail-presence-with-changi-airport-debut-24-11-2026/",
+   "data": "2026-11-24T11:17:37+00:00",
+   "tipo": "noticia"
+  },
+  {
    "fonte": "The Moodie Davitt Report",
    "titulo": "Emirates reveals new First Class Lounge at Dubai Airport amid AED400 million transformation",
    "url": "https://moodiedavittreport.com/emirates-reveals-new-first-class-lounge-at-dubai-airport-amid-aed400-million-transformation/?utm_source=rss&utm_medium=rss&utm_campaign=emirates-reveals-new-first-class-lounge-at-dubai-airport-amid-aed400-million-transformation",
    "data": "2026-11-24T11:00:35+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "CDFI opens duty-free store onboard Adora Flora City",
+   "url": "https://www.dfnionline.com/latest-news/cdfi-opens-duty-free-store-onboard-adora-flora-city-24-11-2026/",
+   "data": "2026-11-24T10:15:58+00:00",
    "tipo": "noticia"
   },
   {
@@ -2741,27 +2905,6 @@
    "url": "https://www.trbusiness.com/regional-news/asia-pacific/the-glenlivet-launches-12-year-old-exclusive-at-changi/285151",
    "data": "2026-10-27T17:37:01+00:00",
    "tipo": "noticia"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Comment: Is HKIA’s liquor and tobacco concession still a must-win business?",
-   "url": "https://www.dfnionline.com/brand-news/liquor-wines/comment-is-hkias-liquor-and-tobacco-concession-still-a-must-win-business-27-10-2026/",
-   "data": "2026-10-27T16:27:27+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "The Glenlivet launches 12yo travel retail exclusive at Changi Airport",
-   "url": "https://www.dfnionline.com/brand-news/liquor-wines/the-glenlivet-launches-12yo-travel-retail-exclusive-at-changi-airport-27-10-2026/",
-   "data": "2026-10-27T12:44:23+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Perth Airport unveils New Terminal designs with 10,000sqm retail space",
-   "url": "https://www.dfnionline.com/latest-news/perth-airport-unveils-new-terminal-designs-with-10000sqm-retail-space-27-10-2026/",
-   "data": "2026-10-27T11:56:31+00:00",
-   "tipo": "noticia"
   }
  ],
  "estudos": [
@@ -2769,14 +2912,14 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-25T17:33:50.511077+00:00",
+   "data": "2026-11-26T17:15:25.779692+00:00",
    "tipo": "estudo"
   },
   {
    "fonte": "IATA",
    "titulo": "Quantifying international catering waste",
    "url": "https://www.iata.org/en/publications/economics/reports/quantifying-international-catering-waste/",
-   "data": "2026-11-25T17:33:50.511077+00:00",
+   "data": "2026-11-26T17:15:25.779692+00:00",
    "tipo": "estudo"
   },
   {
@@ -2791,6 +2934,13 @@
    "titulo": "The Moodie Davitt Report stands with the global movement to end violence against women",
    "url": "https://moodiedavittreport.com/the-moodie-davitt-report-stands-with-the-global-movement-to-end-violence-against-women/?utm_source=rss&utm_medium=rss&utm_campaign=the-moodie-davitt-report-stands-with-the-global-movement-to-end-violence-against-women",
    "data": "2026-11-25T12:05:12+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "m1nd-set identifies key gifting trends and opportunities in duty free",
+   "url": "https://www.dfnionline.com/latest-news/m1nd-set-identifies-key-gifting-trends-and-opportunities-in-duty-free-24-11-2026/",
+   "data": "2026-11-24T12:43:06+00:00",
    "tipo": "estudo"
   },
   {
