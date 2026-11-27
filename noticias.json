@@ -1,9 +1,16 @@
 {
- "atualizado": "2026-11-26T17:15:25+00:00",
+ "atualizado": "2026-11-27T16:57:10+00:00",
  "janela_noticias_dias": 30,
  "janela_estudos_dias": 365,
  "fontes_com_falha": [],
  "travelblue": [
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Shanghai Pudong Airport commercial vision, China duty-free cosmetics ruling and TREX Awards countdown lead our newsletter",
+   "url": "https://moodiedavittreport.com/shanghai-pudong-airport-commercial-vision-china-duty-free-cosmetics-ruling-and-trex-awards-countdown-lead-our-newsletter/?utm_source=rss&utm_medium=rss&utm_campaign=shanghai-pudong-airport-commercial-vision-china-duty-free-cosmetics-ruling-and-trex-awards-countdown-lead-our-newsletter",
+   "data": "2026-11-26T18:38:58+00:00",
+   "tipo": "travelblue"
+  },
   {
    "fonte": "TRBusiness",
    "titulo": "Unlocking the power of travel essentials to drive footfall and conversion",
@@ -63,10 +70,24 @@
  ],
  "clientes": [
   {
+   "fonte": "DFNI",
+   "titulo": "Avolta completes World Duty Free refurbishment at Birmingham Airport",
+   "url": "https://www.dfnionline.com/latest-news/avolta-unveils-refurbished-world-duty-free-store-at-birmingham-airport-27-11-2026/",
+   "data": "2026-11-27T11:28:09+00:00",
+   "tipo": "clientes"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Penhaligon’s brings Portraits exhibition to Hainan with China Duty Free Group",
+   "url": "https://www.dfnionline.com/brand-news/fragrances/penhaligons-brings-portraits-exhibition-to-hainan-with-china-duty-free-group-27-11-2026/",
+   "data": "2026-11-27T10:11:50+00:00",
+   "tipo": "clientes"
+  },
+  {
    "fonte": "The Moodie Davitt Report",
    "titulo": "Chow Tai Fook and CDFG focus on Chinese jewellery heritage with dual Hainan openings",
    "url": "https://moodiedavittreport.com/chow-tai-fook-and-cdfg-bring-chinese-jewellery-heritage-to-the-fore-with-dual-hainan-openings/?utm_source=rss&utm_medium=rss&utm_campaign=chow-tai-fook-and-cdfg-bring-chinese-jewellery-heritage-to-the-fore-with-dual-hainan-openings",
-   "data": "2026-11-26T13:52:36+00:00",
+   "data": "2026-11-26T23:30:36+00:00",
    "tipo": "clientes"
   },
   {
@@ -675,6 +696,83 @@
  "noticias": [
   {
    "fonte": "The Moodie Davitt Report",
+   "titulo": "Milan Malpensa Airport to bolster retail and dining offer in €100 million Terminal 1 expansion",
+   "url": "https://moodiedavittreport.com/milan-malpensa-airport-to-bolster-retail-and-dining-offer-in-e100-million-terminal-1-expansion/?utm_source=rss&utm_medium=rss&utm_campaign=milan-malpensa-airport-to-bolster-retail-and-dining-offer-in-e100-million-terminal-1-expansion",
+   "data": "2026-11-27T14:51:20+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "Nestlé ITR and Eraman Duty Free launch KitKat activation at Kuala Lumpur International Airport",
+   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/nestle-itr-and-eraman-duty-free-unveil-kitkat-activation-at-kuala-lumpur-international-airport-27-11-2026/",
+   "data": "2026-11-27T12:09:28+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "‘Have a Break, Malaysian Style!’ – Nestlé and Eraman put a local spin on KitKat in Kuala Lumpur",
+   "url": "https://moodiedavittreport.com/have-a-break-malaysian-style-nestle-and-eraman-put-a-local-spin-on-kitkat-in-kuala-lumpur/?utm_source=rss&utm_medium=rss&utm_campaign=have-a-break-malaysian-style-nestle-and-eraman-put-a-local-spin-on-kitkat-in-kuala-lumpur",
+   "data": "2026-11-27T11:43:22+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "SSP America wins master concessions contract at Northwest Florida Beaches International Airport",
+   "url": "https://www.dfnionline.com/brand-news/food-beverage/ssp-america-wins-master-concessions-contract-at-northwest-florida-beaches-international-airport-27-11-2026/",
+   "data": "2026-11-27T10:46:34+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "DFNI",
+   "titulo": "In Pictures: Dublin Airport’s new Terminal 1 retail offer takes shape",
+   "url": "https://www.dfnionline.com/latest-news/in-pictures-dublin-airports-new-terminal-1-retail-offer-takes-shape-27-11-2026/",
+   "data": "2026-11-27T10:30:28+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Interview: Emirates Pride’s Mohammed Ibrahim on sharing Emirati fragrance with global markets",
+   "url": "https://moodiedavittreport.com/interview-emirates-prides-mohammed-ibrahim-on-bringing-emirati-fragrance-heritage-to-global-markets/?utm_source=rss&utm_medium=rss&utm_campaign=interview-emirates-prides-mohammed-ibrahim-on-bringing-emirati-fragrance-heritage-to-global-markets",
+   "data": "2026-11-27T09:42:17+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Airport Authority Hong Kong invites bids for regional Chinese fast-food concept in Terminal 1",
+   "url": "https://moodiedavittreport.com/airport-authority-hong-kong-invites-bids-for-regional-chinese-fast-food-concept-in-terminal-1/?utm_source=rss&utm_medium=rss&utm_campaign=airport-authority-hong-kong-invites-bids-for-regional-chinese-fast-food-concept-in-terminal-1",
+   "data": "2026-11-27T08:40:00+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Auckland Airport hails potential of Indian inbound market as visitor numbers climb",
+   "url": "https://moodiedavittreport.com/auckland-airport-hails-potential-of-indian-traveller-markets-as-visitor-numbers-climb/?utm_source=rss&utm_medium=rss&utm_campaign=auckland-airport-hails-potential-of-indian-traveller-markets-as-visitor-numbers-climb",
+   "data": "2026-11-27T06:49:58+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Images of the Day: A vivacious and varied new look for Irish whiskey in Dublin Airport Terminal 1",
+   "url": "https://moodiedavittreport.com/images-of-the-day-a-vivacious-and-varied-new-look-for-irish-whiskey-at-dublin-airport-t1/?utm_source=rss&utm_medium=rss&utm_campaign=images-of-the-day-a-vivacious-and-varied-new-look-for-irish-whiskey-at-dublin-airport-t1",
+   "data": "2026-11-27T00:01:14+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
+   "titulo": "Estée Lauder puts a local stamp on Advanced Night Repair with Asia Pacific TREX campaign",
+   "url": "https://moodiedavittreport.com/estee-lauder-puts-a-local-stamp-on-advanced-night-repair-with-asia-pacific-trex-campaign/?utm_source=rss&utm_medium=rss&utm_campaign=estee-lauder-puts-a-local-stamp-on-advanced-night-repair-with-asia-pacific-trex-campaign",
+   "data": "2026-11-26T23:24:36+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "TRBusiness",
+   "titulo": "Self-purchasing dominates MEA duty-free shopper landscape",
+   "url": "https://www.trbusiness.com/data-analysis/m1nd-set-insights/self-purchasing-dominates-mea-duty-free-shopper-landscape/285996",
+   "data": "2026-11-26T17:18:10+00:00",
+   "tipo": "noticia"
+  },
+  {
+   "fonte": "The Moodie Davitt Report",
    "titulo": "From Islay to Iona: Bunnahabhain makes waves with Harding+ and P&O Cruises exclusive",
    "url": "https://moodiedavittreport.com/from-islay-to-iona-bunnahabhain-makes-waves-with-harding-and-po-cruises-exclusive/?utm_source=rss&utm_medium=rss&utm_campaign=from-islay-to-iona-bunnahabhain-makes-waves-with-harding-and-po-cruises-exclusive",
    "data": "2026-11-26T15:45:50+00:00",
@@ -720,13 +818,6 @@
    "titulo": "Carrasco International Airport bolsters passenger experience ahead of CONMEBOL Libertadores final",
    "url": "https://moodiedavittreport.com/carrasco-international-airport-bolsters-passenger-experience-ahead-of-conmebol-libertadores-final/?utm_source=rss&utm_medium=rss&utm_campaign=carrasco-international-airport-bolsters-passenger-experience-ahead-of-conmebol-libertadores-final",
    "data": "2026-11-26T11:43:16+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "The Moodie Davitt Report",
-   "titulo": "Estée Lauder puts a local stamp on Advanced Night Repair with Asia Pacific TREX campaign",
-   "url": "https://moodiedavittreport.com/estee-lauder-puts-a-local-stamp-on-advanced-night-repair-with-asia-pacific-trex-campaign/?utm_source=rss&utm_medium=rss&utm_campaign=estee-lauder-puts-a-local-stamp-on-advanced-night-repair-with-asia-pacific-trex-campaign",
-   "data": "2026-11-26T11:24:36+00:00",
    "tipo": "noticia"
   },
   {
@@ -2835,76 +2926,6 @@
    "url": "https://www.trbusiness.com/regional-news/loreals-north-asia-recovery-bodes-well-for-travel-retail/285207",
    "data": "2026-10-28T19:23:07+00:00",
    "tipo": "noticia"
-  },
-  {
-   "fonte": "TRBusiness",
-   "titulo": "International Beverage launches Balblair airport activations",
-   "url": "https://www.trbusiness.com/regional-news/europe/international-beverage-launches-balblair-airport-activations/285200",
-   "data": "2026-10-28T16:52:54+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Armaf showcases travel retail-exclusive fragrance portfolio at TFWA Cannes",
-   "url": "https://www.dfnionline.com/brand-news/fragrances/armaf-showcases-travel-retail-exclusive-fragrance-portfolio-at-tfwa-cannes-28-10-2026/",
-   "data": "2026-10-28T16:18:51+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Inter-African Marketing returns as Gold Sponsor for MEADFA Conference 2026",
-   "url": "https://www.dfnionline.com/latest-news/inter-african-marketing-returns-as-gold-sponsor-for-meadfa-conference-2026-28-10-2026/",
-   "data": "2026-10-28T15:54:42+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Lindt & Sprüngli showcases travel retail-exclusive innovations at TFWA Cannes 2026",
-   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/lindt-sprungli-showcases-travel-retail-exclusive-innovations-at-tfwa-cannes-2026-28-10-2026/",
-   "data": "2026-10-28T15:37:33+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "TRBusiness",
-   "titulo": "NOHACA launches experiential activation at Dubai Duty Free",
-   "url": "https://www.trbusiness.com/regional-news/middle-east/nohaca-launches-experiential-activation-at-dubai-duty-free/285195",
-   "data": "2026-10-28T15:35:01+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "TRBusiness",
-   "titulo": "Toblerone launches limited-edition Pistachio Gelato at Istanbul Airport",
-   "url": "https://www.trbusiness.com/regional-news/europe/toblerone-launches-limited-edition-pistachio-gelato-at-istanbul-airport/285181",
-   "data": "2026-10-28T12:57:30+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "TRBusiness",
-   "titulo": "Lindt showcases new travel retail exclusives at TFWA Cannes",
-   "url": "https://www.trbusiness.com/regional-news/international/lindt-showcases-new-travel-retail-exclusives-at-tfwa-cannes/285171",
-   "data": "2026-10-28T11:05:36+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "DFNI",
-   "titulo": "Mondelēz WTR launches limited-edition Toblerone Pistachio Gelato at Istanbul Airport",
-   "url": "https://www.dfnionline.com/brand-news/confectionery-fine-foods/mondelez-wtr-launches-limited-edition-toblerone-pistachio-gelato-at-istanbul-airport-28-10-2026/",
-   "data": "2026-10-28T05:00:07+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "TRBusiness",
-   "titulo": "Travel Retail Awards ceremony – video highlights",
-   "url": "https://www.trbusiness.com/channel-news/other-stores/watch-the-travel-retail-awards-ceremony-video-highlights/285158",
-   "data": "2026-10-27T19:17:10+00:00",
-   "tipo": "noticia"
-  },
-  {
-   "fonte": "TRBusiness",
-   "titulo": "The Glenlivet launches 12 Year Old exclusive at Changi",
-   "url": "https://www.trbusiness.com/regional-news/asia-pacific/the-glenlivet-launches-12-year-old-exclusive-at-changi/285151",
-   "data": "2026-10-27T17:37:01+00:00",
-   "tipo": "noticia"
   }
  ],
  "estudos": [
@@ -2912,14 +2933,21 @@
    "fonte": "IATA",
    "titulo": "Value of air transport country reports",
    "url": "https://www.iata.org/en/publications/economics/reports/value-of-air-transport-country-reports/",
-   "data": "2026-11-26T17:15:25.779692+00:00",
+   "data": "2026-11-27T16:57:10.494590+00:00",
    "tipo": "estudo"
   },
   {
    "fonte": "IATA",
    "titulo": "Quantifying international catering waste",
    "url": "https://www.iata.org/en/publications/economics/reports/quantifying-international-catering-waste/",
-   "data": "2026-11-26T17:15:25.779692+00:00",
+   "data": "2026-11-27T16:57:10.494590+00:00",
+   "tipo": "estudo"
+  },
+  {
+   "fonte": "IATA",
+   "titulo": "Chart of the week 27 november 2026",
+   "url": "https://www.iata.org/en/publications/economics/chart-week/chart-of-the-week-27-november-2026/",
+   "data": "2026-11-27T00:00:00+00:00",
    "tipo": "estudo"
   },
   {
